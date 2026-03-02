@@ -58,7 +58,8 @@ export const useShopStore = defineStore('shop', () => {
         growthDays: crop.growthDays,
         sellPrice: crop.sellPrice,
         regrowth: crop.regrowth ?? false,
-        regrowthDays: crop.regrowthDays
+        regrowthDays: crop.regrowthDays,
+        season: crop.season
       }))
   })
 

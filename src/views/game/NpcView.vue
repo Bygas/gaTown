@@ -75,17 +75,33 @@
           class="border border-accent/20 rounded-xs p-1.5 md:p-2 cursor-pointer hover:bg-accent/5 text-center md:text-left"
           @click="selectedHiddenNpc = npc.id"
         >
-          <p class="text-xs text-accent truncate">{{ npc.name }}</p>
-          <p class="text-[10px] text-muted truncate">{{ npc.title }}</p>
-          <div class="flex space-x-px mt-0.5 justify-center md:justify-start">
-            <span
-              v-for="d in 12"
-              :key="d"
-              class="text-[8px]"
-              :class="(hiddenNpcStore.getHiddenNpcState(npc.id)?.affinity ?? 0) >= d * 250 ? 'text-accent' : 'text-muted/20'"
-            >
-              &#x25C6;
-            </span>
+          <!-- 移动端：紧凑布局 -->
+          <div class="md:hidden">
+            <p class="text-xs text-accent truncate">{{ npc.name }}</p>
+            <p class="text-[10px]" :class="hiddenHeartCount(npc.id) > 0 ? 'text-accent' : 'text-muted/30'">
+              {{ hiddenHeartCount(npc.id) }}&#x25C6;
+              <span class="text-muted/50">{{ hiddenNpcStore.getHiddenNpcState(npc.id)?.affinity ?? 0 }}</span>
+            </p>
+          </div>
+          <!-- 桌面端：显示更多信息 -->
+          <div class="hidden md:block">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-accent">{{ npc.name }}</span>
+            </div>
+            <p class="text-[10px] text-muted truncate">{{ npc.title }}</p>
+            <div class="flex items-center justify-between mt-0.5">
+              <div class="flex space-x-px">
+                <span
+                  v-for="d in 12"
+                  :key="d"
+                  class="text-[8px]"
+                  :class="(hiddenNpcStore.getHiddenNpcState(npc.id)?.affinity ?? 0) >= d * 250 ? 'text-accent' : 'text-muted/20'"
+                >
+                  &#x25C6;
+                </span>
+              </div>
+              <span class="text-[10px] text-muted/50">{{ hiddenNpcStore.getHiddenNpcState(npc.id)?.affinity ?? 0 }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -487,6 +503,11 @@
 
   const revealedHiddenNpcs = computed(() => hiddenNpcStore.getRevealedNpcs)
   const rumorHiddenNpcs = computed(() => hiddenNpcStore.getRumorNpcs)
+
+  const hiddenHeartCount = (npcId: string): number => {
+    const affinity = hiddenNpcStore.getHiddenNpcState(npcId)?.affinity ?? 0
+    return Math.min(12, Math.floor(affinity / 250))
+  }
 
   const getLastDiscoveryLog = (npcId: string): string | null => {
     const npcDef = getHiddenNpcById(npcId)

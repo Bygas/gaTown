@@ -248,6 +248,7 @@
   import { useRoute, useRouter } from 'vue-router'
   import { useAnimalStore } from '@/stores/useAnimalStore'
   import { useGameStore, SEASON_NAMES } from '@/stores/useGameStore'
+  import { useHomeStore } from '@/stores/useHomeStore'
   import { useInventoryStore } from '@/stores/useInventoryStore'
   import { useNpcStore } from '@/stores/useNpcStore'
   import { usePlayerStore } from '@/stores/usePlayerStore'
@@ -257,6 +258,13 @@
   import type { MorningChoiceEvent } from '@/data/farmEvents'
   import { handleEndDay } from '@/composables/useEndDay'
   import { addLog } from '@/composables/useGameLog'
+  import {
+    LATE_NIGHT_RECOVERY_MAX,
+    LATE_NIGHT_RECOVERY_MIN,
+    PASSOUT_STAMINA_RECOVERY,
+    PASSOUT_MONEY_PENALTY_RATE,
+    PASSOUT_MONEY_PENALTY_CAP
+  } from '@/data/timeConstants'
   import { getNpcById, getItemById, getCropById } from '@/data'
   import { CHEST_DEFS } from '@/data/items'
   import { useGameClock } from '@/composables/useGameClock'
@@ -373,10 +381,24 @@
 
   const sleepWarning = computed(() => {
     const warnings: string[] = []
+    const homeStore = useHomeStore()
+    const staminaBonus = homeStore.getStaminaRecoveryBonus()
     if (playerStore.stamina <= 0 || gameStore.hour >= 26) {
-      warnings.push('体力仅恢复50%，并损失10%金币（上限1000文）')
+      const pct = Math.round(Math.min(PASSOUT_STAMINA_RECOVERY + staminaBonus, 1) * 100)
+      const penaltyPct = Math.round(PASSOUT_MONEY_PENALTY_RATE * 100)
+      if (pct < 100) {
+        warnings.push(`体力仅恢复${pct}%，并损失${penaltyPct}%金币（上限${PASSOUT_MONEY_PENALTY_CAP}文）`)
+      } else {
+        warnings.push(`损失${penaltyPct}%金币（上限${PASSOUT_MONEY_PENALTY_CAP}文）`)
+      }
     } else if (gameStore.hour >= 24) {
-      warnings.push('体力仅恢复75%')
+      const t = Math.min(Math.max(gameStore.hour - 24, 0), 1)
+      const pct = Math.round(
+        Math.min(LATE_NIGHT_RECOVERY_MAX - t * (LATE_NIGHT_RECOVERY_MAX - LATE_NIGHT_RECOVERY_MIN) + staminaBonus, 1) * 100
+      )
+      if (pct < 100) {
+        warnings.push(`体力仅恢复${pct}%`)
+      }
     }
     // 第28天换季警告：统计将枯萎的作物
     if (gameStore.day === 28) {
@@ -505,11 +527,12 @@
     if (!chest) return
     const slot = chest.items.find(i => i.itemId === itemId && i.quality === quality)
     if (!slot) return
-    if (!warehouseStore.withdrawFromChest(chestId, itemId, slot.quantity, quality)) {
+    const qty = slot.quantity
+    if (!warehouseStore.withdrawFromChest(chestId, itemId, qty, quality)) {
       addLog('背包已满，无法取出。')
       return
     }
-    addLog(`从虚空箱取出了${getItemName(itemId)}×${slot.quantity}。`)
+    addLog(`从虚空箱取出了${getItemName(itemId)}×${qty}。`)
   }
 
   const handleVoidDeposit = (chestId: string, itemId: string, quality: Quality) => {

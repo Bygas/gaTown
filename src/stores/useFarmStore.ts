@@ -702,8 +702,7 @@ export const useFarmStore = defineStore('farm', () => {
         if (def && def.fruitSeason === currentSeason) {
           const quality = getFruitQuality(tree.yearAge)
           // 仙缘能力：灵桃（tao_yao_3）桃树10%概率产灵桃
-          const fruitId = (tree.type === 'peach_tree' && spiritPeachActive && Math.random() < 0.1)
-            ? 'spirit_peach' : def.fruitId
+          const fruitId = tree.type === 'peach_tree' && spiritPeachActive && Math.random() < 0.1 ? 'spirit_peach' : def.fruitId
           results.push({ fruitId, quality })
           if (extraFruit) results.push({ fruitId, quality })
           tree.todayFruit = true

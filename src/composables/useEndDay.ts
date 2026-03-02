@@ -527,12 +527,13 @@ export const handleEndDay = () => {
       addLog(`${spouseName}做了一份${getItemById(food)?.name ?? '食物'}。`)
     }
 
-    // 收获：30%（好感>=3000），最多3块
-    if (spouse.friendship >= 3000 && Math.random() < 0.3 + bonusChance) {
+    // 收获：30%（好感>=3000），最多3块，背包满时不收
+    if (spouse.friendship >= 3000 && !inventoryStore.isFull && Math.random() < 0.3 + bonusChance) {
       const harvestable = farmStore.plots.filter(p => p.state === 'harvestable')
       const harvestCount = Math.min(harvestable.length, 3)
       let harvested = 0
       for (let i = 0; i < harvestCount; i++) {
+        if (inventoryStore.isFull) break
         const hResult = farmStore.harvestPlot(harvestable[i]!.id)
         if (hResult.cropId) {
           inventoryStore.addItem(hResult.cropId, 1, 'normal')
@@ -660,7 +661,7 @@ export const handleEndDay = () => {
     addLog(`【仙缘】${a.name}：${a.description}`)
     // 永久效果：最大体力+20
     if (a.id === 'shan_weng_3') {
-      playerStore.maxStamina += 20
+      playerStore.addBonusMaxStamina(20)
     }
   }
 
@@ -680,6 +681,21 @@ export const handleEndDay = () => {
   }
   if (animalResult.healed.length > 0) {
     addLog(`${animalResult.healed.join('、')}吃饱后恢复了健康。`)
+  }
+
+  // 晨间喂食：雇工和配偶在新一天开始时喂食，让玩家当天可以直接放牧
+  // 使用 markAllFed 标记已喂食状态（不消耗饲料，饲料已在上面的结算中消耗过）
+  const hasHelperFeed = npcStore.hiredHelpers.some(h => h.task === 'feed')
+  if (hasHelperFeed) {
+    animalStore.markAllFed()
+  }
+  if (spouse && !hasHelperFeed) {
+    const bonusChanceFeed = spouse.friendship >= 2500 ? 0.1 : 0
+    if (Math.random() < 0.4 + bonusChanceFeed) {
+      animalStore.markAllFed()
+      const spouseDefFeed = getNpcById(spouse.npcId)
+      addLog(`${spouseDefFeed?.name ?? '配偶'}一早就帮你喂好了牲畜。`)
+    }
   }
 
   // 孵化器更新
@@ -1010,7 +1026,14 @@ export const handleEndDay = () => {
       const { startFestivalBgm } = useAudio()
       startFestivalBgm(gameStore.season)
     }
-    showEvent(event)
+    // 替换 narrative 中的动态占位符
+    const ORDINALS = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+    const yearStr = gameStore.year <= 10 ? ORDINALS[gameStore.year - 1]! : String(gameStore.year)
+    const resolved = {
+      ...event,
+      narrative: event.narrative.map(line => line.replace('{year}', yearStr))
+    }
+    showEvent(resolved)
   }
 
   // 成就检查

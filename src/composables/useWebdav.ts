@@ -89,7 +89,7 @@ export const useWebdav = () => {
   /** 远程文件路径 */
   const remoteFilePath = (slot: number): string => normalizeUrl(config.value.serverUrl) + `taoyuan_save_${slot}.tyx`
 
-  /** 测试连接：PROPFIND 根路径 */
+  /** 测试连接：Web/Electron 用 PROPFIND，原生平台（Android/iOS）用 HEAD（CapacitorHttp 不支持 PROPFIND） */
   const testConnection = async (): Promise<boolean> => {
     testStatus.value = 'testing'
     testError.value = ''
@@ -100,11 +100,13 @@ export const useWebdav = () => {
         testError.value = '服务器地址为空'
         return false
       }
-      const res = await webdavFetch(url, 'PROPFIND', {
-        ...authHeaders(),
-        Depth: '0'
-      })
-      if (res.status === 207) {
+      const isNative = Capacitor.isNativePlatform()
+      // 原生平台 CapacitorHttp 不支持 PROPFIND 方法，改用 HEAD 验证连接和认证
+      const method = isNative ? 'HEAD' : 'PROPFIND'
+      const headers = isNative ? authHeaders() : { ...authHeaders(), Depth: '0' }
+      const res = await webdavFetch(url, method, headers)
+      // PROPFIND 成功返回 207；HEAD 成功返回 200/207
+      if (res.status === 207 || (isNative && res.status >= 200 && res.status < 300)) {
         testStatus.value = 'success'
         return true
       }

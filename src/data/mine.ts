@@ -381,7 +381,7 @@ export const SKULL_CAVERN_MONSTERS: Record<string, MonsterDef> = {
 }
 
 /** 区域怪物映射 */
-const ZONE_MONSTERS: Record<MineFloorDef['zone'], MonsterDef[]> = {
+export const ZONE_MONSTERS: Record<MineFloorDef['zone'], MonsterDef[]> = {
   shallow: [MONSTERS.mud_worm!, MONSTERS.stone_crab!],
   frost: [MONSTERS.ice_bat!, MONSTERS.ghost!],
   lava: [MONSTERS.fire_bat!, MONSTERS.shadow_warrior!],

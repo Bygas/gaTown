@@ -3,14 +3,21 @@
     <div class="flex items-center justify-between mb-1">
       <div class="flex items-center space-x-1.5 text-sm text-accent">
         <Swords :size="14" />
-        <span>冒险家公会</span>
+        <span>冒险家公会 Lv.{{ guildStore.guildLevel }}</span>
       </div>
-      <span class="text-xs text-muted">NPC: 云飞</span>
+      <div class="flex items-center space-x-2 text-xs">
+        <span class="text-muted">
+          贡献点:
+          <span class="text-accent">{{ guildStore.contributionPoints }}</span>
+        </span>
+        <span class="text-muted">NPC: 云飞</span>
+      </div>
     </div>
 
     <!-- 标签页 -->
     <div class="flex space-x-1 mb-3">
       <Button class="flex-1 justify-center" :class="{ '!bg-accent !text-bg': tab === 'goals' }" @click="tab = 'goals'">讨伐任务</Button>
+      <Button class="flex-1 justify-center" :class="{ '!bg-accent !text-bg': tab === 'donate' }" @click="tab = 'donate'">捐献</Button>
       <Button class="flex-1 justify-center" :class="{ '!bg-accent !text-bg': tab === 'shop' }" @click="tab = 'shop'">公会商店</Button>
       <Button class="flex-1 justify-center" :class="{ '!bg-accent !text-bg': tab === 'bestiary' }" @click="tab = 'bestiary'">
         怪物图鉴
@@ -114,6 +121,7 @@
                   ? ' + ' + selectedGoal.reward.items.map(i => `${getDropName(i.itemId)}×${i.quantity}`).join('、')
                   : ''
               }}
+              + {{ getGoalBonusPoints(selectedGoal) }}贡献点
             </p>
           </div>
 
@@ -135,6 +143,107 @@
       </div>
     </Transition>
 
+    <!-- 捐献 -->
+    <div v-if="tab === 'donate'">
+      <div v-if="donatableItems.length === 0" class="flex flex-col items-center justify-center py-8 space-y-3">
+        <HandHeart :size="48" class="text-accent/30" />
+        <p class="text-sm text-muted">没有可捐献的物品</p>
+        <p class="text-xs text-muted/60 text-center max-w-60">在矿洞中采集矿石和宝石，可捐献给公会换取贡献点</p>
+      </div>
+      <div v-else class="flex flex-col space-y-2 max-h-72 overflow-y-auto">
+        <div
+          v-for="item in donatableItems"
+          :key="item.itemId"
+          class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-2 cursor-pointer hover:bg-accent/5"
+          @click="openDonateModal(item)"
+        >
+          <div class="flex-1">
+            <p class="text-xs text-text">{{ item.name }}</p>
+            <p class="text-xs text-muted">持有 {{ item.count }} · 每个 {{ item.points }} 贡献点</p>
+          </div>
+          <span class="text-xs text-accent ml-2">{{ item.count * item.points }}点</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 捐献弹窗 -->
+    <Transition name="panel-fade">
+      <div
+        v-if="donateModalItem"
+        class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+        @click.self="donateModalItem = null"
+      >
+        <div class="game-panel max-w-xs w-full relative">
+          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="donateModalItem = null">
+            <X :size="14" />
+          </button>
+
+          <p class="text-sm text-accent mb-2">捐献{{ donateModalItem.name }}</p>
+
+          <div class="border border-accent/10 rounded-xs p-2 mb-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-muted">持有数量</span>
+              <span class="text-xs">{{ donateModalItem.count }}</span>
+            </div>
+            <div class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">单个贡献点</span>
+              <span class="text-xs text-accent">{{ donateModalItem.points }}</span>
+            </div>
+          </div>
+
+          <!-- 数量选择 -->
+          <div class="border border-accent/10 rounded-xs p-2 mb-2">
+            <p class="text-xs text-muted mb-1.5">捐献数量</p>
+            <div class="flex items-center justify-center space-x-2">
+              <button
+                class="btn text-xs"
+                :class="donateQuantity <= 1 ? 'opacity-50 cursor-not-allowed' : ''"
+                :disabled="donateQuantity <= 1"
+                @click="donateQuantity = Math.max(1, donateQuantity - 1)"
+              >
+                <Minus :size="12" />
+              </button>
+              <input
+                type="number"
+                :value="donateQuantity"
+                min="1"
+                :max="donateModalItem.count"
+                class="w-14 text-center text-sm text-accent bg-bg border border-accent/20 rounded-xs px-1 py-0.5"
+                @input="onDonateInput"
+              />
+              <button
+                class="btn text-xs"
+                :class="donateQuantity >= donateModalItem.count ? 'opacity-50 cursor-not-allowed' : ''"
+                :disabled="donateQuantity >= donateModalItem.count"
+                @click="donateQuantity = Math.min(donateModalItem.count, donateQuantity + 1)"
+              >
+                <Plus :size="12" />
+              </button>
+              <button class="btn text-xs" @click="donateQuantity = donateModalItem.count">全部</button>
+            </div>
+            <div class="flex items-center justify-between mt-2">
+              <span class="text-xs text-muted">预计获得</span>
+              <span class="text-xs text-accent">{{ donateQuantity * donateModalItem.points }} 贡献点</span>
+            </div>
+          </div>
+
+          <!-- 确认状态 -->
+          <div v-if="!donateConfirmed" class="flex flex-col space-y-1">
+            <Button class="btn text-xs w-full justify-center !bg-accent !text-bg" :icon="HandHeart" @click="donateConfirmed = true">
+              确认捐献
+            </Button>
+          </div>
+          <div v-else class="flex flex-col space-y-1">
+            <p class="text-xs text-center text-danger mb-1">确定捐献 {{ donateQuantity }} 个{{ donateModalItem.name }}？</p>
+            <div class="flex space-x-2">
+              <Button class="flex-1 btn text-xs justify-center" @click="donateConfirmed = false">取消</Button>
+              <Button class="flex-1 btn text-xs justify-center !bg-accent !text-bg" :icon="HandHeart" @click="executeDonate">捐献</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <!-- 公会商店 -->
     <div v-if="tab === 'shop'" class="flex flex-col space-y-2">
       <div
@@ -146,12 +255,34 @@
         <div>
           <p class="text-sm" :class="guildStore.isShopItemUnlocked(item.itemId) ? '' : 'text-muted'">{{ item.name }}</p>
           <p class="text-xs text-muted">{{ item.description }}</p>
-          <p v-if="item.unlockGoalCount && !guildStore.isShopItemUnlocked(item.itemId)" class="text-xs text-danger mt-0.5">
+          <p v-if="item.materials && guildStore.isShopItemUnlocked(item.itemId)" class="text-xs text-muted mt-0.5">
+            材料:
+            <span
+              v-for="(mat, idx) in item.materials"
+              :key="mat.itemId"
+              :class="inventoryStore.getItemCount(mat.itemId) >= mat.quantity ? 'text-success' : 'text-danger'"
+            >
+              {{ getMaterialName(mat.itemId) }}×{{ mat.quantity }}
+              <span v-if="idx < item.materials.length - 1">、</span>
+            </span>
+          </p>
+          <p v-if="item.unlockGuildLevel && !guildStore.isShopItemUnlocked(item.itemId)" class="text-xs text-danger mt-0.5">
             <Lock :size="10" class="inline" />
-            完成{{ item.unlockGoalCount }}个讨伐目标解锁
+            公会 Lv.{{ item.unlockGuildLevel }} 解锁
+          </p>
+          <p v-if="item.dailyLimit && guildStore.isShopItemUnlocked(item.itemId)" class="text-xs text-muted mt-0.5">
+            今日剩余: {{ guildStore.getDailyRemaining(item.itemId, item.dailyLimit) }}/{{ item.dailyLimit }}
+          </p>
+          <p v-if="item.weeklyLimit && guildStore.isShopItemUnlocked(item.itemId)" class="text-xs text-muted mt-0.5">
+            本周剩余: {{ guildStore.getWeeklyRemaining(item.itemId, item.weeklyLimit) }}/{{ item.weeklyLimit }}
+          </p>
+          <p v-if="item.totalLimit && guildStore.isShopItemUnlocked(item.itemId)" class="text-xs text-muted mt-0.5">
+            总限购: {{ guildStore.getTotalRemaining(item.itemId, item.totalLimit) }}/{{ item.totalLimit }}
           </p>
         </div>
-        <span class="text-xs text-accent whitespace-nowrap ml-2">{{ item.price }}文</span>
+        <span class="text-xs whitespace-nowrap ml-2" :class="item.contributionCost ? 'text-success' : 'text-accent'">
+          {{ item.contributionCost ? `${item.contributionCost}贡献` : `${item.price}文` }}
+        </span>
       </div>
     </div>
 
@@ -175,29 +306,66 @@
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
             <div class="flex items-center justify-between">
               <span class="text-xs text-muted">价格</span>
-              <span class="text-xs text-accent">{{ shopModalItem.price }}文</span>
+              <span class="text-xs" :class="shopModalItem.contributionCost ? 'text-success' : 'text-accent'">
+                {{ shopModalItem.contributionCost ? `${shopModalItem.contributionCost} 贡献点` : `${shopModalItem.price}文` }}
+              </span>
             </div>
-            <div class="flex items-center justify-between mt-0.5">
+            <div v-if="shopModalItem.contributionCost" class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">持有贡献点</span>
+              <span class="text-xs" :class="guildStore.contributionPoints >= shopModalItem.contributionCost ? 'text-text' : 'text-danger'">
+                {{ guildStore.contributionPoints }}
+              </span>
+            </div>
+            <div v-else class="flex items-center justify-between mt-0.5">
               <span class="text-xs text-muted">持有金币</span>
               <span class="text-xs" :class="playerStore.money >= shopModalItem.price ? 'text-text' : 'text-danger'">
                 {{ playerStore.money }}文
               </span>
             </div>
+            <template v-if="shopModalItem.materials">
+              <div class="border-t border-accent/10 mt-1.5 pt-1.5">
+                <span class="text-xs text-muted">所需材料</span>
+              </div>
+              <div v-for="mat in shopModalItem.materials" :key="mat.itemId" class="flex items-center justify-between mt-0.5">
+                <span class="text-xs">{{ getMaterialName(mat.itemId) }} ×{{ mat.quantity }}</span>
+                <span class="text-xs" :class="inventoryStore.getItemCount(mat.itemId) >= mat.quantity ? 'text-success' : 'text-danger'">
+                  {{ inventoryStore.getItemCount(mat.itemId) }}/{{ mat.quantity }}
+                </span>
+              </div>
+            </template>
+            <div v-if="shopModalItem.dailyLimit" class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">今日剩余</span>
+              <span class="text-xs">
+                {{ guildStore.getDailyRemaining(shopModalItem.itemId, shopModalItem.dailyLimit) }}/{{ shopModalItem.dailyLimit }}
+              </span>
+            </div>
+            <div v-if="shopModalItem.weeklyLimit" class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">本周剩余</span>
+              <span class="text-xs">
+                {{ guildStore.getWeeklyRemaining(shopModalItem.itemId, shopModalItem.weeklyLimit) }}/{{ shopModalItem.weeklyLimit }}
+              </span>
+            </div>
+            <div v-if="shopModalItem.totalLimit" class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">总限购剩余</span>
+              <span class="text-xs">
+                {{ guildStore.getTotalRemaining(shopModalItem.itemId, shopModalItem.totalLimit) }}/{{ shopModalItem.totalLimit }}
+              </span>
+            </div>
           </div>
 
-          <p v-if="shopModalItem.unlockGoalCount && !guildStore.isShopItemUnlocked(shopModalItem.itemId)" class="text-xs text-danger mb-2">
+          <p v-if="shopModalItem.unlockGuildLevel && !guildStore.isShopItemUnlocked(shopModalItem.itemId)" class="text-xs text-danger mb-2">
             <Lock :size="10" class="inline" />
-            完成{{ shopModalItem.unlockGoalCount }}个讨伐目标解锁
+            公会 Lv.{{ shopModalItem.unlockGuildLevel }} 解锁
           </p>
           <Button
             v-else
             class="btn text-xs w-full justify-center"
-            :class="playerStore.money >= shopModalItem.price ? '!bg-accent !text-bg' : 'opacity-50 cursor-not-allowed'"
+            :class="canBuyItem(shopModalItem) ? '!bg-accent !text-bg' : 'opacity-50 cursor-not-allowed'"
             :icon="ShoppingCart"
-            :disabled="playerStore.money < shopModalItem.price"
+            :disabled="!canBuyItem(shopModalItem)"
             @click="handleBuyShopItem(shopModalItem.itemId)"
           >
-            购买 {{ shopModalItem.price }}文
+            购买 {{ shopModalItem.contributionCost ? `${shopModalItem.contributionCost}贡献` : `${shopModalItem.price}文` }}
           </Button>
         </div>
       </div>
@@ -247,15 +415,15 @@
 
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
             <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">HP</span>
+              <span class="text-xs text-muted">生命</span>
               <span class="text-xs text-danger">{{ selectedMonster.hp }}</span>
             </div>
             <div class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">ATK</span>
+              <span class="text-xs text-muted">攻击</span>
               <span class="text-xs text-accent">{{ selectedMonster.attack }}</span>
             </div>
             <div class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">DEF</span>
+              <span class="text-xs text-muted">防御</span>
               <span class="text-xs">{{ selectedMonster.defense }}</span>
             </div>
             <div class="flex items-center justify-between mt-0.5">
@@ -269,6 +437,18 @@
             <div v-for="drop in selectedMonster.drops" :key="drop.itemId" class="flex items-center justify-between mt-0.5">
               <span class="text-xs">{{ getDropName(drop.itemId) }}</span>
               <span class="text-xs text-muted">{{ Math.round(drop.chance * 100) }}%</span>
+            </div>
+          </div>
+
+          <div v-if="getEquipDrops(selectedMonster).length > 0" class="border border-accent/10 rounded-xs p-2 mt-2">
+            <p class="text-xs text-muted mb-1">装备掉落</p>
+            <div v-for="(drop, idx) in getEquipDrops(selectedMonster)" :key="idx" class="flex items-center justify-between mt-0.5">
+              <span class="text-xs">
+                {{ drop.name }}
+                <span v-if="drop.firstKill" class="text-[10px] text-accent">（首杀）</span>
+              </span>
+              <span v-if="drop.chance !== null" class="text-xs text-muted">{{ Math.round(drop.chance * 100) }}%</span>
+              <span v-else class="text-xs text-success">必得</span>
             </div>
           </div>
         </div>
@@ -300,6 +480,10 @@
           <span class="text-xs text-muted">遭遇怪物</span>
           <span class="text-xs">{{ guildStore.encounteredMonsters.length }}/{{ allMonsters.length }}</span>
         </div>
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-muted">公会等级</span>
+          <span class="text-xs text-accent">Lv.{{ guildStore.guildLevel }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -307,19 +491,26 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { Swords, Gift, CircleCheck, Circle, Lock, ShoppingCart, BookOpen, X } from 'lucide-vue-next'
+  import { Swords, Gift, CircleCheck, Circle, Lock, ShoppingCart, BookOpen, X, HandHeart, Minus, Plus } from 'lucide-vue-next'
   import Button from '@/components/game/Button.vue'
   import { useGuildStore } from '@/stores/useGuildStore'
   import { usePlayerStore } from '@/stores/usePlayerStore'
-  import { MONSTER_GOALS, GUILD_SHOP_ITEMS } from '@/data/guild'
-  import { MONSTERS, BOSS_MONSTERS } from '@/data/mine'
+  import { useInventoryStore } from '@/stores/useInventoryStore'
+  import { MONSTER_GOALS, GUILD_SHOP_ITEMS, GUILD_DONATIONS } from '@/data/guild'
+  import { MONSTERS, BOSS_MONSTERS, ZONE_MONSTERS, SKULL_CAVERN_MONSTERS } from '@/data/mine'
+  import { MONSTER_DROP_WEAPONS, BOSS_DROP_WEAPONS, getWeaponById } from '@/data/weapons'
+  import { MONSTER_DROP_RINGS, BOSS_DROP_RINGS, getRingById } from '@/data/rings'
+  import { MONSTER_DROP_HATS, BOSS_DROP_HATS, getHatById } from '@/data/hats'
+  import { MONSTER_DROP_SHOES, BOSS_DROP_SHOES, getShoeById } from '@/data/shoes'
   import type { MonsterDef, GuildShopItemDef, MonsterGoalDef } from '@/types'
   import { getItemById } from '@/data/items'
+  import { addLog } from '@/composables/useGameLog'
 
-  type Tab = 'goals' | 'shop' | 'bestiary'
+  type Tab = 'goals' | 'shop' | 'bestiary' | 'donate'
 
   const guildStore = useGuildStore()
   const playerStore = usePlayerStore()
+  const inventoryStore = useInventoryStore()
 
   const tab = ref<Tab>('goals')
   const goalZone = ref('all')
@@ -337,7 +528,72 @@
     selectedGoal.value = null
   }
 
+  /** 计算讨伐目标的贡献点奖励 */
+  const getGoalBonusPoints = (goal: MonsterGoalDef): number => {
+    return Math.floor((goal.reward.money ?? 0) / 20) + goal.killTarget
+  }
+
+  /** 捐献弹窗状态 */
+  const donateModalItem = ref<{ itemId: string; name: string; count: number; points: number } | null>(null)
+  const donateQuantity = ref(1)
+  const donateConfirmed = ref(false)
+
+  const openDonateModal = (item: { itemId: string; name: string; count: number; points: number }) => {
+    donateModalItem.value = item
+    donateQuantity.value = 1
+    donateConfirmed.value = false
+  }
+
+  const onDonateInput = (e: Event) => {
+    const val = parseInt((e.target as HTMLInputElement).value)
+    if (!donateModalItem.value || isNaN(val)) return
+    donateQuantity.value = Math.max(1, Math.min(donateModalItem.value.count, val))
+  }
+
+  const executeDonate = () => {
+    if (!donateModalItem.value) return
+    const result = guildStore.donateItem(donateModalItem.value.itemId, donateQuantity.value)
+    if (result.success) {
+      addLog(`捐献了${donateModalItem.value.name}×${donateQuantity.value}，获得 ${result.pointsGained} 贡献点。`)
+    }
+    donateModalItem.value = null
+    donateConfirmed.value = false
+  }
+
+  /** 获取材料名称 */
+  const getMaterialName = (itemId: string): string => {
+    return getItemById(itemId)?.name ?? itemId
+  }
+
+  /** 判断能否购买商品 */
+  const canBuyItem = (item: GuildShopItemDef): boolean => {
+    if (!guildStore.isShopItemUnlocked(item.itemId)) return false
+    if (item.dailyLimit && guildStore.getDailyRemaining(item.itemId, item.dailyLimit) <= 0) return false
+    if (item.weeklyLimit && guildStore.getWeeklyRemaining(item.itemId, item.weeklyLimit) <= 0) return false
+    if (item.totalLimit && guildStore.getTotalRemaining(item.itemId, item.totalLimit) <= 0) return false
+    if (item.materials) {
+      for (const mat of item.materials) {
+        if (inventoryStore.getItemCount(mat.itemId) < mat.quantity) return false
+      }
+    }
+    if (item.contributionCost) return guildStore.contributionPoints >= item.contributionCost
+    return playerStore.money >= item.price
+  }
+
   const hasAnyKills = computed(() => Object.values(guildStore.monsterKills).some(v => v > 0))
+
+  /** 可捐献物品列表 */
+  const donatableItems = computed(() => {
+    const items: { itemId: string; name: string; count: number; points: number }[] = []
+    for (const donation of GUILD_DONATIONS) {
+      const count = inventoryStore.getItemCount(donation.itemId)
+      if (count > 0) {
+        const def = getItemById(donation.itemId)
+        items.push({ itemId: donation.itemId, name: def?.name ?? donation.itemId, count, points: donation.points })
+      }
+    }
+    return items
+  })
 
   const ZONE_FILTERS = [
     { key: 'all', label: '全部' },
@@ -364,7 +620,7 @@
     return guildStore.claimedGoals.includes(monsterId)
   }
 
-  /** 怪物图鉴：合并普通怪+BOSS */
+  /** 怪物图鉴：合并普通怪+BOSS+骷髅矿穴 */
   const allMonsters = computed<MonsterDef[]>(() => {
     const list: MonsterDef[] = []
     for (const m of Object.values(MONSTERS)) {
@@ -373,10 +629,61 @@
     for (const m of Object.values(BOSS_MONSTERS)) {
       list.push(m)
     }
+    for (const m of Object.values(SKULL_CAVERN_MONSTERS)) {
+      list.push(m)
+    }
     return list
   })
 
   const getDropName = (itemId: string): string => {
     return getItemById(itemId)?.name ?? itemId
+  }
+
+  /** 获取普通怪物所在区域 */
+  const getMonsterZone = (monsterId: string): string | null => {
+    for (const [zone, monsters] of Object.entries(ZONE_MONSTERS)) {
+      if (monsters.some(m => m.id === monsterId)) return zone
+    }
+    return null
+  }
+
+  /** 获取 BOSS 所在楼层 */
+  const getBossFloor = (monsterId: string): number | null => {
+    for (const [floor, monster] of Object.entries(BOSS_MONSTERS)) {
+      if (monster.id === monsterId) return Number(floor)
+    }
+    return null
+  }
+
+  /** 获取怪物的装备掉落列表 */
+  const getEquipDrops = (monster: MonsterDef): { name: string; chance: number | null; firstKill: boolean }[] => {
+    const drops: { name: string; chance: number | null; firstKill: boolean }[] = []
+    const zone = getMonsterZone(monster.id)
+    const bossFloor = getBossFloor(monster.id)
+
+    if (zone) {
+      for (const d of MONSTER_DROP_WEAPONS[zone] ?? []) {
+        drops.push({ name: getWeaponById(d.weaponId)?.name ?? d.weaponId, chance: d.chance, firstKill: false })
+      }
+      for (const d of MONSTER_DROP_RINGS[zone] ?? []) {
+        drops.push({ name: getRingById(d.ringId)?.name ?? d.ringId, chance: d.chance, firstKill: false })
+      }
+      for (const d of MONSTER_DROP_HATS[zone] ?? []) {
+        drops.push({ name: getHatById(d.hatId)?.name ?? d.hatId, chance: d.chance, firstKill: false })
+      }
+      for (const d of MONSTER_DROP_SHOES[zone] ?? []) {
+        drops.push({ name: getShoeById(d.shoeId)?.name ?? d.shoeId, chance: d.chance, firstKill: false })
+      }
+    } else if (bossFloor !== null) {
+      const w = BOSS_DROP_WEAPONS[bossFloor]
+      if (w) drops.push({ name: getWeaponById(w)?.name ?? w, chance: null, firstKill: true })
+      const r = BOSS_DROP_RINGS[bossFloor]
+      if (r) drops.push({ name: getRingById(r)?.name ?? r, chance: null, firstKill: false })
+      const h = BOSS_DROP_HATS[bossFloor]
+      if (h) drops.push({ name: getHatById(h)?.name ?? h, chance: null, firstKill: false })
+      const s = BOSS_DROP_SHOES[bossFloor]
+      if (s) drops.push({ name: getShoeById(s)?.name ?? s, chance: null, firstKill: false })
+    }
+    return drops
   }
 </script>

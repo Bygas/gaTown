@@ -3,7 +3,60 @@ import { getCropById } from './crops'
 
 // === 常量 ===
 
-/** 种子箱最大容量 */
+/** 种子箱基础容量 */
+export const BASE_BREEDING_BOX = 30
+
+/** 种子箱升级定义 */
+export const SEED_BOX_UPGRADES = [
+  {
+    level: 1,
+    cost: 5000,
+    materials: [
+      { itemId: 'wood', quantity: 50 },
+      { itemId: 'copper_bar', quantity: 5 }
+    ]
+  },
+  {
+    level: 2,
+    cost: 15000,
+    materials: [
+      { itemId: 'iron_bar', quantity: 8 },
+      { itemId: 'pine_resin', quantity: 10 }
+    ]
+  },
+  {
+    level: 3,
+    cost: 30000,
+    materials: [
+      { itemId: 'gold_bar', quantity: 5 },
+      { itemId: 'cloth', quantity: 3 },
+      { itemId: 'wood', quantity: 100 }
+    ]
+  },
+  {
+    level: 4,
+    cost: 50000,
+    materials: [
+      { itemId: 'gold_bar', quantity: 10 },
+      { itemId: 'silk_cloth', quantity: 5 },
+      { itemId: 'battery', quantity: 3 }
+    ]
+  },
+  {
+    level: 5,
+    cost: 80000,
+    materials: [
+      { itemId: 'iridium_bar', quantity: 5 },
+      { itemId: 'dream_silk', quantity: 3 },
+      { itemId: 'moon_herb', quantity: 5 }
+    ]
+  }
+]
+
+/** 每级种子箱容量增量 */
+export const SEED_BOX_UPGRADE_INCREMENT = 15
+
+/** @deprecated 使用 useBreedingStore().maxSeedBox 代替 */
 export const MAX_BREEDING_BOX = 30
 
 /** 育种加工天数 */

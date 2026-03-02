@@ -14,7 +14,7 @@ import { useHiddenNpcStore } from '@/stores/useHiddenNpcStore'
 import { getCropById, getItemById } from '@/data'
 import { getFertilizerById } from '@/data/processing'
 import { ACTION_TIME_COSTS } from '@/data/timeConstants'
-import type { Quality } from '@/types'
+import type { Quality, ItemCategory } from '@/types'
 import type { FertilizerType } from '@/types/processing'
 import { addLog, showFloat } from './useGameLog'
 import { handleEndDay } from './useEndDay'
@@ -286,16 +286,17 @@ export const handleSellItemAll = (itemId: string, quantity: number, quality: Qua
 }
 
 /** 一键出售背包中所有可出售物品 */
-export const handleSellAll = () => {
+export const handleSellAll = (filterCategories?: ItemCategory[]) => {
   const shopStore = useShopStore()
   const inventoryStore = useInventoryStore()
   let totalEarned = 0
   let totalCount = 0
+  const allowed = filterCategories && filterCategories.length > 0 ? new Set(filterCategories) : null
   // 快照当前可卖物品（避免遍历中修改数组）
   const sellable = inventoryStore.items
     .filter(inv => {
       const def = getItemById(inv.itemId)
-      return def && def.category !== 'seed'
+      return def && def.category !== 'seed' && !inv.locked && (!allowed || allowed.has(def.category))
     })
     .map(inv => ({ itemId: inv.itemId, quantity: inv.quantity, quality: inv.quality }))
   for (const item of sellable) {

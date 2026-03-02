@@ -22,8 +22,25 @@ import { useHiddenNpcStore } from './useHiddenNpcStore'
 import { addLog } from '@/composables/useGameLog'
 import { hasCombinedItem, removeCombinedItem, getLowestCombinedQuality } from '@/composables/useCombinedInventory'
 
-/** 最大放置机器数 */
-const MAX_MACHINES = 15
+/** 工坊升级定义 */
+const WORKSHOP_UPGRADES = [
+  {
+    level: 1,
+    cost: 10000,
+    materials: [
+      { itemId: 'iron_bar', quantity: 15 },
+      { itemId: 'wood', quantity: 50 }
+    ]
+  },
+  {
+    level: 2,
+    cost: 25000,
+    materials: [
+      { itemId: 'gold_bar', quantity: 10 },
+      { itemId: 'wood', quantity: 80 }
+    ]
+  }
+]
 
 export const useProcessingStore = defineStore('processing', () => {
   const inventoryStore = useInventoryStore()
@@ -32,6 +49,12 @@ export const useProcessingStore = defineStore('processing', () => {
 
   /** 已放置的加工机器（运行中的槽位） */
   const machines = ref<ProcessingSlot[]>([])
+
+  /** 工坊等级：0/1/2，对应 15/20/25 */
+  const workshopLevel = ref(0)
+
+  /** 最大放置机器数 */
+  const maxMachines = computed(() => 15 + workshopLevel.value * 5)
 
   /** 当前放置数量 */
   const machineCount = computed(() => machines.value.length)
@@ -60,7 +83,7 @@ export const useProcessingStore = defineStore('processing', () => {
 
   /** 制造并放置一台加工机器 */
   const craftMachine = (machineType: MachineType): boolean => {
-    if (machines.value.length >= MAX_MACHINES) return false
+    if (machines.value.length >= maxMachines.value) return false
     const def = PROCESSING_MACHINES.find(m => m.id === machineType)
     if (!def) return false
     if (!consumeCraftMaterials(def.craftCost, def.craftMoney)) return false
@@ -309,9 +332,40 @@ export const useProcessingStore = defineStore('processing', () => {
               slot.ready = false
             }
           } else {
-            // 需要原料的机器：标记为完成，等待玩家手动收取
-            slot.ready = true
-            readyNames.push(recipe.name)
+            // 需要原料的机器：检查虚空原料箱是否可自动续产
+            const voidInput = warehouseStore.getVoidInputChest()
+            if (voidInput && recipe.inputItemId) {
+              // 自动收取当前产物
+              const outputQuality = slot.inputQuality ?? 'normal'
+              if (!voidOutput || !warehouseStore.addItemToChest(voidOutput.id, recipe.outputItemId, recipe.outputQuantity, outputQuality)) {
+                inventoryStore.addItem(recipe.outputItemId, recipe.outputQuantity, outputQuality)
+              }
+              collected.push(recipe.name)
+
+              // 尝试从虚空原料箱取材料开始下一轮
+              const available = warehouseStore.getChestItemCount(voidInput.id, recipe.inputItemId)
+              if (available >= recipe.inputQuantity) {
+                // 查找最低品质
+                const qOrder: Quality[] = ['normal', 'fine', 'excellent', 'supreme']
+                const newQuality = qOrder.find(q => warehouseStore.getChestItemCount(voidInput.id, recipe.inputItemId!, q) > 0) ?? 'normal'
+                warehouseStore.removeItemFromChest(voidInput.id, recipe.inputItemId, recipe.inputQuantity, newQuality)
+                slot.daysProcessed = 0
+                slot.inputQuality = newQuality
+                slot.ready = false
+              } else {
+                // 虚空箱无足够原料，回到空闲
+                slot.recipeId = null
+                slot.inputItemId = null
+                slot.inputQuality = undefined
+                slot.daysProcessed = 0
+                slot.totalDays = 0
+                slot.ready = false
+              }
+            } else {
+              // 无虚空原料箱，保持原行为：标记为完成等待手动收取
+              slot.ready = true
+              readyNames.push(recipe.name)
+            }
           }
         } else {
           slot.ready = true
@@ -340,20 +394,40 @@ export const useProcessingStore = defineStore('processing', () => {
     }
   }
 
+  // === 工坊升级 ===
+
+  /** 升级工坊（扩展机器上限） */
+  const upgradeWorkshop = (): { success: boolean; message: string } => {
+    const next = workshopLevel.value + 1
+    const upgrade = WORKSHOP_UPGRADES.find(u => u.level === next)
+    if (!upgrade) return { success: false, message: '工坊已达到最高等级。' }
+    if (!consumeCraftMaterials(upgrade.materials, upgrade.cost)) return { success: false, message: '材料或金币不足。' }
+    workshopLevel.value = next
+    return { success: true, message: `工坊扩建完成！机器上限提升至${maxMachines.value}台。` }
+  }
+
+  /** 获取下一级升级信息 */
+  const getNextUpgrade = () => {
+    const next = workshopLevel.value + 1
+    return WORKSHOP_UPGRADES.find(u => u.level === next) ?? null
+  }
+
   // === 序列化 ===
 
   const serialize = () => {
-    return { machines: machines.value }
+    return { machines: machines.value, workshopLevel: workshopLevel.value }
   }
 
   const deserialize = (data: ReturnType<typeof serialize>) => {
     machines.value = data.machines ?? []
+    workshopLevel.value = (data as any).workshopLevel ?? 0
   }
 
   return {
     machines,
     machineCount,
-    MAX_MACHINES,
+    maxMachines,
+    workshopLevel,
     canCraft,
     consumeCraftMaterials,
     craftMachine,
@@ -370,6 +444,9 @@ export const useProcessingStore = defineStore('processing', () => {
     removeMachine,
     getAvailableRecipes,
     dailyUpdate,
+    upgradeWorkshop,
+    getNextUpgrade,
+    WORKSHOP_UPGRADES,
     serialize,
     deserialize
   }

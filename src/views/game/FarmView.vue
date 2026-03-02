@@ -274,7 +274,7 @@
               铲除
             </Button>
             <template v-if="activePlot.state === 'tilled' && plantableSeeds.length > 0">
-              <p class="text-xs text-muted mt-1 shrink-0">— 种植 —</p>
+              <p class="text-xs text-muted mt-1 shrink-0 text-center">— 种植 —</p>
               <button
                 v-for="seed in plantableSeeds"
                 :key="seed.cropId"
@@ -289,7 +289,7 @@
               </button>
             </template>
             <template v-if="activePlot.state === 'tilled' && plantableBreedingSeeds.length > 0">
-              <p class="text-xs text-muted mt-1 shrink-0">— 育种种子 —</p>
+              <p class="text-xs text-muted mt-1 shrink-0 text-center">— 育种种子 —</p>
               <button
                 v-for="seed in plantableBreedingSeeds"
                 :key="seed.genetics.id"
@@ -313,7 +313,7 @@
               <p v-else class="text-[10px] text-muted/60 mt-1">{{ wanwupuClosedReason }}</p>
             </div>
             <template v-if="canFertilize && fertilizerItems.length > 0">
-              <p class="text-xs text-muted mt-1 shrink-0">— 施肥 —</p>
+              <p class="text-xs text-muted mt-1 shrink-0 text-center">— 施肥 —</p>
               <button
                 v-for="f in fertilizerItems"
                 :key="f.itemId"
@@ -325,7 +325,7 @@
               </button>
             </template>
             <template v-if="!hasSprinkler(activePlot.id) && sprinklerItems.length > 0">
-              <p class="text-xs text-muted mt-1 shrink-0">— 洒水器 —</p>
+              <p class="text-xs text-muted mt-1 shrink-0 text-center">— 洒水器 —</p>
               <button
                 v-for="s in sprinklerItems"
                 :key="s.itemId"
@@ -777,6 +777,15 @@
             >
               一键收获{{ ghHarvestableCount > 0 ? ` (${ghHarvestableCount}块)` : '' }}
             </Button>
+            <Button
+              class="flex-1 justify-center"
+              :disabled="ghTilledEmptyCount === 0 || allSeeds.length === 0"
+              :icon-size="12"
+              :icon="Sprout"
+              @click="showGhBatchPlant = true"
+            >
+              一键种植{{ ghTilledEmptyCount > 0 ? ` (${ghTilledEmptyCount}块)` : '' }}
+            </Button>
             <Button v-if="nextGhUpgrade" class="flex-1 justify-center" :icon-size="12" :icon="ArrowUp" @click="showGhUpgradeModal = true">
               升级温室
             </Button>
@@ -830,6 +839,41 @@
           <div class="flex space-x-2">
             <Button class="flex-1" @click="showGhUpgradeModal = false">取消</Button>
             <Button class="flex-1 !bg-accent !text-bg" :icon-size="12" :icon="ArrowUp" @click="handleGhUpgrade">确认升级</Button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- 温室一键种植弹窗 -->
+    <Transition name="panel-fade">
+      <div
+        v-if="showGhBatchPlant"
+        class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+        @click.self="showGhBatchPlant = false"
+      >
+        <div class="game-panel max-w-xs w-full relative">
+          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="showGhBatchPlant = false">
+            <X :size="14" />
+          </button>
+          <p class="text-accent text-sm mb-2">温室一键种植</p>
+          <p class="text-xs text-muted mb-2">空耕地 {{ ghTilledEmptyCount }} 块，选择要种植的种子：</p>
+          <div class="flex flex-col space-y-1 max-h-60 overflow-y-auto">
+            <button
+              v-for="seed in allSeeds"
+              :key="seed.cropId"
+              class="btn text-xs w-full justify-between shrink-0"
+              @click="doGhBatchPlant(seed.cropId)"
+            >
+              <span>
+                {{ seed.name }}
+                <span v-if="seed.regrowth" class="text-success ml-1">[多茬]</span>
+              </span>
+              <span class="text-muted">×{{ seed.count }}</span>
+            </button>
+          </div>
+          <div v-if="allSeeds.length === 0" class="flex flex-col items-center py-4">
+            <Sprout :size="32" class="text-muted/30" />
+            <p class="text-xs text-muted mt-2">没有可种植的种子</p>
           </div>
         </div>
       </div>
@@ -988,7 +1032,7 @@
     applyCropBlessing
   } from '@/composables/useFarmActions'
   import type { SprinklerType, FertilizerType, FruitTreeType, WildTreeType, Quality } from '@/types'
-  import { sfxHarvest } from '@/composables/useAudio'
+  import { sfxHarvest, sfxPlant } from '@/composables/useAudio'
 
   const { selectedSeed } = useFarmActions()
 
@@ -1075,6 +1119,7 @@
   const showBatchActions = ref(false)
   const showGreenhouseModal = ref(false)
   const showGhUpgradeModal = ref(false)
+  const showGhBatchPlant = ref(false)
   const chopFruitTreeTarget = ref<{ id: number; type: string } | null>(null)
   const chopWildTreeTarget = ref<{ id: number; type: string; chopCount: number } | null>(null)
 
@@ -1695,6 +1740,8 @@
 
   const ghHarvestableCount = computed(() => farmStore.greenhousePlots.filter(p => p.state === 'harvestable').length)
 
+  const ghTilledEmptyCount = computed(() => farmStore.greenhousePlots.filter(p => p.state === 'tilled').length)
+
   const ghGridCols = computed(() => {
     const upgradeDef = GREENHOUSE_UPGRADES[farmStore.greenhouseLevel - 1]
     return upgradeDef?.gridCols ?? 4
@@ -1768,6 +1815,29 @@
       showFloat(`温室收获 ×${harvested}`, 'success')
       addLog(`在温室一键收获了${harvested}株作物。(-${harvested}体力)`)
     }
+  }
+
+  const doGhBatchPlant = (cropId: string) => {
+    const crop = getCropById(cropId)
+    if (!crop) return
+    const targets = farmStore.greenhousePlots.filter(p => p.state === 'tilled')
+    if (targets.length === 0) return
+    let planted = 0
+    for (const plot of targets) {
+      if (!inventoryStore.hasItem(crop.seedId)) break
+      if (!playerStore.consumeStamina(1)) break
+      inventoryStore.removeItem(crop.seedId)
+      farmStore.greenhousePlantCrop(plot.id, cropId)
+      planted++
+    }
+    if (planted > 0) {
+      sfxPlant()
+      showFloat(`温室种植 ${crop.name} ×${planted}`, 'success')
+      addLog(`在温室一键种植了${planted}株${crop.name}。(-${planted}体力)`)
+    } else {
+      addLog('体力不足或种子不够，无法种植。')
+    }
+    showGhBatchPlant.value = false
   }
 
   const handleGhUpgrade = () => {

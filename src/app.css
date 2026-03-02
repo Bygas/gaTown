@@ -145,6 +145,18 @@ button {
   border-radius: 2px;
 }
 
+/* 隐藏 number 输入框的浏览器自带加减按钮 */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 /* 面板切换过渡 */
 .panel-fade-enter-active {
   transition: opacity 0.2s ease-in;

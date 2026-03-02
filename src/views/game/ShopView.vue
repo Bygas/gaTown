@@ -58,7 +58,7 @@
                   item.quantity > 0 &&
                   openBatchBuyModal(
                     item.name,
-                    `剩余${item.quantity}个`,
+                    getTravelerItemDesc(item.itemId, item.quantity),
                     discounted(item.price),
                     () => handleBuyFromTraveler(item.itemId, item.name, item.price),
                     () => item.quantity > 0 && playerStore.money >= discounted(item.price),
@@ -69,7 +69,7 @@
               >
                 <div>
                   <p class="text-sm">{{ item.name }}</p>
-                  <p class="text-muted text-xs">剩余{{ item.quantity }}个</p>
+                  <p class="text-muted text-xs">{{ getTravelerItemDesc(item.itemId, item.quantity) }}</p>
                 </div>
                 <span class="text-xs text-accent whitespace-nowrap">{{ discounted(item.price) }}文</span>
               </div>
@@ -112,7 +112,7 @@
               @click="
                 openBatchBuyModal(
                   seed.cropName + '种子',
-                  `${seed.growthDays}天成熟 → 售${seed.sellPrice}文`,
+                  `${seed.season.map(s => SEASON_NAMES[s]).join('/')}季 · ${seed.growthDays}天成熟 → 售${seed.sellPrice}文`,
                   discounted(seed.price),
                   () => handleBuySeed(seed.seedId),
                   () => playerStore.money >= discounted(seed.price),
@@ -127,7 +127,10 @@
                   <span v-if="seed.regrowth" class="text-success text-xs ml-1">[多茬]</span>
                 </p>
                 <p class="text-muted text-xs">
-                  {{ seed.growthDays }}天{{ seed.regrowth ? ` · 每${seed.regrowthDays}天再收` : '' }} → 售{{ seed.sellPrice }}文
+                  {{ seed.season.map(s => SEASON_NAMES[s]).join('/') }}季 · {{ seed.growthDays }}天{{
+                    seed.regrowth ? ` · 每${seed.regrowthDays}天再收` : ''
+                  }}
+                  → 售{{ seed.sellPrice }}文
                 </p>
               </div>
               <span class="text-xs text-accent whitespace-nowrap">{{ discounted(seed.price) }}文</span>
@@ -338,7 +341,8 @@
             <div
               v-for="ring in craftableRings"
               :key="ring.id"
-              class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-2 cursor-pointer hover:bg-accent/5"
+              class="flex items-center justify-between border rounded-xs px-3 py-2 cursor-pointer hover:bg-accent/5"
+              :class="canCraftRing(ring) ? 'border-success/50 bg-success/5' : 'border-accent/20'"
               @click="openRingModal(ring)"
             >
               <div>
@@ -365,7 +369,8 @@
             <div
               v-for="hat in CRAFTABLE_HATS"
               :key="hat.id"
-              class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-2 cursor-pointer hover:bg-accent/5"
+              class="flex items-center justify-between border rounded-xs px-3 py-2 cursor-pointer hover:bg-accent/5"
+              :class="canCraftHat(hat) ? 'border-success/50 bg-success/5' : 'border-accent/20'"
               @click="openHatCraftModal(hat)"
             >
               <div>
@@ -388,7 +393,8 @@
             <div
               v-for="shoe in CRAFTABLE_SHOES"
               :key="shoe.id"
-              class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-2 cursor-pointer hover:bg-accent/5"
+              class="flex items-center justify-between border rounded-xs px-3 py-2 cursor-pointer hover:bg-accent/5"
+              :class="canCraftShoe(shoe) ? 'border-success/50 bg-success/5' : 'border-accent/20'"
               @click="openShoeCraftModal(shoe)"
             >
               <div>
@@ -675,7 +681,20 @@
             <TrendingUp :size="14" class="inline" />
             出售物品
           </h3>
-          <Button v-if="sellableItems.length > 0" class="btn-danger" :icon="Coins" @click="handleSellAll()">一键全部出售</Button>
+          <div class="flex space-x-1.5">
+            <Button
+              class="py-0 px-1.5"
+              :class="{ '!bg-accent !text-bg': isSellFilterActive }"
+              :icon="Filter"
+              :icon-size="12"
+              @click="openSellFilterModal"
+            >
+              筛选
+            </Button>
+            <Button v-if="sellableItems.length > 0" class="btn-danger" :icon="Coins" @click="showSellAllConfirm = true">
+              一键全部出售
+            </Button>
+          </div>
         </div>
         <!-- 售价加成提示 -->
         <p v-if="hasSellBonus" class="text-success text-xs mb-2">戒指加成中：所有售价 +{{ sellBonusPercent }}%</p>
@@ -725,6 +744,58 @@
         </div>
       </div>
     </div>
+
+    <!-- 出售筛选弹窗 -->
+    <Transition name="panel-fade">
+      <div
+        v-if="showSellFilterModal"
+        class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+        @click.self="showSellFilterModal = false"
+      >
+        <div class="game-panel max-w-xs w-full relative">
+          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="showSellFilterModal = false">
+            <X :size="14" />
+          </button>
+          <p class="text-sm text-accent mb-2">出售筛选</p>
+          <p class="text-[10px] text-muted mb-2">选择要显示的分类，不选则显示全部</p>
+          <div class="grid grid-cols-3 gap-1.5 mb-3">
+            <div
+              v-for="cat in SELL_FILTER_CATEGORIES"
+              :key="cat"
+              class="border rounded-xs px-1.5 py-1 text-center text-xs cursor-pointer transition-colors"
+              :class="
+                tempSellFilter.has(cat) ? 'border-accent/50 bg-accent/10 text-accent' : 'border-accent/20 text-muted hover:bg-accent/5'
+              "
+              @click="toggleSellCategory(cat)"
+            >
+              {{ SELL_CATEGORY_NAMES[cat] }}
+            </div>
+          </div>
+          <div class="flex space-x-1.5">
+            <Button class="flex-1 justify-center" @click="handleClearSellFilter">全部显示</Button>
+            <Button class="flex-1 justify-center !bg-accent !text-bg" @click="handleSaveSellFilter">保存</Button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- 一键出售确认弹窗 -->
+    <Transition name="panel-fade">
+      <div
+        v-if="showSellAllConfirm"
+        class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+        @click.self="showSellAllConfirm = false"
+      >
+        <div class="game-panel max-w-xs w-full">
+          <p class="text-sm text-accent mb-2">确认一键出售</p>
+          <p class="text-xs text-muted mb-3">将出售背包中所有未锁定的非种子物品（共{{ sellableItems.length }}种），确定继续？</p>
+          <div class="flex space-x-1.5">
+            <Button class="flex-1 justify-center" @click="showSellAllConfirm = false">取消</Button>
+            <Button class="flex-1 justify-center btn-danger" :icon="Coins" @click="confirmSellAll">确认出售</Button>
+          </div>
+        </div>
+      </div>
+    </Transition>
 
     <!-- 商品详情弹窗 -->
     <Transition name="panel-fade">
@@ -796,7 +867,7 @@
               :icon="ShoppingCart"
               @click="buyModalData.batchBuy!.onBuy(buyQuantity)"
             >
-              购买 ×{{ buyQuantity }} · {{ buyTotalPrice }}文
+              购买 ×{{ buyQuantity }}
             </Button>
             <Button
               v-else
@@ -806,7 +877,7 @@
               :icon="buyModalData.buttonText ? Hammer : ShoppingCart"
               @click="buyModalData.onBuy()"
             >
-              {{ buyModalData.buttonText ?? '购买' }} {{ buyModalData.price }}文
+              {{ buyModalData.buttonText ?? '购买' }}
             </Button>
           </div>
         </div>
@@ -860,13 +931,45 @@
             </div>
           </div>
 
+          <!-- 数量选择器（物品数量>1时显示） -->
+          <div v-if="sellModalItem.quantity > 1" class="border border-accent/10 rounded-xs p-2 mb-2">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs text-muted">出售数量</span>
+              <div class="flex items-center space-x-1">
+                <Button class="h-6 px-1.5 py-0.5 text-xs justify-center" :disabled="sellQuantity <= 1" @click="addSellQuantity(-1)">
+                  -
+                </Button>
+                <input
+                  type="number"
+                  :value="sellQuantity"
+                  min="1"
+                  :max="maxSellQuantity"
+                  class="w-24 h-6 px-2 py-0.5 bg-bg border border-accent/30 rounded-xs text-xs text-center text-accent outline-none focus:border-accent transition-colors"
+                  @input="onSellQuantityInput"
+                />
+                <Button
+                  class="h-6 px-1.5 py-0.5 text-xs justify-center"
+                  :disabled="sellQuantity >= maxSellQuantity"
+                  @click="addSellQuantity(1)"
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+            <div class="flex space-x-1">
+              <Button class="flex-1 justify-center" :disabled="sellQuantity <= 1" @click="setSellQuantity(1)">最少</Button>
+              <Button class="flex-1 justify-center" :disabled="sellQuantity >= maxSellQuantity" @click="setSellQuantity(maxSellQuantity)">
+                最多
+              </Button>
+            </div>
+            <div class="flex items-center justify-between mt-1.5">
+              <span class="text-xs text-muted">总价</span>
+              <span class="text-xs text-accent">{{ sellTotalPrice }}文</span>
+            </div>
+          </div>
+
           <div class="flex flex-col space-y-1.5">
-            <Button class="w-full justify-center" :icon="Coins" @click="handleModalSell(1)">
-              出售1个 · {{ shopStore.calculateSellPrice(sellModalData!.itemId, 1, sellModalData!.quality) }}文
-            </Button>
-            <Button v-if="sellModalItem.quantity > 1" class="w-full justify-center" @click="handleModalSell(sellModalItem!.quantity)">
-              全部出售 · {{ shopStore.calculateSellPrice(sellModalData!.itemId, sellModalItem.quantity, sellModalData!.quality) }}文
-            </Button>
+            <Button class="w-full justify-center" :icon="Coins" @click="handleModalSell(sellQuantity)">出售 ×{{ sellQuantity }}</Button>
           </div>
         </div>
       </div>
@@ -893,7 +996,8 @@
     Hammer,
     X,
     Crown,
-    Footprints
+    Footprints,
+    Filter
   } from 'lucide-vue-next'
   import Button from '@/components/game/Button.vue'
   import { useFarmStore } from '@/stores/useFarmStore'
@@ -904,10 +1008,11 @@
   import { useWalletStore } from '@/stores/useWalletStore'
   import { useWarehouseStore } from '@/stores/useWarehouseStore'
   import { getItemById } from '@/data'
+  import { getCropBySeedId } from '@/data/crops'
   import { SHOPS, isShopAvailable, getShopClosedReason } from '@/data/shops'
   import type { ShopDef } from '@/data/shops'
   import { SHOP_WEAPONS, WEAPON_TYPE_NAMES } from '@/data/weapons'
-  import type { WeaponDef, RingDef, RingEffectType, Season, Quality, HatDef, ShoeDef } from '@/types'
+  import type { WeaponDef, RingDef, RingEffectType, Season, Quality, HatDef, ShoeDef, ItemCategory } from '@/types'
   import { FRUIT_TREE_DEFS } from '@/data/fruitTrees'
   import { CRAFTABLE_RINGS } from '@/data/rings'
   import { SHOP_HATS, CRAFTABLE_HATS } from '@/data/hats'
@@ -974,6 +1079,15 @@
   // === 移动端切换 ===
 
   const mobileTab = ref<'buy' | 'sell'>('buy')
+
+  // === 一键出售确认 ===
+
+  const showSellAllConfirm = ref(false)
+
+  const confirmSellAll = () => {
+    showSellAllConfirm.value = false
+    handleSellAll(sellFilter.value)
+  }
 
   // === 弹窗系统 ===
 
@@ -1090,7 +1204,39 @@
     }
   }
 
+  const sellQuantity = ref(1)
+
+  const sellUnitPrice = computed(() => {
+    const data = sellModalData.value
+    if (!data) return 0
+    return shopStore.calculateSellPrice(data.itemId, 1, data.quality)
+  })
+
+  const sellTotalPrice = computed(() => {
+    return sellUnitPrice.value * sellQuantity.value
+  })
+
+  const maxSellQuantity = computed(() => {
+    const item = sellModalItem.value
+    if (!item) return 1
+    return item.quantity
+  })
+
+  const setSellQuantity = (val: number) => {
+    sellQuantity.value = Math.max(1, Math.min(val, maxSellQuantity.value))
+  }
+
+  const addSellQuantity = (delta: number) => {
+    setSellQuantity(sellQuantity.value + delta)
+  }
+
+  const onSellQuantityInput = (e: Event) => {
+    const val = parseInt((e.target as HTMLInputElement).value, 10)
+    if (!isNaN(val)) setSellQuantity(val)
+  }
+
   const openSellModal = (itemId: string, quality: Quality, inventoryIndex: number) => {
+    sellQuantity.value = 1
     shopModal.value = { type: 'sell', itemId, quality, inventoryIndex }
   }
 
@@ -1138,9 +1284,12 @@
     } else {
       handleSellItemAll(modal.itemId, count, modal.quality)
     }
-    // 物品消耗完则关闭弹窗
-    if (!inventoryStore.items.find(i => i.itemId === modal.itemId && i.quality === modal.quality)) {
+    // 物品消耗完则关闭弹窗，否则修正出售数量
+    const remaining = inventoryStore.items.find(i => i.itemId === modal.itemId && i.quality === modal.quality)
+    if (!remaining) {
       shopModal.value = null
+    } else if (sellQuantity.value > remaining.quantity) {
+      sellQuantity.value = remaining.quantity
     }
   }
 
@@ -1262,6 +1411,14 @@
 
   const seasonName = (season: Season): string => {
     return SEASON_NAMES[season] ?? season
+  }
+
+  const getTravelerItemDesc = (itemId: string, quantity: number): string => {
+    const crop = getCropBySeedId(itemId)
+    if (crop) {
+      return `${crop.season.map(s => SEASON_NAMES[s]).join('/')}季 · ${crop.growthDays}天成熟 · 剩余${quantity}个`
+    }
+    return `剩余${quantity}个`
   }
 
   const handleBuySapling = (saplingId: string, price: number, treeName: string) => {
@@ -1595,13 +1752,76 @@
     return fallback
   }
 
+  // === 出售筛选 ===
+
+  const SELL_FILTER_CATEGORIES: ItemCategory[] = [
+    'crop',
+    'fruit',
+    'fish',
+    'animal_product',
+    'processed',
+    'food',
+    'ore',
+    'gem',
+    'material',
+    'gift',
+    'fossil',
+    'artifact',
+    'misc'
+  ]
+
+  const SELL_CATEGORY_NAMES: Partial<Record<ItemCategory, string>> = {
+    crop: '作物',
+    fruit: '水果',
+    fish: '鱼类',
+    animal_product: '畜产',
+    processed: '加工品',
+    food: '料理',
+    ore: '矿石',
+    gem: '宝石',
+    material: '材料',
+    gift: '礼物',
+    fossil: '化石',
+    artifact: '文物',
+    misc: '杂货'
+  }
+
+  const showSellFilterModal = ref(false)
+  const sellFilter = ref<ItemCategory[]>([])
+  const tempSellFilter = ref<Set<ItemCategory>>(new Set())
+
+  const isSellFilterActive = computed(() => sellFilter.value.length > 0)
+
+  const openSellFilterModal = () => {
+    tempSellFilter.value = new Set(sellFilter.value)
+    showSellFilterModal.value = true
+  }
+
+  const toggleSellCategory = (cat: ItemCategory) => {
+    if (tempSellFilter.value.has(cat)) {
+      tempSellFilter.value.delete(cat)
+    } else {
+      tempSellFilter.value.add(cat)
+    }
+  }
+
+  const handleSaveSellFilter = () => {
+    sellFilter.value = [...tempSellFilter.value]
+    showSellFilterModal.value = false
+  }
+
+  const handleClearSellFilter = () => {
+    tempSellFilter.value = new Set()
+  }
+
   const sellableItems = computed(() => {
+    const allowed = sellFilter.value.length > 0 ? new Set(sellFilter.value) : null
     return inventoryStore.items
       .map((inv, index) => {
         const def = getItemById(inv.itemId)
         return { ...inv, def, originalIndex: index }
       })
-      .filter(item => item.def)
+      .filter(item => item.def && !item.locked && (!allowed || allowed.has(item.def!.category)))
   })
 </script>
 

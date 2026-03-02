@@ -172,6 +172,17 @@ export const useAnimalStore = defineStore('animal', () => {
     return { fedCount, noFeedCount }
   }
 
+  /** 标记所有动物为已喂食（不消耗饲料，用于晨间雇工/配偶预喂食） */
+  const markAllFed = () => {
+    for (const animal of animals.value) {
+      if (!animal.wasFed) {
+        animal.wasFed = true
+        animal.fedWith = HAY_ITEM_ID
+        animal.hunger = 0
+      }
+    }
+  }
+
   /** 抚摸动物 */
   const petAnimal = (animalId: string): boolean => {
     const animal = animals.value.find(a => a.id === animalId)
@@ -772,6 +783,7 @@ export const useAnimalStore = defineStore('animal', () => {
     healAnimal,
     healAllSick,
     feedAll,
+    markAllFed,
     petAnimal,
     petAllAnimals,
     startIncubation,

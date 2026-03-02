@@ -822,9 +822,9 @@ const WEATHER_MODIFIERS: Record<Weather, WeatherModifier> = {
   rainy: {
     tempoScale: 1.15,
     volumeScale: 0.85,
-    noiseType: 'pink',
-    noiseVolume: 0.06,
-    noiseFilterFreq: 3000,
+    noiseType: 'brown',
+    noiseVolume: 0.04,
+    noiseFilterFreq: 800,
     noiseFilterType: 'lowpass',
     detuneAmount: 5
   },
@@ -833,8 +833,8 @@ const WEATHER_MODIFIERS: Record<Weather, WeatherModifier> = {
     volumeScale: 0.75,
     melodyWaveOverride: 'sawtooth',
     noiseType: 'brown',
-    noiseVolume: 0.1,
-    noiseFilterFreq: 1500,
+    noiseVolume: 0.06,
+    noiseFilterFreq: 600,
     noiseFilterType: 'lowpass',
     detuneAmount: 10
   },
@@ -860,9 +860,9 @@ const WEATHER_MODIFIERS: Record<Weather, WeatherModifier> = {
   green_rain: {
     tempoScale: 1.1,
     volumeScale: 0.8,
-    noiseType: 'pink',
-    noiseVolume: 0.08,
-    noiseFilterFreq: 2500,
+    noiseType: 'brown',
+    noiseVolume: 0.05,
+    noiseFilterFreq: 1000,
     noiseFilterType: 'lowpass',
     detuneAmount: 6
   }

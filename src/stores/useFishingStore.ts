@@ -335,14 +335,14 @@ export const useFishingStore = defineStore('fishing', () => {
   }
 
   /** 完成钓鱼（小游戏结束后调用） */
-  const completeFishing = (rating: MiniGameRating): { message: string } | null => {
+  const completeFishing = (rating: MiniGameRating): { message: string; fishName?: string; fishId?: string; difficulty?: string; sellPrice?: number; description?: string; quality?: Quality; quantity?: number; success: boolean } | null => {
     if (!currentFish.value) return null
 
     // poor = 鱼跑了
     if (rating === 'poor') {
-      const fishName = currentFish.value.name
+      const fish = currentFish.value
       endFishing()
-      return { message: `鱼跑掉了……${fishName}逃脱了！` }
+      return { message: `鱼跑掉了……${fish.name}逃脱了！`, fishName: fish.name, fishId: fish.id, difficulty: fish.difficulty, sellPrice: fish.sellPrice, description: fish.description, success: false }
     }
 
     // 品质计算
@@ -396,6 +396,7 @@ export const useFishingStore = defineStore('fishing', () => {
     const luremasterCatchMult = skillStore.getSkill('fishing').perk10 === 'luremaster' ? 2 : 1
     const doubleCatchChance = (activeBaitDef.value?.doubleCatchChance ?? 0) * luremasterCatchMult
     const catchQty = doubleCatchChance > 0 && Math.random() < doubleCatchChance ? 2 : 1
+    const caughtFish = { name: currentFish.value.name, id: currentFish.value.id, difficulty: currentFish.value.difficulty, sellPrice: currentFish.value.sellPrice, description: currentFish.value.description }
 
     const added = inventoryStore.addItem(currentFish.value.id, catchQty, quality)
     const achievementStore = useAchievementStore()
@@ -440,7 +441,7 @@ export const useFishingStore = defineStore('fishing', () => {
 
     lastPerfect.value = rating === 'perfect'
     endFishing()
-    return { message }
+    return { message, fishName: caughtFish.name, fishId: caughtFish.id, difficulty: caughtFish.difficulty, sellPrice: caughtFish.sellPrice, description: caughtFish.description, quality, quantity: catchQty, success: true }
   }
 
   /** 钓鱼宝箱 */

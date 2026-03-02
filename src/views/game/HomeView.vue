@@ -294,6 +294,16 @@
           </div>
           <div v-else class="text-xs text-muted text-center py-4 mb-2">空箱子</div>
 
+          <!-- 一键存入重复物品 -->
+          <Button
+            v-if="duplicateDepositItems.length > 0"
+            class="w-full mb-1"
+            :icon="ArrowDownToLine"
+            :icon-size="12"
+            @click="handleDepositDuplicates"
+          >
+            一键存入重复物品
+          </Button>
           <!-- 存入按钮 -->
           <Button v-if="depositableItems.length > 0" class="w-full" :icon="ArrowDown" :icon-size="12" @click="showChestDepositModal = true">
             存入物品
@@ -386,7 +396,7 @@
 
 <script setup lang="ts">
   import { computed, ref } from 'vue'
-  import { ArrowDown, Building, Mountain, Leaf, Pencil, Plus, Trash2, Unlock, Warehouse, X } from 'lucide-vue-next'
+  import { ArrowDown, ArrowDownToLine, Building, Mountain, Leaf, Pencil, Plus, Trash2, Unlock, Warehouse, X } from 'lucide-vue-next'
   import { useHomeStore } from '@/stores/useHomeStore'
   import { useInventoryStore } from '@/stores/useInventoryStore'
   import { usePlayerStore } from '@/stores/usePlayerStore'
@@ -492,13 +502,26 @@
     return warehouseStore.getChest(openChestId.value) ?? null
   })
 
-  /** 背包中可存入箱子的物品（排除种子） */
+  /** 背包中可存入箱子的物品（排除种子和锁定物品） */
   const depositableItems = computed(() =>
     inventoryStore.items.filter(i => {
+      if (i.locked) return false
       const def = getItemById(i.itemId)
       return def && def.category !== 'seed'
     })
   )
+
+  /** 背包中可一键存入的重复物品（箱子中已有且未锁定、非种子） */
+  const duplicateDepositItems = computed(() => {
+    if (!currentOpenChest.value) return []
+    const chestItemIds = new Set(currentOpenChest.value.items.map(i => i.itemId))
+    return inventoryStore.items.filter(i => {
+      if (i.locked) return false
+      const def = getItemById(i.itemId)
+      if (!def || def.category === 'seed') return false
+      return chestItemIds.has(i.itemId)
+    })
+  })
 
   /** 制作箱子 */
   const canCraftChest = (tier: ChestTier): boolean => {
@@ -567,6 +590,27 @@
     addLog(`存入了${getItemName(itemId)}×${actualQty}。`)
     if (depositableItems.value.length === 0 || warehouseStore.isChestFull(chestId)) {
       showChestDepositModal.value = false
+    }
+  }
+
+  /** 一键存入重复物品 */
+  const handleDepositDuplicates = () => {
+    if (!openChestId.value) return
+    const chestId = openChestId.value
+    const snapshot = duplicateDepositItems.value.map(i => ({ itemId: i.itemId, quality: i.quality, quantity: i.quantity }))
+    let totalDeposited = 0
+    let kindCount = 0
+    for (const item of snapshot) {
+      const actual = warehouseStore.depositToChest(chestId, item.itemId, item.quantity, item.quality)
+      if (actual > 0) {
+        totalDeposited += actual
+        kindCount++
+      }
+    }
+    if (totalDeposited > 0) {
+      addLog(`一键存入了${kindCount}种物品，共${totalDeposited}个。`)
+    } else {
+      addLog('箱子已满，无法存入。')
     }
   }
 

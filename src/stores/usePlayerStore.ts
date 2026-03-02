@@ -13,6 +13,8 @@ import { useHomeStore } from './useHomeStore'
 import { useInventoryStore } from './useInventoryStore'
 import { useAchievementStore } from './useAchievementStore'
 import { useHiddenNpcStore } from './useHiddenNpcStore'
+import { useMiningStore } from './useMiningStore'
+import { useGuildStore } from './useGuildStore'
 
 /** 最大体力阶梯 (5档, 270 起 508 顶) */
 const STAMINA_CAPS = [120, 160, 200, 250, 300]
@@ -32,6 +34,8 @@ export const usePlayerStore = defineStore('player', () => {
   const stamina = ref(120)
   const maxStamina = ref(120)
   const staminaCapLevel = ref(0) // 0=120, 1=160, 2=200, 3=250, 4=300
+  /** 额外体力上限加成（仙翁金丹等），不受仙桃阶梯覆盖 */
+  const bonusMaxStamina = ref(0)
 
   // HP 系统
   const hp = ref(BASE_MAX_HP)
@@ -42,7 +46,7 @@ export const usePlayerStore = defineStore('player', () => {
   /** NPC 用来称呼玩家的称谓 */
   const honorific = computed(() => (gender.value === 'male' ? '小哥' : '姑娘'))
 
-  /** 计算当前最大 HP（基础 + 战斗等级 + 专精加成 + 仙缘加成） */
+  /** 计算当前最大 HP（基础 + 战斗等级 + 专精加成 + 仙缘加成 + 公会加成） */
   const getMaxHp = (): number => {
     const skillStore = useSkillStore()
     let bonus = skillStore.combatLevel * HP_PER_COMBAT_LEVEL
@@ -54,7 +58,10 @@ export const usePlayerStore = defineStore('player', () => {
     // 仙缘结缘：灵护（spirit_shield）HP 加成
     const spiritShield = useHiddenNpcStore().getBondBonusByType('spirit_shield')
     const spiritHpBonus = spiritShield?.type === 'spirit_shield' ? spiritShield.hpBonus : 0
-    return baseMaxHp.value + bonus + ringHpBonus + spiritHpBonus
+    // 公会加成：生命护符永久 + 等级被动
+    const guildHpBonus = useMiningStore().guildBonusMaxHp
+    const guildLevelHpBonus = useGuildStore().getGuildHpBonus()
+    return baseMaxHp.value + bonus + ringHpBonus + spiritHpBonus + guildHpBonus + guildLevelHpBonus
   }
 
   const getHpPercent = (): number => {
@@ -134,8 +141,14 @@ export const usePlayerStore = defineStore('player', () => {
   const upgradeMaxStamina = (): boolean => {
     if (staminaCapLevel.value >= STAMINA_CAPS.length - 1) return false
     staminaCapLevel.value++
-    maxStamina.value = STAMINA_CAPS[staminaCapLevel.value]!
+    maxStamina.value = STAMINA_CAPS[staminaCapLevel.value]! + bonusMaxStamina.value
     return true
+  }
+
+  /** 增加额外体力上限加成（仙翁金丹等） */
+  const addBonusMaxStamina = (amount: number) => {
+    bonusMaxStamina.value += amount
+    maxStamina.value = STAMINA_CAPS[staminaCapLevel.value]! + bonusMaxStamina.value
   }
 
   /** 花费金币，返回是否成功 */
@@ -166,6 +179,7 @@ export const usePlayerStore = defineStore('player', () => {
       stamina: stamina.value,
       maxStamina: maxStamina.value,
       staminaCapLevel: staminaCapLevel.value,
+      bonusMaxStamina: bonusMaxStamina.value,
       hp: hp.value,
       baseMaxHp: baseMaxHp.value
     }
@@ -180,6 +194,13 @@ export const usePlayerStore = defineStore('player', () => {
     stamina.value = data.stamina
     maxStamina.value = data.maxStamina
     staminaCapLevel.value = data.staminaCapLevel
+    bonusMaxStamina.value = (data as any).bonusMaxStamina ?? 0
+    // 旧存档兼容：如果没有 bonusMaxStamina 字段，从 maxStamina 和 staminaCapLevel 推算
+    if ((data as any).bonusMaxStamina == null) {
+      const expectedBase = STAMINA_CAPS[staminaCapLevel.value] ?? 120
+      const diff = maxStamina.value - expectedBase
+      if (diff > 0) bonusMaxStamina.value = diff
+    }
     hp.value = (data as any).hp ?? BASE_MAX_HP
     baseMaxHp.value = (data as any).baseMaxHp ?? BASE_MAX_HP
   }
@@ -193,6 +214,7 @@ export const usePlayerStore = defineStore('player', () => {
     stamina,
     maxStamina,
     staminaCapLevel,
+    bonusMaxStamina,
     hp,
     baseMaxHp,
     isExhausted,
@@ -206,6 +228,7 @@ export const usePlayerStore = defineStore('player', () => {
     restoreHealth,
     dailyReset,
     upgradeMaxStamina,
+    addBonusMaxStamina,
     spendMoney,
     earnMoney,
     setIdentity,

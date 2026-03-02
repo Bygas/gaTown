@@ -146,16 +146,26 @@ const FISH_ITEMS: ItemDef[] = FISH.map(fish => ({
 }))
 
 /** 从食谱定义自动生成烹饪物品 */
-const FOOD_ITEMS: ItemDef[] = RECIPES.map(recipe => ({
-  id: `food_${recipe.id}`,
-  name: recipe.name,
-  category: 'food' as const,
-  description: recipe.description,
-  sellPrice: Math.floor(recipe.effect.staminaRestore * 2),
-  edible: true,
-  staminaRestore: recipe.effect.staminaRestore,
-  healthRestore: recipe.effect.healthRestore ?? Math.floor(recipe.effect.staminaRestore * 0.4)
-}))
+const _preFoodItems: ItemDef[] = [...SEED_ITEMS, ...CROP_ITEMS, ...ORE_ITEMS, ...MISC_ITEMS, ...FISH_ITEMS]
+const FOOD_ITEMS: ItemDef[] = RECIPES.map(recipe => {
+  const baseSellPrice = Math.floor(recipe.effect.staminaRestore * 2)
+  // 计算材料总售价，保底：食物售价不低于材料总售价的1.2倍
+  const ingredientTotal = recipe.ingredients.reduce((sum, ing) => {
+    const def = _preFoodItems.find(i => i.id === ing.itemId)
+    return sum + (def?.sellPrice ?? 0) * ing.quantity
+  }, 0)
+  const sellPrice = Math.max(baseSellPrice, Math.floor(ingredientTotal * 1.2))
+  return {
+    id: `food_${recipe.id}`,
+    name: recipe.name,
+    category: 'food' as const,
+    description: recipe.description,
+    sellPrice,
+    edible: true,
+    staminaRestore: recipe.effect.staminaRestore,
+    healthRestore: recipe.effect.healthRestore ?? Math.floor(recipe.effect.staminaRestore * 0.4)
+  }
+})
 
 /** 加工品物品 */
 const PROCESSED_ITEMS: ItemDef[] = [
@@ -1285,7 +1295,30 @@ export const ITEMS: ItemDef[] = [
     healthRestore: 50
   },
   { id: 'monster_lure', name: '怪物诱饵', category: 'misc', description: '本层怪物数量翻倍。', sellPrice: 1000, edible: false },
-  { id: 'guild_badge', name: '公会徽章', category: 'misc', description: '攻击力永久+3。', sellPrice: 2500, edible: false },
+  { id: 'guild_badge', name: '公会徽章', category: 'misc', description: '攻击力永久+3。', sellPrice: 0, edible: false },
+  { id: 'life_talisman', name: '生命护符', category: 'misc', description: '最大生命值永久+15。', sellPrice: 0, edible: false },
+  { id: 'defense_charm', name: '守护符', category: 'misc', description: '防御永久+3%。', sellPrice: 0, edible: false },
+  {
+    id: 'adventurer_ration',
+    name: '冒险口粮',
+    category: 'food',
+    description: '恢复25体力和25HP。',
+    sellPrice: 175,
+    edible: true,
+    staminaRestore: 25,
+    healthRestore: 25
+  },
+  {
+    id: 'stamina_elixir',
+    name: '精力药剂',
+    category: 'food',
+    description: '恢复120点体力。',
+    sellPrice: 300,
+    edible: true,
+    staminaRestore: 120,
+    healthRestore: 0
+  },
+  { id: 'lucky_coin', name: '幸运铜钱', category: 'misc', description: '怪物掉落率永久+5%。', sellPrice: 0, edible: false },
 
   // ===== 瀚海物品 =====
   {
@@ -1543,6 +1576,11 @@ const ITEM_SOURCE_OVERRIDES: Record<string, string> = {
   slayer_charm: '冒险家公会',
   monster_lure: '冒险家公会',
   guild_badge: '冒险家公会',
+  life_talisman: '冒险家公会',
+  defense_charm: '冒险家公会',
+  lucky_coin: '冒险家公会',
+  adventurer_ration: '冒险家公会',
+  stamina_elixir: '冒险家公会',
   // 瀚海物品
   hanhai_cactus_seed: '瀚海沙漠商人',
   hanhai_date_seed: '瀚海沙漠商人',

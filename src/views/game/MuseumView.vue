@@ -20,10 +20,11 @@
 
     <template v-else>
       <!-- 分类标签 -->
-      <div class="flex space-x-1 mb-3 flex-wrap">
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-1 mb-3">
         <Button
           v-for="cat in MUSEUM_CATEGORIES"
           :key="cat.key"
+          class="justify-center whitespace-nowrap"
           :class="{ '!bg-accent !text-bg': activeCategory === cat.key }"
           @click="activeCategory = cat.key"
         >

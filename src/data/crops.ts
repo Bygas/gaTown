@@ -4949,6 +4949,11 @@ export const getCropById = (id: string): CropDef | undefined => {
   return CROPS.find(c => c.id === id)
 }
 
+/** 根据种子ID获取作物定义 */
+export const getCropBySeedId = (seedId: string): CropDef | undefined => {
+  return CROPS.find(c => c.seedId === seedId)
+}
+
 /** 根据季节获取可种作物 */
 export const getCropsBySeason = (season: string): CropDef[] => {
   return CROPS.filter(c => c.season.includes(season as any))

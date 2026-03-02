@@ -7,7 +7,7 @@
           <Hammer :size="14" />
           <span>制造</span>
         </div>
-        <span class="text-xs text-muted">机器 {{ processingStore.machineCount }}/{{ processingStore.MAX_MACHINES }}</span>
+        <span class="text-xs text-muted">机器 {{ processingStore.machineCount }}/{{ processingStore.maxMachines }}</span>
       </div>
 
       <div v-for="cat in craftCategories" :key="cat.label" class="mb-3 last:mb-0">
@@ -31,9 +31,21 @@
 
     <!-- 加工区 -->
     <div class="border border-accent/20 rounded-xs p-3">
-      <div class="flex items-center space-x-1.5 text-sm text-accent mb-2">
-        <Boxes :size="14" />
-        <span>加工区</span>
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center space-x-1.5 text-sm text-accent">
+          <Boxes :size="14" />
+          <span>加工区</span>
+          <span class="text-[10px] text-muted font-normal">{{ processingStore.machineCount }}/{{ processingStore.maxMachines }}</span>
+        </div>
+        <button
+          v-if="nextUpgrade || processingStore.workshopLevel > 0"
+          class="text-[10px] px-2 py-0.5 border rounded-xs"
+          :class="nextUpgrade ? 'border-accent/30 text-accent hover:bg-accent/5 cursor-pointer' : 'border-accent/10 text-muted'"
+          @click="showUpgradeModal = true"
+        >
+          <ArrowUpCircle :size="10" class="inline mr-0.5" />
+          工坊 Lv.{{ processingStore.workshopLevel }}
+        </button>
       </div>
 
       <!-- 空状态 -->
@@ -100,7 +112,93 @@
       </div>
     </div>
 
-    <!-- 制造详情弹窗 -->
+    <!-- 工坊扩建弹窗 -->
+    <Transition name="panel-fade">
+      <div
+        v-if="showUpgradeModal"
+        class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+        @click.self="showUpgradeModal = false"
+      >
+        <div class="game-panel max-w-xs w-full relative">
+          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="showUpgradeModal = false">
+            <X :size="14" />
+          </button>
+
+          <p class="text-sm text-accent mb-2">
+            <ArrowUpCircle :size="14" class="inline mr-0.5" />
+            工坊信息
+          </p>
+
+          <!-- 当前状态 -->
+          <div class="border border-accent/10 rounded-xs p-2 mb-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-muted">当前等级</span>
+              <span class="text-xs text-accent">Lv.{{ processingStore.workshopLevel }}</span>
+            </div>
+            <div class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">机器上限</span>
+              <span class="text-xs text-text">{{ processingStore.maxMachines }} 台</span>
+            </div>
+          </div>
+
+          <!-- 下一级升级 -->
+          <template v-if="nextUpgrade">
+            <div class="border border-accent/10 rounded-xs p-2 mb-2">
+              <p class="text-xs text-muted mb-1">升级至 Lv.{{ processingStore.workshopLevel + 1 }}</p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-muted">机器上限</span>
+                <span class="text-xs text-text">{{ processingStore.maxMachines }} → {{ processingStore.maxMachines + 5 }}</span>
+              </div>
+            </div>
+
+            <!-- 所需材料 -->
+            <div class="border border-accent/10 rounded-xs p-2 mb-2">
+              <p class="text-xs text-muted mb-1">所需材料</p>
+              <div v-for="mat in nextUpgrade.materials" :key="mat.itemId" class="flex items-center justify-between">
+                <span class="text-xs text-muted">{{ getItemById(mat.itemId)?.name }}</span>
+                <span class="text-xs" :class="getCombinedItemCount(mat.itemId) >= mat.quantity ? '' : 'text-danger'">
+                  {{ getCombinedItemCount(mat.itemId) }}/{{ mat.quantity }}
+                </span>
+              </div>
+              <div class="flex items-center justify-between mt-0.5">
+                <span class="text-xs text-muted">金币</span>
+                <span class="text-xs" :class="playerStore.money >= nextUpgrade.cost ? '' : 'text-danger'">{{ nextUpgrade.cost }}文</span>
+              </div>
+            </div>
+
+            <!-- 扩建按钮 -->
+            <Button
+              v-if="!showUpgradeConfirm"
+              class="w-full justify-center"
+              :class="{ '!bg-accent !text-bg': canUpgrade }"
+              :icon="ArrowUpCircle"
+              :icon-size="12"
+              :disabled="!canUpgrade"
+              @click="showUpgradeConfirm = true"
+            >
+              扩建工坊
+            </Button>
+
+            <!-- 确认 -->
+            <div v-else class="flex space-x-1">
+              <Button class="flex-1 justify-center" @click="showUpgradeConfirm = false">取消</Button>
+              <Button
+                class="flex-1 justify-center !bg-accent !text-bg"
+                :icon="ArrowUpCircle"
+                :icon-size="12"
+                @click="handleUpgradeFromModal"
+              >
+                确认扩建
+              </Button>
+            </div>
+          </template>
+
+          <p v-else class="text-[10px] text-muted text-center">工坊已达到最高等级。</p>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- 制造弹窗 -->
     <Transition name="panel-fade">
       <div v-if="craftModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" @click.self="craftModal = null">
         <div class="game-panel max-w-xs w-full relative">
@@ -147,7 +245,7 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { Hammer, Trash2, Package, Boxes, X } from 'lucide-vue-next'
+  import { Hammer, Trash2, Package, Boxes, X, ArrowUpCircle } from 'lucide-vue-next'
   import Button from '@/components/game/Button.vue'
   import type { MachineType, AnimalBuildingType, ChestTier } from '@/types'
   import { useAnimalStore } from '@/stores/useAnimalStore'
@@ -187,6 +285,32 @@
   const animalStore = useAnimalStore()
   const skillStore = useSkillStore()
   const warehouseStore = useWarehouseStore()
+
+  // === 工坊升级 ===
+
+  const showUpgradeModal = ref(false)
+  const showUpgradeConfirm = ref(false)
+
+  const nextUpgrade = computed(() => processingStore.getNextUpgrade())
+
+  const canUpgrade = computed(() => {
+    const u = nextUpgrade.value
+    if (!u) return false
+    return processingStore.canCraft(u.materials, u.cost)
+  })
+
+  const handleUpgradeFromModal = () => {
+    const result = processingStore.upgradeWorkshop()
+    sfxClick()
+    addLog(result.message)
+    if (result.success) {
+      const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
+      if (tr.message) addLog(tr.message)
+      if (tr.passedOut) handleEndDay()
+    }
+    showUpgradeConfirm.value = false
+    showUpgradeModal.value = false
+  }
 
   // === 制造弹窗 ===
 
@@ -234,7 +358,7 @@
         materials: m.craftCost,
         cost: m.craftMoney,
         onCraft: () => handleCraftMachine(m.id),
-        canCraft: () => processingStore.canCraft(m.craftCost, m.craftMoney) && processingStore.machineCount < processingStore.MAX_MACHINES
+        canCraft: () => processingStore.canCraft(m.craftCost, m.craftMoney) && processingStore.machineCount < processingStore.maxMachines
       }))
     },
     {

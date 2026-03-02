@@ -94,6 +94,9 @@ export const navigateToPanel = (panelKey: PanelKey) => {
   if (gameStore.isPastBedtime) {
     addLog('已经凌晨2点了，你必须休息。')
     handleEndDay()
+    // 确保新一天时钟恢复运转
+    const { resumeClock: resumeAfterEnd } = useGameClock()
+    resumeAfterEnd()
     return
   }
 

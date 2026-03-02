@@ -2,7 +2,9 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { SeedGenetics, BreedingSlot, BreedingSeed, CompendiumEntry } from '@/types/breeding'
 import {
-  MAX_BREEDING_BOX,
+  BASE_BREEDING_BOX,
+  SEED_BOX_UPGRADES,
+  SEED_BOX_UPGRADE_INCREMENT,
   BREEDING_DAYS,
   BASE_MUTATION_MAGNITUDE,
   GENERATIONAL_STABILITY_GAIN,
@@ -46,15 +48,21 @@ export const useBreedingStore = defineStore('breeding', () => {
   /** 是否已解锁育种系统（拥有种子制造机即解锁） */
   const unlocked = ref(false)
 
+  /** 种子箱等级：0/1/2，对应 30/45/60 */
+  const seedBoxLevel = ref(0)
+
   // === 计算属性 ===
 
+  /** 种子箱最大容量（基于等级） */
+  const maxSeedBox = computed(() => BASE_BREEDING_BOX + seedBoxLevel.value * SEED_BOX_UPGRADE_INCREMENT)
+
   const boxCount = computed(() => breedingBox.value.length)
-  const boxFull = computed(() => breedingBox.value.length >= MAX_BREEDING_BOX)
+  const boxFull = computed(() => breedingBox.value.length >= maxSeedBox.value)
 
   // === 种子箱操作 ===
 
   const addToBox = (genetics: SeedGenetics): boolean => {
-    if (breedingBox.value.length >= MAX_BREEDING_BOX) return false
+    if (breedingBox.value.length >= maxSeedBox.value) return false
     breedingBox.value.push({
       genetics,
       label: makeSeedLabel(genetics)
@@ -71,7 +79,7 @@ export const useBreedingStore = defineStore('breeding', () => {
   // === 种子制造机增强 ===
 
   const trySeedMakerGeneticSeed = (cropId: string, farmingLevel: number): boolean => {
-    if (breedingBox.value.length >= MAX_BREEDING_BOX) return false
+    if (breedingBox.value.length >= maxSeedBox.value) return false
 
     const chance = getSeedMakerGeneticChance(farmingLevel)
     if (Math.random() > chance) return false
@@ -118,6 +126,37 @@ export const useBreedingStore = defineStore('breeding', () => {
       if (getItemCount(mat.itemId) < mat.quantity) return false
     }
     return true
+  }
+
+  // === 种子箱升级 ===
+
+  const getNextSeedBoxUpgrade = () => {
+    const next = seedBoxLevel.value + 1
+    return SEED_BOX_UPGRADES.find(u => u.level === next) ?? null
+  }
+
+  const canUpgradeSeedBox = (money: number, getItemCount: (id: string) => number): boolean => {
+    const upgrade = getNextSeedBoxUpgrade()
+    if (!upgrade) return false
+    if (money < upgrade.cost) return false
+    for (const mat of upgrade.materials) {
+      if (getItemCount(mat.itemId) < mat.quantity) return false
+    }
+    return true
+  }
+
+  const upgradeSeedBox = (
+    spendMoney: (amount: number) => void,
+    removeItem: (id: string, qty: number) => void
+  ): { success: boolean; message: string } => {
+    const upgrade = getNextSeedBoxUpgrade()
+    if (!upgrade) return { success: false, message: '种子箱已达到最高等级。' }
+    spendMoney(upgrade.cost)
+    for (const mat of upgrade.materials) {
+      removeItem(mat.itemId, mat.quantity)
+    }
+    seedBoxLevel.value++
+    return { success: true, message: `种子箱扩容完成！容量提升至${maxSeedBox.value}格。` }
   }
 
   const startBreeding = (slotIndex: number, seedAId: string, seedBId: string): boolean => {
@@ -397,6 +436,7 @@ export const useBreedingStore = defineStore('breeding', () => {
       ready: s.ready
     })),
     stationCount: stationCount.value,
+    seedBoxLevel: seedBoxLevel.value,
     compendium: compendium.value,
     unlocked: unlocked.value
   })
@@ -415,6 +455,7 @@ export const useBreedingStore = defineStore('breeding', () => {
       ready: s.ready ?? false
     }))
     stationCount.value = data.stationCount ?? 0
+    seedBoxLevel.value = data.seedBoxLevel ?? 0
     compendium.value = data.compendium ?? []
     unlocked.value = data.unlocked ?? false
   }
@@ -423,6 +464,7 @@ export const useBreedingStore = defineStore('breeding', () => {
     breedingBox.value = []
     stations.value = []
     stationCount.value = 0
+    seedBoxLevel.value = 0
     compendium.value = []
     unlocked.value = false
   }
@@ -432,17 +474,22 @@ export const useBreedingStore = defineStore('breeding', () => {
     breedingBox,
     stations,
     stationCount,
+    seedBoxLevel,
     compendium,
     unlocked,
     // 计算
     boxCount,
     boxFull,
+    maxSeedBox,
     // 方法
     addToBox,
     removeFromBox,
     trySeedMakerGeneticSeed,
     craftStation,
     canCraftStation,
+    getNextSeedBoxUpgrade,
+    canUpgradeSeedBox,
+    upgradeSeedBox,
     startBreeding,
     collectResult,
     dailyUpdate,
