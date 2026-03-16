@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 标签切换 -->
+    <!-- Sekme geçişi -->
     <div class="flex space-x-1.5 mb-3">
       <Button
         class="flex-1 justify-center"
@@ -8,7 +8,7 @@
         :icon="Boxes"
         @click="activeTab = 'process'"
       >
-        加工区
+        İşleme Alanı
         <span class="text-[10px] ml-0.5 opacity-70">{{ processingStore.machineCount }}/{{ processingStore.maxMachines }}</span>
       </Button>
       <Button
@@ -17,16 +17,16 @@
         :icon="Hammer"
         @click="activeTab = 'craft'"
       >
-        制造
+        Üretim
       </Button>
     </div>
 
-    <!-- 加工区 -->
+    <!-- İşleme alanı -->
     <div v-if="activeTab === 'process'" class="border border-accent/20 rounded-xs p-3">
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center space-x-1.5 text-sm text-accent">
           <Boxes :size="14" />
-          <span>加工区</span>
+          <span>İşleme Alanı</span>
           <span class="text-[10px] text-muted font-normal">{{ processingStore.machineCount }}/{{ processingStore.maxMachines }}</span>
         </div>
         <button
@@ -36,18 +36,18 @@
           @click="showUpgradeModal = true"
         >
           <ArrowUpCircle :size="10" class="inline mr-0.5" />
-          工坊 Lv.{{ processingStore.workshopLevel }}
+          Atölye Sv.{{ processingStore.workshopLevel }}
         </button>
       </div>
 
-      <!-- 空状态 -->
+      <!-- Boş durum -->
       <div v-if="processingStore.machines.length === 0" class="flex flex-col items-center justify-center py-8">
         <Boxes :size="36" class="text-accent/20 mb-2" />
-        <p class="text-xs text-muted">还没有机器</p>
-        <p class="text-[10px] text-muted/50 mt-0.5">切换到「制造」标签制造一台加工机器吧</p>
+        <p class="text-xs text-muted">Henüz makine yok</p>
+        <p class="text-[10px] text-muted/50 mt-0.5">“Üretim” sekmesine geçip bir işleme makinesi yapabilirsin</p>
       </div>
 
-      <!-- 机器列表 -->
+      <!-- Makine listesi -->
       <div v-else class="flex flex-col space-y-1.5">
         <div
           v-for="(slot, idx) in processingStore.machines"
@@ -62,7 +62,7 @@
             </button>
           </div>
 
-          <!-- 空闲：选择配方 -->
+          <!-- Boşta: tarif seç -->
           <div v-if="!slot.recipeId">
             <div v-if="processingStore.getAvailableRecipes(slot.machineType).length > 0" class="grid space-y-1">
               <Button
@@ -77,14 +77,14 @@
                 </span>
               </Button>
             </div>
-            <p v-else class="text-xs text-muted">无可用配方</p>
+            <p v-else class="text-xs text-muted">Kullanılabilir tarif yok</p>
           </div>
 
-          <!-- 加工中 -->
+          <!-- İşleniyor -->
           <div v-else-if="!slot.ready">
             <div class="flex items-center justify-between text-xs mb-1">
               <span class="text-muted">{{ getRecipeName(slot.recipeId) }}</span>
-              <span class="text-muted">{{ slot.daysProcessed }}/{{ slot.totalDays }}天</span>
+              <span class="text-muted">{{ slot.daysProcessed }}/{{ slot.totalDays }} gün</span>
             </div>
             <div class="h-1 bg-bg rounded-xs border border-accent/10 mb-1.5">
               <div
@@ -92,27 +92,27 @@
                 :style="{ width: Math.floor((slot.daysProcessed / slot.totalDays) * 100) + '%' }"
               />
             </div>
-            <Button class="w-full justify-center" :icon="X" :icon-size="10" @click="handleCancelProcessing(idx)">取消加工</Button>
+            <Button class="w-full justify-center" :icon="X" :icon-size="10" @click="handleCancelProcessing(idx)">İşlemi İptal Et</Button>
           </div>
 
-          <!-- 完成 -->
+          <!-- Tamamlandı -->
           <div v-else>
             <Button class="w-full justify-center !bg-accent !text-bg" :icon="Package" :icon-size="12" @click="handleCollect(idx)">
-              收取 {{ getRecipeOutputName(slot.recipeId) }}
+              {{ getRecipeOutputName(slot.recipeId) }} Teslim Al
             </Button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 制造区 -->
+    <!-- Üretim alanı -->
     <div v-if="activeTab === 'craft'" class="border border-accent/20 rounded-xs p-3">
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center space-x-1.5 text-sm text-accent">
           <Hammer :size="14" />
-          <span>制造</span>
+          <span>Üretim</span>
         </div>
-        <span class="text-xs text-muted">机器 {{ processingStore.machineCount }}/{{ processingStore.maxMachines }}</span>
+        <span class="text-xs text-muted">Makine {{ processingStore.machineCount }}/{{ processingStore.maxMachines }}</span>
       </div>
 
       <div v-for="cat in craftCategories" :key="cat.label" class="mb-3 last:mb-0">
@@ -128,13 +128,13 @@
               {{ item.name }}
               <span v-if="item.badge" class="text-muted ml-1">[{{ item.badge }}]</span>
             </div>
-            <span v-if="item.cost > 0" class="text-xs text-accent whitespace-nowrap">{{ item.cost }}文</span>
+            <span v-if="item.cost > 0" class="text-xs text-accent whitespace-nowrap">{{ item.cost }} bakır</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 工坊扩建弹窗 -->
+    <!-- Atölye yükseltme penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showUpgradeModal"
@@ -148,34 +148,34 @@
 
           <p class="text-sm text-accent mb-2">
             <ArrowUpCircle :size="14" class="inline mr-0.5" />
-            工坊信息
+            Atölye Bilgisi
           </p>
 
-          <!-- 当前状态 -->
+          <!-- Mevcut durum -->
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
             <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">当前等级</span>
-              <span class="text-xs text-accent">Lv.{{ processingStore.workshopLevel }}</span>
+              <span class="text-xs text-muted">Mevcut Seviye</span>
+              <span class="text-xs text-accent">Sv.{{ processingStore.workshopLevel }}</span>
             </div>
             <div class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">机器上限</span>
-              <span class="text-xs text-text">{{ processingStore.maxMachines }} 台</span>
+              <span class="text-xs text-muted">Makine Sınırı</span>
+              <span class="text-xs text-text">{{ processingStore.maxMachines }} adet</span>
             </div>
           </div>
 
-          <!-- 下一级升级 -->
+          <!-- Sonraki seviye -->
           <template v-if="nextUpgrade">
             <div class="border border-accent/10 rounded-xs p-2 mb-2">
-              <p class="text-xs text-muted mb-1">升级至 Lv.{{ processingStore.workshopLevel + 1 }}</p>
+              <p class="text-xs text-muted mb-1">Sv.{{ processingStore.workshopLevel + 1 }} seviyesine yükselt</p>
               <div class="flex items-center justify-between">
-                <span class="text-xs text-muted">机器上限</span>
+                <span class="text-xs text-muted">Makine Sınırı</span>
                 <span class="text-xs text-text">{{ processingStore.maxMachines }} → {{ processingStore.maxMachines + 5 }}</span>
               </div>
             </div>
 
-            <!-- 所需材料 -->
+            <!-- Gerekli malzemeler -->
             <div class="border border-accent/10 rounded-xs p-2 mb-2">
-              <p class="text-xs text-muted mb-1">所需材料</p>
+              <p class="text-xs text-muted mb-1">Gerekli Malzemeler</p>
               <div v-for="mat in nextUpgrade.materials" :key="mat.itemId" class="flex items-center justify-between">
                 <span class="text-xs text-muted">{{ getItemById(mat.itemId)?.name }}</span>
                 <span class="text-xs" :class="getCombinedItemCount(mat.itemId) >= mat.quantity ? '' : 'text-danger'">
@@ -183,12 +183,12 @@
                 </span>
               </div>
               <div class="flex items-center justify-between mt-0.5">
-                <span class="text-xs text-muted">铜钱</span>
-                <span class="text-xs" :class="playerStore.money >= nextUpgrade.cost ? '' : 'text-danger'">{{ nextUpgrade.cost }}文</span>
+                <span class="text-xs text-muted">Bakır</span>
+                <span class="text-xs" :class="playerStore.money >= nextUpgrade.cost ? '' : 'text-danger'">{{ nextUpgrade.cost }} bakır</span>
               </div>
             </div>
 
-            <!-- 扩建按钮 -->
+            <!-- Yükseltme butonu -->
             <Button
               v-if="!showUpgradeConfirm"
               class="w-full justify-center"
@@ -198,29 +198,29 @@
               :disabled="!canUpgrade"
               @click="showUpgradeConfirm = true"
             >
-              扩建工坊
+              Atölyeyi Genişlet
             </Button>
 
-            <!-- 确认 -->
+            <!-- Onay -->
             <div v-else class="flex space-x-1">
-              <Button class="flex-1 justify-center" @click="showUpgradeConfirm = false">取消</Button>
+              <Button class="flex-1 justify-center" @click="showUpgradeConfirm = false">İptal</Button>
               <Button
                 class="flex-1 justify-center !bg-accent !text-bg"
                 :icon="ArrowUpCircle"
                 :icon-size="12"
                 @click="handleUpgradeFromModal"
               >
-                确认扩建
+                Onayla
               </Button>
             </div>
           </template>
 
-          <p v-else class="text-[10px] text-muted text-center">工坊已达到最高等级。</p>
+          <p v-else class="text-[10px] text-muted text-center">Atölye en yüksek seviyeye ulaştı.</p>
         </div>
       </div>
     </Transition>
 
-    <!-- 制造弹窗 -->
+    <!-- Üretim penceresi -->
     <Transition name="panel-fade">
       <div v-if="craftModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" @click.self="craftModal = null">
         <div class="game-panel max-w-xs w-full relative">
@@ -232,11 +232,11 @@
 
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
             <p class="text-xs text-muted">{{ craftModal.description }}</p>
-            <p v-if="craftModal.badge" class="text-xs text-muted mt-0.5">当前：{{ craftModal.badge }}</p>
+            <p v-if="craftModal.badge" class="text-xs text-muted mt-0.5">Durum: {{ craftModal.badge }}</p>
           </div>
 
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
-            <p class="text-xs text-muted mb-1">所需材料</p>
+            <p class="text-xs text-muted mb-1">Gerekli Malzemeler</p>
             <div v-for="mat in craftModal.materials" :key="mat.itemId" class="flex items-center justify-between">
               <span class="text-xs text-muted">{{ getItemName(mat.itemId) }}</span>
               <span class="text-xs" :class="getCombinedItemCount(mat.itemId) >= mat.quantity * displayQty ? '' : 'text-danger'">
@@ -244,17 +244,17 @@
               </span>
             </div>
             <div v-if="craftModal.cost > 0" class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">铜钱</span>
+              <span class="text-xs text-muted">Bakır</span>
               <span class="text-xs" :class="playerStore.money >= craftModal.cost * displayQty ? '' : 'text-danger'">
-                {{ craftModal.cost * displayQty }}文
+                {{ craftModal.cost * displayQty }} bakır
               </span>
             </div>
           </div>
 
-          <!-- 批量数量控制 -->
+          <!-- toplu üretim miktarı -->
           <div v-if="craftModal.batchable && maxCraftable > 1" class="border border-accent/10 rounded-xs p-2 mb-2">
             <div class="flex items-center justify-between mb-1.5">
-              <span class="text-xs text-muted">数量</span>
+              <span class="text-xs text-muted">Miktar</span>
               <div class="flex items-center space-x-1">
                 <Button class="h-6 px-1.5 py-0.5 text-xs justify-center" :disabled="craftQuantity <= 1" @click="addCraftQuantity(-1)">
                   -
@@ -277,14 +277,14 @@
               </div>
             </div>
             <div class="flex space-x-1">
-              <Button class="flex-1 justify-center" :disabled="craftQuantity <= 1" @click="setCraftQuantity(1)">最少</Button>
+              <Button class="flex-1 justify-center" :disabled="craftQuantity <= 1" @click="setCraftQuantity(1)">En Az</Button>
               <Button class="flex-1 justify-center" :disabled="craftQuantity >= maxCraftable" @click="setCraftQuantity(maxCraftable)">
-                最多
+                En Fazla
               </Button>
             </div>
             <div v-if="craftModal.cost > 0" class="flex items-center justify-between mt-1.5">
-              <span class="text-xs text-muted">合计</span>
-              <span class="text-xs text-accent">{{ craftModal.cost * craftQuantity }}文</span>
+              <span class="text-xs text-muted">Toplam</span>
+              <span class="text-xs text-accent">{{ craftModal.cost * craftQuantity }} bakır</span>
             </div>
           </div>
 
@@ -296,7 +296,7 @@
             :disabled="!craftModal.canCraft()"
             @click="handleCraftFromModal"
           >
-            {{ craftModal.batchable && craftQuantity > 1 ? `制造 ×${craftQuantity}` : '制造' }}
+            {{ craftModal.batchable && craftQuantity > 1 ? `Üret ×${craftQuantity}` : 'Üret' }}
           </Button>
         </div>
       </div>
@@ -349,7 +349,7 @@
 
   const activeTab = ref<'process' | 'craft'>('process')
 
-  // === 工坊升级 ===
+  // === Atölye yükseltme ===
 
   const showUpgradeModal = ref(false)
   const showUpgradeConfirm = ref(false)
@@ -375,7 +375,7 @@
     showUpgradeModal.value = false
   }
 
-  // === 制造弹窗 ===
+  // === Üretim penceresi ===
 
   interface CraftableItem {
     id: string
@@ -452,7 +452,7 @@
 
   const craftCategories = computed((): { label: string; items: CraftableItem[] }[] => [
     {
-      label: '加工机器',
+      label: 'İşleme Makineleri',
       items: PROCESSING_MACHINES.map(m => ({
         id: m.id as string,
         name: m.name,
@@ -466,7 +466,7 @@
       }))
     },
     {
-      label: '农场设施',
+      label: 'Çiftlik Ekipmanları',
       items: [
         ...SPRINKLERS.map(s => ({
           id: s.id,
@@ -506,7 +506,7 @@
           cost: LIGHTNING_ROD.craftMoney,
           onCraft: () => handleCraftLightningRod(),
           canCraft: () => processingStore.canCraft(LIGHTNING_ROD.craftCost, LIGHTNING_ROD.craftMoney),
-          badge: `已有${farmStore.lightningRods}`,
+          badge: `Sahip olunan: ${farmStore.lightningRods}`,
           batchable: true
         },
         {
@@ -517,21 +517,21 @@
           cost: SCARECROW.craftMoney,
           onCraft: () => handleCraftScarecrow(),
           canCraft: () => processingStore.canCraft(SCARECROW.craftCost, SCARECROW.craftMoney),
-          badge: `已有${farmStore.scarecrows}`,
+          badge: `Sahip olunan: ${farmStore.scarecrows}`,
           batchable: true
         },
         ...((animalStore.buildings.find(b => b.type === 'coop')?.level ?? 0) >= 2
           ? [
               {
                 id: 'auto_petter_coop',
-                name: `${AUTO_PETTER.name}（鸡舍）`,
+                name: `${AUTO_PETTER.name}（Kümes）`,
                 description: AUTO_PETTER.description,
                 materials: AUTO_PETTER.craftCost,
                 cost: AUTO_PETTER.craftMoney,
                 onCraft: () => handleCraftAutoPetter('coop'),
                 canCraft: () =>
                   !animalStore.hasAutoPetter('coop') && processingStore.canCraft(AUTO_PETTER.craftCost, AUTO_PETTER.craftMoney),
-                badge: animalStore.hasAutoPetter('coop') ? '已安装' : undefined
+                badge: animalStore.hasAutoPetter('coop') ? 'Kurulu' : undefined
               }
             ]
           : []),
@@ -539,21 +539,21 @@
           ? [
               {
                 id: 'auto_petter_barn',
-                name: `${AUTO_PETTER.name}（畜棚）`,
+                name: `${AUTO_PETTER.name}（Ahır）`,
                 description: AUTO_PETTER.description,
                 materials: AUTO_PETTER.craftCost,
                 cost: AUTO_PETTER.craftMoney,
                 onCraft: () => handleCraftAutoPetter('barn'),
                 canCraft: () =>
                   !animalStore.hasAutoPetter('barn') && processingStore.canCraft(AUTO_PETTER.craftCost, AUTO_PETTER.craftMoney),
-                badge: animalStore.hasAutoPetter('barn') ? '已安装' : undefined
+                badge: animalStore.hasAutoPetter('barn') ? 'Kurulu' : undefined
               }
             ]
           : [])
       ]
     },
     {
-      label: '渔具',
+      label: 'Balıkçılık Ekipmanları',
       items: [
         ...BAITS.map(b => ({
           id: b.id,
@@ -588,7 +588,7 @@
       ]
     },
     {
-      label: '其他',
+      label: 'Diğer',
       items: [
         ...BOMBS.map(b => ({
           id: b.id,
@@ -603,8 +603,8 @@
         })),
         {
           id: 'jade_ring',
-          name: '翡翠戒指',
-          description: '用翡翠和金矿制成的戒指，可以用来求婚。',
+          name: 'Yeşim Yüzük',
+          description: 'Yeşim ve altın cevherinden yapılan bir yüzük. Evlenme teklifi etmek için kullanılabilir.',
           materials: JADE_RING_COST,
           cost: JADE_RING_MONEY,
           onCraft: () => handleCraftJadeRing(),
@@ -614,13 +614,13 @@
           ? [
               {
                 id: 'stamina_fruit',
-                name: '仙桃',
-                description: '蕴含远古灵气的果实，食用后永久提升体力上限。需要种植/觅食/钓鱼/采矿全部≥8级。',
+                name: 'Göksel Şeftali',
+                description: 'Kadim bir ruh enerjisi taşıyan meyve. Yenildiğinde maksimum enerjiyi kalıcı olarak artırır. Tarım / Toplayıcılık / Balıkçılık / Madencilik seviyeleri en az 8 olmalıdır.',
                 materials: STAMINA_FRUIT_COST,
                 cost: STAMINA_FRUIT_MONEY,
                 onCraft: () => handleCraftStaminaFruit(),
                 canCraft: () => canCraftStaminaFruit.value,
-                badge: playerStore.staminaCapLevel >= 4 ? '已满级' : `${playerStore.staminaCapLevel}/4`
+                badge: playerStore.staminaCapLevel >= 4 ? 'Maksimum' : `${playerStore.staminaCapLevel}/4`
               }
             ]
           : [])
@@ -629,7 +629,7 @@
     ...(warehouseStore.unlocked
       ? [
           {
-            label: '箱子',
+            label: 'Sandıklar',
             items: CHEST_TIER_ORDER.map(tier => {
               const def = CHEST_DEFS[tier]
               return {
@@ -658,13 +658,13 @@
     for (let i = 0; i < qty; i++) {
       if (!craftModal.value.canCraft()) break
       craftModal.value.onCraft()
-      // 晕倒导致日期变更，停止批量制造
+      // Bayılma olursa gün değişir, toplu üretimi durdur
       if (gameStore.day !== startDay) break
     }
     craftModal.value = null
   }
 
-  // === 工具函数 ===
+  // === Yardımcı fonksiyonlar ===
 
   const getMachineName = (type: MachineType): string => {
     return PROCESSING_MACHINES.find(m => m.id === type)?.name ?? type
@@ -684,12 +684,12 @@
     return getItemById(recipe.outputItemId)?.name ?? recipe.name
   }
 
-  // === 制造处理 ===
+  // === Üretim işlemleri ===
 
   const handleCraftMachine = (machineType: MachineType) => {
     if (processingStore.craftMachine(machineType)) {
       sfxClick()
-      addLog(`制造了${getMachineName(machineType)}并放置到加工区。`)
+      addLog(`${getMachineName(machineType)} üretildi ve işleme alanına yerleştirildi.`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -697,7 +697,7 @@
         return
       }
     } else {
-      addLog('材料不足或已达上限。')
+      addLog('Yeterli malzeme yok ya da sınır dolu.')
     }
   }
 
@@ -705,7 +705,7 @@
     if (processingStore.craftSprinkler(sprinklerId)) {
       sfxClick()
       const name = SPRINKLERS.find(s => s.id === sprinklerId)?.name ?? sprinklerId
-      addLog(`制造了${name}，已放入背包。去农场放置吧。`)
+      addLog(`${name} üretildi ve çantaya eklendi. Şimdi gidip çiftliğe yerleştirebilirsin.`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -713,7 +713,7 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
@@ -721,7 +721,7 @@
     if (processingStore.craftFertilizer(fertilizerId)) {
       sfxClick()
       const name = FERTILIZERS.find(f => f.id === fertilizerId)?.name ?? fertilizerId
-      addLog(`制造了${name}，已放入背包。`)
+      addLog(`${name} üretildi ve çantaya eklendi.`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -729,7 +729,7 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
@@ -737,7 +737,7 @@
     if (processingStore.craftBait(baitId)) {
       sfxClick()
       const name = BAITS.find(b => b.id === baitId)?.name ?? baitId
-      addLog(`制造了${name}，已放入背包。`)
+      addLog(`${name} üretildi ve çantaya eklendi.`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -745,7 +745,7 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
@@ -753,7 +753,7 @@
     if (processingStore.craftTackle(tackleId)) {
       sfxClick()
       const name = TACKLES.find(t => t.id === tackleId)?.name ?? tackleId
-      addLog(`制造了${name}，已放入背包。`)
+      addLog(`${name} üretildi ve çantaya eklendi.`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -761,14 +761,14 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
   const handleCraftCrabPot = () => {
     if (processingStore.craftCrabPot()) {
       sfxClick()
-      addLog(`制造了${CRAB_POT_CRAFT.name}，已放入背包。`)
+      addLog(`${CRAB_POT_CRAFT.name} üretildi ve çantaya eklendi.`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -776,14 +776,14 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
   const handleCraftTapper = () => {
     if (processingStore.craftTapper()) {
       sfxClick()
-      addLog(`制造了采脂器，已放入背包。去农场安装到野树上吧。`)
+      addLog(`Reçine Toplayıcı üretildi ve çantaya eklendi. Çiftliğe gidip yabani ağaçlara takabilirsin.`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -791,7 +791,7 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
@@ -799,7 +799,7 @@
     if (processingStore.consumeCraftMaterials(LIGHTNING_ROD.craftCost, LIGHTNING_ROD.craftMoney)) {
       sfxClick()
       farmStore.lightningRods++
-      addLog(`制造了避雷针，已安装到农场。(共${farmStore.lightningRods}根)`)
+      addLog(`Yıldırım Çubuğu üretildi ve çiftliğe kuruldu. (Toplam ${farmStore.lightningRods} adet)`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -807,7 +807,7 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
@@ -815,7 +815,7 @@
     if (processingStore.consumeCraftMaterials(SCARECROW.craftCost, SCARECROW.craftMoney)) {
       sfxClick()
       farmStore.scarecrows++
-      addLog(`制造了稻草人，已安装到农场。(共${farmStore.scarecrows}个)`)
+      addLog(`Korkuluk üretildi ve çiftliğe kuruldu. (Toplam ${farmStore.scarecrows} adet)`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -823,13 +823,13 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
   const handleCraftAutoPetter = (buildingType: AnimalBuildingType) => {
     if (animalStore.hasAutoPetter(buildingType)) {
-      addLog('该畜舍已安装自动抚摸机。')
+      addLog('Bu barınakta zaten otomatik sevme makinesi kurulu.')
       return
     }
     if (processingStore.consumeCraftMaterials(AUTO_PETTER.craftCost, AUTO_PETTER.craftMoney)) {
@@ -843,7 +843,7 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
@@ -851,7 +851,7 @@
     if (processingStore.craftBomb(bombId)) {
       sfxClick()
       const name = BOMBS.find(b => b.id === bombId)?.name ?? bombId
-      addLog(`制造了${name}，已放入背包。`)
+      addLog(`${name} üretildi ve çantaya eklendi.`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -859,7 +859,7 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
@@ -874,7 +874,7 @@
     }
     inventoryStore.addItem('jade_ring')
     sfxClick()
-    addLog('制造了翡翠戒指！可以用来求婚。')
+    addLog('Yeşim Yüzük üretildi! Evlenme teklifi etmek için kullanılabilir.')
     const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
     if (tr.message) addLog(tr.message)
     if (tr.passedOut) {
@@ -888,7 +888,7 @@
     if (processingStore.consumeCraftMaterials(STAMINA_FRUIT_COST, STAMINA_FRUIT_MONEY)) {
       sfxClick()
       inventoryStore.addItem('stamina_fruit')
-      addLog('制造了仙桃！在背包中使用可永久提升体力上限。')
+      addLog('Göksel Şeftali üretildi! Çantadan kullanıldığında maksimum enerjiyi kalıcı olarak artırır.')
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -896,20 +896,20 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
   const handleCraftChest = (tier: ChestTier) => {
     const def = CHEST_DEFS[tier]
     if (warehouseStore.chests.length >= warehouseStore.maxChests) {
-      addLog('箱子槽位已满，请先扩建仓库。')
+      addLog('Sandık alanı dolu. Önce depoyu genişletmelisin.')
       return
     }
     if (processingStore.consumeCraftMaterials(def.craftCost, def.craftMoney)) {
       sfxClick()
       warehouseStore.addChest(tier)
-      addLog(`制造了${def.name}，已放入仓库。`)
+      addLog(`${def.name} üretildi ve depoya yerleştirildi.`)
       const tr = gameStore.advanceTime(ACTION_TIME_COSTS.craftMachine)
       if (tr.message) addLog(tr.message)
       if (tr.passedOut) {
@@ -917,19 +917,19 @@
         return
       }
     } else {
-      addLog('材料不足。')
+      addLog('Yeterli malzeme yok.')
     }
   }
 
-  // === 加工处理 ===
+  // === İşleme işlemleri ===
 
   const handleStartProcessing = (slotIndex: number, recipeId: string) => {
     if (processingStore.startProcessing(slotIndex, recipeId)) {
       sfxClick()
       const recipe = getProcessingRecipeById(recipeId)
-      addLog(`开始加工${recipe?.name ?? recipeId}，需要${recipe?.processingDays ?? '?'}天。`)
+      addLog(`${recipe?.name ?? recipeId} işlenmeye başladı. Süre: ${recipe?.processingDays ?? '?'} gün.`)
     } else {
-      addLog('原料不足或机器正在使用。')
+      addLog('Hammadde yetersiz ya da makine kullanımda.')
     }
   }
 
@@ -938,7 +938,7 @@
     if (outputId) {
       sfxClick()
       const name = getItemById(outputId)?.name ?? outputId
-      addLog(`收取了${name}！`)
+      addLog(`${name} teslim alındı!`)
     }
   }
 
@@ -947,7 +947,7 @@
     if (!slot) return
     const name = getMachineName(slot.machineType)
     if (processingStore.removeMachine(slotIndex)) {
-      addLog(`拆除了${name}，制作材料已退还。`)
+      addLog(`${name} söküldü, üretim malzemeleri geri verildi.`)
     }
   }
 
@@ -956,7 +956,7 @@
     if (!slot) return
     const name = getMachineName(slot.machineType)
     if (processingStore.cancelProcessing(slotIndex)) {
-      addLog(`${name}已停止加工，原料已退回。`)
+      addLog(`${name} işlemi durduruldu, hammaddeler geri alındı.`)
     }
   }
 </script>
