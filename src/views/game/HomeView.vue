@@ -2,92 +2,92 @@
   <div>
     <h3 class="text-accent text-sm mb-3">
       <Building :size="14" class="inline" />
-      设施
+      Tesisler
     </h3>
 
-    <!-- 山洞 -->
+    <!-- Mağara -->
     <div class="border border-accent/20 rounded-xs p-3 mb-4">
       <p class="text-sm text-accent mb-2">
         <Mountain :size="14" class="inline" />
-        山洞
+        Mağara
       </p>
       <div v-if="!homeStore.caveUnlocked">
-        <p class="text-xs text-muted">山洞尚未开放。（累计收入达到一定额度后自动开放）</p>
+        <p class="text-xs text-muted">Mağara henüz açılmadı. (Toplam gelir belli bir seviyeye ulaşınca otomatik açılır)</p>
       </div>
       <div v-else-if="homeStore.caveChoice === 'none'">
-        <p class="text-xs text-muted mb-2">选择山洞用途（选定后不可更改）：</p>
+        <p class="text-xs text-muted mb-2">Mağaranın kullanım amacını seç (seçtikten sonra değiştirilemez):</p>
         <div class="flex flex-col space-y-1">
           <div
             class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
             @click="handleChooseCave('mushroom')"
           >
-            <span class="text-xs">蘑菇洞</span>
-            <span class="text-xs text-muted">每天60%概率产蘑菇</span>
+            <span class="text-xs">Mantar Mağarası</span>
+            <span class="text-xs text-muted">Her gün %60 ihtimalle mantar üretir</span>
           </div>
           <div
             class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
             @click="handleChooseCave('fruit_bat')"
           >
-            <span class="text-xs">蝙蝠洞</span>
-            <span class="text-xs text-muted">每天50%概率产水果</span>
+            <span class="text-xs">Yarasa Mağarası</span>
+            <span class="text-xs text-muted">Her gün %50 ihtimalle meyve üretir</span>
           </div>
         </div>
       </div>
       <div v-else>
         <p class="text-xs">
-          {{ homeStore.caveChoice === 'mushroom' ? '蘑菇洞 — 每天有概率产出野蘑菇。' : '蝙蝠洞 — 每天有概率产出各季水果。' }}
+          {{ homeStore.caveChoice === 'mushroom' ? 'Mantar Mağarası — Her gün belli bir ihtimalle yabani mantar üretir.' : 'Yarasa Mağarası — Her gün mevsimlik meyveler üretme ihtimali vardır.' }}
         </p>
       </div>
     </div>
 
-    <!-- 温室 -->
+    <!-- Sera -->
     <div class="border border-accent/20 rounded-xs p-3 mb-4">
       <p class="text-sm text-accent mb-2">
         <Leaf :size="14" class="inline" />
-        温室
+        Sera
       </p>
       <div v-if="!homeStore.greenhouseUnlocked">
-        <p class="text-xs text-muted mb-2">解锁温室后可在任何季节种植作物，作物自动浇水。</p>
+        <p class="text-xs text-muted mb-2">Serayı açtıktan sonra her mevsimde ürün yetiştirebilir, ayrıca ürünler otomatik sulanır.</p>
         <div
           class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
           @click="showGreenhouseModal = true"
         >
-          <span class="text-xs">解锁温室</span>
-          <span class="text-xs text-accent whitespace-nowrap">{{ GREENHOUSE_UNLOCK_COST }}文</span>
+          <span class="text-xs">Serayı Aç</span>
+          <span class="text-xs text-accent whitespace-nowrap">{{ GREENHOUSE_UNLOCK_COST }} bakır</span>
         </div>
       </div>
       <div v-else>
-        <p class="text-xs text-success">温室已开放。可在农场面板中切换至温室进行种植。</p>
+        <p class="text-xs text-success">Sera açıldı. Tarla panelinden seraya geçip ekim yapabilirsin.</p>
       </div>
     </div>
 
-    <!-- 仓库 -->
+    <!-- Depo -->
     <div class="border border-accent/20 rounded-xs p-3">
       <div class="flex items-center justify-between mb-2">
         <p class="text-sm text-accent">
           <Warehouse :size="14" class="inline" />
-          仓库
+          Depo
         </p>
         <span v-if="warehouseStore.unlocked" class="text-xs text-muted">
-          箱子 {{ warehouseStore.chests.length }}/{{ warehouseStore.maxChests }}
+          Sandık {{ warehouseStore.chests.length }}/{{ warehouseStore.maxChests }}
         </span>
       </div>
 
-      <!-- 未解锁 -->
+      <!-- Kilitli -->
       <div v-if="!warehouseStore.unlocked">
-        <p class="text-xs text-muted mb-2">解锁仓库后可放置箱子分类存放物品。</p>
+        <p class="text-xs text-muted mb-2">Depo açıldıktan sonra eşyaları kategori kategori saklamak için sandık yerleştirebilirsin.</p>
         <div
           class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
           @click="showWarehouseUnlockModal = true"
         >
-          <span class="text-xs">解锁仓库</span>
-          <span class="text-xs text-accent whitespace-nowrap">{{ warehouseStore.UNLOCK_COST }}文</span>
+          <span class="text-xs">Depoyu Aç</span>
+          <span class="text-xs text-accent whitespace-nowrap">{{ warehouseStore.UNLOCK_COST }} bakır</span>
         </div>
       </div>
 
-      <!-- 已解锁 -->
+      <!-- Açık -->
       <template v-else>
-        <!-- 箱子列表 -->
+        <!-- Sandık listesi -->
         <div v-if="warehouseStore.chests.length > 0" class="flex flex-col space-y-1.5 mb-2">
           <div
             v-for="chest in warehouseStore.chests"
@@ -128,7 +128,7 @@
                 </button>
               </div>
             </div>
-            <!-- 虚空箱角色 -->
+            <!-- Boşluk sandığı rolü -->
             <template v-if="chest.tier === 'void'">
               <div class="flex items-center space-x-1 mt-1">
                 <button
@@ -146,10 +146,10 @@
         </div>
         <div v-else class="flex flex-col items-center justify-center py-4 text-muted mb-2">
           <Warehouse :size="24" />
-          <p class="text-xs mt-1">仓库空空如也</p>
+          <p class="text-xs mt-1">Depo bomboş</p>
         </div>
 
-        <!-- 添加箱子 -->
+        <!-- Sandık ekle -->
         <Button
           v-if="warehouseStore.chests.length < warehouseStore.maxChests"
           class="w-full"
@@ -157,12 +157,12 @@
           :icon-size="12"
           @click="showAddChestModal = true"
         >
-          添加箱子
+          Sandık Ekle
         </Button>
       </template>
     </div>
 
-    <!-- 解锁温室弹窗 -->
+    <!-- Sera açma penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showGreenhouseModal"
@@ -174,14 +174,14 @@
             <X :size="14" />
           </button>
 
-          <p class="text-sm text-accent mb-2">解锁温室</p>
+          <p class="text-sm text-accent mb-2">Serayı Aç</p>
 
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
-            <p class="text-xs text-muted">解锁后可在任何季节种植作物，作物自动浇水。</p>
+            <p class="text-xs text-muted">Açıldıktan sonra her mevsimde ürün yetiştirebilir ve ürünler otomatik sulanır.</p>
           </div>
 
           <div class="border border-accent/10 rounded-xs p-2 mb-2 space-y-1">
-            <p class="text-xs text-muted mb-1">所需材料</p>
+            <p class="text-xs text-muted mb-1">Gerekli Malzemeler</p>
             <div v-for="mat in GREENHOUSE_MATERIAL_COST" :key="mat.itemId" class="flex items-center justify-between">
               <span class="text-xs text-muted">{{ getItemName(mat.itemId) }}</span>
               <span class="text-xs" :class="getCombinedItemCount(mat.itemId) >= mat.quantity ? '' : 'text-danger'">
@@ -189,9 +189,9 @@
               </span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">铜钱</span>
+              <span class="text-xs text-muted">Bakır</span>
               <span class="text-xs" :class="playerStore.money >= GREENHOUSE_UNLOCK_COST ? '' : 'text-danger'">
-                {{ GREENHOUSE_UNLOCK_COST }}文
+                {{ GREENHOUSE_UNLOCK_COST }} bakır
               </span>
             </div>
           </div>
@@ -204,13 +204,13 @@
             :icon-size="12"
             @click="handleUnlockFromModal"
           >
-            解锁
+            Aç
           </Button>
         </div>
       </div>
     </Transition>
 
-    <!-- 仓库解锁弹窗 -->
+    <!-- Depo açma penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showWarehouseUnlockModal"
@@ -222,10 +222,10 @@
             <X :size="14" />
           </button>
 
-          <p class="text-sm text-accent mb-2">解锁仓库</p>
+          <p class="text-sm text-accent mb-2">Depoyu Aç</p>
 
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
-            <p class="text-xs text-muted">解锁后可放置箱子分类存放物品，初始可放3个箱子，可在商店升级。</p>
+            <p class="text-xs text-muted">Açıldıktan sonra eşyaları sınıflandırmak için sandık yerleştirebilirsin. Başlangıçta 3 sandık yeri vardır, mağazadan yükseltilebilir.</p>
           </div>
 
           <div class="border border-accent/10 rounded-xs p-2 mb-2 space-y-1">
@@ -236,9 +236,9 @@
               </span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">铜钱</span>
+              <span class="text-xs text-muted">Bakır</span>
               <span class="text-xs" :class="playerStore.money >= warehouseStore.UNLOCK_COST ? '' : 'text-danger'">
-                {{ warehouseStore.UNLOCK_COST }}文
+                {{ warehouseStore.UNLOCK_COST }} bakır
               </span>
             </div>
           </div>
@@ -251,13 +251,13 @@
             :icon-size="12"
             @click="handleUnlockWarehouse"
           >
-            解锁
+            Aç
           </Button>
         </div>
       </div>
     </Transition>
 
-    <!-- 箱子详情弹窗 -->
+    <!-- Sandık detay penceresi -->
     <Transition name="panel-fade">
       <div v-if="openChestId" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" @click.self="openChestId = null">
         <div v-if="currentOpenChest" class="game-panel max-w-sm w-full">
@@ -277,7 +277,7 @@
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="openChestId = null" />
           </div>
 
-          <!-- 箱子物品列表 -->
+          <!-- Sandık eşya listesi -->
           <div v-if="currentOpenChest.items.length > 0" class="flex flex-col space-y-1 mb-2 max-h-48 overflow-y-auto">
             <div
               v-for="(item, idx) in currentOpenChest.items"
@@ -294,18 +294,18 @@
                   class="py-0 px-1"
                   @click.stop="openChestQtyModal('withdraw', openChestId!, item.itemId, item.quality, item.quantity)"
                 >
-                  取出
+                  Çıkar
                 </Button>
               </div>
             </div>
           </div>
           <div v-else class="flex flex-col items-center justify-center py-6 mb-2">
             <Warehouse :size="36" class="text-accent/20 mb-2" />
-            <p class="text-xs text-muted">箱子是空的</p>
-            <p class="text-[10px] text-muted/50 mt-0.5">点击下方「存入物品」添加</p>
+            <p class="text-xs text-muted">Sandık boş</p>
+            <p class="text-[10px] text-muted/50 mt-0.5">Aşağıdaki “Eşya Koy” butonuyla eşya ekleyebilirsin</p>
           </div>
 
-          <!-- 一键存入重复物品 -->
+          <!-- Tek tıkla tekrar eden eşyaları koy -->
           <Button
             v-if="duplicateDepositItems.length > 0"
             class="w-full mb-1"
@@ -313,17 +313,17 @@
             :icon-size="12"
             @click="handleDepositDuplicates"
           >
-            一键存入重复物品
+            Aynı Eşyaları Toplu Koy
           </Button>
-          <!-- 存入按钮 -->
+          <!-- Koy butonu -->
           <Button v-if="depositableItems.length > 0" class="w-full" :icon="ArrowDown" :icon-size="12" @click="showChestDepositModal = true">
-            存入物品
+            Eşya Koy
           </Button>
         </div>
       </div>
     </Transition>
 
-    <!-- 箱子存入弹窗 -->
+    <!-- Sandığa eşya koyma penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showChestDepositModal && openChestId"
@@ -332,7 +332,7 @@
       >
         <div class="game-panel max-w-sm w-full">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm text-accent">存入物品</p>
+            <p class="text-sm text-accent">Eşya Koy</p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="showChestDepositModal = false" />
           </div>
           <div class="flex flex-col space-y-1 max-h-60 overflow-y-auto">
@@ -353,7 +353,7 @@
       </div>
     </Transition>
 
-    <!-- 箱子数量选择弹窗 -->
+    <!-- Sandık miktar seçme penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="chestQtyModal"
@@ -362,7 +362,7 @@
       >
         <div class="game-panel max-w-xs w-full">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm text-accent">{{ chestQtyModal.mode === 'withdraw' ? '取出' : '存入' }}</p>
+            <p class="text-sm text-accent">{{ chestQtyModal.mode === 'withdraw' ? 'Çıkar' : 'Koy' }}</p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="chestQtyModal = null" />
           </div>
           <p class="text-xs mb-2" :class="qualityTextClass(chestQtyModal.quality)">
@@ -371,7 +371,7 @@
           </p>
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
             <div class="flex items-center justify-between mb-1.5">
-              <span class="text-xs text-muted">数量</span>
+              <span class="text-xs text-muted">Miktar</span>
               <div class="flex items-center space-x-1">
                 <Button class="h-6 px-1.5 py-0.5 text-xs justify-center" :disabled="chestQty <= 1" @click="addChestQty(-1)">-</Button>
                 <input
@@ -388,20 +388,20 @@
               </div>
             </div>
             <div class="flex space-x-1">
-              <Button class="flex-1 justify-center" :disabled="chestQty <= 1" @click="setChestQty(1)">最少</Button>
+              <Button class="flex-1 justify-center" :disabled="chestQty <= 1" @click="setChestQty(1)">En Az</Button>
               <Button class="flex-1 justify-center" :disabled="chestQty >= chestQtyModal.max" @click="setChestQty(chestQtyModal!.max)">
-                最多
+                En Fazla
               </Button>
             </div>
           </div>
           <Button class="w-full justify-center !bg-accent !text-bg" @click="confirmChestQty">
-            {{ chestQtyModal.mode === 'withdraw' ? '取出' : '存入' }} &times;{{ chestQty }}
+            {{ chestQtyModal.mode === 'withdraw' ? 'Çıkar' : 'Koy' }} ×{{ chestQty }}
           </Button>
         </div>
       </div>
     </Transition>
 
-    <!-- 拆卸箱子确认弹窗 -->
+    <!-- Sandık sökme onay penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="dismantleChestId"
@@ -410,35 +410,35 @@
       >
         <div class="game-panel max-w-xs w-full">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm text-accent">拆卸确认</p>
+            <p class="text-sm text-accent">Sökme Onayı</p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="dismantleChestId = null" />
           </div>
           <template v-if="dismantleChestInfo">
             <p class="text-xs mb-2">
-              确定要拆卸「{{ dismantleChestInfo.label }}」吗？
+              “{{ dismantleChestInfo.label }}” sandığını sökmek istediğine emin misin?
               <span v-if="dismantleChestInfo.itemCount > 0" class="text-danger">
-                箱内{{ dismantleChestInfo.itemCount }}格物品将返还背包。
+                İçindeki {{ dismantleChestInfo.itemCount }} slot eşya çantana geri verilecek.
               </span>
             </p>
             <div class="border border-accent/10 rounded-xs p-2 mb-3">
-              <p class="text-[10px] text-muted mb-1">返还材料（50%）</p>
+              <p class="text-[10px] text-muted mb-1">Geri verilecek malzemeler (%50)</p>
               <div class="flex flex-wrap gap-x-3 gap-y-0.5">
                 <span v-for="mat in dismantleChestInfo.refund" :key="mat.itemId" class="text-[10px] text-success">
                   {{ getItemName(mat.itemId) }} ×{{ mat.quantity }}
                 </span>
-                <span v-if="dismantleChestInfo.refund.length === 0" class="text-[10px] text-muted">无</span>
+                <span v-if="dismantleChestInfo.refund.length === 0" class="text-[10px] text-muted">Yok</span>
               </div>
             </div>
             <div class="flex space-x-3 justify-center">
-              <Button @click="dismantleChestId = null">取消</Button>
-              <Button class="btn-danger" :icon="Trash2" :icon-size="12" @click="confirmDismantle">拆卸</Button>
+              <Button @click="dismantleChestId = null">İptal</Button>
+              <Button class="btn-danger" :icon="Trash2" :icon-size="12" @click="confirmDismantle">Sök</Button>
             </div>
           </template>
         </div>
       </div>
     </Transition>
 
-    <!-- 箱子道具信息弹窗 -->
+    <!-- Sandıktaki eşya bilgi penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="chestItemDetail && chestItemDef"
@@ -457,22 +457,22 @@
           </div>
           <div class="border border-accent/10 rounded-xs p-2">
             <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">数量</span>
+              <span class="text-xs text-muted">Miktar</span>
               <span class="text-xs">×{{ chestItemDetail.quantity }}</span>
             </div>
             <div v-if="chestItemDetail.quality !== 'normal'" class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">品质</span>
+              <span class="text-xs text-muted">Kalite</span>
               <span class="text-xs" :class="qualityTextClass(chestItemDetail.quality)">{{ QUALITY_LABEL[chestItemDetail.quality] }}</span>
             </div>
             <div v-if="chestItemDef.sellPrice" class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">售价</span>
-              <span class="text-xs text-accent">{{ chestItemDef.sellPrice }}文</span>
+              <span class="text-xs text-muted">Satış Fiyatı</span>
+              <span class="text-xs text-accent">{{ chestItemDef.sellPrice }} bakır</span>
             </div>
             <div v-if="chestItemDef.staminaRestore" class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">恢复</span>
+              <span class="text-xs text-muted">İyileştirme</span>
               <span class="text-xs text-success">
-                +{{ chestItemDef.staminaRestore }}体力
-                <template v-if="chestItemDef.healthRestore">/ +{{ chestItemDef.healthRestore }}HP</template>
+                +{{ chestItemDef.staminaRestore }} enerji
+                <template v-if="chestItemDef.healthRestore">/ +{{ chestItemDef.healthRestore }} Can</template>
               </span>
             </div>
           </div>
@@ -480,7 +480,7 @@
       </div>
     </Transition>
 
-    <!-- 添加箱子弹窗 -->
+    <!-- Sandık ekleme penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showAddChestModal"
@@ -489,7 +489,7 @@
       >
         <div class="game-panel max-w-sm w-full">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm text-accent">制作箱子</p>
+            <p class="text-sm text-accent">Sandık Yap</p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="showAddChestModal = false" />
           </div>
           <div class="flex flex-col space-y-1.5">
@@ -499,7 +499,7 @@
                   <span class="text-xs font-bold" :class="tier === 'void' ? 'text-quality-supreme' : 'text-accent'">
                     {{ CHEST_DEFS[tier].name }}
                   </span>
-                  <span class="text-[10px] text-muted">{{ CHEST_DEFS[tier].capacity }}格</span>
+                  <span class="text-[10px] text-muted">{{ CHEST_DEFS[tier].capacity }} slot</span>
                 </div>
                 <Button
                   class="py-0 px-1.5"
@@ -507,7 +507,7 @@
                   :disabled="!canCraftChest(tier)"
                   @click="handleCraftChest(tier)"
                 >
-                  制作
+                  Yap
                 </Button>
               </div>
               <p class="text-[10px] text-muted mb-1">{{ CHEST_DEFS[tier].description }}</p>
@@ -521,7 +521,7 @@
                   {{ getItemName(mat.itemId) }} {{ getCombinedItemCount(mat.itemId) }}/{{ mat.quantity }}
                 </span>
                 <span class="text-[10px]" :class="playerStore.money >= CHEST_DEFS[tier].craftMoney ? 'text-muted' : 'text-danger'">
-                  {{ CHEST_DEFS[tier].craftMoney }}文
+                  {{ CHEST_DEFS[tier].craftMoney }} bakır
                 </span>
               </div>
             </div>
@@ -566,16 +566,16 @@
     return getItemById(itemId)?.name ?? itemId
   }
 
-  // === 山洞 ===
+  // === Mağara ===
 
   const handleChooseCave = (choice: 'mushroom' | 'fruit_bat') => {
     if (homeStore.chooseCave(choice)) {
-      const name = choice === 'mushroom' ? '蘑菇洞' : '蝙蝠洞'
-      addLog(`选择了${name}，每天会有被动产出。`)
+      const name = choice === 'mushroom' ? 'Mantar Mağarası' : 'Yarasa Mağarası'
+      addLog(`${name} seçildi, her gün pasif üretim yapacak.`)
     }
   }
 
-  // === 温室 ===
+  // === Sera ===
 
   const canUnlockGreenhouse = computed(() => {
     if (playerStore.money < GREENHOUSE_UNLOCK_COST) return false
@@ -584,14 +584,14 @@
 
   const handleUnlockFromModal = () => {
     if (homeStore.unlockGreenhouse()) {
-      addLog('温室已解锁！可在农场面板中切换至温室进行种植。')
+      addLog('Sera açıldı! Tarla panelinden seraya geçip ekim yapabilirsin.')
       showGreenhouseModal.value = false
     } else {
-      addLog('铜钱或材料不足，无法解锁温室。')
+      addLog('Bakır ya da malzeme yetersiz, sera açılamıyor.')
     }
   }
 
-  // === 仓库 ===
+  // === Depo ===
 
   const canUnlockWarehouse = computed(() => {
     if (playerStore.money < warehouseStore.UNLOCK_COST) return false
@@ -601,7 +601,7 @@
   const handleUnlockWarehouse = () => {
     if (warehouseStore.unlocked) return
     if (!canUnlockWarehouse.value) {
-      addLog('铜钱或材料不足，无法解锁仓库。')
+      addLog('Bakır ya da malzeme yetersiz, depo açılamıyor.')
       return
     }
     for (const mat of WAREHOUSE_UNLOCK_MATERIALS) {
@@ -610,12 +610,11 @@
     playerStore.spendMoney(warehouseStore.UNLOCK_COST)
     warehouseStore.unlocked = true
     showWarehouseUnlockModal.value = false
-    addLog(`仓库已解锁！（-${warehouseStore.UNLOCK_COST}文）`)
+    addLog(`Depo açıldı! (-${warehouseStore.UNLOCK_COST} bakır)`)
   }
 
-  // === 箱子管理 ===
+  // === Sandık yönetimi ===
 
-  /** 箱子道具信息弹窗 */
   const chestItemDetail = ref<{ itemId: string; quality: Quality; quantity: number } | null>(null)
   const chestItemDef = computed(() => {
     if (!chestItemDetail.value) return null
@@ -623,10 +622,10 @@
   })
 
   const QUALITY_LABEL: Record<Quality, string> = {
-    normal: '普通',
-    fine: '优良',
-    excellent: '精品',
-    supreme: '极品'
+    normal: 'Normal',
+    fine: 'İyi',
+    excellent: 'Kaliteli',
+    supreme: 'Mükemmel'
   }
 
   const qualityTextClass = (q: Quality, fallback = ''): string => {
@@ -637,9 +636,9 @@
   }
 
   const VOID_ROLES: { value: VoidChestRole; label: string }[] = [
-    { value: 'none', label: '无' },
-    { value: 'input', label: '原料箱' },
-    { value: 'output', label: '成品箱' }
+    { value: 'none', label: 'Yok' },
+    { value: 'input', label: 'Hammadde Kutusu' },
+    { value: 'output', label: 'Ürün Kutusu' }
   ]
 
   const currentOpenChest = computed(() => {
@@ -647,7 +646,6 @@
     return warehouseStore.getChest(openChestId.value) ?? null
   })
 
-  /** 背包中可存入箱子的物品（排除种子和锁定物品） */
   const depositableItems = computed(() =>
     inventoryStore.items.filter(i => {
       if (i.locked) return false
@@ -656,7 +654,6 @@
     })
   )
 
-  /** 背包中可一键存入的重复物品（箱子中已有且未锁定、非种子） */
   const duplicateDepositItems = computed(() => {
     if (!currentOpenChest.value) return []
     const chestItemIds = new Set(currentOpenChest.value.items.map(i => i.itemId))
@@ -668,7 +665,6 @@
     })
   })
 
-  /** 制作箱子 */
   const canCraftChest = (tier: ChestTier): boolean => {
     if (warehouseStore.chests.length >= warehouseStore.maxChests) return false
     return processingStore.canCraft(CHEST_DEFS[tier].craftCost, CHEST_DEFS[tier].craftMoney)
@@ -676,18 +672,17 @@
 
   const handleCraftChest = (tier: ChestTier) => {
     if (!canCraftChest(tier)) {
-      addLog('材料或铜钱不足。')
+      addLog('Malzeme veya bakır yetersiz.')
       return
     }
     if (!processingStore.consumeCraftMaterials(CHEST_DEFS[tier].craftCost, CHEST_DEFS[tier].craftMoney)) return
     warehouseStore.addChest(tier)
-    addLog(`制作了${CHEST_DEFS[tier].name}！（-${CHEST_DEFS[tier].craftMoney}文）`)
+    addLog(`${CHEST_DEFS[tier].name} yapıldı! (-${CHEST_DEFS[tier].craftMoney} bakır)`)
     if (warehouseStore.chests.length >= warehouseStore.maxChests) {
       showAddChestModal.value = false
     }
   }
 
-  /** 拆卸箱子确认 */
   const dismantleChestId = ref<string | null>(null)
 
   const dismantleChestInfo = computed(() => {
@@ -715,25 +710,21 @@
     if (!chest) return
     const info = dismantleChestInfo.value
     if (!info) return
-    // 箱内物品返还背包
     for (const item of [...chest.items]) {
       inventoryStore.addItem(item.itemId, item.quantity, item.quality)
     }
     chest.items.length = 0
-    // 拆除箱子
     const name = chest.label
     warehouseStore.removeChest(chestId)
-    // 返还50%材料
     for (const mat of info.refund) {
       inventoryStore.addItem(mat.itemId, mat.quantity)
     }
     const refundText = info.refund.map(m => `${getItemName(m.itemId)}×${m.quantity}`).join('、')
-    addLog(`拆卸了${name}。${refundText ? `返还了${refundText}。` : ''}`)
+    addLog(`${name} söküldü.${refundText ? ` Geri alınan malzemeler: ${refundText}.` : ''}`)
     dismantleChestId.value = null
     if (openChestId.value === chestId) openChestId.value = null
   }
 
-  /** 重命名箱子 */
   const startRenameChest = (chestId: string, currentLabel: string) => {
     renamingChestId.value = chestId
     renameInput.value = currentLabel
@@ -746,17 +737,15 @@
     renamingChestId.value = null
   }
 
-  /** 虚空箱角色 */
   const handleSetVoidRole = (chestId: string, role: VoidChestRole) => {
     warehouseStore.setVoidRole(chestId, role)
     const chest = warehouseStore.getChest(chestId)
     if (!chest) return
-    if (role === 'none') addLog(`${chest.label}已取消角色设置。`)
-    else if (role === 'input') addLog(`${chest.label}已设为原料箱，作坊加工将自动从此箱取材料。`)
-    else addLog(`${chest.label}已设为成品箱，作坊产品将自动放入此箱。`)
+    if (role === 'none') addLog(`${chest.label} için rol kaldırıldı.`)
+    else if (role === 'input') addLog(`${chest.label} artık Hammadde Kutusu. Atölye işlemleri malzemeyi buradan çeker.`)
+    else addLog(`${chest.label} artık Ürün Kutusu. Atölye ürünleri otomatik olarak buraya konur.`)
   }
 
-  // === 箱子数量选择 ===
   interface ChestQtyModalData {
     mode: 'withdraw' | 'deposit'
     chestId: string
@@ -789,19 +778,19 @@
 
   const executeChestWithdraw = (chestId: string, itemId: string, quality: Quality, qty: number) => {
     if (!warehouseStore.withdrawFromChest(chestId, itemId, qty, quality)) {
-      addLog('背包已满，无法取出。')
+      addLog('Çanta dolu, eşya çıkarılamıyor.')
       return
     }
-    addLog(`取出了${getItemName(itemId)}×${qty}。`)
+    addLog(`${getItemName(itemId)}×${qty} çıkarıldı.`)
   }
 
   const executeChestDeposit = (chestId: string, itemId: string, quality: Quality, qty: number) => {
     const actualQty = warehouseStore.depositToChest(chestId, itemId, qty, quality)
     if (actualQty <= 0) {
-      addLog('箱子已满，无法存入。')
+      addLog('Sandık dolu, eşya konulamıyor.')
       return
     }
-    addLog(`存入了${getItemName(itemId)}×${actualQty}。`)
+    addLog(`${getItemName(itemId)}×${actualQty} sandığa kondu.`)
     if (depositableItems.value.length === 0 || warehouseStore.isChestFull(chestId)) {
       showChestDepositModal.value = false
     }
@@ -815,7 +804,6 @@
     chestQtyModal.value = null
   }
 
-  /** 一键存入重复物品 */
   const handleDepositDuplicates = () => {
     if (!openChestId.value) return
     const chestId = openChestId.value
@@ -830,9 +818,9 @@
       }
     }
     if (totalDeposited > 0) {
-      addLog(`一键存入了${kindCount}种物品，共${totalDeposited}个。`)
+      addLog(`${kindCount} tür eşya, toplam ${totalDeposited} adet olacak şekilde tek seferde yerleştirildi.`)
     } else {
-      addLog('箱子已满，无法存入。')
+      addLog('Sandık dolu, eşya konulamıyor.')
     }
   }
 </script>
