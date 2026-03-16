@@ -3,52 +3,52 @@
     <div class="flex items-center justify-between mb-3">
       <h3 class="text-accent text-sm">
         <Mountain :size="14" class="inline" />
-        {{ miningStore.isInSkullCavern ? '骷髅矿穴' : '云隐矿洞' }}
+        {{ miningStore.isInSkullCavern ? 'Kafatası Mağarası' : 'Bulutgölgesi Madeni' }}
       </h3>
       <Button class="py-0 px-1" :icon="Map" @click="showMapModal = true" />
     </div>
     <p v-if="tutorialHint" class="text-[10px] text-muted/50 mb-2">{{ tutorialHint }}</p>
 
-    <!-- 骷髅矿穴 -->
+    <!-- Kafatası Mağarası -->
     <div v-if="miningStore.isSkullCavernUnlocked()" class="border border-accent/20 rounded-xs p-3 mb-4">
       <div class="flex items-center justify-between mb-1">
         <p class="text-sm text-danger">
           <Skull :size="14" class="inline" />
-          骷髅矿穴
+          Kafatası Mağarası
         </p>
-        <span v-if="miningStore.skullCavernBestFloor > 0" class="text-xs text-muted">最深 第{{ miningStore.skullCavernBestFloor }}层</span>
-        <span v-else class="text-xs text-muted/40">未探索</span>
+        <span v-if="miningStore.skullCavernBestFloor > 0" class="text-xs text-muted">En derin: {{ miningStore.skullCavernBestFloor }}. kat</span>
+        <span v-else class="text-xs text-muted/40">Henüz keşfedilmedi</span>
       </div>
-      <p class="text-xs text-muted">无限层 · 无安全点 · 铱矿来源 · 怪物随深度增强</p>
+      <p class="text-xs text-muted">Sonsuz kat · Güvenli nokta yok · İridyum kaynağı · Canavarlar derine indikçe güçlenir</p>
     </div>
 
-    <!-- 装备与状态 -->
+    <!-- Ekipman ve durum -->
     <div class="border border-accent/20 rounded-xs p-3 mb-4">
       <div class="flex items-center justify-between mb-2">
         <p class="text-sm text-accent">
           <Swords :size="14" class="inline" />
-          装备与状态
+          Ekipman ve Durum
         </p>
       </div>
       <div class="flex flex-col space-y-1">
         <div class="flex items-center justify-between border border-accent/10 rounded-xs px-3 py-1.5">
-          <span class="text-xs">武器</span>
+          <span class="text-xs">Silah</span>
           <span class="text-xs text-accent">{{ weaponDisplayName }}</span>
         </div>
         <div class="flex items-center justify-between border border-accent/10 rounded-xs px-3 py-1.5">
-          <span class="text-xs">攻击力</span>
+          <span class="text-xs">Saldırı Gücü</span>
           <span class="text-xs text-accent">{{ weaponAttack }}</span>
         </div>
         <div class="flex items-center justify-between border border-accent/10 rounded-xs px-3 py-1.5">
-          <span class="text-xs">类型 · 暴击</span>
+          <span class="text-xs">Tür · Kritik</span>
           <span class="text-xs text-muted">{{ weaponTypeName }} · {{ critRateDisplay }}</span>
         </div>
         <div v-if="weaponEnchantName" class="flex items-center justify-between border border-accent/10 rounded-xs px-3 py-1.5">
-          <span class="text-xs">附魔</span>
+          <span class="text-xs">Büyü</span>
           <span class="text-xs text-success">{{ weaponEnchantName }}</span>
         </div>
         <div class="flex items-center justify-between border border-accent/10 rounded-xs px-3 py-1.5">
-          <span class="text-xs">HP</span>
+          <span class="text-xs">Can</span>
           <div class="flex items-center space-x-2">
             <div class="w-20 h-1.5 bg-bg rounded-xs border border-accent/10">
               <div
@@ -63,29 +63,29 @@
           </div>
         </div>
         <div class="flex items-center justify-between border border-accent/10 rounded-xs px-3 py-1.5">
-          <span class="text-xs">体力</span>
+          <span class="text-xs">Enerji</span>
           <span class="text-xs text-muted">{{ playerStore.stamina }}/{{ playerStore.maxStamina }}</span>
         </div>
       </div>
     </div>
 
-    <!-- 进入矿洞 -->
+    <!-- Madene gir -->
     <div
       class="border border-accent/20 rounded-xs px-3 py-2 mb-4 flex items-center justify-between cursor-pointer hover:bg-accent/5"
       @click="hasElevator ? (showElevatorModal = true) : handleEnterMine(undefined)"
     >
       <div class="flex items-center space-x-1.5">
         <Pickaxe :size="14" class="text-accent" />
-        <span class="text-sm text-accent">探索</span>
+        <span class="text-sm text-accent">Keşfe Çık</span>
       </div>
-      <span class="text-xs text-muted">第{{ miningStore.safePointFloor + 1 }}层</span>
+      <span class="text-xs text-muted">{{ miningStore.safePointFloor + 1 }}. kat</span>
     </div>
 
-    <!-- 已击败BOSS -->
+    <!-- Yenilmiş patronlar -->
     <div v-if="miningStore.defeatedBosses.length > 0" class="border border-accent/20 rounded-xs p-3">
       <p class="text-sm text-accent mb-2">
         <Skull :size="14" class="inline" />
-        已击败BOSS
+        Yenilen Patronlar
       </p>
       <div class="flex flex-col space-y-1">
         <div
@@ -99,7 +99,7 @@
       </div>
     </div>
 
-    <!-- 矿洞地图弹窗 -->
+    <!-- Maden haritası penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showMapModal"
@@ -110,11 +110,11 @@
           <div class="flex items-center justify-between mb-2">
             <p class="text-sm text-accent">
               <Map :size="14" class="inline" />
-              矿洞地图
+              Maden Haritası
             </p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="showMapModal = false" />
           </div>
-          <p class="text-xs text-muted mb-2">安全点：{{ miningStore.safePointFloor > 0 ? `第${miningStore.safePointFloor}层` : '入口' }}</p>
+          <p class="text-xs text-muted mb-2">Güvenli nokta: {{ miningStore.safePointFloor > 0 ? `${miningStore.safePointFloor}. kat` : 'Giriş' }}</p>
           <div class="flex flex-col space-y-1.5">
             <div
               v-for="zone in mineZones"
@@ -125,7 +125,7 @@
               <div class="flex justify-between items-center text-xs mb-1">
                 <span :class="zone.isCurrentZone ? 'text-accent' : zone.reached ? 'text-text' : 'text-muted/40'">
                   {{ zone.name }}
-                  <span class="text-muted ml-1">{{ zone.start }}-{{ zone.end }}层</span>
+                  <span class="text-muted ml-1">{{ zone.start }}-{{ zone.end }}. katlar</span>
                 </span>
                 <span v-if="zone.bossDefeated" class="text-success flex items-center">
                   <Check :size="12" class="mr-0.5" />
@@ -145,7 +145,7 @@
       </div>
     </Transition>
 
-    <!-- 电梯弹窗 -->
+    <!-- Asansör penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showElevatorModal"
@@ -159,20 +159,20 @@
 
           <p class="text-sm text-accent mb-1">
             <Pickaxe :size="14" class="inline" />
-            探索
+            Keşif
           </p>
-          <p class="text-xs text-muted mb-2">安全点：{{ miningStore.safePointFloor > 0 ? `第${miningStore.safePointFloor}层` : '入口' }}</p>
+          <p class="text-xs text-muted mb-2">Güvenli nokta: {{ miningStore.safePointFloor > 0 ? `${miningStore.safePointFloor}. kat` : 'Giriş' }}</p>
 
-          <!-- 进入矿洞（前线） -->
+          <!-- Madene gir -->
           <div
             class="flex items-center justify-between border border-accent/30 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5 mb-2"
             @click="handleEnterMine(undefined)"
           >
-            <span class="text-xs text-accent">进入矿洞</span>
-            <span class="text-xs text-muted">第{{ miningStore.safePointFloor + 1 }}层</span>
+            <span class="text-xs text-accent">Madene Gir</span>
+            <span class="text-xs text-muted">{{ miningStore.safePointFloor + 1 }}. kat</span>
           </div>
 
-          <!-- 电梯楼层（按区域分组网格） -->
+          <!-- Asansör katları -->
           <div v-if="elevatorZones.length > 0" class="max-h-48 overflow-y-auto mb-2">
             <div v-for="zone in elevatorZones" :key="zone.name" class="mb-2 last:mb-0">
               <p class="text-[10px] text-muted mb-1">{{ zone.name }}</p>
@@ -184,7 +184,7 @@
             </div>
           </div>
 
-          <!-- 骷髅矿穴 -->
+          <!-- Kafatası Mağarası -->
           <div
             v-if="miningStore.isSkullCavernUnlocked()"
             class="flex items-center justify-between border border-danger/30 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-danger/5"
@@ -192,57 +192,57 @@
           >
             <span class="text-xs text-danger">
               <Skull :size="12" class="inline" />
-              进入骷髅矿穴
+              Kafatası Mağarası'na Gir
             </span>
-            <span class="text-xs text-muted">无限层</span>
+            <span class="text-xs text-muted">Sonsuz kat</span>
           </div>
         </div>
       </div>
     </Transition>
 
-    <!-- 矿洞探索弹窗 -->
+    <!-- Maden keşif penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="miningStore.isExploring && !miningStore.inCombat"
         class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
       >
         <div class="game-panel max-w-sm w-full">
-          <!-- 标题栏 -->
+          <!-- Başlık -->
           <div class="flex items-center justify-between mb-2">
             <p class="text-sm text-accent">
-              第{{ activeFloorNum }}层
+              {{ activeFloorNum }}. kat
               <span v-if="!miningStore.isInSkullCavern" class="text-muted">{{ zoneName }}</span>
-              <span v-if="currentFloorSpecial === 'mushroom'" class="text-success ml-1">蘑菇洞穴</span>
-              <span v-if="currentFloorSpecial === 'treasure'" class="text-accent ml-1">宝箱层</span>
-              <span v-if="currentFloorSpecial === 'infested'" class="text-danger ml-1">感染层</span>
-              <span v-if="currentFloorSpecial === 'dark'" class="text-muted ml-1">暗河层</span>
-              <span v-if="currentFloorSpecial === 'boss'" class="text-danger ml-1">BOSS层</span>
+              <span v-if="currentFloorSpecial === 'mushroom'" class="text-success ml-1">Mantar Mağarası</span>
+              <span v-if="currentFloorSpecial === 'treasure'" class="text-accent ml-1">Hazine Katı</span>
+              <span v-if="currentFloorSpecial === 'infested'" class="text-danger ml-1">İstilalı Kat</span>
+              <span v-if="currentFloorSpecial === 'dark'" class="text-muted ml-1">Karanlık Nehir Katı</span>
+              <span v-if="currentFloorSpecial === 'boss'" class="text-danger ml-1">Patron Katı</span>
             </p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="showLeaveConfirm = true" />
           </div>
 
-          <!-- 武器信息 -->
+          <!-- Silah bilgisi -->
           <div class="text-xs text-muted mb-2 border-b border-accent/20 pb-2 space-y-0.5">
             <p>
               <Swords :size="12" class="inline" />
-              {{ weaponDisplayName }}（{{ weaponTypeName }} · 攻击 {{ weaponAttack }} · 暴击 {{ critRateDisplay }}）
+              {{ weaponDisplayName }}（{{ weaponTypeName }} · Saldırı {{ weaponAttack }} · Kritik {{ critRateDisplay }}）
             </p>
-            <p v-if="weaponEnchantName" class="text-success">附魔：{{ weaponEnchantName }}</p>
+            <p v-if="weaponEnchantName" class="text-success">Büyü: {{ weaponEnchantName }}</p>
           </div>
 
-          <!-- 感染层提示 -->
+          <!-- İstilalı kat uyarısı -->
           <p v-if="currentFloorSpecial === 'infested' && remainingMonsters > 0" class="text-xs text-danger mb-2">
-            感染层：还需击败 {{ remainingMonsters }} 只怪物
+            İstilalı kat: Daha {{ remainingMonsters }} canavar yenmen gerekiyor
           </p>
 
-          <!-- 炸弹模式指示 -->
+          <!-- Bomba modu -->
           <div v-if="bombModeId" class="text-xs text-accent mb-2 border border-accent/30 rounded-xs px-2 py-1">
             <Zap :size="12" class="inline" />
-            炸弹模式：点击已探索格子作为爆炸中心
-            <button class="text-muted ml-2 underline" @click="bombModeId = null">取消</button>
+            Bomba modu: Patlama merkezini seçmek için keşfedilmiş bir kareye dokun
+            <button class="text-muted ml-2 underline" @click="bombModeId = null">İptal</button>
           </div>
 
-          <!-- 6×6 格子 -->
+          <!-- 6×6 kare -->
           <div class="flex justify-center mb-3">
             <div class="grid grid-cols-6 gap-1" style="max-width: 264px">
               <button
@@ -258,7 +258,7 @@
             </div>
           </div>
 
-          <!-- 操作区 -->
+          <!-- Eylem alanı -->
           <div class="flex flex-col space-y-1 mb-3">
             <div v-for="bombItem in availableBombs" :key="bombItem.id">
               <div
@@ -280,7 +280,7 @@
             >
               <span class="text-xs text-danger">
                 <Skull :size="12" class="inline" />
-                怪物诱饵
+                Canavar Yemi
               </span>
               <span class="text-xs text-muted">&times;{{ inventoryStore.getItemCount('monster_lure') }}</span>
             </div>
@@ -291,9 +291,9 @@
             >
               <span class="text-xs text-success">
                 <Backpack :size="12" class="inline" />
-                使用道具
+                Eşya Kullan
               </span>
-              <span class="text-xs text-muted">{{ availableCombatItems.length }}种</span>
+              <span class="text-xs text-muted">{{ availableCombatItems.length }} tür</span>
             </div>
             <div
               v-if="miningStore.stairsFound"
@@ -303,9 +303,9 @@
             >
               <span class="text-xs text-success">
                 <ChevronDown :size="12" class="inline" />
-                下一层
+                Sonraki Kat
               </span>
-              <span v-if="!miningStore.stairsUsable" class="text-xs text-muted">楼梯不可用</span>
+              <span v-if="!miningStore.stairsUsable" class="text-xs text-muted">Merdiven kullanılamıyor</span>
             </div>
             <div
               class="flex items-center justify-between border border-danger/30 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-danger/5"
@@ -313,12 +313,12 @@
             >
               <span class="text-xs text-danger">
                 <LogOut :size="12" class="inline" />
-                {{ miningStore.isInSkullCavern ? '离开骷髅矿穴' : '离开矿洞' }}
+                {{ miningStore.isInSkullCavern ? 'Kafatası Mağarası'ndan Ayrıl' : 'Madenden Ayrıl' }}
               </span>
             </div>
           </div>
 
-          <!-- 探索日志 -->
+          <!-- Keşif günlüğü -->
           <div class="text-xs text-muted space-y-0.5 max-h-24 overflow-y-auto">
             <p v-for="(msg, i) in recentLog" :key="i" :class="{ 'text-text': i === recentLog.length - 1 }">{{ msg }}</p>
           </div>
@@ -326,22 +326,22 @@
       </div>
     </Transition>
 
-    <!-- 战斗弹窗 -->
+    <!-- Savaş penceresi -->
     <Transition name="panel-fade">
       <div v-if="miningStore.inCombat" class="fixed inset-0 bg-black/60 flex items-center justify-center z-60 p-4">
         <div class="game-panel max-w-xs w-full">
-          <!-- 标题 -->
+          <!-- Başlık -->
           <div class="flex items-center justify-between mb-2">
             <p class="text-sm" :class="miningStore.combatIsBoss ? 'text-danger' : 'text-accent'">
-              {{ miningStore.combatIsBoss ? 'BOSS 战' : '遭遇怪物' }}
+              {{ miningStore.combatIsBoss ? 'Patron Savaşı' : 'Canavarla Karşılaştın' }}
             </p>
           </div>
 
-          <!-- 玩家 vs 怪物 -->
+          <!-- Oyuncu vs canavar -->
           <div class="grid grid-cols-[1fr_auto_1fr] gap-1.5 mb-3 items-center">
-            <!-- 玩家 -->
+            <!-- Oyuncu -->
             <div class="border border-accent/10 rounded-xs p-2 relative" :class="playerAnim">
-              <p class="text-xs text-center mb-1.5 truncate">你</p>
+              <p class="text-xs text-center mb-1.5 truncate">Sen</p>
               <div class="bg-bg rounded-xs h-1.5 mb-1">
                 <div
                   class="h-1.5 rounded-xs transition-all"
@@ -362,11 +362,11 @@
             </div>
             <!-- VS -->
             <span class="text-[10px] text-muted/40">VS</span>
-            <!-- 怪物 -->
+            <!-- Canavar -->
             <div class="border border-danger/20 rounded-xs p-2 relative" :class="monsterAnim">
               <p class="text-xs text-center text-danger mb-1.5 truncate">
                 {{ miningStore.combatMonster?.name }}
-                <span v-if="miningStore.combatIsBoss" class="text-[10px]">[BOSS]</span>
+                <span v-if="miningStore.combatIsBoss" class="text-[10px]">[PATRON]</span>
               </p>
               <div class="bg-bg rounded-xs h-1.5 mb-1">
                 <div
@@ -387,9 +387,9 @@
             </div>
           </div>
 
-          <!-- 战斗操作 -->
+          <!-- Savaş eylemleri -->
           <div class="mb-3 space-y-1">
-            <!-- 攻击 / 防御 / 逃跑 -->
+            <!-- Saldırı / savunma / kaç -->
             <div class="grid grid-cols-3 gap-1">
               <div
                 class="flex flex-col items-center border border-accent/20 rounded-xs py-1.5"
@@ -398,9 +398,9 @@
               >
                 <span class="text-xs">
                   <Swords :size="12" class="inline" />
-                  攻击
+                  Saldır
                 </span>
-                <span class="text-[10px] text-muted">{{ weaponAttack }}攻击力</span>
+                <span class="text-[10px] text-muted">{{ weaponAttack }} saldırı</span>
               </div>
               <div
                 class="flex flex-col items-center border border-accent/20 rounded-xs py-1.5"
@@ -409,9 +409,9 @@
               >
                 <span class="text-xs">
                   <Shield :size="12" class="inline" />
-                  防御
+                  Savun
                 </span>
-                <span class="text-[10px] text-muted">减免伤害</span>
+                <span class="text-[10px] text-muted">Hasarı azalt</span>
               </div>
               <div
                 class="flex flex-col items-center border rounded-xs py-1.5"
@@ -424,12 +424,13 @@
               >
                 <span class="text-xs" :class="miningStore.combatIsBoss ? 'text-muted' : 'text-danger'">
                   <MoveRight :size="12" class="inline" />
-                  {{ miningStore.combatIsBoss ? '无法' : '逃跑' }}
+                  {{ miningStore.combatIsBoss ? 'Kaçılamaz' : 'Kaç' }}
                 </span>
-                <span v-if="miningStore.combatIsBoss" class="text-[10px] text-muted/40">BOSS战</span>
+                <span v-if="miningStore.combatIsBoss" class="text-[10px] text-muted/40">Patron savaşı</span>
               </div>
             </div>
-            <!-- 使用道具 -->
+
+            <!-- Eşya kullan -->
             <div
               v-if="availableCombatItems.length > 0"
               class="flex items-center justify-between border border-success/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-success/5"
@@ -437,11 +438,12 @@
             >
               <span class="text-xs text-success">
                 <Backpack :size="12" class="inline" />
-                使用道具
+                Eşya Kullan
               </span>
-              <span class="text-xs text-muted">{{ availableCombatItems.length }}种</span>
+              <span class="text-xs text-muted">{{ availableCombatItems.length }} tür</span>
             </div>
-            <!-- 切换装备方案 -->
+
+            <!-- Ekipman planı değiştir -->
             <div
               v-if="inventoryStore.equipmentPresets.length > 0"
               class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
@@ -449,7 +451,7 @@
             >
               <span class="text-xs text-accent">
                 <BookMarked :size="12" class="inline" />
-                切换装备方案
+                Ekipman Planını Değiştir
               </span>
               <span v-if="inventoryStore.activePresetId" class="text-[10px] text-muted">
                 {{ inventoryStore.equipmentPresets.find(p => p.id === inventoryStore.activePresetId)?.name ?? '' }}
@@ -457,7 +459,7 @@
             </div>
           </div>
 
-          <!-- 战斗日志 -->
+          <!-- Savaş günlüğü -->
           <div class="text-xs space-y-0.5 max-h-28 overflow-y-auto">
             <p
               v-for="(msg, i) in miningStore.combatLog"
@@ -471,7 +473,7 @@
       </div>
     </Transition>
 
-    <!-- 道具使用弹窗（战斗/探索共用） -->
+    <!-- Eşya kullan penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showCombatItems"
@@ -482,7 +484,7 @@
           <div class="flex items-center justify-between mb-2">
             <p class="text-sm text-accent">
               <Backpack :size="14" class="inline" />
-              使用道具
+              Eşya Kullan
             </p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="showCombatItems = false" />
           </div>
@@ -500,12 +502,12 @@
               <span class="text-xs text-muted">&times;{{ item.count }}</span>
             </div>
           </div>
-          <p v-if="availableCombatItems.length === 0" class="text-xs text-muted text-center py-2">没有可用道具</p>
+          <p v-if="availableCombatItems.length === 0" class="text-xs text-muted text-center py-2">Kullanılabilir eşya yok</p>
         </div>
       </div>
     </Transition>
 
-    <!-- 道具使用确认弹窗 -->
+    <!-- Eşya kullanım onayı -->
     <Transition name="panel-fade">
       <div
         v-if="pendingItem"
@@ -516,30 +518,30 @@
           <button class="absolute top-2 right-2 text-muted hover:text-text" @click="pendingItemId = null">
             <X :size="14" />
           </button>
-          <p class="text-sm text-accent mb-2">使用道具</p>
+          <p class="text-sm text-accent mb-2">Eşya Kullan</p>
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
             <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">道具</span>
+              <span class="text-xs text-muted">Eşya</span>
               <span class="text-xs">{{ pendingItem.name }}</span>
             </div>
             <div class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">效果</span>
+              <span class="text-xs text-muted">Etki</span>
               <span class="text-xs text-success">{{ pendingItem.desc }}</span>
             </div>
             <div class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">剩余</span>
-              <span class="text-xs">×{{ pendingItem.count }}</span>
+              <span class="text-xs text-muted">Kalan</span>
+              <span class="text-xs">&times;{{ pendingItem.count }}</span>
             </div>
           </div>
           <div class="flex space-x-1.5">
-            <Button class="flex-1 justify-center" @click="pendingItemId = null">取消</Button>
-            <Button class="flex-1 justify-center !bg-accent !text-bg" @click="handleConfirmUseItem">确认使用</Button>
+            <Button class="flex-1 justify-center" @click="pendingItemId = null">İptal</Button>
+            <Button class="flex-1 justify-center !bg-accent !text-bg" @click="handleConfirmUseItem">Kullan</Button>
           </div>
         </div>
       </div>
     </Transition>
 
-    <!-- 离开矿洞确认弹窗 -->
+    <!-- Madenden ayrılma onayı -->
     <Transition name="panel-fade">
       <div
         v-if="showLeaveConfirm"
@@ -547,17 +549,19 @@
         @click.self="showLeaveConfirm = false"
       >
         <div class="game-panel max-w-xs w-full">
-          <p class="text-sm text-accent mb-2">确认离开</p>
-          <p class="text-xs text-muted mb-3">确定要离开{{ miningStore.isInSkullCavern ? '骷髅矿穴' : '矿洞' }}吗？当前进度不会保留。</p>
+          <p class="text-sm text-accent mb-2">Ayrılmayı Onayla</p>
+          <p class="text-xs text-muted mb-3">
+            {{ miningStore.isInSkullCavern ? 'Kafatası Mağarası'ndan' : 'Madenden' }} ayrılmak istediğine emin misin? Mevcut ilerleme korunmaz.
+          </p>
           <div class="flex space-x-1.5">
-            <Button class="flex-1 justify-center" @click="showLeaveConfirm = false">继续探索</Button>
-            <Button class="flex-1 justify-center btn-danger" :icon="LogOut" @click="confirmLeave">确认离开</Button>
+            <Button class="flex-1 justify-center" @click="showLeaveConfirm = false">Keşfe Devam Et</Button>
+            <Button class="flex-1 justify-center btn-danger" :icon="LogOut" @click="confirmLeave">Ayrıl</Button>
           </div>
         </div>
       </div>
     </Transition>
 
-    <!-- 快速切装：方案列表弹窗 -->
+    <!-- Hızlı ekipman: plan listesi -->
     <Transition name="panel-fade">
       <div
         v-if="showPresetListModal"
@@ -570,7 +574,7 @@
           </button>
           <p class="text-sm text-accent mb-2">
             <BookMarked :size="14" class="inline" />
-            装备方案
+            Ekipman Planları
           </p>
           <div v-if="inventoryStore.equipmentPresets.length > 0" class="flex flex-col space-y-1.5 max-h-60 overflow-y-auto">
             <div
@@ -581,7 +585,7 @@
             >
               <div class="flex items-center justify-between mb-1">
                 <p class="text-xs text-accent truncate">{{ preset.name }}</p>
-                <span v-if="inventoryStore.activePresetId === preset.id" class="text-[10px] text-success shrink-0 ml-1">使用中</span>
+                <span v-if="inventoryStore.activePresetId === preset.id" class="text-[10px] text-success shrink-0 ml-1">Kullanımda</span>
               </div>
               <div class="grid grid-cols-2 gap-1">
                 <Button
@@ -589,22 +593,22 @@
                   :disabled="inventoryStore.activePresetId === preset.id"
                   @click="quickApplyPreset(preset.id)"
                 >
-                  使用
+                  Kullan
                 </Button>
-                <Button class="py-0 px-1.5 text-[10px]" @click="viewPresetDetail(preset.id)">查看</Button>
+                <Button class="py-0 px-1.5 text-[10px]" @click="viewPresetDetail(preset.id)">İncele</Button>
               </div>
             </div>
           </div>
           <div v-else class="flex flex-col items-center justify-center py-6">
             <BookMarked :size="24" class="text-muted/30" />
-            <p class="text-xs text-muted mt-1">暂无方案</p>
-            <p class="text-[10px] text-muted/60 mt-0.5">前往背包装备页创建方案</p>
+            <p class="text-xs text-muted mt-1">Henüz plan yok</p>
+            <p class="text-[10px] text-muted/60 mt-0.5">Bir plan oluşturmak için çantandaki ekipman sayfasına git</p>
           </div>
         </div>
       </div>
     </Transition>
 
-    <!-- 快速切装：方案详情弹窗 -->
+    <!-- Hızlı ekipman: plan detayı -->
     <Transition name="panel-fade">
       <div
         v-if="showPresetDetailModal && detailPreset"
@@ -622,9 +626,9 @@
               :class="detailPreset.weaponDefId ? 'cursor-pointer hover:bg-accent/5' : ''"
               @click="detailPreset.weaponDefId && viewEquipProperty('weapon', detailPreset.weaponDefId)"
             >
-              <span class="text-xs text-muted">武器</span>
+              <span class="text-xs text-muted">Silah</span>
               <span class="text-xs" :class="detailPreset.weaponDefId ? 'text-accent' : 'text-muted/40'">
-                {{ detailPreset.weaponDefId ? (getWeaponById(detailPreset.weaponDefId)?.name ?? '未知') : '无' }}
+                {{ detailPreset.weaponDefId ? (getWeaponById(detailPreset.weaponDefId)?.name ?? 'Bilinmiyor') : 'Yok' }}
               </span>
             </div>
             <div
@@ -632,9 +636,9 @@
               :class="detailPreset.ringSlot1DefId ? 'cursor-pointer hover:bg-accent/5' : ''"
               @click="detailPreset.ringSlot1DefId && viewEquipProperty('ring', detailPreset.ringSlot1DefId)"
             >
-              <span class="text-xs text-muted">戒指1</span>
+              <span class="text-xs text-muted">Yüzük 1</span>
               <span class="text-xs" :class="detailPreset.ringSlot1DefId ? 'text-accent' : 'text-muted/40'">
-                {{ detailPreset.ringSlot1DefId ? (getRingById(detailPreset.ringSlot1DefId)?.name ?? '未知') : '无' }}
+                {{ detailPreset.ringSlot1DefId ? (getRingById(detailPreset.ringSlot1DefId)?.name ?? 'Bilinmiyor') : 'Yok' }}
               </span>
             </div>
             <div
@@ -642,9 +646,9 @@
               :class="detailPreset.ringSlot2DefId ? 'cursor-pointer hover:bg-accent/5' : ''"
               @click="detailPreset.ringSlot2DefId && viewEquipProperty('ring', detailPreset.ringSlot2DefId)"
             >
-              <span class="text-xs text-muted">戒指2</span>
+              <span class="text-xs text-muted">Yüzük 2</span>
               <span class="text-xs" :class="detailPreset.ringSlot2DefId ? 'text-accent' : 'text-muted/40'">
-                {{ detailPreset.ringSlot2DefId ? (getRingById(detailPreset.ringSlot2DefId)?.name ?? '未知') : '无' }}
+                {{ detailPreset.ringSlot2DefId ? (getRingById(detailPreset.ringSlot2DefId)?.name ?? 'Bilinmiyor') : 'Yok' }}
               </span>
             </div>
             <div
@@ -652,9 +656,9 @@
               :class="detailPreset.hatDefId ? 'cursor-pointer hover:bg-accent/5' : ''"
               @click="detailPreset.hatDefId && viewEquipProperty('hat', detailPreset.hatDefId)"
             >
-              <span class="text-xs text-muted">帽子</span>
+              <span class="text-xs text-muted">Şapka</span>
               <span class="text-xs" :class="detailPreset.hatDefId ? 'text-accent' : 'text-muted/40'">
-                {{ detailPreset.hatDefId ? (getHatById(detailPreset.hatDefId)?.name ?? '未知') : '无' }}
+                {{ detailPreset.hatDefId ? (getHatById(detailPreset.hatDefId)?.name ?? 'Bilinmiyor') : 'Yok' }}
               </span>
             </div>
             <div
@@ -662,9 +666,9 @@
               :class="detailPreset.shoeDefId ? 'cursor-pointer hover:bg-accent/5' : ''"
               @click="detailPreset.shoeDefId && viewEquipProperty('shoe', detailPreset.shoeDefId)"
             >
-              <span class="text-xs text-muted">鞋子</span>
+              <span class="text-xs text-muted">Ayakkabı</span>
               <span class="text-xs" :class="detailPreset.shoeDefId ? 'text-accent' : 'text-muted/40'">
-                {{ detailPreset.shoeDefId ? (getShoeById(detailPreset.shoeDefId)?.name ?? '未知') : '无' }}
+                {{ detailPreset.shoeDefId ? (getShoeById(detailPreset.shoeDefId)?.name ?? 'Bilinmiyor') : 'Yok' }}
               </span>
             </div>
           </div>
@@ -672,7 +676,7 @@
       </div>
     </Transition>
 
-    <!-- 快速切装：装备属性弹窗 -->
+    <!-- Hızlı ekipman: eşya özellikleri -->
     <Transition name="panel-fade">
       <div
         v-if="showEquipPropertyModal && equipPropertyInfo"
@@ -754,7 +758,7 @@
   const tutorialHint = computed(() => {
     if (!tutorialStore.enabled || gameStore.year > 1) return null
     if (achievementStore.stats.highestMineFloor === 0)
-      return '矿洞是6x6的网格，点击格子探索。遇到矿石可以开采，遇到怪物需要战斗。找到楼梯可下一层。'
+      return 'Maden 6x6 karelerden oluşur. Karelere dokunarak keşif yaparsın. Cevher bulursan kazabilirsin, canavar çıkarsa savaşman gerekir. Merdiveni bulursan alt kata inebilirsin.'
     return null
   })
 
@@ -763,23 +767,23 @@
   const showMapModal = ref(false)
   const showElevatorModal = ref(false)
 
-  /** 炸弹模式 */
+  /** Bomba modu */
   const bombModeId = ref<string | null>(null)
 
-  /** 战斗道具面板 */
+  /** Savaş eşyaları paneli */
   const showCombatItems = ref(false)
 
-  /** 道具使用确认 */
+  /** Eşya kullanım onayı */
   const pendingItemId = ref<string | null>(null)
   const pendingItem = computed(() => {
     if (!pendingItemId.value) return null
     return availableCombatItems.value.find(i => i.itemId === pendingItemId.value) ?? null
   })
 
-  /** 离开矿洞确认 */
+  /** Madenden ayrılma onayı */
   const showLeaveConfirm = ref(false)
 
-  // 战斗动画状态
+  // Savaş animasyonları
   const combatAnimLock = ref(false)
   const playerAnim = ref('')
   const monsterAnim = ref('')
@@ -836,43 +840,37 @@
     return BOMBS.map(b => ({ id: b.id, name: b.name, count: inventoryStore.getItemCount(b.id) })).filter(b => b.count > 0)
   })
 
-  /** 战斗中可用道具列表 */
+  /** Savaşta kullanılabilir eşyalar */
   const availableCombatItems = computed(() => {
     const items: { itemId: string; name: string; desc: string; count: number }[] = []
 
-    // 公会徽章
     const badgeCount = inventoryStore.getItemCount('guild_badge')
     if (badgeCount > 0) {
-      items.push({ itemId: 'guild_badge', name: '公会徽章', desc: '攻击力永久+3', count: badgeCount })
+      items.push({ itemId: 'guild_badge', name: 'Lonca Rozeti', desc: 'Saldırı kalıcı olarak +3', count: badgeCount })
     }
 
-    // 生命护符
     const talismanCount = inventoryStore.getItemCount('life_talisman')
     if (talismanCount > 0) {
-      items.push({ itemId: 'life_talisman', name: '生命护符', desc: '最大生命值永久+15', count: talismanCount })
+      items.push({ itemId: 'life_talisman', name: 'Yaşam Tılsımı', desc: 'Maksimum can kalıcı olarak +15', count: talismanCount })
     }
 
-    // 幸运铜钱
     const coinCount = inventoryStore.getItemCount('lucky_coin')
     if (coinCount > 0) {
-      items.push({ itemId: 'lucky_coin', name: '幸运铜钱', desc: '掉落率永久+5%', count: coinCount })
+      items.push({ itemId: 'lucky_coin', name: 'Şans Parası', desc: 'Düşme oranı kalıcı olarak +5%', count: coinCount })
     }
 
-    // 守护符
     const defenseCharmCount = inventoryStore.getItemCount('defense_charm')
     if (defenseCharmCount > 0) {
-      items.push({ itemId: 'defense_charm', name: '守护符', desc: '防御永久+3%', count: defenseCharmCount })
+      items.push({ itemId: 'defense_charm', name: 'Koruma Tılsımı', desc: 'Savunma kalıcı olarak +3%', count: defenseCharmCount })
     }
 
-    // 猎魔符
     if (!miningStore.slayerCharmActive) {
       const charmCount = inventoryStore.getItemCount('slayer_charm')
       if (charmCount > 0) {
-        items.push({ itemId: 'slayer_charm', name: '猎魔符', desc: '掉落率+20%（本次探索）', count: charmCount })
+        items.push({ itemId: 'slayer_charm', name: 'Avcı Tılsımı', desc: 'Bu keşifte düşme oranı +20%', count: charmCount })
       }
     }
 
-    // 所有可食用的恢复类道具
     const seen = new Set<string>(['guild_badge', 'slayer_charm', 'monster_lure', 'life_talisman', 'lucky_coin', 'defense_charm'])
     for (const invItem of inventoryStore.items) {
       if (invItem.quantity <= 0 || seen.has(invItem.itemId)) continue
@@ -882,8 +880,8 @@
       seen.add(invItem.itemId)
 
       const parts: string[] = []
-      if (def.healthRestore) parts.push(def.healthRestore >= 999 ? 'HP全满' : `HP+${def.healthRestore}`)
-      if (def.staminaRestore) parts.push(`体力+${def.staminaRestore}`)
+      if (def.healthRestore) parts.push(def.healthRestore >= 999 ? 'Canı tamamen doldurur' : `Can +${def.healthRestore}`)
+      if (def.staminaRestore) parts.push(`Enerji +${def.staminaRestore}`)
 
       items.push({
         itemId: invItem.itemId,
@@ -896,7 +894,7 @@
     return items
   })
 
-  /** 是否有怪物诱饵 */
+  /** Canavar yemi var mı */
   const hasMonsterLure = computed(() => inventoryStore.getItemCount('monster_lure') > 0)
 
   const zoneName = computed(() => {
@@ -904,15 +902,15 @@
     return floor ? ZONE_NAMES[floor.zone] : ''
   })
 
-  /** 矿洞地图区域数据 */
+  /** Maden haritası bölge verileri */
   const mineZones = computed(() => {
     const zones = [
-      { id: 'shallow', name: '浅矿·土石洞穴', start: 1, end: 20, bossFloor: 20 },
-      { id: 'frost', name: '冰窟·冰霜暗河', start: 21, end: 40, bossFloor: 40 },
-      { id: 'lava', name: '熔岩层·地火暗涌', start: 41, end: 60, bossFloor: 60 },
-      { id: 'crystal', name: '晶窟·水晶迷宫', start: 61, end: 80, bossFloor: 80 },
-      { id: 'shadow', name: '幽境·暗影裂隙', start: 81, end: 100, bossFloor: 100 },
-      { id: 'abyss', name: '深渊·无底深渊', start: 101, end: 120, bossFloor: 120 }
+      { id: 'shallow', name: 'Sığ Maden · Taşlık Mağara', start: 1, end: 20, bossFloor: 20 },
+      { id: 'frost', name: 'Buz Mağarası · Donmuş Yeraltı Nehri', start: 21, end: 40, bossFloor: 40 },
+      { id: 'lava', name: 'Lav Katı · Yeraltı Ateşi', start: 41, end: 60, bossFloor: 60 },
+      { id: 'crystal', name: 'Kristal Mağarası · Kristal Labirent', start: 61, end: 80, bossFloor: 80 },
+      { id: 'shadow', name: 'Gölgeler Diyarı · Karanlık Yarık', start: 81, end: 100, bossFloor: 100 },
+      { id: 'abyss', name: 'Uçurum · Sonsuz Derinlik', start: 101, end: 120, bossFloor: 120 }
     ]
     const sp = miningStore.safePointFloor
     return zones.map(z => {
@@ -933,21 +931,21 @@
     })
   })
 
-  /** 当前层是否为特殊楼层 */
+  /** Mevcut kat özel mi */
   const currentFloorSpecial = computed(() => {
     const floor = miningStore.getActiveFloorData()
     return floor?.specialType ?? null
   })
 
-  /** 感染层剩余怪物 */
+  /** İstilalı katta kalan canavar sayısı */
   const remainingMonsters = computed(() => {
     return miningStore.totalMonstersOnFloor - miningStore.monstersDefeatedCount
   })
 
-  /** 是否显示电梯（有可返回楼层或骷髅矿穴已解锁） */
+  /** Asansör gösterilsin mi */
   const hasElevator = computed(() => elevatorZones.value.length > 0 || miningStore.isSkullCavernUnlocked())
 
-  /** 武器信息 */
+  /** Silah bilgisi */
   const weaponDisplayName = computed(() => {
     const owned = inventoryStore.getEquippedWeapon()
     return getWeaponDisplayName(owned.defId, owned.enchantmentId)
@@ -955,7 +953,7 @@
   const weaponTypeName = computed(() => {
     const owned = inventoryStore.getEquippedWeapon()
     const def = getWeaponById(owned.defId)
-    return def ? WEAPON_TYPE_NAMES[def.type] : '未知'
+    return def ? WEAPON_TYPE_NAMES[def.type] : 'Bilinmiyor'
   })
   const weaponAttack = computed(
     () =>
@@ -974,16 +972,16 @@
     return enchant ? `${enchant.name} - ${enchant.description}` : ''
   })
 
-  /** 电梯楼层按区域分组 */
+  /** Asansör katlarını bölgelere ayır */
   const elevatorZones = computed(() => {
     const allSafePoints = miningStore.getUnlockedSafePoints().filter(sp => sp < miningStore.safePointFloor)
     const zones = [
-      { name: '浅矿', min: 0, max: 20 },
-      { name: '冰窟', min: 21, max: 40 },
-      { name: '熔岩', min: 41, max: 60 },
-      { name: '晶窟', min: 61, max: 80 },
-      { name: '幽境', min: 81, max: 100 },
-      { name: '深渊', min: 101, max: 120 }
+      { name: 'Sığ Maden', min: 0, max: 20 },
+      { name: 'Buz Mağarası', min: 21, max: 40 },
+      { name: 'Lav Katı', min: 41, max: 60 },
+      { name: 'Kristal Mağarası', min: 61, max: 80 },
+      { name: 'Gölge Diyarı', min: 81, max: 100 },
+      { name: 'Uçurum', min: 101, max: 120 }
     ]
     return zones
       .map(z => ({
@@ -993,9 +991,8 @@
       .filter(z => z.floors.length > 0)
   })
 
-  // ==================== 格子 UI 辅助 ====================
+  // ==================== Kare yardımcıları ====================
 
-  /** 格子样式 */
   const getTileClass = (tile: MineTile): string => {
     if (tile.state === 'hidden') {
       if (bombModeId.value) return 'bg-panel/50 border-accent/10 cursor-not-allowed opacity-40'
@@ -1024,7 +1021,6 @@
     }
   }
 
-  /** 格子图标 */
   const getTileIcon = (tile: MineTile): string => {
     if (tile.state === 'hidden') return '?'
     switch (tile.type) {
@@ -1049,22 +1045,19 @@
     }
   }
 
-  /** 格子是否可点击 */
   const isTileClickable = (tile: MineTile): boolean => {
     if (bombModeId.value) {
       return tile.state !== 'hidden'
     }
-    // 已揭示的怪物/BOSS格可以重新交战
     if (tile.state === 'revealed' && (tile.type === 'monster' || tile.type === 'boss') && tile.data?.monster) {
       return true
     }
     return tile.state === 'hidden' && miningStore.canRevealTile(tile.index)
   }
 
-  /** 格子点击处理 */
   const handleTileClick = (tile: MineTile) => {
     if (gameStore.isPastBedtime) {
-      addLog('太晚了，没法继续探索了。')
+      addLog('Artık çok geç, keşfe devam edemezsin.')
       handleEndDay()
       return
     }
@@ -1085,7 +1078,6 @@
       return
     }
 
-    // 已揭示的怪物/BOSS格：重新交战
     if (tile.state === 'revealed' && (tile.type === 'monster' || tile.type === 'boss') && tile.data?.monster) {
       const result = miningStore.engageRevealedMonster(tile.index)
       if (result.success) {
@@ -1125,12 +1117,11 @@
     }
   }
 
-  /** 切换炸弹模式 */
   const toggleBombMode = (bombId: string) => {
     bombModeId.value = bombModeId.value === bombId ? null : bombId
   }
 
-  // ==================== 事件处理 ====================
+  // ==================== Olaylar ====================
 
   const handleEnterMine = (startFrom?: number) => {
     showElevatorModal.value = false
@@ -1164,7 +1155,7 @@
 
     if (action === 'attack' && dealt > 0) {
       triggerAnim('monster', isCrit ? 'anim-shake-heavy' : 'anim-shake', isCrit ? 400 : 300)
-      showDamageFloat('monster', isCrit ? `暴击 -${dealt}` : `-${dealt}`)
+      showDamageFloat('monster', isCrit ? `Kritik -${dealt}` : `-${dealt}`)
     }
     if (action === 'defend') {
       triggerAnim('player', 'anim-flash-defend', 400)
@@ -1193,7 +1184,6 @@
     }, 400)
   }
 
-  /** 使用战斗道具 */
   const handleUseCombatItem = (itemId: string) => {
     const result = miningStore.useCombatItem(itemId)
     sfxClick()
@@ -1214,7 +1204,6 @@
     showCombatItems.value = false
   }
 
-  /** 使用怪物诱饵 */
   const handleUseMonsterLure = () => {
     const result = miningStore.useMonsterLure()
     sfxClick()
@@ -1226,7 +1215,7 @@
 
   const handleNextFloor = () => {
     if (gameStore.isPastBedtime) {
-      addLog('太晚了，该回去了。')
+      addLog('Artık çok geç, geri dönme vakti geldi.')
       handleEndDay()
       return
     }
@@ -1258,7 +1247,7 @@
     handleLeave()
   }
 
-  // ==================== 快速切装 ====================
+  // ==================== Hızlı ekipman ====================
 
   const showPresetListModal = ref(false)
   const showPresetDetailModal = ref(false)
@@ -1275,28 +1264,28 @@
   const equipPropertyInfo = ref<EquipPropertyInfo | null>(null)
 
   const EFFECT_NAMES: Record<EquipmentEffectType, string> = {
-    attack_bonus: '攻击力',
-    crit_rate_bonus: '暴击率',
-    defense_bonus: '防御',
-    vampiric: '吸血',
-    max_hp_bonus: '最大HP',
-    stamina_reduction: '体力消耗',
-    mining_stamina: '采矿体力',
-    farming_stamina: '农作体力',
-    fishing_stamina: '钓鱼体力',
-    crop_quality_bonus: '作物品质',
-    crop_growth_bonus: '作物生长',
-    fish_quality_bonus: '鱼类品质',
-    fishing_calm: '钓鱼稳定',
-    sell_price_bonus: '售价加成',
-    shop_discount: '商店折扣',
-    gift_friendship: '送礼好感',
-    monster_drop_bonus: '掉落率',
-    exp_bonus: '经验加成',
-    treasure_find: '宝箱概率',
-    ore_bonus: '矿石加成',
-    luck: '幸运',
-    travel_speed: '旅行加速'
+    attack_bonus: 'Saldırı',
+    crit_rate_bonus: 'Kritik Oranı',
+    defense_bonus: 'Savunma',
+    vampiric: 'Can Çalma',
+    max_hp_bonus: 'Maksimum Can',
+    stamina_reduction: 'Enerji Tüketimi',
+    mining_stamina: 'Madencilik Enerjisi',
+    farming_stamina: 'Tarım Enerjisi',
+    fishing_stamina: 'Balıkçılık Enerjisi',
+    crop_quality_bonus: 'Mahsul Kalitesi',
+    crop_growth_bonus: 'Mahsul Büyümesi',
+    fish_quality_bonus: 'Balık Kalitesi',
+    fishing_calm: 'Balıkçılık Denge',
+    sell_price_bonus: 'Satış Fiyatı Bonusu',
+    shop_discount: 'Mağaza İndirimi',
+    gift_friendship: 'Hediye Yakınlığı',
+    monster_drop_bonus: 'Düşme Oranı',
+    exp_bonus: 'Deneyim Bonusu',
+    treasure_find: 'Hazine Bulma Şansı',
+    ore_bonus: 'Cevher Bonusu',
+    luck: 'Şans',
+    travel_speed: 'Seyahat Hızı'
   }
 
   const PCTG_EFFECTS: Set<EquipmentEffectType> = new Set([
@@ -1348,20 +1337,20 @@
       const def = getWeaponById(defId)
       if (!def) return
       equipPropertyInfo.value = {
-        category: '武器',
+        category: 'Silah',
         name: def.name,
         description: def.description,
         effects: [
-          { label: '攻击力', value: `${def.attack}` },
-          { label: '类型', value: WEAPON_TYPE_NAMES[def.type] },
-          { label: '暴击率', value: `${Math.round(def.critRate * 100)}%` }
+          { label: 'Saldırı Gücü', value: `${def.attack}` },
+          { label: 'Tür', value: WEAPON_TYPE_NAMES[def.type] },
+          { label: 'Kritik Oranı', value: `${Math.round(def.critRate * 100)}%` }
         ]
       }
     } else if (type === 'ring') {
       const def = getRingById(defId)
       if (!def) return
       equipPropertyInfo.value = {
-        category: '戒指',
+        category: 'Yüzük',
         name: def.name,
         description: def.description,
         effects: def.effects.map(e => ({ label: EFFECT_NAMES[e.type], value: fmtEffect(e) }))
@@ -1370,7 +1359,7 @@
       const def = getHatById(defId)
       if (!def) return
       equipPropertyInfo.value = {
-        category: '帽子',
+        category: 'Şapka',
         name: def.name,
         description: def.description,
         effects: def.effects.map(e => ({ label: EFFECT_NAMES[e.type], value: fmtEffect(e) }))
@@ -1379,7 +1368,7 @@
       const def = getShoeById(defId)
       if (!def) return
       equipPropertyInfo.value = {
-        category: '鞋子',
+        category: 'Ayakkabı',
         name: def.name,
         description: def.description,
         effects: def.effects.map(e => ({ label: EFFECT_NAMES[e.type], value: fmtEffect(e) }))
@@ -1390,7 +1379,7 @@
 </script>
 
 <style scoped>
-  /* === 战斗动画 === */
+  /* === Savaş animasyonları === */
 
   @keyframes combat-shake {
     0%,
