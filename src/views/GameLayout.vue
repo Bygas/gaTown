@@ -4,14 +4,14 @@
     class="flex flex-col space-y-2 md:space-y-4 h-screen p-2 md:p-4"
     :class="{ 'py-10': Capacitor.isNativePlatform() }"
   >
-    <!-- 状态栏 -->
+    <!-- Durum çubuğu -->
     <StatusBar @request-sleep="showSleepConfirm = true" />
 
     <Button class="text-center justify-center !text-sm" :icon="Moon" :icon-size="12" @click.stop="showSleepConfirm = true">
       {{ sleepLabel }}
     </Button>
 
-    <!-- 内容 -->
+    <!-- İçerik -->
     <div class="game-panel flex-1 min-h-0 overflow-y-auto">
       <router-view v-slot="{ Component }">
         <Transition name="panel-fade" mode="out-in">
@@ -20,38 +20,40 @@
       </router-view>
     </div>
 
-    <!-- 移动端地图按钮 -->
+    <!-- Mobil harita butonu -->
     <button class="mobile-map-btn" @click="showMobileMap = true">
       <Map :size="20" />
     </button>
     <button class="mobile-setting-btn" @click="showSettings = true">
       <SettingsIcon :size="20" />
     </button>
-    <!-- 虚空箱远程访问按钮 -->
+
+    <!-- Boşluk sandığı uzaktan erişim butonu -->
     <button v-if="warehouseStore.hasVoidChest" class="mobile-void-btn" @click="showVoidModal = true">
       <Archive :size="20" />
     </button>
-    <!-- 日志按钮 -->
+
+    <!-- Günlük butonu -->
     <button class="mobile-log-btn" :class="{ 'with-void': warehouseStore.hasVoidChest }" @click="showLogModal = true">
       <History :size="20" />
     </button>
 
     <SettingsDialog :open="showSettings" @close="showSettings = false" />
 
-    <!-- 移动端地图菜单 -->
+    <!-- Mobil harita menüsü -->
     <MobileMapMenu :open="showMobileMap" :current="currentPanel" @close="showMobileMap = false" />
 
-    <!-- 季节事件弹窗 -->
+    <!-- Mevsim etkinliği penceresi -->
     <Transition name="panel-fade">
       <EventDialog v-if="currentEvent" :event="currentEvent" @close="closeEvent" />
     </Transition>
 
-    <!-- 心事件弹窗 -->
+    <!-- Kalp etkinliği penceresi -->
     <Transition name="panel-fade">
       <HeartEventDialog v-if="pendingHeartEvent" :event="pendingHeartEvent" @close="closeHeartEvent" />
     </Transition>
 
-    <!-- 仙灵发现场景弹窗 -->
+    <!-- Ruhani varlık keşif sahnesi -->
     <Transition name="panel-fade">
       <DiscoveryScene
         v-if="pendingDiscoveryScene"
@@ -61,7 +63,7 @@
       />
     </Transition>
 
-    <!-- 互动节日 -->
+    <!-- Etkileşimli festivaller -->
     <Transition name="panel-fade">
       <div v-if="currentFestival" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
         <FishingContestView v-if="currentFestival === 'fishing_contest'" @complete="closeFestival" />
@@ -76,51 +78,51 @@
       </div>
     </Transition>
 
-    <!-- 技能专精选择弹窗 -->
+    <!-- Yetenek uzmanlığı seçimi -->
     <Transition name="panel-fade">
       <PerkSelectDialog v-if="pendingPerk" :skill-type="pendingPerk.skillType" :level="pendingPerk.level" @select="handlePerkSelect" />
     </Transition>
 
-    <!-- 宠物领养弹窗 -->
+    <!-- Evcil hayvan sahiplenme penceresi -->
     <Transition name="panel-fade">
       <div v-if="pendingPetAdoption" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
         <div class="game-panel max-w-xs w-full text-center">
-          <Divider title label="小动物来访" />
-          <p class="text-xs leading-relaxed mb-3">一只小动物在你家门口徘徊，看起来很想有个家。你要收养它吗？</p>
+          <Divider title label="Minik Misafir" />
+          <p class="text-xs leading-relaxed mb-3">Kapının önünde dolaşan küçük bir hayvan var. Belli ki sıcak bir yuva arıyor. Onu sahiplenmek ister misin?</p>
           <div class="flex space-x-3 justify-center mb-3">
-            <Button :class="petChoice === 'cat' ? '!bg-accent !text-bg' : ''" @click="petChoice = 'cat'">猫</Button>
-            <Button :class="petChoice === 'dog' ? '!bg-accent !text-bg' : ''" @click="petChoice = 'dog'">狗</Button>
+            <Button :class="petChoice === 'cat' ? '!bg-accent !text-bg' : ''" @click="petChoice = 'cat'">Kedi</Button>
+            <Button :class="petChoice === 'dog' ? '!bg-accent !text-bg' : ''" @click="petChoice = 'dog'">Köpek</Button>
           </div>
           <div v-if="petChoice" class="mb-3">
-            <p class="text-xs text-muted mb-1">给它取个名字：</p>
+            <p class="text-xs text-muted mb-1">Ona bir isim ver:</p>
             <input
               v-model="petNameInput"
               class="w-full bg-bg border border-accent/30 rounded-xs px-2 py-1 text-xs text-text"
-              :placeholder="petChoice === 'cat' ? '小花' : '旺财'"
+              :placeholder="petChoice === 'cat' ? 'Pamuk' : 'Karabaş'"
               maxlength="8"
             />
           </div>
-          <Button :disabled="!petChoice" @click="confirmPetAdoption">领养</Button>
+          <Button :disabled="!petChoice" @click="confirmPetAdoption">Sahiplen</Button>
         </div>
       </div>
     </Transition>
 
-    <!-- 子女提议弹窗 -->
+    <!-- Çocuk teklifi penceresi -->
     <Transition name="panel-fade">
       <div v-if="childProposalVisible" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
         <div class="game-panel max-w-xs w-full text-center">
-          <Divider title label="家庭提议" />
-          <p class="text-xs leading-relaxed mb-4">{{ proposalSpouseName }}轻声说道：「最近我在想，我们是不是该要个孩子了？」</p>
+          <Divider title label="Aile Konuşması" />
+          <p class="text-xs leading-relaxed mb-4">{{ proposalSpouseName }} usulca şöyle dedi: “Son zamanlarda düşünüyorum da... Sence artık bir çocuk sahibi olmanın zamanı gelmedi mi?”</p>
           <div class="flex flex-col space-y-1.5">
-            <Button class="w-full justify-center" @click="handleChildProposalResponse('accept')">「我也这么想。」</Button>
-            <Button class="w-full justify-center" @click="handleChildProposalResponse('wait')">「再等等吧。」</Button>
-            <Button class="w-full justify-center text-muted" @click="handleChildProposalResponse('decline')">「现在还不是时候。」</Button>
+            <Button class="w-full justify-center" @click="handleChildProposalResponse('accept')">“Ben de aynı şeyi düşünüyorum.”</Button>
+            <Button class="w-full justify-center" @click="handleChildProposalResponse('wait')">“Biraz daha bekleyelim.”</Button>
+            <Button class="w-full justify-center text-muted" @click="handleChildProposalResponse('decline')">“Henüz hazır değiliz.”</Button>
           </div>
         </div>
       </div>
     </Transition>
 
-    <!-- 晨间选项事件弹窗 -->
+    <!-- Sabah seçim olayı penceresi -->
     <Transition name="panel-fade">
       <div v-if="pendingFarmEvent" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
         <div class="game-panel max-w-xs w-full text-center">
@@ -134,7 +136,7 @@
       </div>
     </Transition>
 
-    <!-- 虚空箱远程存取弹窗 -->
+    <!-- Boşluk sandığı uzaktan erişim penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showVoidModal"
@@ -145,12 +147,12 @@
           <div class="flex items-center justify-between mb-2">
             <p class="text-sm text-accent">
               <Archive :size="14" class="inline" />
-              虚空箱
+              Boşluk Sandığı
             </p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="showVoidModal = false" />
           </div>
 
-          <!-- 虚空箱列表 -->
+          <!-- Boşluk sandığı listesi -->
           <div class="flex flex-col space-y-1.5">
             <div
               v-for="vc in voidChests"
@@ -161,15 +163,15 @@
               <div class="flex items-center justify-between mb-1">
                 <div class="flex items-center space-x-1.5">
                   <span class="text-xs text-quality-supreme">{{ vc.label }}</span>
-                  <span v-if="vc.voidRole === 'input'" class="text-[10px] px-1 border border-accent/30 rounded-xs text-accent">原料箱</span>
+                  <span v-if="vc.voidRole === 'input'" class="text-[10px] px-1 border border-accent/30 rounded-xs text-accent">Hammadde</span>
                   <span v-if="vc.voidRole === 'output'" class="text-[10px] px-1 border border-accent/30 rounded-xs text-accent">
-                    成品箱
+                    Ürün
                   </span>
                 </div>
                 <span class="text-[10px] text-muted">{{ vc.items.length }}/{{ voidChestCapacity }}</span>
               </div>
 
-              <!-- 展开的物品列表 -->
+              <!-- Açılmış eşya listesi -->
               <template v-if="expandedVoidChestId === vc.id">
                 <div v-if="vc.items.length > 0" class="flex flex-col space-y-0.5 mb-1.5 max-h-36 overflow-y-auto">
                   <div
@@ -187,15 +189,15 @@
                         class="py-0 px-1 text-[10px]"
                         @click.stop="openVoidQtyModal('withdraw', vc.id, item.itemId, item.quality, item.quantity)"
                       >
-                        取出
+                        Al
                       </Button>
                     </div>
                   </div>
                 </div>
                 <div v-else class="flex flex-col items-center justify-center py-4">
                   <Archive :size="28" class="text-accent/20 mb-1.5" />
-                  <p class="text-[10px] text-muted">箱子是空的</p>
-                  <p class="text-[10px] text-muted/50 mt-0.5">点击下方「存入」添加</p>
+                  <p class="text-[10px] text-muted">Sandık boş</p>
+                  <p class="text-[10px] text-muted/50 mt-0.5">Aşağıdaki “Koy” butonuyla eşya ekleyebilirsin</p>
                 </div>
                 <Button
                   v-if="voidDuplicateDepositItems.length > 0"
@@ -204,7 +206,7 @@
                   :icon-size="10"
                   @click.stop="handleVoidDepositDuplicates"
                 >
-                  一键存入重复物品
+                  Tekrar Edenleri Koy
                 </Button>
                 <Button
                   v-if="voidDepositableItems.length > 0"
@@ -213,21 +215,21 @@
                   :icon-size="10"
                   @click.stop="openVoidDeposit(vc.id)"
                 >
-                  存入
+                  Koy
                 </Button>
               </template>
             </div>
           </div>
           <div v-if="voidChests.length === 0" class="flex flex-col items-center justify-center py-8">
             <Archive :size="40" class="text-accent/20 mb-2" />
-            <p class="text-xs text-muted">还没有虚空箱</p>
-            <p class="text-[10px] text-muted/50 mt-0.5">在仓库中制作虚空箱后即可远程存取</p>
+            <p class="text-xs text-muted">Henüz boşluk sandığın yok</p>
+            <p class="text-[10px] text-muted/50 mt-0.5">Depoda boşluk sandığı ürettiğinde buradan uzaktan erişebilirsin</p>
           </div>
         </div>
       </div>
     </Transition>
 
-    <!-- 虚空箱存入弹窗 -->
+    <!-- Boşluk sandığına eşya koyma penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showVoidDepositModal && voidDepositChestId"
@@ -236,7 +238,7 @@
       >
         <div class="game-panel max-w-sm w-full">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm text-accent">存入物品</p>
+            <p class="text-sm text-accent">Eşya Koy</p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="showVoidDepositModal = false" />
           </div>
           <div class="flex flex-col space-y-1 max-h-60 overflow-y-auto">
@@ -257,7 +259,7 @@
       </div>
     </Transition>
 
-    <!-- 虚空箱数量选择弹窗 -->
+    <!-- Boşluk sandığı miktar seçme penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="voidQtyModal"
@@ -266,7 +268,7 @@
       >
         <div class="game-panel max-w-xs w-full">
           <div class="flex items-center justify-between mb-2">
-            <p class="text-sm text-accent">{{ voidQtyModal.mode === 'withdraw' ? '取出' : '存入' }}</p>
+            <p class="text-sm text-accent">{{ voidQtyModal.mode === 'withdraw' ? 'Al' : 'Koy' }}</p>
             <Button class="py-0 px-1" :icon="X" :icon-size="12" @click="voidQtyModal = null" />
           </div>
           <p class="text-xs mb-2" :class="voidQualityClass(voidQtyModal.quality)">
@@ -275,7 +277,7 @@
           </p>
           <div class="border border-accent/10 rounded-xs p-2 mb-2">
             <div class="flex items-center justify-between mb-1.5">
-              <span class="text-xs text-muted">数量</span>
+              <span class="text-xs text-muted">Miktar</span>
               <div class="flex items-center space-x-1">
                 <Button class="h-6 px-1.5 py-0.5 text-xs justify-center" :disabled="voidQty <= 1" @click="addVoidQty(-1)">-</Button>
                 <input
@@ -292,20 +294,20 @@
               </div>
             </div>
             <div class="flex space-x-1">
-              <Button class="flex-1 justify-center" :disabled="voidQty <= 1" @click="setVoidQty(1)">最少</Button>
+              <Button class="flex-1 justify-center" :disabled="voidQty <= 1" @click="setVoidQty(1)">En Az</Button>
               <Button class="flex-1 justify-center" :disabled="voidQty >= voidQtyModal.max" @click="setVoidQty(voidQtyModal!.max)">
-                最多
+                En Fazla
               </Button>
             </div>
           </div>
           <Button class="w-full justify-center !bg-accent !text-bg" @click="confirmVoidQty">
-            {{ voidQtyModal.mode === 'withdraw' ? '取出' : '存入' }} &times;{{ voidQty }}
+            {{ voidQtyModal.mode === 'withdraw' ? 'Al' : 'Koy' }} &times;{{ voidQty }}
           </Button>
         </div>
       </div>
     </Transition>
 
-    <!-- 虚空箱道具信息弹窗 -->
+    <!-- Boşluk sandığı eşya bilgi penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="voidItemDetail && voidItemDef"
@@ -324,24 +326,24 @@
           </div>
           <div class="border border-accent/10 rounded-xs p-2">
             <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">数量</span>
+              <span class="text-xs text-muted">Miktar</span>
               <span class="text-xs">×{{ voidItemDetail.quantity }}</span>
             </div>
             <div v-if="voidItemDetail.quality !== 'normal'" class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">品质</span>
+              <span class="text-xs text-muted">Kalite</span>
               <span class="text-xs" :class="voidQualityClass(voidItemDetail.quality)">
                 {{ VOID_QUALITY_LABEL[voidItemDetail.quality] }}
               </span>
             </div>
             <div v-if="voidItemDef.sellPrice" class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">售价</span>
-              <span class="text-xs text-accent">{{ voidItemDef.sellPrice }}文</span>
+              <span class="text-xs text-muted">Satış Fiyatı</span>
+              <span class="text-xs text-accent">{{ voidItemDef.sellPrice }} bakır</span>
             </div>
             <div v-if="voidItemDef.staminaRestore" class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">恢复</span>
+              <span class="text-xs text-muted">İyileşme</span>
               <span class="text-xs text-success">
-                +{{ voidItemDef.staminaRestore }}体力
-                <template v-if="voidItemDef.healthRestore">/ +{{ voidItemDef.healthRestore }}HP</template>
+                +{{ voidItemDef.staminaRestore }} enerji
+                <template v-if="voidItemDef.healthRestore">/ +{{ voidItemDef.healthRestore }} HP</template>
               </span>
             </div>
           </div>
@@ -349,7 +351,7 @@
       </div>
     </Transition>
 
-    <!-- 日志弹窗 -->
+    <!-- Günlük penceresi -->
     <Transition name="panel-fade">
       <div
         v-if="showLogModal"
@@ -363,7 +365,7 @@
           <div class="flex items-center justify-between mb-3">
             <p class="text-sm text-accent">
               <History :size="14" class="inline" />
-              日志
+              Günlük
             </p>
             <Button
               v-if="groupedLogs.length > 0"
@@ -372,20 +374,20 @@
               :icon-size="10"
               @click="requestClearLogs(null)"
             >
-              清空全部
+              Tümünü Sil
             </Button>
           </div>
           <div class="flex-1 overflow-y-auto min-h-0">
             <div v-if="groupedLogs.length === 0" class="flex flex-col items-center justify-center py-8 text-muted">
               <History :size="32" class="mb-2" />
-              <p class="text-xs">暂无日志记录</p>
+              <p class="text-xs">Henüz günlük kaydı yok</p>
             </div>
             <div v-for="(group, gi) in groupedLogs" :key="gi" class="mb-3">
               <div class="flex items-center justify-between">
                 <Divider :label="group.label" class="flex-1" />
                 <button
                   class="text-muted hover:text-danger ml-1.5 flex-shrink-0"
-                  title="清空该日日志"
+                  title="Bu günün günlüğünü sil"
                   @click="requestClearLogs(group.label)"
                 >
                   <X :size="12" />
@@ -400,22 +402,22 @@
       </div>
     </Transition>
 
-    <!-- 日志清空确认 -->
+    <!-- Günlük silme onayı -->
     <Transition name="panel-fade">
       <div v-if="clearLogTarget !== undefined" class="fixed inset-0 bg-black/70 flex items-center justify-center z-[60] p-4">
         <div class="game-panel max-w-xs w-full text-center">
           <p class="text-xs leading-relaxed mb-4">
-            {{ clearLogTarget === null ? '确认清空全部日志？' : `确认清空「${clearLogTarget}」的日志？` }}
+            {{ clearLogTarget === null ? 'Tüm günlük kayıtları silinsin mi?' : `“${clearLogTarget}” günlüğü silinsin mi?` }}
           </p>
           <div class="flex space-x-3 justify-center">
-            <Button @click="clearLogTarget = undefined">取消</Button>
-            <Button class="btn-danger" :icon="Trash2" :icon-size="12" @click="executeClearLogs">确认</Button>
+            <Button @click="clearLogTarget = undefined">İptal</Button>
+            <Button class="btn-danger" :icon="Trash2" :icon-size="12" @click="executeClearLogs">Onayla</Button>
           </div>
         </div>
       </div>
     </Transition>
 
-    <!-- 休息确认 -->
+    <!-- Dinlenme onayı -->
     <Transition name="panel-fade">
       <div v-if="showSleepConfirm" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
         <div class="game-panel max-w-xs w-full text-center">
@@ -423,7 +425,7 @@
           <p class="text-xs leading-relaxed mb-1">{{ sleepSummary }}</p>
           <p v-for="(warn, wi) in sleepWarning.split('\n').filter(Boolean)" :key="wi" class="text-danger text-xs mb-1">{{ warn }}</p>
           <div class="flex space-x-3 justify-center mt-4">
-            <Button :icon="X" :icon-size="12" @click="showSleepConfirm = false">再等等</Button>
+            <Button :icon="X" :icon-size="12" @click="showSleepConfirm = false">Biraz Daha Bekle</Button>
             <Button class="btn-danger" :icon="Moon" :icon-size="12" @click="confirmSleep">{{ sleepLabel }}</Button>
           </div>
         </div>
@@ -433,516 +435,518 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-  import { useAnimalStore } from '@/stores/useAnimalStore'
-  import { useGameStore, SEASON_NAMES } from '@/stores/useGameStore'
-  import { useHomeStore } from '@/stores/useHomeStore'
-  import { useInventoryStore } from '@/stores/useInventoryStore'
-  import { useNpcStore } from '@/stores/useNpcStore'
-  import { usePlayerStore } from '@/stores/usePlayerStore'
-  import { useWarehouseStore } from '@/stores/useWarehouseStore'
-  import { useFarmStore } from '@/stores/useFarmStore'
-  import { useDialogs } from '@/composables/useDialogs'
-  import type { MorningChoiceEvent } from '@/data/farmEvents'
-  import { handleEndDay } from '@/composables/useEndDay'
-  import { addLog, logHistory, clearAllLogs, clearDayLogs, _registerDayLabelGetter } from '@/composables/useGameLog'
-  import {
-    LATE_NIGHT_RECOVERY_MAX,
-    LATE_NIGHT_RECOVERY_MIN,
-    PASSOUT_STAMINA_RECOVERY,
-    PASSOUT_MONEY_PENALTY_RATE,
-    PASSOUT_MONEY_PENALTY_CAP
-  } from '@/data/timeConstants'
-  import { getNpcById, getItemById, getCropById } from '@/data'
-  import { CHEST_DEFS } from '@/data/items'
-  import { useGameClock } from '@/composables/useGameClock'
-  import { useAudio } from '@/composables/useAudio'
-  import type { Quality } from '@/types'
-  import { Moon, X, Map, Settings as SettingsIcon, Archive, ArrowDown, ArrowDownToLine, History, Trash2 } from 'lucide-vue-next'
-  import Button from '@/components/game/Button.vue'
-  import Divider from '@/components/game/Divider.vue'
-  import MobileMapMenu from '@/components/game/MobileMapMenu.vue'
-  import StatusBar from '@/components/game/StatusBar.vue'
-  import EventDialog from '@/components/game/EventDialog.vue'
-  import HeartEventDialog from '@/components/game/HeartEventDialog.vue'
-  import PerkSelectDialog from '@/components/game/PerkSelectDialog.vue'
-  import FishingContestView from '@/components/game/FishingContestView.vue'
-  import HarvestFairView from '@/components/game/HarvestFairView.vue'
-  import DragonBoatView from '@/components/game/DragonBoatView.vue'
-  import LanternRiddleView from '@/components/game/LanternRiddleView.vue'
-  import PotThrowingView from '@/components/game/PotThrowingView.vue'
-  import DumplingMakingView from '@/components/game/DumplingMakingView.vue'
-  import FireworkShowView from '@/components/game/FireworkShowView.vue'
-  import TeaContestView from '@/components/game/TeaContestView.vue'
-  import KiteFlyingView from '@/components/game/KiteFlyingView.vue'
-  import SettingsDialog from '@/components/game/SettingsDialog.vue'
-  import DiscoveryScene from '@/components/game/DiscoveryScene.vue'
-  import { Capacitor } from '@capacitor/core'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAnimalStore } from '@/stores/useAnimalStore'
+import { useGameStore, SEASON_NAMES } from '@/stores/useGameStore'
+import { useHomeStore } from '@/stores/useHomeStore'
+import { useInventoryStore } from '@/stores/useInventoryStore'
+import { useNpcStore } from '@/stores/useNpcStore'
+import { usePlayerStore } from '@/stores/usePlayerStore'
+import { useWarehouseStore } from '@/stores/useWarehouseStore'
+import { useFarmStore } from '@/stores/useFarmStore'
+import { useDialogs } from '@/composables/useDialogs'
+import type { MorningChoiceEvent } from '@/data/farmEvents'
+import { handleEndDay } from '@/composables/useEndDay'
+import { addLog, logHistory, clearAllLogs, clearDayLogs, _registerDayLabelGetter } from '@/composables/useGameLog'
+import {
+  LATE_NIGHT_RECOVERY_MAX,
+  LATE_NIGHT_RECOVERY_MIN,
+  PASSOUT_STAMINA_RECOVERY,
+  PASSOUT_MONEY_PENALTY_RATE,
+  PASSOUT_MONEY_PENALTY_CAP
+} from '@/data/timeConstants'
+import { getNpcById, getItemById, getCropById } from '@/data'
+import { CHEST_DEFS } from '@/data/items'
+import { useGameClock } from '@/composables/useGameClock'
+import { useAudio } from '@/composables/useAudio'
+import type { Quality } from '@/types'
+import { Moon, X, Map, Settings as SettingsIcon, Archive, ArrowDown, ArrowDownToLine, History, Trash2 } from 'lucide-vue-next'
+import Button from '@/components/game/Button.vue'
+import Divider from '@/components/game/Divider.vue'
+import MobileMapMenu from '@/components/game/MobileMapMenu.vue'
+import StatusBar from '@/components/game/StatusBar.vue'
+import EventDialog from '@/components/game/EventDialog.vue'
+import HeartEventDialog from '@/components/game/HeartEventDialog.vue'
+import PerkSelectDialog from '@/components/game/PerkSelectDialog.vue'
+import FishingContestView from '@/components/game/FishingContestView.vue'
+import HarvestFairView from '@/components/game/HarvestFairView.vue'
+import DragonBoatView from '@/components/game/DragonBoatView.vue'
+import LanternRiddleView from '@/components/game/LanternRiddleView.vue'
+import PotThrowingView from '@/components/game/PotThrowingView.vue'
+import DumplingMakingView from '@/components/game/DumplingMakingView.vue'
+import FireworkShowView from '@/components/game/FireworkShowView.vue'
+import TeaContestView from '@/components/game/TeaContestView.vue'
+import KiteFlyingView from '@/components/game/KiteFlyingView.vue'
+import SettingsDialog from '@/components/game/SettingsDialog.vue'
+import DiscoveryScene from '@/components/game/DiscoveryScene.vue'
+import { Capacitor } from '@capacitor/core'
 
-  const router = useRouter()
-  const route = useRoute()
-  const gameStore = useGameStore()
-  const playerStore = usePlayerStore()
-  const farmStore = useFarmStore()
-  const { switchToSeasonalBgm } = useAudio()
+const router = useRouter()
+const route = useRoute()
+const gameStore = useGameStore()
+const playerStore = usePlayerStore()
+const farmStore = useFarmStore()
+const { switchToSeasonalBgm } = useAudio()
 
-  // 游戏未开始时重定向到主菜单
-  if (!gameStore.isGameStarted) {
-    void router.replace('/')
-  }
+// Oyun başlamadıysa ana menüye dön
+if (!gameStore.isGameStarted) {
+  void router.replace('/')
+}
 
-  const {
-    currentEvent,
-    pendingHeartEvent,
-    currentFestival,
-    pendingPerk,
-    pendingPetAdoption,
-    childProposalVisible,
-    pendingFarmEvent,
-    pendingDiscoveryScene,
-    closeEvent,
-    closeHeartEvent,
-    closeFestival,
-    handlePerkSelect,
-    closePetAdoption,
-    closeChildProposal,
-    closeFarmEvent,
-    closeDiscoveryScene
-  } = useDialogs()
+const {
+  currentEvent,
+  pendingHeartEvent,
+  currentFestival,
+  pendingPerk,
+  pendingPetAdoption,
+  childProposalVisible,
+  pendingFarmEvent,
+  pendingDiscoveryScene,
+  closeEvent,
+  closeHeartEvent,
+  closeFestival,
+  handlePerkSelect,
+  closePetAdoption,
+  closeChildProposal,
+  closeFarmEvent,
+  closeDiscoveryScene
+} = useDialogs()
 
-  const npcStore = useNpcStore()
+const npcStore = useNpcStore()
 
-  const { startClock, stopClock, pauseClock, resumeClock } = useGameClock()
+const { startClock, stopClock, pauseClock, resumeClock } = useGameClock()
 
-  /** 移动端地图菜单 */
-  const showMobileMap = ref(false)
+/** Mobil harita menüsü */
+const showMobileMap = ref(false)
 
-  /** 休息确认弹窗 */
-  const showSleepConfirm = ref(false)
+/** Dinlenme onay penceresi */
+const showSleepConfirm = ref(false)
 
-  /** 设置弹窗 */
-  const showSettings = ref(false)
+/** Ayarlar penceresi */
+const showSettings = ref(false)
 
-  /** 日志弹窗 */
-  const showLogModal = ref(false)
-  /** 日志清空确认：undefined=不显示, null=清空全部, string=清空指定天 */
-  const clearLogTarget = ref<string | null | undefined>(undefined)
-  const requestClearLogs = (dayLabel: string | null) => {
-    clearLogTarget.value = dayLabel
-  }
-  const executeClearLogs = () => {
-    if (clearLogTarget.value === null) clearAllLogs()
-    else if (clearLogTarget.value) clearDayLogs(clearLogTarget.value)
-    clearLogTarget.value = undefined
-  }
-  watch(showLogModal, v => {
-    if (!v) clearLogTarget.value = undefined
-  })
+/** Günlük penceresi */
+const showLogModal = ref(false)
 
-  // 注册天数标签获取器
-  _registerDayLabelGetter(() => `第${gameStore.year}年 ${SEASON_NAMES[gameStore.season]} 第${gameStore.day}天`)
+/** Günlük temizleme onayı: undefined=gösterme, null=tümünü sil, string=belirli günü sil */
+const clearLogTarget = ref<string | null | undefined>(undefined)
+const requestClearLogs = (dayLabel: string | null) => {
+  clearLogTarget.value = dayLabel
+}
+const executeClearLogs = () => {
+  if (clearLogTarget.value === null) clearAllLogs()
+  else if (clearLogTarget.value) clearDayLogs(clearLogTarget.value)
+  clearLogTarget.value = undefined
+}
+watch(showLogModal, v => {
+  if (!v) clearLogTarget.value = undefined
+})
 
-  /** 按天分组的日志（最新天在前） */
-  const groupedLogs = computed(() => {
-    const groups: { label: string; messages: string[] }[] = []
-    let currentLabel: string | null = null
-    for (const entry of logHistory.value) {
-      if (entry.dayLabel !== currentLabel) {
-        currentLabel = entry.dayLabel
-        groups.push({ label: currentLabel, messages: [] })
-      }
-      groups[groups.length - 1]!.messages.push(entry.msg)
+// Gün etiketi oluşturucu kaydı
+_registerDayLabelGetter(() => `${gameStore.year}. Yıl ${SEASON_NAMES[gameStore.season]} ${gameStore.day}. Gün`)
+
+/** Günlere göre gruplanmış günlük kayıtları (en yeni gün üstte) */
+const groupedLogs = computed(() => {
+  const groups: { label: string; messages: string[] }[] = []
+  let currentLabel: string | null = null
+  for (const entry of logHistory.value) {
+    if (entry.dayLabel !== currentLabel) {
+      currentLabel = entry.dayLabel
+      groups.push({ label: currentLabel, messages: [] })
     }
-    return groups.reverse()
-  })
-
-  // 实时时钟生命周期
-  onMounted(() => startClock())
-  onUnmounted(() => stopClock())
-
-  // 弹窗打开时自动暂停时钟，全部关闭后恢复
-  watch(
-    () =>
-      !!(
-        currentEvent.value ||
-        pendingHeartEvent.value ||
-        currentFestival.value ||
-        pendingPerk.value ||
-        pendingPetAdoption.value ||
-        childProposalVisible.value ||
-        pendingFarmEvent.value ||
-        pendingDiscoveryScene.value ||
-        showSleepConfirm.value
-      ),
-    hasModal => {
-      if (hasModal) pauseClock()
-      else resumeClock()
-    }
-  )
-
-  /** 从路由名称获取当前面板标识 */
-  const currentPanel = computed(() => {
-    return (route.name as string) ?? 'farm'
-  })
-
-  const sleepLabel = computed(() => {
-    if (gameStore.hour >= 24) return '倒头就睡'
-    if (gameStore.hour >= 20) return '回家休息'
-    return '休息'
-  })
-
-  const sleepSummary = computed(() => {
-    if (playerStore.stamina <= 0 || gameStore.hour >= 26) {
-      return '你已经精疲力竭……将在原地昏倒。'
-    }
-    if (gameStore.hour >= 24) {
-      return '已经过了午夜，拖着疲惫的身体回家……'
-    }
-    return '回到家中，安稳入睡。明日又是新的一天。'
-  })
-
-  const sleepWarning = computed(() => {
-    const warnings: string[] = []
-    const homeStore = useHomeStore()
-    const staminaBonus = homeStore.getStaminaRecoveryBonus()
-    if (playerStore.stamina <= 0 || gameStore.hour >= 26) {
-      const pct = Math.round(Math.min(PASSOUT_STAMINA_RECOVERY + staminaBonus, 1) * 100)
-      const penaltyPct = Math.round(PASSOUT_MONEY_PENALTY_RATE * 100)
-      if (pct < 100) {
-        warnings.push(`体力仅恢复${pct}%，并损失${penaltyPct}%铜钱（上限${PASSOUT_MONEY_PENALTY_CAP}文）`)
-      } else {
-        warnings.push(`损失${penaltyPct}%铜钱（上限${PASSOUT_MONEY_PENALTY_CAP}文）`)
-      }
-    } else if (gameStore.hour >= 24) {
-      const t = Math.min(Math.max(gameStore.hour - 24, 0), 1)
-      const pct = Math.round(
-        Math.min(LATE_NIGHT_RECOVERY_MAX - t * (LATE_NIGHT_RECOVERY_MAX - LATE_NIGHT_RECOVERY_MIN) + staminaBonus, 1) * 100
-      )
-      if (pct < 100) {
-        warnings.push(`体力仅恢复${pct}%`)
-      }
-    }
-    // 第28天换季警告：统计将枯萎的作物
-    if (gameStore.day === 28) {
-      const SEASON_ORDER = ['spring', 'summer', 'autumn', 'winter'] as const
-      const nextSeason = SEASON_ORDER[(SEASON_ORDER.indexOf(gameStore.season) + 1) % 4]!
-      let willWitherCount = 0
-      let harvestableCount = 0
-      for (const plot of farmStore.plots) {
-        if ((plot.state === 'planted' || plot.state === 'growing' || plot.state === 'harvestable') && plot.cropId) {
-          const crop = getCropById(plot.cropId)
-          if (crop && !crop.season.includes(nextSeason)) {
-            willWitherCount++
-            if (plot.state === 'harvestable') harvestableCount++
-          }
-        }
-      }
-      if (willWitherCount > 0) {
-        const nextName = SEASON_NAMES[nextSeason]
-        let msg = `明天进入${nextName}季，${willWitherCount}株作物将会枯萎！`
-        if (harvestableCount > 0) {
-          msg += `（其中${harvestableCount}株已可收获）`
-        }
-        warnings.push(msg)
-      }
-    }
-    return warnings.join('\n')
-  })
-
-  /** 宠物领养 */
-  const petChoice = ref<'cat' | 'dog' | null>(null)
-  const petNameInput = ref('')
-
-  const confirmPetAdoption = () => {
-    if (!petChoice.value) return
-    const animalStore = useAnimalStore()
-    const defaultName = petChoice.value === 'cat' ? '小花' : '旺财'
-    const name = petNameInput.value.trim() || defaultName
-    animalStore.adoptPet(petChoice.value, name)
-    closePetAdoption()
-    petChoice.value = null
-    petNameInput.value = ''
+    groups[groups.length - 1]!.messages.push(entry.msg)
   }
+  return groups.reverse()
+})
 
-  /** 子女提议回应 */
-  const proposalSpouseName = computed(() => {
-    const spouse = npcStore.getSpouse()
-    if (!spouse) return '配偶'
-    return getNpcById(spouse.npcId)?.name ?? '配偶'
-  })
+// Gerçek zamanlı saat yaşam döngüsü
+onMounted(() => startClock())
+onUnmounted(() => stopClock())
 
-  const handleChildProposalResponse = (response: 'accept' | 'decline' | 'wait') => {
-    const result = npcStore.respondToChildProposal(response)
-    addLog(result.message)
-    if (result.friendshipChange !== 0) {
-      addLog(`(好感${result.friendshipChange > 0 ? '+' : ''}${result.friendshipChange})`)
-    }
-    closeChildProposal()
+// Bir pencere açıldığında saat dursun, hepsi kapanınca devam etsin
+watch(
+  () =>
+    !!(
+      currentEvent.value ||
+      pendingHeartEvent.value ||
+      currentFestival.value ||
+      pendingPerk.value ||
+      pendingPetAdoption.value ||
+      childProposalVisible.value ||
+      pendingFarmEvent.value ||
+      pendingDiscoveryScene.value ||
+      showSleepConfirm.value
+    ),
+  hasModal => {
+    if (hasModal) pauseClock()
+    else resumeClock()
   }
+)
 
-  const inventoryStore = useInventoryStore()
-  const warehouseStore = useWarehouseStore()
+/** Rota adına göre mevcut panel */
+const currentPanel = computed(() => {
+  return (route.name as string) ?? 'farm'
+})
 
-  const handleFarmEventChoice = (choice: MorningChoiceEvent['choices'][number]) => {
-    addLog(choice.result)
-    if (choice.effect) {
-      switch (choice.effect.type) {
-        case 'gainItem':
-          inventoryStore.addItem(choice.effect.itemId, choice.effect.qty)
-          break
-        case 'gainMoney':
-          playerStore.earnMoney(choice.effect.amount)
-          break
-        case 'gainFriendship':
-          for (const s of npcStore.npcStates) {
-            s.friendship += choice.effect.amount
-          }
-          break
-      }
-    }
-    closeFarmEvent()
+const sleepLabel = computed(() => {
+  if (gameStore.hour >= 24) return 'Yığılıp Uyu'
+  if (gameStore.hour >= 20) return 'Eve Dön ve Dinlen'
+  return 'Dinlen'
+})
+
+const sleepSummary = computed(() => {
+  if (playerStore.stamina <= 0 || gameStore.hour >= 26) {
+    return 'Artık tamamen tükenmiş durumdasın... Olduğun yerde bayılacaksın.'
   }
-
-  // === 虚空箱远程访问 ===
-  const showVoidModal = ref(false)
-  const showVoidDepositModal = ref(false)
-  const expandedVoidChestId = ref<string | null>(null)
-  const voidDepositChestId = ref<string | null>(null)
-
-  const voidChests = computed(() => warehouseStore.getVoidChests())
-  const voidChestCapacity = CHEST_DEFS.void.capacity
-
-  const getItemName = (itemId: string): string => getItemById(itemId)?.name ?? itemId
-
-  const VOID_QUALITY_LABEL: Record<Quality, string> = {
-    normal: '普通',
-    fine: '优良',
-    excellent: '精品',
-    supreme: '极品'
+  if (gameStore.hour >= 24) {
+    return 'Gece yarısı çoktan geçti. Yorgun bedenini sürükleyerek eve dönüyorsun...'
   }
+  return 'Evine dönüp huzur içinde uykuya dalıyorsun. Yarın yeni bir gün olacak.'
+})
 
-  const voidQualityClass = (q: Quality): string => {
-    if (q === 'fine') return 'text-quality-fine'
-    if (q === 'excellent') return 'text-quality-excellent'
-    if (q === 'supreme') return 'text-quality-supreme'
-    return ''
-  }
-
-  const toggleVoidChest = (chestId: string) => {
-    expandedVoidChestId.value = expandedVoidChestId.value === chestId ? null : chestId
-  }
-
-  const openVoidDeposit = (chestId: string) => {
-    voidDepositChestId.value = chestId
-    showVoidDepositModal.value = true
-  }
-
-  const voidDepositableItems = computed(() =>
-    inventoryStore.items.filter(i => {
-      if (i.locked) return false
-      const def = getItemById(i.itemId)
-      return def && def.category !== 'seed'
-    })
-  )
-
-  /** 背包中可一键存入的重复物品（虚空箱中已有且未锁定、非种子） */
-  const voidDuplicateDepositItems = computed(() => {
-    if (!expandedVoidChestId.value) return []
-    const chest = warehouseStore.getChest(expandedVoidChestId.value)
-    if (!chest) return []
-    const chestItemIds = new Set(chest.items.map(i => i.itemId))
-    return inventoryStore.items.filter(i => {
-      if (i.locked) return false
-      const def = getItemById(i.itemId)
-      if (!def || def.category === 'seed') return false
-      return chestItemIds.has(i.itemId)
-    })
-  })
-
-  /** 一键存入重复物品到虚空箱 */
-  const handleVoidDepositDuplicates = () => {
-    if (!expandedVoidChestId.value) return
-    const chestId = expandedVoidChestId.value
-    const snapshot = voidDuplicateDepositItems.value.map(i => ({ itemId: i.itemId, quality: i.quality, quantity: i.quantity }))
-    let totalDeposited = 0
-    let kindCount = 0
-    for (const item of snapshot) {
-      const actual = warehouseStore.depositToChest(chestId, item.itemId, item.quantity, item.quality)
-      if (actual > 0) {
-        totalDeposited += actual
-        kindCount++
-      }
-    }
-    if (totalDeposited > 0) {
-      addLog(`一键存入了${kindCount}种物品，共${totalDeposited}个到虚空箱。`)
+const sleepWarning = computed(() => {
+  const warnings: string[] = []
+  const homeStore = useHomeStore()
+  const staminaBonus = homeStore.getStaminaRecoveryBonus()
+  if (playerStore.stamina <= 0 || gameStore.hour >= 26) {
+    const pct = Math.round(Math.min(PASSOUT_STAMINA_RECOVERY + staminaBonus, 1) * 100)
+    const penaltyPct = Math.round(PASSOUT_MONEY_PENALTY_RATE * 100)
+    if (pct < 100) {
+      warnings.push(`Enerjin yalnızca %${pct} geri gelir ve paranının %${penaltyPct}'ini kaybedersin (üst sınır ${PASSOUT_MONEY_PENALTY_CAP} bakır).`)
     } else {
-      addLog('虚空箱已满，无法存入。')
+      warnings.push(`Paranın %${penaltyPct}'ini kaybedersin (üst sınır ${PASSOUT_MONEY_PENALTY_CAP} bakır).`)
+    }
+  } else if (gameStore.hour >= 24) {
+    const t = Math.min(Math.max(gameStore.hour - 24, 0), 1)
+    const pct = Math.round(
+      Math.min(LATE_NIGHT_RECOVERY_MAX - t * (LATE_NIGHT_RECOVERY_MAX - LATE_NIGHT_RECOVERY_MIN) + staminaBonus, 1) * 100
+    )
+    if (pct < 100) {
+      warnings.push(`Enerjin yalnızca %${pct} geri gelir.`)
     }
   }
 
-  /** 虚空箱道具信息弹窗 */
-  const voidItemDetail = ref<{ itemId: string; quality: Quality; quantity: number } | null>(null)
-  const voidItemDef = computed(() => {
-    if (!voidItemDetail.value) return null
-    return getItemById(voidItemDetail.value.itemId) ?? null
+  // 28. gün mevsim değişimi uyarısı: kuruyacak ürünleri say
+  if (gameStore.day === 28) {
+    const SEASON_ORDER = ['spring', 'summer', 'autumn', 'winter'] as const
+    const nextSeason = SEASON_ORDER[(SEASON_ORDER.indexOf(gameStore.season) + 1) % 4]!
+    let willWitherCount = 0
+    let harvestableCount = 0
+    for (const plot of farmStore.plots) {
+      if ((plot.state === 'planted' || plot.state === 'growing' || plot.state === 'harvestable') && plot.cropId) {
+        const crop = getCropById(plot.cropId)
+        if (crop && !crop.season.includes(nextSeason)) {
+          willWitherCount++
+          if (plot.state === 'harvestable') harvestableCount++
+        }
+      }
+    }
+    if (willWitherCount > 0) {
+      const nextName = SEASON_NAMES[nextSeason]
+      let msg = `Yarın ${nextName} mevsimi başlıyor. ${willWitherCount} ürün kuruyacak!`
+      if (harvestableCount > 0) {
+        msg += ` (${harvestableCount} tanesi hasada hazır)`
+      }
+      warnings.push(msg)
+    }
+  }
+  return warnings.join('\n')
+})
+
+/** Evcil hayvan sahiplenme */
+const petChoice = ref<'cat' | 'dog' | null>(null)
+const petNameInput = ref('')
+
+const confirmPetAdoption = () => {
+  if (!petChoice.value) return
+  const animalStore = useAnimalStore()
+  const defaultName = petChoice.value === 'cat' ? 'Pamuk' : 'Karabaş'
+  const name = petNameInput.value.trim() || defaultName
+  animalStore.adoptPet(petChoice.value, name)
+  closePetAdoption()
+  petChoice.value = null
+  petNameInput.value = ''
+}
+
+/** Çocuk teklifi cevabı */
+const proposalSpouseName = computed(() => {
+  const spouse = npcStore.getSpouse()
+  if (!spouse) return 'Eşin'
+  return getNpcById(spouse.npcId)?.name ?? 'Eşin'
+})
+
+const handleChildProposalResponse = (response: 'accept' | 'decline' | 'wait') => {
+  const result = npcStore.respondToChildProposal(response)
+  addLog(result.message)
+  if (result.friendshipChange !== 0) {
+    addLog(`(Yakınlık ${result.friendshipChange > 0 ? '+' : ''}${result.friendshipChange})`)
+  }
+  closeChildProposal()
+}
+
+const inventoryStore = useInventoryStore()
+const warehouseStore = useWarehouseStore()
+
+const handleFarmEventChoice = (choice: MorningChoiceEvent['choices'][number]) => {
+  addLog(choice.result)
+  if (choice.effect) {
+    switch (choice.effect.type) {
+      case 'gainItem':
+        inventoryStore.addItem(choice.effect.itemId, choice.effect.qty)
+        break
+      case 'gainMoney':
+        playerStore.earnMoney(choice.effect.amount)
+        break
+      case 'gainFriendship':
+        for (const s of npcStore.npcStates) {
+          s.friendship += choice.effect.amount
+        }
+        break
+    }
+  }
+  closeFarmEvent()
+}
+
+// === Boşluk sandığı uzaktan erişim ===
+const showVoidModal = ref(false)
+const showVoidDepositModal = ref(false)
+const expandedVoidChestId = ref<string | null>(null)
+const voidDepositChestId = ref<string | null>(null)
+
+const voidChests = computed(() => warehouseStore.getVoidChests())
+const voidChestCapacity = CHEST_DEFS.void.capacity
+
+const getItemName = (itemId: string): string => getItemById(itemId)?.name ?? itemId
+
+const VOID_QUALITY_LABEL: Record<Quality, string> = {
+  normal: 'Normal',
+  fine: 'İyi',
+  excellent: 'Seçkin',
+  supreme: 'Efsane'
+}
+
+const voidQualityClass = (q: Quality): string => {
+  if (q === 'fine') return 'text-quality-fine'
+  if (q === 'excellent') return 'text-quality-excellent'
+  if (q === 'supreme') return 'text-quality-supreme'
+  return ''
+}
+
+const toggleVoidChest = (chestId: string) => {
+  expandedVoidChestId.value = expandedVoidChestId.value === chestId ? null : chestId
+}
+
+const openVoidDeposit = (chestId: string) => {
+  voidDepositChestId.value = chestId
+  showVoidDepositModal.value = true
+}
+
+const voidDepositableItems = computed(() =>
+  inventoryStore.items.filter(i => {
+    if (i.locked) return false
+    const def = getItemById(i.itemId)
+    return def && def.category !== 'seed'
   })
+)
 
-  // === 虚空箱数量选择 ===
-  interface VoidQtyModalData {
-    mode: 'withdraw' | 'deposit'
-    chestId: string
-    itemId: string
-    quality: Quality
-    max: number
-  }
-  const voidQtyModal = ref<VoidQtyModalData | null>(null)
-  const voidQty = ref(1)
+/** Çantadaki tek tuşla konulabilecek tekrar eden eşyalar */
+const voidDuplicateDepositItems = computed(() => {
+  if (!expandedVoidChestId.value) return []
+  const chest = warehouseStore.getChest(expandedVoidChestId.value)
+  if (!chest) return []
+  const chestItemIds = new Set(chest.items.map(i => i.itemId))
+  return inventoryStore.items.filter(i => {
+    if (i.locked) return false
+    const def = getItemById(i.itemId)
+    if (!def || def.category === 'seed') return false
+    return chestItemIds.has(i.itemId)
+  })
+})
 
-  const openVoidQtyModal = (mode: 'withdraw' | 'deposit', chestId: string, itemId: string, quality: Quality, max: number) => {
-    if (max <= 1) {
-      // 数量为1时直接执行，不弹窗
-      if (mode === 'withdraw') executeVoidWithdraw(chestId, itemId, quality, 1)
-      else executeVoidDeposit(chestId, itemId, quality, 1)
-      return
-    }
-    voidQtyModal.value = { mode, chestId, itemId, quality, max }
-    voidQty.value = max
-  }
-
-  const setVoidQty = (val: number) => {
-    if (!voidQtyModal.value) return
-    voidQty.value = Math.max(1, Math.min(val, voidQtyModal.value.max))
-  }
-  const addVoidQty = (delta: number) => setVoidQty(voidQty.value + delta)
-  const onVoidQtyInput = (e: Event) => {
-    const val = parseInt((e.target as HTMLInputElement).value, 10)
-    if (!isNaN(val)) setVoidQty(val)
-  }
-
-  const executeVoidWithdraw = (chestId: string, itemId: string, quality: Quality, qty: number) => {
-    if (!warehouseStore.withdrawFromChest(chestId, itemId, qty, quality)) {
-      addLog('背包已满，无法取出。')
-      return
-    }
-    addLog(`从虚空箱取出了${getItemName(itemId)}×${qty}。`)
-  }
-
-  const executeVoidDeposit = (chestId: string, itemId: string, quality: Quality, qty: number) => {
-    const actualQty = warehouseStore.depositToChest(chestId, itemId, qty, quality)
-    if (actualQty <= 0) {
-      addLog('虚空箱已满，无法存入。')
-      return
-    }
-    addLog(`存入了${getItemName(itemId)}×${actualQty}到虚空箱。`)
-    if (voidDepositableItems.value.length === 0 || warehouseStore.isChestFull(chestId)) {
-      showVoidDepositModal.value = false
+/** Tek tuşla tekrar eden eşyaları boşluk sandığına koy */
+const handleVoidDepositDuplicates = () => {
+  if (!expandedVoidChestId.value) return
+  const chestId = expandedVoidChestId.value
+  const snapshot = voidDuplicateDepositItems.value.map(i => ({ itemId: i.itemId, quality: i.quality, quantity: i.quantity }))
+  let totalDeposited = 0
+  let kindCount = 0
+  for (const item of snapshot) {
+    const actual = warehouseStore.depositToChest(chestId, item.itemId, item.quantity, item.quality)
+    if (actual > 0) {
+      totalDeposited += actual
+      kindCount++
     }
   }
-
-  const confirmVoidQty = () => {
-    if (!voidQtyModal.value) return
-    const { mode, chestId, itemId, quality } = voidQtyModal.value
-    if (mode === 'withdraw') executeVoidWithdraw(chestId, itemId, quality, voidQty.value)
-    else executeVoidDeposit(chestId, itemId, quality, voidQty.value)
-    voidQtyModal.value = null
+  if (totalDeposited > 0) {
+    addLog(`${kindCount} tür eşya, toplam ${totalDeposited} adet olarak boşluk sandığına kondu.`)
+  } else {
+    addLog('Boşluk sandığı dolu, eşya koyulamıyor.')
   }
+}
 
-  const confirmSleep = () => {
-    showSleepConfirm.value = false
-    pauseClock()
-    handleEndDay()
-    switchToSeasonalBgm()
-    resumeClock()
+/** Boşluk sandığı eşya bilgi penceresi */
+const voidItemDetail = ref<{ itemId: string; quality: Quality; quantity: number } | null>(null)
+const voidItemDef = computed(() => {
+  if (!voidItemDetail.value) return null
+  return getItemById(voidItemDetail.value.itemId) ?? null
+})
+
+// === Boşluk sandığı miktar seçimi ===
+interface VoidQtyModalData {
+  mode: 'withdraw' | 'deposit'
+  chestId: string
+  itemId: string
+  quality: Quality
+  max: number
+}
+const voidQtyModal = ref<VoidQtyModalData | null>(null)
+const voidQty = ref(1)
+
+const openVoidQtyModal = (mode: 'withdraw' | 'deposit', chestId: string, itemId: string, quality: Quality, max: number) => {
+  if (max <= 1) {
+    // Miktar 1 ise direkt uygula
+    if (mode === 'withdraw') executeVoidWithdraw(chestId, itemId, quality, 1)
+    else executeVoidDeposit(chestId, itemId, quality, 1)
+    return
   }
+  voidQtyModal.value = { mode, chestId, itemId, quality, max }
+  voidQty.value = max
+}
+
+const setVoidQty = (val: number) => {
+  if (!voidQtyModal.value) return
+  voidQty.value = Math.max(1, Math.min(val, voidQtyModal.value.max))
+}
+const addVoidQty = (delta: number) => setVoidQty(voidQty.value + delta)
+const onVoidQtyInput = (e: Event) => {
+  const val = parseInt((e.target as HTMLInputElement).value, 10)
+  if (!isNaN(val)) setVoidQty(val)
+}
+
+const executeVoidWithdraw = (chestId: string, itemId: string, quality: Quality, qty: number) => {
+  if (!warehouseStore.withdrawFromChest(chestId, itemId, qty, quality)) {
+    addLog('Çanta dolu, eşya alınamıyor.')
+    return
+  }
+  addLog(`${getItemName(itemId)} ×${qty} boşluk sandığından alındı.`)
+}
+
+const executeVoidDeposit = (chestId: string, itemId: string, quality: Quality, qty: number) => {
+  const actualQty = warehouseStore.depositToChest(chestId, itemId, qty, quality)
+  if (actualQty <= 0) {
+    addLog('Boşluk sandığı dolu, eşya koyulamıyor.')
+    return
+  }
+  addLog(`${getItemName(itemId)} ×${actualQty} boşluk sandığına kondu.`)
+  if (voidDepositableItems.value.length === 0 || warehouseStore.isChestFull(chestId)) {
+    showVoidDepositModal.value = false
+  }
+}
+
+const confirmVoidQty = () => {
+  if (!voidQtyModal.value) return
+  const { mode, chestId, itemId, quality } = voidQtyModal.value
+  if (mode === 'withdraw') executeVoidWithdraw(chestId, itemId, quality, voidQty.value)
+  else executeVoidDeposit(chestId, itemId, quality, voidQty.value)
+  voidQtyModal.value = null
+}
+
+const confirmSleep = () => {
+  showSleepConfirm.value = false
+  pauseClock()
+  handleEndDay()
+  switchToSeasonalBgm()
+  resumeClock()
+}
 </script>
 
 <style scoped>
-  /* 移动端地图按钮 */
-  .mobile-map-btn,
-  .mobile-setting-btn {
-    position: fixed;
-    bottom: calc(calc(0.35rem * 10) + constant(safe-area-inset-bottom, 0px));
-    bottom: calc(calc(0.35rem * 10) + env(safe-area-inset-bottom, 0px));
-    right: 12px;
-    z-index: 40;
-    width: 40px;
-    height: 40px;
-    border-radius: 2px;
-    background: rgb(var(--color-panel));
-    border: 2px solid var(--color-accent);
-    color: var(--color-accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    transition:
-      background-color 0.15s,
-      color 0.15s;
-  }
+/* Mobil harita butonu */
+.mobile-map-btn,
+.mobile-setting-btn {
+  position: fixed;
+  bottom: calc(calc(0.35rem * 10) + constant(safe-area-inset-bottom, 0px));
+  bottom: calc(calc(0.35rem * 10) + env(safe-area-inset-bottom, 0px));
+  right: 12px;
+  z-index: 40;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  background: rgb(var(--color-panel));
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
 
-  .mobile-setting-btn {
-    bottom: calc(calc(0.35rem * 10) + 48px + constant(safe-area-inset-bottom, 0px));
-    bottom: calc(calc(0.35rem * 10) + 48px + env(safe-area-inset-bottom, 0px));
-  }
+.mobile-setting-btn {
+  bottom: calc(calc(0.35rem * 10) + 48px + constant(safe-area-inset-bottom, 0px));
+  bottom: calc(calc(0.35rem * 10) + 48px + env(safe-area-inset-bottom, 0px));
+}
 
-  .mobile-void-btn {
-    position: fixed;
-    bottom: calc(calc(0.35rem * 10) + 96px + constant(safe-area-inset-bottom, 0px));
-    bottom: calc(calc(0.35rem * 10) + 96px + env(safe-area-inset-bottom, 0px));
-    right: 12px;
-    z-index: 40;
-    width: 40px;
-    height: 40px;
-    border-radius: 2px;
-    background: rgb(var(--color-panel));
-    border: 2px solid var(--color-accent);
-    color: var(--color-accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    transition:
-      background-color 0.15s,
-      color 0.15s;
-  }
+.mobile-void-btn {
+  position: fixed;
+  bottom: calc(calc(0.35rem * 10) + 96px + constant(safe-area-inset-bottom, 0px));
+  bottom: calc(calc(0.35rem * 10) + 96px + env(safe-area-inset-bottom, 0px));
+  right: 12px;
+  z-index: 40;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  background: rgb(var(--color-panel));
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
 
-  .mobile-log-btn {
-    position: fixed;
-    bottom: calc(calc(0.35rem * 10) + 96px + constant(safe-area-inset-bottom, 0px));
-    bottom: calc(calc(0.35rem * 10) + 96px + env(safe-area-inset-bottom, 0px));
-    right: 12px;
-    z-index: 40;
-    width: 40px;
-    height: 40px;
-    border-radius: 2px;
-    background: rgb(var(--color-panel));
-    border: 2px solid var(--color-accent);
-    color: var(--color-accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    transition:
-      background-color 0.15s,
-      color 0.15s;
-  }
+.mobile-log-btn {
+  position: fixed;
+  bottom: calc(calc(0.35rem * 10) + 96px + constant(safe-area-inset-bottom, 0px));
+  bottom: calc(calc(0.35rem * 10) + 96px + env(safe-area-inset-bottom, 0px));
+  right: 12px;
+  z-index: 40;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  background: rgb(var(--color-panel));
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
 
-  .mobile-log-btn.with-void {
-    bottom: calc(calc(0.35rem * 10) + 144px + constant(safe-area-inset-bottom, 0px));
-    bottom: calc(calc(0.35rem * 10) + 144px + env(safe-area-inset-bottom, 0px));
-  }
+.mobile-log-btn.with-void {
+  bottom: calc(calc(0.35rem * 10) + 144px + constant(safe-area-inset-bottom, 0px));
+  bottom: calc(calc(0.35rem * 10) + 144px + env(safe-area-inset-bottom, 0px));
+}
 
-  .mobile-map-btn:hover,
-  .mobile-map-btn:active,
-  .mobile-void-btn:hover,
-  .mobile-void-btn:active,
-  .mobile-log-btn:hover,
-  .mobile-log-btn:active {
-    background: var(--color-accent);
-    color: rgb(var(--color-bg));
-  }
+.mobile-map-btn:hover,
+.mobile-map-btn:active,
+.mobile-void-btn:hover,
+.mobile-void-btn:active,
+.mobile-log-btn:hover,
+.mobile-log-btn:active {
+  background: var(--color-accent);
+  color: rgb(var(--color-bg));
+}
 </style>
