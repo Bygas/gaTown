@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import legacy from '@vitejs/plugin-legacy'
 
-/** Dev-only：WebDAV 反向代理，绕过浏览器 CORS */
+/** Sadece geliştirme için: WebDAV ters proxy (tarayıcı CORS engelini aşmak için) */
 const webdavProxy = (): Plugin => ({
   name: 'webdav-proxy',
   configureServer(server) {
@@ -11,33 +11,39 @@ const webdavProxy = (): Plugin => ({
       const targetUrl = req.headers['x-webdav-url'] as string | undefined
       if (!targetUrl) {
         res.statusCode = 400
-        res.end('Missing x-webdav-url header')
+        res.end('x-webdav-url başlığı eksik')
         return
       }
       try {
         const url = new URL(targetUrl)
         const mod = url.protocol === 'https:' ? await import('node:https') : await import('node:http')
         const fwdHeaders: Record<string, string> = {}
+
         for (const [k, v] of Object.entries(req.headers)) {
           if (['x-webdav-url', 'host', 'origin', 'referer', 'connection'].includes(k)) continue
           if (typeof v === 'string') fwdHeaders[k] = v
         }
+
         fwdHeaders.host = url.host
+
         const proxyReq = mod.request(url, { method: req.method, headers: fwdHeaders }, (proxyRes) => {
-          // 剥离 WWW-Authenticate 防止浏览器弹出原生认证对话框
+          // WWW-Authenticate başlığını kaldır (tarayıcının yerel kimlik doğrulama penceresi açmasını engeller)
           const respHeaders = { ...proxyRes.headers }
           delete respHeaders['www-authenticate']
+
           res.writeHead(proxyRes.statusCode!, respHeaders)
           proxyRes.pipe(res)
         })
+
         proxyReq.on('error', () => {
           res.statusCode = 502
-          res.end('Proxy error')
+          res.end('Proxy hatası')
         })
+
         req.pipe(proxyReq)
       } catch {
         res.statusCode = 500
-        res.end('Internal proxy error')
+        res.end('Dahili proxy hatası')
       }
     })
   }
@@ -45,13 +51,16 @@ const webdavProxy = (): Plugin => ({
 
 export default defineConfig({
   base: './',
+
   build: {
     outDir: 'docs'
   },
+
   esbuild: {
     drop: ['console', 'debugger'],
     legalComments: 'none'
   },
+
   plugins: [
     vue({
       template: {
@@ -60,12 +69,15 @@ export default defineConfig({
         }
       }
     }),
+
     legacy({
       targets: ['Chrome >= 51', 'Android >= 7'],
       modernPolyfills: true
     }),
+
     webdavProxy()
   ],
+
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')
