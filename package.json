@@ -1,6 +1,6 @@
 {
-  "name": "taoyuan",
-  "title": "桃源乡",
+  "name": "gaTown",
+  "title": "ga Köyü",
   "qq": "920930589",
   "tapid": "816558",
   "private": true,
@@ -18,7 +18,7 @@
     "build:android": "pnpm run build && npx cap sync android",
     "build:apk": "pnpm run build:android && cd android && ./gradlew assembleRelease"
   },
-  "description": "一款文字版田园模拟经营游戏，灵感来自星露谷物语",
+  "description": "Stardew Valley'den ilham alan metin tabanlı bir çiftlik ve köy yönetim simülasyonu",
   "author": "setube",
   "dependencies": {
     "@capacitor/android": "^8.1.0",
@@ -62,7 +62,7 @@
   },
   "build": {
     "appId": "games.wenzi.taoyuan",
-    "productName": "桃源乡",
+    "productName": "Taoyuan Köyü",
     "asar": false,
     "files": [
       "dist-electron/**/*",
