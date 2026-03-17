@@ -3,37 +3,55 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import legacy from '@vitejs/plugin-legacy'
 
-/** Sadece geliştirme için: WebDAV ters proxy (tarayıcı CORS engelini aşmak için) */
+/**
+ * Sadece geliştirme ortamı için:
+ * WebDAV ters proxy (reverse proxy)
+ * → Tarayıcıdaki CORS kısıtlamasını aşmak için kullanılır
+ */
 const webdavProxy = (): Plugin => ({
   name: 'webdav-proxy',
+
   configureServer(server) {
     server.middlewares.use('/__webdav', async (req, res) => {
       const targetUrl = req.headers['x-webdav-url'] as string | undefined
+
       if (!targetUrl) {
         res.statusCode = 400
         res.end('x-webdav-url başlığı eksik')
         return
       }
+
       try {
         const url = new URL(targetUrl)
-        const mod = url.protocol === 'https:' ? await import('node:https') : await import('node:http')
+
+        const mod =
+          url.protocol === 'https:'
+            ? await import('node:https')
+            : await import('node:http')
+
+        // İleri yönlendirilecek header'lar
         const fwdHeaders: Record<string, string> = {}
 
-        for (const [k, v] of Object.entries(req.headers)) {
-          if (['x-webdav-url', 'host', 'origin', 'referer', 'connection'].includes(k)) continue
-          if (typeof v === 'string') fwdHeaders[k] = v
+        for (const [key, value] of Object.entries(req.headers)) {
+          if (['x-webdav-url', 'host', 'origin', 'referer', 'connection'].includes(key)) continue
+          if (typeof value === 'string') fwdHeaders[key] = value
         }
 
+        // Hedef host ayarlanır
         fwdHeaders.host = url.host
 
-        const proxyReq = mod.request(url, { method: req.method, headers: fwdHeaders }, (proxyRes) => {
-          // WWW-Authenticate başlığını kaldır (tarayıcının yerel kimlik doğrulama penceresi açmasını engeller)
-          const respHeaders = { ...proxyRes.headers }
-          delete respHeaders['www-authenticate']
+        const proxyReq = mod.request(
+          url,
+          { method: req.method, headers: fwdHeaders },
+          (proxyRes) => {
+            // Tarayıcının otomatik auth popup açmasını engelle
+            const respHeaders = { ...proxyRes.headers }
+            delete respHeaders['www-authenticate']
 
-          res.writeHead(proxyRes.statusCode!, respHeaders)
-          proxyRes.pipe(res)
-        })
+            res.writeHead(proxyRes.statusCode!, respHeaders)
+            proxyRes.pipe(res)
+          }
+        )
 
         proxyReq.on('error', () => {
           res.statusCode = 502
@@ -43,7 +61,7 @@ const webdavProxy = (): Plugin => ({
         req.pipe(proxyReq)
       } catch {
         res.statusCode = 500
-        res.end('Dahili proxy hatası')
+        res.end('Sunucu içi proxy hatası')
       }
     })
   }
@@ -57,7 +75,7 @@ export default defineConfig({
   },
 
   esbuild: {
-    drop: ['console', 'debugger'],
+    drop: ['console', 'debugger'], // prod build'te temizle
     legalComments: 'none'
   },
 
@@ -65,7 +83,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          comments: false
+          comments: false // template yorumlarını kaldır
         }
       }
     }),
