@@ -1,53 +1,52 @@
 <template>
   <div>
-    <!-- 标题 -->
+    <!-- Başlık -->
     <div class="flex items-center justify-between mb-1">
       <div class="flex items-center space-x-1.5 text-sm text-accent">
         <User :size="14" />
-        <span>角色信息</span>
+        <span>Karakter Bilgisi</span>
       </div>
-      <span class="text-xs text-muted">第{{ gameStore.year }}年 {{ SEASON_NAMES[gameStore.season] }}</span>
+      <span class="text-xs text-muted">Yıl {{ gameStore.year }} - {{ SEASON_NAMES[gameStore.season] }}</span>
     </div>
 
-    <!-- 角色身份 + 属性 -->
-    <div class="border border-accent/20 rounded-xs p-2 mb-3">
-      <div class="flex items-center justify-between mb-2">
-        <span class="text-sm text-accent">{{ playerStore.playerName }}</span>
-        <span class="text-xs text-muted">{{ genderLabel }}</span>
-      </div>
+ <!-- Karakter Kimliği + Özellikler -->
+<div class="border border-accent/20 rounded-xs p-2 mb-3">
+  <div class="flex items-center justify-between mb-2">
+    <span class="text-sm text-accent">{{ playerStore.playerName }}</span>
+    <span class="text-xs text-muted">{{ genderLabel }}</span>
+  </div>
 
-      <div class="flex flex-col space-y-1.5">
-        <!-- 体力 -->
-        <div class="flex items-center space-x-2">
-          <span class="text-xs text-muted shrink-0">体力</span>
-          <div class="flex-1 h-1 bg-bg rounded-xs border border-accent/10">
-            <div
-              class="h-full rounded-xs transition-all"
-              :class="playerStore.staminaPercent > 35 ? 'bg-success' : 'bg-danger'"
-              :style="{ width: playerStore.staminaPercent + '%' }"
-            />
-          </div>
-          <span class="text-xs whitespace-nowrap">{{ playerStore.stamina }}/{{ playerStore.maxStamina }}</span>
-        </div>
-        <!-- 生命 -->
-        <div class="flex items-center space-x-2">
-          <span class="text-xs text-muted shrink-0">生命</span>
-          <div class="flex-1 h-1 bg-bg rounded-xs border border-accent/10">
-            <div
-              class="h-full rounded-xs transition-all"
-              :class="playerStore.getHpPercent() > 25 ? 'bg-success' : 'bg-danger'"
-              :style="{ width: playerStore.getHpPercent() + '%' }"
-            />
-          </div>
-          <span class="text-xs whitespace-nowrap">{{ playerStore.hp }}/{{ playerStore.getMaxHp() }}</span>
-        </div>
-        <!-- 铜钱 -->
-        <div class="flex items-center justify-between">
-          <span class="text-xs text-muted">铜钱</span>
-          <span class="text-xs text-accent">{{ playerStore.money }}文</span>
-        </div>
+  <div class="flex flex-col space-y-1.5">
+    <!-- Dayanıklılık -->
+    <div class="flex items-center space-x-2">
+      <span class="text-xs text-muted shrink-0">Dayanıklılık</span>
+      <div class="flex-1 h-1 bg-bg rounded-xs border border-accent/10">
+        <div
+          class="h-full rounded-xs transition-all"
+          :class="playerStore.staminaPercent > 35 ? 'bg-success' : 'bg-danger'"
+          :style="{ width: playerStore.staminaPercent + '%' }"
+        />
       </div>
+      <span class="text-xs whitespace-nowrap">{{ playerStore.stamina }}/{{ playerStore.maxStamina }}</span>
     </div>
+    <!-- Can -->
+<div class="flex items-center space-x-2">
+  <span class="text-xs text-muted shrink-0">Can</span>
+  <div class="flex-1 h-1 bg-bg rounded-xs border border-accent/10">
+    <div
+      class="h-full rounded-xs transition-all"
+      :class="playerStore.getHpPercent() > 25 ? 'bg-success' : 'bg-danger'"
+      :style="{ width: playerStore.getHpPercent() + '%' }"
+    />
+  </div>
+  <span class="text-xs whitespace-nowrap">{{ playerStore.hp }}/{{ playerStore.getMaxHp() }}</span>
+</div>
+
+<!-- Para -->
+<div class="flex items-center justify-between">
+  <span class="text-xs text-muted">Para</span>
+  <span class="text-xs text-accent">{{ playerStore.money }} akçe</span>
+</div>
 
     <!-- 装备槽位 -->
     <div class="border border-accent/20 rounded-xs p-2 mb-3">
