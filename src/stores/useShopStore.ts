@@ -14,7 +14,7 @@ import type { TravelingMerchantStock } from '@/data/travelingMerchant'
 import type { Quality } from '@/types'
 import { useHiddenNpcStore } from './useHiddenNpcStore'
 
-/** 商铺商品项 */
+/** Mağaza ürün kaydı */
 export interface ShopItemEntry {
   itemId: string
   name: string
@@ -28,26 +28,26 @@ export const useShopStore = defineStore('shop', () => {
   const inventoryStore = useInventoryStore()
   const skillStore = useSkillStore()
 
-  // === 多商铺导航 ===
+  // === Çoklu mağaza gezinmesi ===
 
-  /** 当前选中的商铺（null=商圈总览） */
+  /** Şu anda seçili mağaza (null = çarşı genel görünümü) */
   const currentShopId = ref<string | null>(null)
 
-  // === 折扣系统 ===
+  // === İndirim sistemi ===
 
-  /** 计算折扣后的价格 */
+  /** İndirimli fiyatı hesapla */
   const applyDiscount = (price: number): number => {
     const walletStore = useWalletStore()
     const discount = walletStore.getShopDiscount()
     const ringDiscount = inventoryStore.getRingEffectValue('shop_discount')
-    // 仙缘能力：狐眼（hu_xian_1）商店价格降低
+    // Ruh bağı yeteneği: Tilki Gözü (hu_xian_1) mağaza fiyatlarını düşürür
     const spiritDiscount = useHiddenNpcStore().getAbilityValue('hu_xian_1') / 100
     return Math.floor(price * (1 - discount) * (1 - ringDiscount) * (1 - spiritDiscount))
   }
 
-  // === 万物铺 (陈伯) ===
+  // === Genel dükkân ===
 
-  /** 当前季节可购买的种子 */
+  /** Mevcut mevsimde satın alınabilecek tohumlar */
   const availableSeeds = computed(() => {
     return getCropsBySeason(gameStore.season)
       .filter(crop => crop.seedPrice > 0)
@@ -63,7 +63,7 @@ export const useShopStore = defineStore('shop', () => {
       }))
   })
 
-  /** 购买种子 */
+  /** Tohum satın al */
   const buySeed = (seedId: string, quantity: number = 1): boolean => {
     const seed = availableSeeds.value.find(s => s.seedId === seedId)
     if (!seed) return false
@@ -77,21 +77,21 @@ export const useShopStore = defineStore('shop', () => {
     return true
   }
 
-  // === 铁匠铺 (孙铁匠) ===
+  // === Demirci ===
 
   const blacksmithItems = computed<ShopItemEntry[]>(() => [
-    { itemId: 'copper_ore', name: '铜矿', price: 100, description: '矿洞中常见的铜矿' },
-    { itemId: 'iron_ore', name: '铁矿', price: 200, description: '中层矿洞出产的铁矿' },
-    { itemId: 'gold_ore', name: '金矿', price: 400, description: '深层矿洞出产的金矿' },
-    { itemId: 'copper_bar', name: '铜锭', price: 300, description: '冶炼好的铜锭' },
-    { itemId: 'iron_bar', name: '铁锭', price: 600, description: '冶炼好的铁锭' },
-    { itemId: 'gold_bar', name: '金锭', price: 1200, description: '冶炼好的金锭' },
-    { itemId: 'charcoal', name: '木炭', price: 100, description: '烧制的木炭' }
+    { itemId: 'copper_ore', name: 'Bakır Cevheri', price: 100, description: 'Madende sık görülen bakır cevheri' },
+    { itemId: 'iron_ore', name: 'Demir Cevheri', price: 200, description: 'Orta katmanlarda çıkan demir cevheri' },
+    { itemId: 'gold_ore', name: 'Altın Cevheri', price: 400, description: 'Derin katmanlarda çıkan altın cevheri' },
+    { itemId: 'copper_bar', name: 'Bakır Külçe', price: 300, description: 'Eritilmiş bakır külçesi' },
+    { itemId: 'iron_bar', name: 'Demir Külçe', price: 600, description: 'Eritilmiş demir külçesi' },
+    { itemId: 'gold_bar', name: 'Altın Külçe', price: 1200, description: 'Eritilmiş altın külçesi' },
+    { itemId: 'charcoal', name: 'Odun Kömürü', price: 100, description: 'Yakılarak elde edilmiş odun kömürü' }
   ])
 
-  // === 药铺 (林老) ===
+  // === Eczane ===
 
-  /** 可购买的肥料（shopPrice != null） */
+  /** Satın alınabilir gübreler (shopPrice != null) */
   const shopFertilizers = computed(() =>
     FERTILIZERS.filter(f => f.shopPrice !== null).map(f => ({
       id: f.id,
@@ -102,19 +102,19 @@ export const useShopStore = defineStore('shop', () => {
   )
 
   const apothecaryItems = computed<ShopItemEntry[]>(() => [
-    { itemId: 'herb', name: '草药', price: 50, description: '山间野生的草药' },
-    { itemId: 'ginseng', name: '人参', price: 600, description: '极其珍贵的野生人参' },
-    { itemId: 'animal_medicine', name: '兽药', price: 150, description: '治疗生病的牲畜' },
-    { itemId: 'premium_feed', name: '精饲料', price: 200, description: '提升动物心情和好感' },
-    { itemId: 'nourishing_feed', name: '滋补饲料', price: 250, description: '加速动物产出' },
-    { itemId: 'vitality_feed', name: '活力饲料', price: 300, description: '喂食必定治愈疾病' },
-    { itemId: 'fish_feed', name: '鱼饲料', price: 30, description: '鱼塘专用饲料' },
-    { itemId: 'water_purifier', name: '水质改良剂', price: 100, description: '改善鱼塘水质' }
+    { itemId: 'herb', name: 'Şifalı Ot', price: 50, description: 'Dağlarda yetişen yabani otlar' },
+    { itemId: 'ginseng', name: 'Ginseng', price: 600, description: 'Son derece değerli yabani ginseng' },
+    { itemId: 'animal_medicine', name: 'Hayvan İlacı', price: 150, description: 'Hastalanan çiftlik hayvanlarını tedavi eder' },
+    { itemId: 'premium_feed', name: 'Özel Yem', price: 200, description: 'Hayvanların ruh halini ve sevgisini artırır' },
+    { itemId: 'nourishing_feed', name: 'Besleyici Yem', price: 250, description: 'Hayvan üretimini hızlandırır' },
+    { itemId: 'vitality_feed', name: 'Canlandırıcı Yem', price: 300, description: 'Verildiğinde hastalığı kesin iyileştirir' },
+    { itemId: 'fish_feed', name: 'Balık Yemi', price: 30, description: 'Balık havuzu için özel yem' },
+    { itemId: 'water_purifier', name: 'Su Arıtıcı', price: 100, description: 'Balık havuzunun su kalitesini iyileştirir' }
   ])
 
-  // === 渔具铺 (秋月) ===
+  // === Balıkçılık dükkânı ===
 
-  /** 可购买的鱼饵（shopPrice != null） */
+  /** Satın alınabilir yemler (shopPrice != null) */
   const shopBaits = computed(() =>
     BAITS.filter(b => b.shopPrice !== null).map(b => ({
       id: b.id,
@@ -124,7 +124,7 @@ export const useShopStore = defineStore('shop', () => {
     }))
   )
 
-  /** 可购买的浮漂（shopPrice != null） */
+  /** Satın alınabilir şamandıralar (shopPrice != null) */
   const shopTackles = computed(() =>
     TACKLES.filter(t => t.shopPrice !== null).map(t => ({
       id: t.id,
@@ -134,29 +134,29 @@ export const useShopStore = defineStore('shop', () => {
     }))
   )
 
-  /** 渔具铺其他商品 */
+  /** Balıkçılık dükkânındaki diğer ürünler */
   const fishingShopItems = computed<ShopItemEntry[]>(() => [
-    { itemId: 'crab_pot', name: '蟹笼', price: 1500, description: '放置在钓鱼地点，每日自动捕获水产（需鱼饵）' }
+    { itemId: 'crab_pot', name: 'Yengeç Kapanı', price: 1500, description: 'Balık tutma alanına yerleştirilir, her gün otomatik su ürünü yakalar (yem gerekir)' }
   ])
 
-  // === 绸缎庄 (素素) ===
+  // === Kumaşçı ===
 
   const textileItems = computed<ShopItemEntry[]>(() => [
-    { itemId: 'cloth', name: '布匹', price: 1200, description: '用羊毛纺织的布匹' },
-    { itemId: 'silk_cloth', name: '丝绸', price: 500, description: '华美的丝绸' },
-    { itemId: 'alpaca_cloth', name: '羊驼绒', price: 900, description: '极其柔软的羊驼绒布' },
-    { itemId: 'felt', name: '毛毡', price: 600, description: '用兔毛压制的毛毡' },
-    { itemId: 'silk_ribbon', name: '丝帕', price: 500, description: '精心绣制的丝帕' },
-    { itemId: 'jade_ring', name: '翡翠戒指', price: 1500, description: '可以用来求婚' },
-    { itemId: 'zhiji_jade', name: '知己玉佩', price: 1500, description: '赠予同性挚友可结为知己' },
-    { itemId: 'pine_incense', name: '松香', price: 250, description: '清新的松香' },
-    { itemId: 'camphor_incense', name: '樟脑香', price: 400, description: '提神醒脑' },
-    { itemId: 'osmanthus_incense', name: '桂花香', price: 800, description: '馥郁的桂花香' }
+    { itemId: 'cloth', name: 'Kumaş', price: 1200, description: 'Yünden dokunmuş kumaş' },
+    { itemId: 'silk_cloth', name: 'İpek', price: 500, description: 'Gösterişli ipek kumaş' },
+    { itemId: 'alpaca_cloth', name: 'Alpaka Yünü', price: 900, description: 'Son derece yumuşak alpaka kumaşı' },
+    { itemId: 'felt', name: 'Keçe', price: 600, description: 'Tavşan tüyünden sıkıştırılmış keçe' },
+    { itemId: 'silk_ribbon', name: 'İpek Mendil', price: 500, description: 'Özenle işlenmiş ipek mendil' },
+    { itemId: 'jade_ring', name: 'Yeşim Yüzük', price: 1500, description: 'Evlenme teklifinde kullanılabilir' },
+    { itemId: 'zhiji_jade', name: 'Dostluk Yeşimi', price: 1500, description: 'Aynı cinsiyetten yakın dosta verilirse ruh dostu olunur' },
+    { itemId: 'pine_incense', name: 'Çam Tütsüsü', price: 250, description: 'Ferah çam kokusu' },
+    { itemId: 'camphor_incense', name: 'Kafur Tütsüsü', price: 400, description: 'Zihni açar, canlandırır' },
+    { itemId: 'osmanthus_incense', name: 'Osmanthus Tütsüsü', price: 800, description: 'Yoğun ve hoş osmanthus kokusu' }
   ])
 
-  // === 通用购买/出售 ===
+  // === Genel satın alma / satma ===
 
-  /** 购买通用物品 */
+  /** Genel eşya satın al */
   const buyItem = (itemId: string, price: number, quantity: number = 1): boolean => {
     if (inventoryStore.isAllFull && !inventoryStore.items.some(s => s.itemId === itemId && s.quantity + quantity <= 99)) return false
     const totalCost = applyDiscount(price) * quantity
@@ -168,7 +168,7 @@ export const useShopStore = defineStore('shop', () => {
     return true
   }
 
-  /** 计算不含行情系数的基础售价 */
+  /** Piyasa katsayısı olmadan temel satış fiyatını hesapla */
   const _basePrice = (itemId: string, quantity: number, quality: Quality): number => {
     const itemDef = getItemById(itemId)
     if (!itemDef) return 0
@@ -187,14 +187,14 @@ export const useShopStore = defineStore('shop', () => {
     if (itemDef.category === 'fish' && gameStore.farmMapType === 'riverland') bonus *= 1.1
     if (itemDef.category === 'ore' && skillStore.getSkill('mining').perk10 === 'blacksmith') bonus *= 1.5
     const ringSelBonus = inventoryStore.getRingEffectValue('sell_price_bonus')
-    // 仙缘结缘：狐仙出售加成
+    // Ruh bağı ödülü: Tilki ruhu satış bonusu
     const hiddenNpcStore = useHiddenNpcStore()
     const sellBonusData = hiddenNpcStore.getBondBonusByType('sell_bonus')
     const spiritSellBonus = sellBonusData?.type === 'sell_bonus' ? sellBonusData.percent / 100 : 0
     return Math.floor(itemDef.sellPrice * quantity * qualityMultiplier[quality] * bonus * (1 + ringSelBonus) * (1 + spiritSellBonus))
   }
 
-  /** 计算物品售价（不执行出售，用于估价） */
+  /** Eşya satış fiyatını hesapla (sadece değer biçme için, satış yapmaz) */
   const calculateSellPrice = (itemId: string, quantity: number, quality: Quality): number => {
     const itemDef = getItemById(itemId)
     if (!itemDef) return 0
@@ -203,12 +203,12 @@ export const useShopStore = defineStore('shop', () => {
     return Math.floor(_basePrice(itemId, quantity, quality) * marketMultiplier)
   }
 
-  /** 计算不含行情的基础售价（用于显示原价） */
+  /** Piyasa etkisi olmadan temel satış fiyatını hesapla (ham fiyat gösterimi için) */
   const calculateBaseSellPrice = (itemId: string, quantity: number, quality: Quality): number => {
     return _basePrice(itemId, quantity, quality)
   }
 
-  /** 出售物品，返回实际售价（0表示失败） */
+  /** Eşya sat, gerçek satış fiyatını döndürür (0 = başarısız) */
   const sellItem = (itemId: string, quantity: number = 1, quality: Quality = 'normal'): number => {
     if (!inventoryStore.removeItem(itemId, quantity, quality)) return 0
     const totalPrice = calculateSellPrice(itemId, quantity, quality)
@@ -216,7 +216,7 @@ export const useShopStore = defineStore('shop', () => {
     return totalPrice
   }
 
-  // === 旅行商人 ===
+  // === Gezgin tüccar ===
 
   const travelingStock = ref<TravelingMerchantStock[]>([])
   const travelingStockKey = ref('')
@@ -227,7 +227,7 @@ export const useShopStore = defineStore('shop', () => {
     const key = `${gameStore.year}_${gameStore.seasonIndex}_${gameStore.day}`
     if (travelingStockKey.value === key) return
     travelingStock.value = generateMerchantStock(gameStore.year, gameStore.seasonIndex, gameStore.day, gameStore.season)
-    // 仙缘能力：狐运（hu_xian_3）旅行商人多1件稀有品
+    // Ruh bağı yeteneği: Tilki Talihi (hu_xian_3), gezgin tüccara 1 nadir eşya daha ekler
     if (useHiddenNpcStore().isAbilityActive('hu_xian_3')) {
       const existingIds = new Set(travelingStock.value.map(s => s.itemId))
       const available = TRAVELING_MERCHANT_POOL.filter(p => !existingIds.has(p.itemId))
@@ -261,12 +261,12 @@ export const useShopStore = defineStore('shop', () => {
     return true
   }
 
-  // === 出货箱 ===
+  // === Sevkiyat kutusu ===
 
-  /** 出货箱中的物品 */
+  /** Sevkiyat kutusundaki eşyalar */
   const shippingBox = ref<{ itemId: string; quantity: number; quality: Quality }[]>([])
 
-  /** 添加物品到出货箱 */
+  /** Sevkiyat kutusuna eşya ekle */
   const addToShippingBox = (itemId: string, quantity: number, quality: Quality): boolean => {
     if (!inventoryStore.removeItem(itemId, quantity, quality)) return false
     const existing = shippingBox.value.find(s => s.itemId === itemId && s.quality === quality)
@@ -278,13 +278,13 @@ export const useShopStore = defineStore('shop', () => {
     return true
   }
 
-  /** 从出货箱取回物品 */
+  /** Sevkiyat kutusundan eşya geri al */
   const removeFromShippingBox = (itemId: string, quantity: number, quality: Quality): boolean => {
     const idx = shippingBox.value.findIndex(s => s.itemId === itemId && s.quality === quality)
     if (idx === -1) return false
     const entry = shippingBox.value[idx]!
     if (entry.quantity < quantity) return false
-    // 先计算背包可用空间，避免 addItem 部分添加的副作用
+    // Önce çantadaki boş alanı hesapla; addItem’in kısmi ekleme etkilerini önlemek için
     const MAX_STACK = 99
     let space = 0
     for (const s of inventoryStore.items) {
@@ -295,7 +295,7 @@ export const useShopStore = defineStore('shop', () => {
     space += (inventoryStore.capacity - inventoryStore.items.length) * MAX_STACK
     const toTransfer = Math.min(quantity, space)
     if (toTransfer <= 0) return false
-    // 先从出货箱移除，再添加到背包
+    // Önce sevkiyat kutusundan düş, sonra çantaya ekle
     entry.quantity -= toTransfer
     if (entry.quantity <= 0) {
       shippingBox.value.splice(idx, 1)
@@ -304,18 +304,18 @@ export const useShopStore = defineStore('shop', () => {
     return true
   }
 
-  /** 处理出货箱结算（日结时调用），返回总收入 */
+  /** Gün sonu sevkiyat kutusunu işle, toplam geliri döndürür */
   const processShippingBox = (): number => {
     let total = 0
     const dayKey = `${gameStore.year}-${gameStore.seasonIndex}-${gameStore.day}`
     const dayRecord: Record<string, number> = { ...(shippingHistory.value[dayKey] ?? {}) }
     for (const entry of shippingBox.value) {
       total += calculateSellPrice(entry.itemId, entry.quantity, entry.quality)
-      // 记录出货收集
+      // Sevkiyat koleksiyonuna kaydet
       if (!shippedItems.value.includes(entry.itemId)) {
         shippedItems.value.push(entry.itemId)
       }
-      // 记录品类出货量（供需系数用）
+      // Kategori bazlı sevkiyat miktarını kaydet (arz-talep katsayısı için)
       const def = getItemById(entry.itemId)
       if (def) {
         dayRecord[def.category] = (dayRecord[def.category] ?? 0) + entry.quantity
@@ -327,22 +327,22 @@ export const useShopStore = defineStore('shop', () => {
     return total
   }
 
-  // === 出货收集 ===
+  // === Sevkiyat koleksiyonu ===
 
-  /** 已出货过的物品 ID 集合 */
+  /** Daha önce sevk edilmiş eşya ID kümesi */
   const shippedItems = ref<string[]>([])
 
-  // === 出货历史（供需系数用） ===
+  // === Sevkiyat geçmişi (arz-talep katsayısı için) ===
 
-  /** 近期出货记录：dayKey → { category → quantity } */
+  /** Son sevkiyat kayıtları: dayKey → { category → quantity } */
   const shippingHistory = ref<Record<string, Record<string, number>>>({})
 
-  /** 将日期转为绝对天数（用于比较距离） */
+  /** Tarihi mutlak gün değerine çevir (karşılaştırma için) */
   const _toAbsoluteDay = (year: number, seasonIndex: number, day: number): number => {
     return (year - 1) * 112 + seasonIndex * 28 + day
   }
 
-  /** 清理超过7天的出货记录 */
+  /** 7 günden eski sevkiyat kayıtlarını temizle */
   const _pruneShippingHistory = () => {
     const now = _toAbsoluteDay(gameStore.year, gameStore.seasonIndex, gameStore.day)
     const keys = Object.keys(shippingHistory.value)
@@ -355,7 +355,7 @@ export const useShopStore = defineStore('shop', () => {
     }
   }
 
-  /** 获取近7天各品类总出货量 */
+  /** Son 7 gündeki kategori bazlı toplam sevkiyat miktarını al */
   const getRecentShipping = (): Partial<Record<MarketCategory, number>> => {
     _pruneShippingHistory()
     const result: Partial<Record<MarketCategory, number>> = {}
@@ -367,7 +367,7 @@ export const useShopStore = defineStore('shop', () => {
     return result
   }
 
-  // === 序列化 ===
+  // === Serileştirme ===
 
   const serialize = () => ({
     travelingStockKey: travelingStockKey.value,
@@ -387,44 +387,44 @@ export const useShopStore = defineStore('shop', () => {
   }
 
   return {
-    // 导航
+    // Gezinme
     currentShopId,
-    // 折扣
+    // İndirim
     applyDiscount,
-    // 万物铺
+    // Genel dükkân
     availableSeeds,
     buySeed,
-    // 铁匠铺
+    // Demirci
     blacksmithItems,
-    // 渔具铺
+    // Balıkçılık dükkânı
     shopBaits,
     shopTackles,
     fishingShopItems,
-    // 药铺
+    // Eczane
     shopFertilizers,
     apothecaryItems,
-    // 绸缎庄
+    // Kumaşçı
     textileItems,
-    // 通用
+    // Genel
     buyItem,
     sellItem,
     calculateSellPrice,
     calculateBaseSellPrice,
-    // 旅行商人
+    // Gezgin tüccar
     travelingStock,
     isMerchantHere,
     refreshMerchantStock,
     buyFromTraveler,
-    // 出货箱
+    // Sevkiyat kutusu
     shippingBox,
     addToShippingBox,
     removeFromShippingBox,
     processShippingBox,
-    // 出货收集
+    // Sevkiyat koleksiyonu
     shippedItems,
-    // 行情供需
+    // Arz-talep verileri
     getRecentShipping,
-    // 序列化
+    // Serileştirme
     serialize,
     deserialize
   }
