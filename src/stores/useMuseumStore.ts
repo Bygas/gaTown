@@ -5,24 +5,24 @@ import { useInventoryStore } from './useInventoryStore'
 import { usePlayerStore } from './usePlayerStore'
 
 export const useMuseumStore = defineStore('museum', () => {
-  /** 已捐赠物品ID集合 */
+  /** Bağışlanmış eşya ID'leri kümesi */
   const donatedItems = ref<string[]>([])
 
-  /** 已领取的里程碑count值集合 */
+  /** Ödülü alınmış kilometre taşı sayıları kümesi */
   const claimedMilestones = ref<number[]>([])
 
-  /** 已捐赠数量 */
+  /** Bağışlanmış eşya sayısı */
   const donatedCount = computed(() => donatedItems.value.length)
 
-  /** 总物品数 */
+  /** Toplam eşya sayısı */
   const totalCount = computed(() => MUSEUM_ITEMS.length)
 
-  /** 是否已捐赠 */
+  /** Daha önce bağışlanmış mı */
   const isDonated = (itemId: string): boolean => {
     return donatedItems.value.includes(itemId)
   }
 
-  /** 是否可捐赠（背包中有且未捐赠过） */
+  /** Bağışlanabilir mi (çantada var ve daha önce bağışlanmamış) */
   const canDonate = (itemId: string): boolean => {
     if (isDonated(itemId)) return false
     if (!MUSEUM_ITEMS.find(m => m.id === itemId)) return false
@@ -30,7 +30,7 @@ export const useMuseumStore = defineStore('museum', () => {
     return inventoryStore.hasItem(itemId)
   }
 
-  /** 获取背包中可捐赠的物品列表 */
+  /** Çantadaki bağışlanabilir eşyaların listesi */
   const donatableItems = computed(() => {
     const inventoryStore = useInventoryStore()
     return inventoryStore.items
@@ -41,7 +41,7 @@ export const useMuseumStore = defineStore('museum', () => {
       .map(inv => inv.itemId)
   })
 
-  /** 捐赠物品 */
+  /** Eşya bağışla */
   const donateItem = (itemId: string): boolean => {
     if (!canDonate(itemId)) return false
     const inventoryStore = useInventoryStore()
@@ -51,12 +51,12 @@ export const useMuseumStore = defineStore('museum', () => {
     return true
   }
 
-  /** 可领取的里程碑 */
+  /** Alınabilir kilometre taşı ödülleri */
   const claimableMilestones = computed(() => {
     return MUSEUM_MILESTONES.filter(m => donatedCount.value >= m.count && !claimedMilestones.value.includes(m.count))
   })
 
-  /** 领取里程碑奖励 */
+  /** Kilometre taşı ödülünü al */
   const claimMilestone = (count: number): boolean => {
     const milestone = MUSEUM_MILESTONES.find(m => m.count === count)
     if (!milestone) return false
@@ -78,13 +78,13 @@ export const useMuseumStore = defineStore('museum', () => {
     return true
   }
 
-  /** 序列化 */
+  /** Serileştirme */
   const serialize = () => ({
     donatedItems: [...donatedItems.value],
     claimedMilestones: [...claimedMilestones.value]
   })
 
-  /** 反序列化 */
+  /** Serileştirmeyi geri yükleme */
   const deserialize = (data: ReturnType<typeof serialize>) => {
     donatedItems.value = data.donatedItems ?? []
     claimedMilestones.value = data.claimedMilestones ?? []
