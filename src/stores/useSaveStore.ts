@@ -34,12 +34,12 @@ const MAX_SLOTS = 3
 const ENCRYPTION_KEY = 'taoyuanxiang_2024_secret'
 const SAVE_FILE_EXT = '.tyx'
 
-/** 加密 JSON 字符串 */
+/** JSON metnini şifrele */
 const encrypt = (json: string): string => {
   return CryptoJS.AES.encrypt(json, ENCRYPTION_KEY).toString()
 }
 
-/** 解密为 JSON 字符串，失败返回 null */
+/** JSON metnine çöz, başarısızsa null döndür */
 const decrypt = (cipher: string): string | null => {
   try {
     const bytes = CryptoJS.AES.decrypt(cipher, ENCRYPTION_KEY)
@@ -50,7 +50,7 @@ const decrypt = (cipher: string): string | null => {
   }
 }
 
-/** 解密并解析存档数据 */
+/** Kayıt verisini çözüp ayrıştır */
 export const parseSaveData = (raw: string): Record<string, any> | null => {
   const decrypted = decrypt(raw)
   if (!decrypted) return null
@@ -73,10 +73,10 @@ export interface SaveSlotInfo {
 }
 
 export const useSaveStore = defineStore('save', () => {
-  /** 当前活跃存档槽位（-1 表示未分配） */
+  /** Etkin kayıt yuvası (-1 = atanmadı) */
   const activeSlot = ref(-1)
 
-  /** 获取所有存档槽位信息 */
+  /** Tüm kayıt yuvalarının bilgisini al */
   const getSlots = (): SaveSlotInfo[] => {
     const slots: SaveSlotInfo[] = []
     for (let i = 0; i < MAX_SLOTS; i++) {
@@ -108,7 +108,7 @@ export const useSaveStore = defineStore('save', () => {
     return slots
   }
 
-  /** 为新游戏分配一个空闲槽位，无空闲则返回 -1 */
+  /** Yeni oyun için boş bir yuva ata, boş yoksa -1 döndür */
   const assignNewSlot = (): number => {
     const slots = getSlots()
     const empty = slots.find(s => !s.exists)
@@ -117,7 +117,7 @@ export const useSaveStore = defineStore('save', () => {
     return slot
   }
 
-  /** 保存到指定槽位 */
+  /** Belirtilen yuvaya kaydet */
   const saveToSlot = (slot: number): boolean => {
     if (slot < 0 || slot >= MAX_SLOTS) return false
     try {
@@ -185,13 +185,13 @@ export const useSaveStore = defineStore('save', () => {
     }
   }
 
-  /** 自动存档到当前活跃槽位 */
+  /** Etkin kayıt yuvasına otomatik kaydet */
   const autoSave = (): boolean => {
     if (activeSlot.value < 0) return false
     return saveToSlot(activeSlot.value)
   }
 
-  /** 从指定槽位加载 */
+  /** Belirtilen yuvadan yükle */
   const loadFromSlot = (slot: number): boolean => {
     try {
       const raw = localStorage.getItem(`${SAVE_KEY_PREFIX}${slot}`)
@@ -259,7 +259,7 @@ export const useSaveStore = defineStore('save', () => {
     }
   }
 
-  /** 删除指定槽位 */
+  /** Belirtilen kayıt yuvasını sil */
   const deleteSlot = (slot: number): boolean => {
     if (slot < 0 || slot >= MAX_SLOTS) return false
     localStorage.removeItem(`${SAVE_KEY_PREFIX}${slot}`)
@@ -267,7 +267,7 @@ export const useSaveStore = defineStore('save', () => {
     return true
   }
 
-  /** 导出存档为加密文件 */
+  /** Kaydı şifreli dosya olarak dışa aktar */
   const exportSave = (slot: number): boolean => {
     try {
       const raw = localStorage.getItem(`${SAVE_KEY_PREFIX}${slot}`)
@@ -275,8 +275,8 @@ export const useSaveStore = defineStore('save', () => {
       const blob = new Blob([raw], { type: 'application/octet-stream' })
       const info = getSlots().find(s => s.slot === slot)
       const name = info?.exists
-        ? `桃源乡_存档${slot + 1}_第${info.year}年${SEASON_NAMES[info.season as keyof typeof SEASON_NAMES] ?? info.season}第${info.day}天`
-        : `桃源乡_存档${slot + 1}`
+        ? `Taoyuanxiang_Kayit${slot + 1}_${info.year}.Yil${SEASON_NAMES[info.season as keyof typeof SEASON_NAMES] ?? info.season}${info.day}.Gun`
+        : `Taoyuanxiang_Kayit${slot + 1}`
       saveAs(blob, `${name}${SAVE_FILE_EXT}`)
       return true
     } catch {
@@ -284,11 +284,11 @@ export const useSaveStore = defineStore('save', () => {
     }
   }
 
-  /** 从文件导入存档到指定槽位 */
+  /** Dosyadan kaydı belirtilen yuvaya içe aktar */
   const importSave = (slot: number, fileContent: string): boolean => {
     if (slot < 0 || slot >= MAX_SLOTS) return false
     try {
-      // 验证文件内容可解密
+      // Dosya içeriğinin çözülebilir olduğunu doğrula
       const data = parseSaveData(fileContent)
       if (!data) return false
       localStorage.setItem(`${SAVE_KEY_PREFIX}${slot}`, fileContent)
