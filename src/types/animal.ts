@@ -1,6 +1,7 @@
-﻿import type { Season } from '.'
+import type { Season } from '.'
 
 export type AnimalBuildingType = 'coop' | 'barn' | 'stable'
+
 export type AnimalType =
   | 'chicken'
   | 'duck'
@@ -52,14 +53,14 @@ export interface Animal {
   daysOwned: number
   daysSinceProduct: number
   wasFed: boolean
-  /** 今天喂食使用的饲料类型 */
+  /** Bugün verilen yem türü */
   fedWith: string | null
   wasPetted: boolean
-  /** 饥饿值：连续未喂食天数，达到上限时死亡 */
+  /** Açlık değeri: üst üste beslenmeyen gün sayısı, sınırı aşarsa ölür */
   hunger: number
-  /** 是否生病（连续饥饿≥3天有概率生病，生病时不产出） */
+  /** Hasta mı (3 gün aç kalınca hastalanma ihtimali, hastayken üretim yok) */
   sick: boolean
-  /** 连续生病天数，达到上限时死亡 */
+  /** Üst üste hasta gün sayısı, sınırı aşarsa ölür */
   sickDays: number
 }
 
@@ -95,6 +96,7 @@ export interface PlantedFruitTree {
 }
 
 export type FarmhouseLevel = 0 | 1 | 2 | 3
+
 export type CaveChoice = 'none' | 'mushroom' | 'fruit_bat'
 
 export type PetType = 'cat' | 'dog'
