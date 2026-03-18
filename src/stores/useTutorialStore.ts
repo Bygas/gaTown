@@ -2,26 +2,31 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useTutorialStore = defineStore('tutorial', () => {
-  /** 总开关，默认开启 */
+  /** Genel anahtar, varsayılan olarak açık */
   const enabled = ref(true)
-  /** 已显示过的晨间提示 ID 列表 */
+  /** Daha önce gösterilmiş sabah ipucu ID listesi */
   const shownTipIds = ref<string[]>([])
-  /** 已访问过的面板列表（用于"首次访问"判定） */
+  /** Ziyaret edilmiş panel listesi ("ilk ziyaret" kontrolü için) */
   const visitedPanels = ref<string[]>([])
-  /** 通用标记（如 staminaWasLow、seenRain 等） */
+  /** Genel işaretler (örn. staminaWasLow, seenRain vb.) */
   const flags = ref<Record<string, boolean>>({})
 
   const isTipShown = (id: string) => shownTipIds.value.includes(id)
+
   const markTipShown = (id: string) => {
     if (!shownTipIds.value.includes(id)) shownTipIds.value.push(id)
   }
+
   const hasPanelVisited = (panel: string) => visitedPanels.value.includes(panel)
+
   const markPanelVisited = (panel: string) => {
     if (!visitedPanels.value.includes(panel)) visitedPanels.value.push(panel)
   }
+
   const setFlag = (key: string, val: boolean = true) => {
     flags.value[key] = val
   }
+
   const getFlag = (key: string) => flags.value[key] ?? false
 
   const serialize = () => ({
