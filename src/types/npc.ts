@@ -1,13 +1,13 @@
 import type { Season, Gender } from './game'
 
-/** 好感度等级 */
+/** Arkadaşlık seviyesi */
 export type FriendshipLevel = 'stranger' | 'acquaintance' | 'friendly' | 'bestFriend'
 
-/** NPC 定义 */
+/** NPC tanımı */
 export interface NpcDef {
   id: string
   name: string
-  /** 性别 */
+  /** Cinsiyet */
   gender: Gender
   role: string
   personality: string
@@ -15,42 +15,42 @@ export interface NpcDef {
   likedItems: string[]
   hatedItems: string[]
   dialogues: Record<FriendshipLevel, string[]>
-  /** 是否可以结婚 */
+  /** Evlenilebilir mi */
   marriageable?: boolean
-  /** 关联的心事件ID列表 */
+  /** Bağlı kalp olayı ID listesi */
   heartEventIds?: string[]
-  /** 约会阶段专属对话 */
+  /** Flört aşamasına özel diyaloglar */
   datingDialogues?: string[]
-  /** 知己专属对话 */
+  /** Yakın dost (zhiji) diyalogları */
   zhijiDialogues?: string[]
-  /** 知己心事件ID列表 */
+  /** Yakın dost kalp olayları ID listesi */
   zhijiHeartEventIds?: string[]
-  /** 生日 (季节+日期) */
+  /** Doğum günü (mevsim + gün) */
   birthday?: { season: Season; day: number }
 }
 
-/** NPC 状态（运行时） */
+/** NPC durumu (çalışma zamanı) */
 export interface NpcState {
   npcId: string
   friendship: number
   talkedToday: boolean
   giftedToday: boolean
-  /** 本周送礼次数 (上限2) */
+  /** Bu hafta verilen hediye sayısı (maks. 2) */
   giftsThisWeek: number
-  /** 是否正在约会 */
+  /** Flört halinde mi */
   dating: boolean
-  /** 是否已结婚 */
+  /** Evli mi */
   married: boolean
-  /** 是否已结为知己 */
+  /** Yakın dost (zhiji) mı */
   zhiji: boolean
-  /** 已触发的心事件ID */
+  /** Tetiklenen kalp olayları */
   triggeredHeartEvents: string[]
 }
 
-/** 心事件场景 */
+/** Kalp olayı sahnesi */
 export interface HeartEventScene {
   text: string
-  /** 该场景提供的选择（无则自动跳到下一场景） */
+  /** Bu sahnede seçimler (yoksa otomatik ilerler) */
   choices?: {
     text: string
     friendshipChange: number
@@ -58,22 +58,22 @@ export interface HeartEventScene {
   }[]
 }
 
-/** 心事件定义 */
+/** Kalp olayı tanımı */
 export interface HeartEventDef {
   id: string
   npcId: string
-  /** 触发所需的最低好感度 */
+  /** Gerekli minimum arkadaşlık */
   requiredFriendship: number
-  /** 是否需要知己关系才能触发 */
+  /** Yakın dost ilişkisi gerekir mi */
   requiresZhiji?: boolean
   title: string
   scenes: HeartEventScene[]
 }
 
-/** 子女成长阶段 */
+/** Çocuk büyüme aşaması */
 export type ChildStage = 'baby' | 'toddler' | 'child' | 'teen'
 
-/** 子女状态 */
+/** Çocuk durumu */
 export interface ChildState {
   id: number
   name: string
@@ -81,32 +81,32 @@ export interface ChildState {
   stage: ChildStage
   friendship: number
   interactedToday: boolean
-  /** 出生品质 */
+  /** Doğum kalitesi */
   birthQuality: 'normal' | 'premature' | 'healthy'
 }
 
-/** 孕期阶段 */
+/** Hamilelik aşaması */
 export type PregnancyStage = 'early' | 'mid' | 'late' | 'ready'
 
-/** 提议回应 */
+/** Teklif yanıtı */
 export type ProposalResponse = 'accept' | 'decline' | 'wait'
 
-/** 雇工任务类型 */
+/** Çiftlik yardımcısı görev türü */
 export type FarmHelperTask = 'water' | 'feed' | 'harvest' | 'weed'
 
-/** 雇工状态 */
+/** Çalışan yardımcının durumu */
 export interface HiredHelper {
   npcId: string
   task: FarmHelperTask
   dailyWage: number
 }
 
-/** 孕期状态 */
+/** Hamilelik durumu */
 export interface PregnancyState {
   stage: PregnancyStage
   daysInStage: number
   stageDays: number
-  /** 安产分数 0-100 */
+  /** Bakım puanı (0-100) */
   careScore: number
   caredToday: boolean
   giftedForPregnancy: boolean
