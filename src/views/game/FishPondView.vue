@@ -1,376 +1,404 @@
 <template>
   <div>
-    <!-- Başlık -->
-    <div class="flex items-center justify-between mb-1">
-      <div class="flex items-center space-x-1.5 text-sm text-accent">
-        <Waves :size="14" />
-        <span>Balık Havuzu</span>
-      </div>
-      <span v-if="!fishPondStore.pond.built" class="text-xs text-muted">{{ fishPondStore.fishCount }}/{{ fishPondStore.capacity }}</span>
-    </div>
+    <h3 class="text-accent text-sm mb-3">
+      <Fish :size="14" class="inline" />
+      {{ currentLocationName }} Balıkçılığı
+    </h3>
+    <p v-if="tutorialHint" class="text-[10px] text-muted/50 mb-2">{{ tutorialHint }}</p>
 
-    <!-- Henüz inşa edilmemiş -->
-    <div v-if="!fishPondStore.pond.built" class="border border-accent/10 rounded-xs py-6 flex flex-col items-center space-y-2">
-      <Waves :size="32" class="text-muted/30" />
-      <p class="text-xs text-muted">Balık havuzu henüz inşa edilmedi</p>
-      <p class="text-xs text-muted/60">Havuz inşa edildikten sonra balık yetiştirebilir, çoğaltabilir ve hasat edebilirsin</p>
-      <Button :icon="Hammer" :icon-size="12" @click="pondModal = 'build'">Balık Havuzu İnşa Et</Button>
-    </div>
-
-    <!-- İnşa edilmiş -->
-    <template v-else>
-      <!-- İki sekme -->
-      <div class="flex space-x-1 mb-3">
-        <Button class="flex-1 justify-center" :class="{ '!bg-accent !text-bg': currentTab === 'pond' }" @click="currentTab = 'pond'">
-          Havuz
-        </Button>
-        <Button
-          class="flex-1 justify-center"
-          :class="{ '!bg-accent !text-bg': currentTab === 'compendium' }"
-          @click="currentTab = 'compendium'"
+    <!-- Balık Tutma Noktaları -->
+    <div class="border border-accent/20 rounded-xs p-3 mb-4">
+      <p class="text-sm text-accent mb-2">
+        <MapPin :size="14" class="inline" />
+        Balık Tutma Noktası
+      </p>
+      <div class="grid grid-cols-3 gap-1">
+        <div
+          v-for="loc in FISHING_LOCATIONS"
+          :key="loc.id"
+          class="text-center border rounded-xs px-2 py-1.5 cursor-pointer"
+          :class="fishingStore.fishingLocation === loc.id ? 'border-accent/60 bg-accent/10' : 'border-accent/20 hover:bg-accent/5'"
+          @click="handleSetLocation(loc.id)"
         >
-          Katalog {{ fishPondStore.discoveredBreeds.size }}/{{ totalBreedCount }}
-        </Button>
+          <span class="text-xs" :class="fishingStore.fishingLocation === loc.id ? 'text-accent' : ''">
+            {{ loc.name }}
+          </span>
+        </div>
       </div>
+      <p class="text-xs text-muted mt-2">{{ currentLocationDesc }}</p>
+    </div>
 
-      <!-- ===== Havuz Sekmesi ===== -->
-      <template v-if="currentTab === 'pond'">
-        <!-- Genel durum -->
-        <div class="mb-3">
-          <div class="flex items-center justify-between mb-1.5">
-            <Divider>Balık Havuzu Lv.{{ fishPondStore.pond.level }}</Divider>
-            <div class="flex items-center space-x-2">
-              <span class="text-xs text-muted">{{ fishPondStore.fishCount }}/{{ fishPondStore.capacity }}</span>
-              <Button v-if="fishPondStore.pond.level < 3" :icon="ArrowUp" :icon-size="12" @click="pondModal = 'upgrade'">Yükselt</Button>
-            </div>
-          </div>
-
-          <!-- Su kalitesi çubuğu -->
-          <div class="border border-accent/20 rounded-xs px-3 py-2">
-            <div class="flex items-center space-x-2 mb-1.5">
-              <span class="text-xs text-muted shrink-0">Su Kalitesi</span>
-              <div class="flex-1 h-1 bg-bg rounded-xs border border-accent/10">
-                <div
-                  class="h-full rounded-xs transition-all"
-                  :class="waterQualityColor"
-                  :style="{ width: fishPondStore.pond.waterQuality + '%' }"
-                />
-              </div>
-              <span class="text-xs whitespace-nowrap" :class="waterQualityTextColor">{{ fishPondStore.pond.waterQuality }}%</span>
-            </div>
-            <!-- İşlem düğmeleri -->
-            <div class="flex flex-wrap space-x-1">
-              <Button
-                :icon="Droplets"
-                :icon-size="12"
-                :disabled="fishPondStore.pond.fedToday || fishPondStore.pond.fish.length === 0"
-                @click="handleFeed"
-              >
-                {{ fishPondStore.pond.fedToday ? 'Bugün Yemlendi' : 'Yem Ver' }}
-              </Button>
-              <Button :icon="Sparkles" :icon-size="12" @click="handleClean">Su Kalitesini İyileştir</Button>
-              <Button v-if="fishPondStore.sickFish.length > 0" :icon="HeartPulse" :icon-size="12" @click="handleTreat">
-                Tedavi Et ({{ fishPondStore.sickFish.length }})
-              </Button>
-              <Button
-                v-if="fishPondStore.pendingProducts.length > 0"
-                :icon="Package"
-                :icon-size="12"
-                :disabled="fishPondStore.pond.collectedToday"
-                @click="handleCollect"
-              >
-                Topla ({{ fishPondStore.pendingProducts.length }})
-              </Button>
-            </div>
-          </div>
+    <!-- Ekipman -->
+    <div class="border border-accent/20 rounded-xs p-3 mb-4">
+      <p class="text-sm text-accent mb-2">Ekipman</p>
+      <div class="flex flex-col space-y-1">
+        <!-- Olta -->
+        <div class="flex items-center justify-between border border-accent/10 rounded-xs px-3 py-1.5">
+          <span class="text-xs">Olta</span>
+          <span class="text-xs text-accent">{{ rodTierName }}</span>
         </div>
+        <!-- Yem -->
+        <div
+          class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
+          @click="showBaitModal = true"
+        >
+          <span class="text-xs">Yem</span>
+          <span class="text-xs" :class="fishingStore.equippedBait ? 'text-accent' : 'text-muted'">
+            <template v-if="fishingStore.equippedBait">
+              {{ getBaitName(fishingStore.equippedBait) }}
+              <span class="text-muted">(&times;{{ inventoryStore.getItemCount(fishingStore.equippedBait) }})</span>
+            </template>
+            <template v-else>Takılı değil</template>
+          </span>
+        </div>
+        <!-- Şamandıra -->
+        <div
+          class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5"
+          :class="canEquipTackle ? 'cursor-pointer hover:bg-accent/5' : 'opacity-50'"
+          @click="canEquipTackle && (showTackleModal = true)"
+        >
+          <span class="text-xs">Şamandıra</span>
+          <span class="text-xs" :class="fishingStore.equippedTackle ? 'text-accent' : 'text-muted'">
+            <template v-if="fishingStore.equippedTackle">
+              {{ getTackleName(fishingStore.equippedTackle) }}
+              <span class="text-muted">({{ fishingStore.tackleDurability }})</span>
+            </template>
+            <template v-else>{{ canEquipTackle ? 'Takılı değil' : 'Demir olta veya üstü gerekir' }}</template>
+          </span>
+        </div>
+      </div>
+    </div>
 
-        <!-- Havuzdaki balıklar -->
-        <div class="mb-3">
-          <Divider label="Havuzdaki Balıklar" />
+    <!-- Balık Tutma İşlemi -->
+    <div class="border border-accent/20 rounded-xs p-3 mb-4">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-sm text-accent">Balık Tut</p>
+        <span class="text-xs text-muted">{{ playerStore.stamina }}/{{ playerStore.maxStamina }} Dayanıklılık</span>
+      </div>
+      <div
+        class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
+        @click="handleStartFishing"
+      >
+        <span class="text-xs">
+          <Target :size="12" class="inline" />
+          Oltayı At
+        </span>
+        <span class="text-xs text-muted">Dayanıklılık harcar · {{ fishTimeLabel }}</span>
+      </div>
+    </div>
 
-          <!-- Boş durum -->
-          <div
-            v-if="fishPondStore.pond.fish.length === 0"
-            class="border border-accent/10 rounded-xs py-6 flex flex-col items-center space-y-2"
-          >
-            <Fish :size="32" class="text-muted/30" />
-            <p class="text-xs text-muted">Havuz bomboş</p>
-            <p class="text-xs text-muted/60">Yetiştirmeye başlamak için çantandan yavru balık ekle</p>
-          </div>
+    <!-- Balık Tutma Sonucu -->
+    <div class="border border-accent/20 rounded-xs p-3 mb-4">
+      <p class="text-sm text-accent mb-2">Balık Tutma Sonucu</p>
+      <div v-if="lastResult" class="border border-accent/10 rounded-xs px-3 py-1.5">
+        <span class="text-xs">{{ lastResult }}</span>
+      </div>
+      <div v-else class="flex flex-col items-center justify-center py-6 text-muted">
+        <Fish :size="32" class="text-muted/30 mb-2" />
+        <p class="text-xs">Henüz hiç balık tutmadın, hadi dene.</p>
+      </div>
+    </div>
 
-          <!-- Balık listesi -->
-          <div v-else class="flex flex-col space-y-1.5 max-h-80 overflow-auto">
-            <div
-              v-for="fish in fishPondStore.pond.fish"
-              :key="fish.id"
-              class="border rounded-xs px-3 py-2 cursor-pointer hover:bg-accent/5 transition-colors mr-1"
-              :class="
-                fish.sick ? 'border-danger/30' : selectedBreedingFish?.id === fish.id ? 'border-accent bg-accent/10' : 'border-accent/20'
-              "
-              @click="openFishDetail(fish)"
-            >
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-1.5">
-                  <Waves v-if="fish.mature && !fish.sick" :size="12" class="text-success" />
-                  <HeartPulse v-else-if="fish.sick" :size="12" class="text-danger" />
-                  <Fish v-else :size="12" class="text-muted/40" />
-                  <span class="text-xs" :class="fish.sick ? 'text-danger' : fish.mature ? 'text-text' : 'text-muted'">
-                    {{ fish.name }}
-                  </span>
-                  <span v-if="fish.sick" class="text-[10px] text-danger">[Hasta]</span>
-                  <span v-if="!fish.mature" class="text-[10px] text-muted">[Yavru]</span>
-                </div>
-                <div class="flex items-center space-x-2">
-                  <span class="text-[10px] text-accent flex items-center space-x-px">
-                    <Star v-for="n in fishPondStore.getGeneticStarRating(fish.genetics)" :key="n" :size="10" />
-                  </span>
-                  <span class="text-[10px] text-muted">{{ fish.daysInPond }} gün</span>
-                </div>
-              </div>
+    <!-- Mevcut Balıklar -->
+    <div class="border border-accent/20 rounded-xs p-3 mb-4">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-sm text-accent">Şu Anda Tutulabilecek Balıklar</p>
+        <span class="text-xs text-muted">{{ fishingStore.availableFish.length }} tür</span>
+      </div>
+      <div v-if="fishingStore.availableFish.length > 0" class="flex flex-col space-y-1">
+        <div
+          v-for="f in fishingStore.availableFish"
+          :key="f.name"
+          class="flex items-center justify-between border border-accent/10 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
+          @click="selectedFish = f"
+        >
+          <span class="text-xs" :class="DIFFICULTY_COLORS[f.difficulty]">{{ f.name }}</span>
+          <span class="text-[10px]" :class="DIFFICULTY_COLORS[f.difficulty]">
+            {{ DIFFICULTY_NAMES[f.difficulty] }}
+          </span>
+        </div>
+      </div>
+      <div v-else class="flex flex-col items-center justify-center py-6 text-muted">
+        <Fish :size="32" class="text-muted/30 mb-2" />
+        <p class="text-xs">Bu zaman diliminde/havada/konumda tutulabilecek balık yok.</p>
+      </div>
+    </div>
+
+    <!-- Yengeç Kapanı Yönetimi -->
+    <div class="border border-accent/20 rounded-xs p-3 mb-4">
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-sm text-accent">
+          <Box :size="14" class="inline" />
+          Yengeç Kapanı
+        </p>
+        <span class="text-xs text-muted">{{ fishingStore.crabPots.length }}/10</span>
+      </div>
+      <div v-if="crabPotLocations.length > 0" class="flex flex-col space-y-1 mb-2">
+        <div v-for="loc in crabPotLocations" :key="loc.id" class="border border-accent/10 rounded-xs p-2">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs text-accent">{{ loc.name }}</span>
+            <div class="flex space-x-1">
+              <Button class="py-0 px-1" @click="handleBaitCrabPots(loc.id)">Yem Tak</Button>
+              <Button class="py-0 px-1" @click="handleRemoveCrabPot(loc.id)">Topla</Button>
             </div>
           </div>
+          <p class="text-[10px] text-muted">{{ loc.total }} adet · {{ loc.baited }} adedinde yem var</p>
         </div>
+      </div>
+      <div v-else-if="!hasCrabPotInBag" class="flex flex-col items-center justify-center py-6 text-muted mb-2">
+        <Box :size="32" class="text-muted/30 mb-2" />
+        <p class="text-xs">Yengeç kapanı satın aldıktan veya ürettikten sonra buraya yerleştirebilirsin.</p>
+      </div>
+      <div
+        v-if="hasCrabPotInBag"
+        class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
+        @click="handlePlaceCrabPot"
+      >
+        <span class="text-xs">Yengeç Kapanı Yerleştir</span>
+        <span class="text-xs text-muted">{{ currentLocationName }}</span>
+      </div>
+    </div>
 
-        <!-- Yavru balık ekleme -->
-        <div class="mb-3">
-          <Divider label="Yavru Balık Ekle" />
-          <div v-if="pondableFishInBag.length > 0" class="flex flex-col space-y-1.5 max-h-80 overflow-auto">
-            <div
-              v-for="item in pondableFishInBag"
-              :key="item.itemId"
-              class="border border-accent/20 rounded-xs px-3 py-2 flex items-center justify-between mr-1"
-            >
-              <span class="text-xs">
-                {{ item.name }}
-                <span class="text-muted">&times;{{ item.count }}</span>
-              </span>
-              <Button :icon-size="12" @click="handleAddFish(item.itemId)">Ekle</Button>
-            </div>
-          </div>
-          <div v-else class="border border-accent/10 rounded-xs py-6 flex flex-col items-center space-y-2">
-            <Package :size="32" class="text-muted/30" />
-            <p class="text-xs text-muted">Çantanda yetiştirilebilir balık yok</p>
-            <p class="text-xs text-muted/60">Akarsuda balık tuttuktan sonra havuza ekleyebilirsin</p>
-          </div>
+    <!-- Altın Eleme -->
+    <div class="border border-accent/20 rounded-xs p-3">
+      <p class="text-sm text-accent mb-2">
+        <CircleDot :size="14" class="inline" />
+        Altın Eleme
+      </p>
+      <div v-if="canPan">
+        <p class="text-xs text-muted mb-2">Yağmurlu havada nehir yükselir, su kenarında altın eleği kullanabilirsin.</p>
+        <div
+          class="flex items-center justify-between border border-accent/20 rounded-xs px-3 py-1.5 cursor-pointer hover:bg-accent/5"
+          @click="handlePan"
+        >
+          <span class="text-xs">Bir Kez Ele</span>
+          <span class="text-xs text-muted">Dayanıklılık harcar · {{ Math.round(panTime * 60) }} dakika</span>
         </div>
-
-        <!-- Üreme -->
-        <div class="mb-3">
-          <Divider label="Üreme" />
-          <!-- Üreme sürüyor -->
-          <div v-if="fishPondStore.pond.breeding" class="border border-accent/20 rounded-xs px-3 py-2">
-            <div class="flex items-center justify-between mb-1">
-              <div class="flex items-center space-x-1.5">
-                <Heart :size="12" class="text-accent" />
-                <span class="text-xs text-accent">Üreme Devam Ediyor</span>
-              </div>
-              <span class="text-xs text-muted">{{ fishPondStore.pond.breeding.daysLeft }}/{{ breedingTotalDays }} gün</span>
-            </div>
-            <div class="h-1 bg-bg rounded-xs border border-accent/10">
-              <div class="h-full rounded-xs bg-accent transition-all" :style="{ width: breedingProgress + '%' }" />
-            </div>
-            <p class="text-[10px] text-muted mt-1">Tür: {{ getPondableFishName(fishPondStore.pond.breeding.fishId) }}</p>
-          </div>
-          <!-- Bir balık seçildi -->
-          <div v-else-if="selectedBreedingFish" class="border border-accent/20 rounded-xs px-3 py-2">
-            <div class="flex items-center justify-between mb-1">
-              <div class="flex items-center space-x-1.5">
-                <Heart :size="12" class="text-muted/40" />
-                <span class="text-xs">
-                  Seçildi: {{ selectedBreedingFish.name }}
-                  <span class="text-accent inline-flex items-center space-x-px">
-                    <Star v-for="n in fishPondStore.getGeneticStarRating(selectedBreedingFish.genetics)" :key="n" :size="10" />
-                  </span>
-                </span>
-              </div>
-              <Button @click="selectedBreedingFish = null">İptal</Button>
-            </div>
-            <p class="text-[10px] text-muted">Eşleştirmek için balık listesinden aynı türde olgun bir balığa tıkla</p>
-          </div>
-          <!-- Boş durum -->
-          <div v-else class="border border-accent/10 rounded-xs py-6 flex flex-col items-center space-y-2">
-            <Heart :size="32" class="text-muted/30" />
-            <p class="text-xs text-muted">Üremeye başlamak için aynı türden iki olgun balık seç</p>
-            <p class="text-xs text-muted/60">Havuzda boş kapasite olmalı</p>
-          </div>
+        <div v-if="panResult" class="border border-accent/10 rounded-xs px-3 py-1.5 mt-1">
+          <span class="text-xs">{{ panResult }}</span>
         </div>
-      </template>
+      </div>
+      <div v-else class="flex flex-col items-center justify-center py-6 text-muted">
+        <CircleDot :size="32" class="text-muted/30 mb-2" />
+        <p class="text-xs">{{ panDisabledReason }}</p>
+      </div>
+    </div>
 
-      <!-- ===== Katalog Sekmesi ===== -->
-      <template v-if="currentTab === 'compendium'">
-        <!-- Nesil filtresi -->
-        <div class="grid grid-cols-5 space-x-1 mb-2">
-          <Button
-            v-for="g in 5"
-            :key="g"
-            class="grow shrink-0 basis-[calc(20%-3px)] justify-center"
-            :class="{ '!bg-accent !text-bg': compendiumGen === g }"
-            @click="compendiumGen = g as 1 | 2 | 3 | 4 | 5"
-          >
-            {{ g }}. Nesil
-          </Button>
-        </div>
-
-        <!-- İlerleme -->
-        <p class="text-xs text-muted mb-2">Keşfedilen {{ discoveredCountByGen(compendiumGen) }}/{{ BREED_COUNTS[compendiumGen] }}</p>
-
-        <!-- İpucu -->
-        <div v-if="compendiumGen > 1" class="border border-accent/10 rounded-xs p-2 mb-2">
-          <p class="text-xs text-muted leading-relaxed">
-            <span class="text-accent">{{ compendiumGen }}. nesil</span>
-            türler, belirli
-            <span class="text-accent">{{ compendiumGen - 1 }}. nesil</span>
-            türlerin eşleştirilmesiyle elde edilir.
-          </p>
-        </div>
-
-        <!-- Tür ızgarası -->
-        <div class="grid grid-cols-5 gap-1 p-2 max-h-[50vh] overflow-auto">
-          <div
-            v-for="breed in currentGenBreeds"
-            :key="breed.breedId"
-            class="border rounded-xs p-1.5 text-xs text-center transition-colors truncate"
-            :class="isDiscovered(breed.breedId) ? 'border-accent/20 ' + genColor(compendiumGen) : 'border-accent/10 text-muted/30'"
-          >
-            <template v-if="isDiscovered(breed.breedId)">{{ breed.name }}</template>
-            <Lock v-else :size="12" class="mx-auto text-muted/30" />
-          </div>
-        </div>
-
-        <!-- Tamamlanma oranı -->
-        <div class="mt-3 border border-accent/20 rounded-xs p-2">
-          <div class="flex items-center space-x-2 text-xs mb-1.5">
-            <span class="text-xs text-muted shrink-0">Tamamlanma</span>
-            <div class="flex-1 h-1 bg-bg rounded-xs border border-accent/10">
-              <div class="h-full bg-accent rounded-xs transition-all" :style="{ width: completionPercent + '%' }" />
-            </div>
-            <span class="text-xs text-accent whitespace-nowrap">{{ fishPondStore.discoveredBreeds.size }}/{{ totalBreedCount }}</span>
-          </div>
-          <div class="grid grid-cols-2 gap-x-3 gap-y-0.5">
-            <div v-for="g in 5" :key="g" class="flex items-center justify-between">
-              <span class="text-xs text-muted">{{ g }}. Nesil</span>
-              <span class="text-xs">{{ discoveredCountByGen(g) }}/{{ BREED_COUNTS[g] }}</span>
-            </div>
-          </div>
-        </div>
-      </template>
-    </template>
-
-    <!-- Balık detay penceresi -->
+    <!-- Yem Seçim Penceresi -->
     <Transition name="panel-fade">
-      <div v-if="detailFish" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" @click.self="detailFish = null">
+      <div
+        v-if="showBaitModal"
+        class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+        @click.self="showBaitModal = false"
+      >
         <div class="game-panel max-w-xs w-full relative">
-          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="detailFish = null">
+          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="showBaitModal = false">
             <X :size="14" />
           </button>
-
-          <p class="text-sm text-accent mb-2">{{ detailFish.name }}</p>
-          <p class="text-xs mb-2 flex items-center space-x-1">
-            <span class="text-accent flex items-center space-x-px">
-              <Star v-for="n in fishPondStore.getGeneticStarRating(detailFish.genetics)" :key="n" :size="10" />
-            </span>
-            <span class="text-muted">·</span>
-            <span class="text-muted">{{ detailFish.daysInPond }}. gün</span>
-            <span v-if="detailFish.sick" class="text-danger">· Hasta</span>
-            <span v-if="!detailFish.mature" class="text-muted">· Olgunlaşmadı</span>
-          </p>
-
-          <!-- Genetik çubuklar -->
-          <div class="flex flex-col space-y-1 mb-3">
-            <div v-for="attr in fishAttributes" :key="attr.key" class="flex items-center space-x-2">
-              <span class="text-xs text-muted w-10 shrink-0">{{ attr.label }}</span>
-              <div class="flex-1 h-1.5 bg-bg rounded-xs border border-accent/10">
-                <div class="h-full rounded-xs transition-all" :class="attr.barClass" :style="{ width: attr.value + '%' }" />
-              </div>
-              <span class="text-xs w-6 text-right">{{ attr.value }}</span>
+          <p class="text-sm text-accent mb-2">Yem</p>
+          <!-- Takılı Olan -->
+          <div v-if="fishingStore.equippedBait" class="border border-accent/10 rounded-xs p-2 mb-2">
+            <p class="text-[10px] text-muted mb-1">Takılı Olan</p>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-accent">{{ getBaitName(fishingStore.equippedBait) }}</span>
+              <Button class="py-0 px-1" @click="handleUnequipBait">Çıkar</Button>
             </div>
           </div>
-
-          <!-- İşlem düğmeleri -->
-          <div class="flex flex-col space-y-1">
-            <Button
-              v-if="detailFish.mature && !detailFish.sick"
-              class="w-full justify-center"
-              :class="{ '!bg-accent !text-bg': !fishPondStore.pond.breeding }"
-              :icon="Heart"
-              :icon-size="12"
-              :disabled="!!fishPondStore.pond.breeding"
-              @click="handleDetailBreed"
-            >
-              Üreme Ebeveyni Olarak Seç
-            </Button>
-            <Button class="w-full justify-center" :icon="ArrowUp" :icon-size="12" @click="handleDetailRemove">Çantaya Geri Al</Button>
+          <!-- Çantadaki Yemler -->
+          <div v-if="availableBaits.length > 0" class="border border-accent/10 rounded-xs p-2">
+            <p class="text-[10px] text-muted mb-1">Çantadaki Yemler</p>
+            <div class="flex flex-col space-y-1">
+              <div
+                v-for="b in availableBaits"
+                :key="b.id"
+                class="flex items-center justify-between border border-accent/10 rounded-xs px-2 py-1 cursor-pointer hover:bg-accent/5"
+                @click="handleEquipBaitFromModal(b.id)"
+              >
+                <span class="text-xs">{{ b.name }}</span>
+                <span class="text-xs text-muted">&times;{{ b.count }}</span>
+              </div>
+            </div>
+          </div>
+          <div v-else-if="!fishingStore.equippedBait" class="flex flex-col items-center justify-center py-4 text-muted">
+            <Target :size="28" class="text-muted/30 mb-2" />
+            <p class="text-xs">Çantanda yem yok</p>
+            <p class="text-[10px] text-muted/60 mt-0.5">Dükkândan satın alabilir veya üretebilirsin</p>
           </div>
         </div>
       </div>
     </Transition>
 
-    <!-- İnşa / yükseltme penceresi -->
+    <!-- Şamandıra Seçim Penceresi -->
     <Transition name="panel-fade">
-      <div v-if="pondModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" @click.self="pondModal = null">
+      <div
+        v-if="showTackleModal"
+        class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+        @click.self="showTackleModal = false"
+      >
         <div class="game-panel max-w-xs w-full relative">
-          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="pondModal = null">
+          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="showTackleModal = false">
+            <X :size="14" />
+          </button>
+          <p class="text-sm text-accent mb-2">Şamandıra</p>
+          <!-- Takılı Olan -->
+          <div v-if="fishingStore.equippedTackle" class="border border-accent/10 rounded-xs p-2 mb-2">
+            <p class="text-[10px] text-muted mb-1">Takılı Olan</p>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-accent">{{ getTackleName(fishingStore.equippedTackle) }}</span>
+              <div class="flex items-center space-x-2">
+                <span class="text-[10px] text-muted">Dayanıklılık {{ fishingStore.tackleDurability }}</span>
+                <Button class="py-0 px-1" @click="handleUnequipTackle">Çıkar</Button>
+              </div>
+            </div>
+          </div>
+          <!-- Çantadaki Şamandıralar -->
+          <div v-if="availableTackles.length > 0" class="border border-accent/10 rounded-xs p-2">
+            <p class="text-[10px] text-muted mb-1">Çantadaki Şamandıralar</p>
+            <div class="flex flex-col space-y-1">
+              <div
+                v-for="t in availableTackles"
+                :key="t.id"
+                class="flex items-center justify-between border border-accent/10 rounded-xs px-2 py-1 cursor-pointer hover:bg-accent/5"
+                @click="handleEquipTackleFromModal(t.id)"
+              >
+                <span class="text-xs">{{ t.name }}</span>
+                <span class="text-xs text-muted">&times;{{ t.count }}</span>
+              </div>
+            </div>
+          </div>
+          <div v-else-if="!fishingStore.equippedTackle" class="flex flex-col items-center justify-center py-4 text-muted">
+            <MapPin :size="28" class="text-muted/30 mb-2" />
+            <p class="text-xs">Çantanda şamandıra yok</p>
+            <p class="text-[10px] text-muted/60 mt-0.5">Dükkândan satın alabilir veya üretebilirsin</p>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- Balık Tutma Mini Oyun Penceresi -->
+    <Transition name="panel-fade">
+      <div
+        v-if="showFishingModal && miniGameParams"
+        class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+        @click.self="handleCloseFishingModal"
+      >
+        <div class="game-panel max-w-sm w-full relative">
+          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="handleCloseFishingModal">
+            <X :size="14" />
+          </button>
+          <p class="text-sm text-accent mb-2">
+            <Fish :size="14" class="inline" />
+            Balık Tut
+          </p>
+          <!-- Vazgeçme Onayı -->
+          <div v-if="showCloseConfirm" class="border border-danger/40 rounded-xs p-3 mb-3">
+            <p class="text-xs text-danger mb-2">Balık hâlâ oltada, vazgeçmek istediğine emin misin?</p>
+            <div class="flex space-x-2">
+              <Button class="text-danger" @click="handleConfirmClose">Vazgeç</Button>
+              <Button @click="showCloseConfirm = false">Devam Et</Button>
+            </div>
+          </div>
+          <FishingMiniGame v-bind="miniGameParams" @complete="handleMiniGameComplete" />
+        </div>
+      </div>
+    </Transition>
+
+    <!-- Balık Tutma Sonuç Penceresi -->
+    <Transition name="panel-fade">
+      <div v-if="catchResult" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+        <div class="game-panel max-w-xs w-full relative">
+          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="dismissCatchResult">
             <X :size="14" />
           </button>
 
-          <p class="text-sm text-accent mb-2">{{ modalTitle }}</p>
-
-          <!-- Seviye bilgisi -->
-          <div class="border border-accent/10 rounded-xs p-2 mb-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">{{ pondModal === 'build' ? 'Seviye' : 'Mevcut Seviye' }}</span>
-              <span class="text-xs">Lv.{{ modalCurrentLevel }}</span>
-            </div>
-            <div class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">{{ pondModal === 'build' ? 'Başlangıç Kapasitesi' : 'Mevcut Kapasite' }}</span>
-              <span class="text-xs">{{ modalCurrentCapacity }}</span>
-            </div>
-          </div>
-
-          <!-- Yükseltme sonrası bilgi (sadece yükseltmede gösterilir) -->
-          <div v-if="pondModal === 'upgrade'" class="border border-accent/10 rounded-xs p-2 mb-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">Yükseltilecek Seviye</span>
-              <span class="text-xs text-accent">Lv.{{ modalTargetLevel }}</span>
-            </div>
-            <div class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">Yükseltme Sonrası Kapasite</span>
-              <span class="text-xs text-accent">{{ modalTargetCapacity }}</span>
-            </div>
-          </div>
-
-          <!-- Gerekli malzemeler -->
-          <div class="border border-accent/10 rounded-xs p-2 mb-2">
-            <p class="text-xs text-muted mb-1">Gerekli Malzemeler</p>
-            <div v-for="mat in modalMaterials" :key="mat.itemId" class="flex items-center justify-between mt-0.5">
-              <span class="text-xs">{{ mat.name }}</span>
-              <span class="text-xs" :class="mat.enough ? 'text-success' : 'text-danger'">{{ mat.owned }}/{{ mat.required }}</span>
-            </div>
-          </div>
-
-          <!-- Ücret -->
-          <div class="border border-accent/10 rounded-xs p-2 mb-3">
-            <div class="flex items-center justify-between">
-              <span class="text-xs text-muted">Ücret</span>
-              <span class="text-xs" :class="playerStore.money >= modalMoney ? 'text-accent' : 'text-danger'">{{ modalMoney }} bakır</span>
-            </div>
-            <div class="flex items-center justify-between mt-0.5">
-              <span class="text-xs text-muted">Mevcut Para</span>
-              <span class="text-xs">{{ playerStore.money }} bakır</span>
-            </div>
-          </div>
-
-          <Button
-            class="w-full justify-center"
-            :class="{ '!bg-accent !text-bg': canConfirmModal }"
-            :icon="pondModal === 'build' ? Hammer : ArrowUp"
-            :icon-size="12"
-            :disabled="!canConfirmModal"
-            @click="handleModalConfirm"
+          <p
+            class="text-sm mb-2"
+            :class="
+              catchResult.success && catchResult.quality
+                ? QUALITY_COLORS[catchResult.quality]
+                : catchResult.success
+                  ? 'text-accent'
+                  : 'text-danger'
+            "
           >
-            {{ pondModal === 'build' ? 'İnşayı Onayla' : 'Yükseltmeyi Onayla' }}
-          </Button>
+            {{ catchResult.fishName }}
+          </p>
+
+          <div v-if="catchResult.description" class="border border-accent/10 rounded-xs p-2 mb-2">
+            <p class="text-xs text-muted">{{ catchResult.description }}</p>
+          </div>
+
+          <div class="border border-accent/10 rounded-xs p-2 mb-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-muted">Sonuç</span>
+              <span class="text-xs" :class="catchResult.success ? 'text-success' : 'text-danger'">
+                {{ catchResult.success ? 'Başarıyla yakalandı' : 'Balık kaçtı' }}
+              </span>
+            </div>
+            <div v-if="catchResult.success && catchResult.quantity" class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">Miktar</span>
+              <span class="text-xs">×{{ catchResult.quantity }}</span>
+            </div>
+            <div v-if="catchResult.success && catchResult.quality" class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">Kalite</span>
+              <span class="text-xs" :class="QUALITY_COLORS[catchResult.quality]">{{ QUALITY_NAMES[catchResult.quality] }}</span>
+            </div>
+            <div v-if="catchResult.difficulty" class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">Zorluk</span>
+              <span class="text-xs" :class="DIFFICULTY_COLORS[catchResult.difficulty]">{{ DIFFICULTY_NAMES[catchResult.difficulty] }}</span>
+            </div>
+            <div v-if="catchResult.sellPrice" class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">Satış Fiyatı</span>
+              <span class="text-xs text-accent">{{ catchResult.sellPrice }} akçe</span>
+            </div>
+          </div>
+
+          <p v-if="catchResult.message.includes('宝箱')" class="text-xs text-accent mb-2">
+            {{ catchResult.message.slice(catchResult.message.indexOf('宝箱')) }}
+          </p>
+
+          <Button class="w-full justify-center !bg-accent !text-bg" @click="dismissCatchResult">Onayla</Button>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- Balık Detay Penceresi -->
+    <Transition name="panel-fade">
+      <div
+        v-if="selectedFish"
+        class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+        @click.self="selectedFish = null"
+      >
+        <div class="game-panel max-w-xs w-full relative">
+          <button class="absolute top-2 right-2 text-muted hover:text-text" @click="selectedFish = null">
+            <X :size="14" />
+          </button>
+          <p class="text-sm mb-2" :class="DIFFICULTY_COLORS[selectedFish.difficulty]">{{ selectedFish.name }}</p>
+
+          <div class="border border-accent/10 rounded-xs p-2 mb-2">
+            <p class="text-xs text-muted">{{ selectedFish.description }}</p>
+          </div>
+
+          <div class="border border-accent/10 rounded-xs p-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-muted">Zorluk</span>
+              <span class="text-xs" :class="DIFFICULTY_COLORS[selectedFish.difficulty]">
+                {{ DIFFICULTY_NAMES[selectedFish.difficulty] }}
+              </span>
+            </div>
+            <div class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">Satış Fiyatı</span>
+              <span class="text-xs text-accent">{{ selectedFish.sellPrice }} akçe</span>
+            </div>
+            <div class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">Mevsim</span>
+              <span class="text-xs">{{ selectedFish.season.map(s => SEASON_LABEL[s] ?? s).join('、') }}</span>
+            </div>
+            <div class="flex items-center justify-between mt-0.5">
+              <span class="text-xs text-muted">Hava</span>
+              <span class="text-xs">{{ selectedFish.weather.map(w => WEATHER_LABEL[w] ?? w).join('、') }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </Transition>
@@ -379,283 +407,399 @@
 
 <script setup lang="ts">
   import { ref, computed } from 'vue'
-  import { Waves, Droplets, Sparkles, HeartPulse, Package, ArrowUp, Hammer, Lock, Fish, Heart, X, Star } from 'lucide-vue-next'
-  import Button from '@/components/game/Button.vue'
-  import Divider from '@/components/game/Divider.vue'
-  import { useFishPondStore } from '@/stores/useFishPondStore'
-  import { useInventoryStore } from '@/stores/useInventoryStore'
+  import { Fish, X, Target, MapPin, Box, CircleDot } from 'lucide-vue-next'
+  import { useAchievementStore } from '@/stores/useAchievementStore'
+  import { useFishingStore } from '@/stores/useFishingStore'
   import { useGameStore } from '@/stores/useGameStore'
+  import { useInventoryStore } from '@/stores/useInventoryStore'
   import { usePlayerStore } from '@/stores/usePlayerStore'
-  import { addLog, showFloat } from '@/composables/useGameLog'
+  import { useSkillStore } from '@/stores/useSkillStore'
+  import { useTutorialStore } from '@/stores/useTutorialStore'
+  import { getBaitById, getTackleById } from '@/data/processing'
+  import { FISHING_LOCATIONS } from '@/data/fish'
+  import type { BaitType, TackleType, FishingLocation, FishDef, MiniGameParams, MiniGameResult, Quality } from '@/types'
+  import { ACTION_TIME_COSTS, TOOL_TIME_SAVINGS, SKILL_TIME_REDUCTION_PER_LEVEL, MIN_ACTION_MINUTES } from '@/data/timeConstants'
+  import { sfxFishCatch, sfxLineBroken, sfxClick } from '@/composables/useAudio'
+  import { addLog } from '@/composables/useGameLog'
   import { handleEndDay } from '@/composables/useEndDay'
-  import { ACTION_TIME_COSTS } from '@/data/timeConstants'
-  import { POND_BUILD_COST, POND_UPGRADE_COSTS, POND_CAPACITY, PONDABLE_FISH, getPondableFish, FISH_BREEDING_DAYS } from '@/data/fishPond'
-  import { getBreedsByGeneration, BREED_COUNTS } from '@/data/pondBreeds'
-  import { getItemById } from '@/data/items'
-  import type { PondFish } from '@/types/fishPond'
+  import FishingMiniGame from '@/components/game/FishingMiniGame.vue'
+  import Button from '@/components/game/Button.vue'
 
-  const fishPondStore = useFishPondStore()
-  const inventoryStore = useInventoryStore()
+  const fishingStore = useFishingStore()
   const gameStore = useGameStore()
+  const inventoryStore = useInventoryStore()
   const playerStore = usePlayerStore()
+  const skillStore = useSkillStore()
+  const achievementStore = useAchievementStore()
+  const tutorialStore = useTutorialStore()
 
-  const currentTab = ref<'pond' | 'compendium'>('pond')
-  const selectedBreedingFish = ref<PondFish | null>(null)
-  const detailFish = ref<PondFish | null>(null)
-  const compendiumGen = ref<1 | 2 | 3 | 4 | 5>(1)
-
-  /** İnşa / yükseltme ortak penceresi */
-  const pondModal = ref<'build' | 'upgrade' | null>(null)
-
-  const getItemName = (itemId: string): string => getItemById(itemId)?.name ?? itemId
-  const getPondableFishName = (fishId: string): string => getPondableFish(fishId)?.name ?? fishId
-
-  const totalBreedCount = 400
-
-  const isDiscovered = (breedId: string): boolean => fishPondStore.discoveredBreeds.has(breedId)
-
-  const discoveredCountByGen = (gen: number): number => {
-    const breeds = getBreedsByGeneration(gen as 1 | 2 | 3 | 4 | 5)
-    return breeds.filter(b => fishPondStore.discoveredBreeds.has(b.breedId)).length
-  }
-
-  const currentGenBreeds = computed(() => getBreedsByGeneration(compendiumGen.value))
-
-  /** Katalog tamamlanma oranı */
-  const completionPercent = computed(() => {
-    return Math.floor((fishPondStore.discoveredBreeds.size / totalBreedCount) * 100)
+  const tutorialHint = computed(() => {
+    if (!tutorialStore.enabled || gameStore.year > 1) return null
+    if (achievementStore.stats.totalFishCaught === 0) return 'Bir balık noktası seçip “Balık Tut”a bas. Balık yemi yuttuktan sonra onu yakalamak için mini oyunu tamamlaman gerekir.'
+    return null
   })
 
-  /** Nesil rengi */
-  const genColor = (gen: number): string => {
-    if (gen >= 5) return 'text-quality-supreme'
-    if (gen >= 4) return 'text-quality-excellent'
-    if (gen >= 3) return 'text-quality-fine'
-    return 'text-accent'
-  }
+  // === Durum ===
 
-  /** Su kalitesi çubuğu rengi */
-  const waterQualityColor = computed(() => {
-    const wq = fishPondStore.pond.waterQuality
-    if (wq >= 70) return 'bg-success'
-    if (wq >= 30) return 'bg-accent'
-    return 'bg-danger'
+  const lastResult = ref<string | null>(null)
+  const miniGameParams = ref<MiniGameParams | null>(null)
+  const panResult = ref<string | null>(null)
+
+  const showBaitModal = ref(false)
+  const showTackleModal = ref(false)
+  const showFishingModal = ref(false)
+  const showCloseConfirm = ref(false)
+  const miniGameCompleted = ref(false)
+  const selectedFish = ref<FishDef | null>(null)
+  const catchResult = ref<{
+    fishName: string
+    fishId?: string
+    difficulty?: string
+    sellPrice?: number
+    description?: string
+    quality?: Quality
+    quantity?: number
+    success: boolean
+    message: string
+  } | null>(null)
+
+  // === Hesaplananlar ===
+
+  /** Balık tutma süresi (saat), alet ve yetenek indirimlerinden etkilenir */
+  const fishTime = computed(() => {
+    const baseMin = ACTION_TIME_COSTS.fishStart * 60
+    const toolTier = inventoryStore.getTool('fishingRod')?.tier ?? 'basic'
+    const saving = TOOL_TIME_SAVINGS[toolTier] ?? 0
+    const skillReduction = skillStore.getSkill('fishing').level * SKILL_TIME_REDUCTION_PER_LEVEL
+    return Math.max(MIN_ACTION_MINUTES, Math.round((baseMin - saving) * (1 - skillReduction))) / 60
   })
 
-  /** Su kalitesi yazı rengi */
-  const waterQualityTextColor = computed(() => {
-    const wq = fishPondStore.pond.waterQuality
-    if (wq >= 70) return 'text-success'
-    if (wq >= 30) return 'text-accent'
-    return 'text-danger'
+  const fishTimeLabel = computed(() => `${Math.round(fishTime.value * 60)} dakika`)
+
+  /** Altın eleme süresi (saat), alet ve yetenek indirimlerinden etkilenir */
+  const panTime = computed(() => {
+    const baseMin = ACTION_TIME_COSTS.pan * 60
+    const toolTier = inventoryStore.getTool('pan')?.tier ?? 'basic'
+    const saving = TOOL_TIME_SAVINGS[toolTier] ?? 0
+    const skillReduction = skillStore.getSkill('fishing').level * SKILL_TIME_REDUCTION_PER_LEVEL
+    return Math.max(MIN_ACTION_MINUTES, Math.round((baseMin - saving) * (1 - skillReduction))) / 60
   })
 
-  /** Üreme ilerlemesi */
-  const breedingTotalDays = FISH_BREEDING_DAYS
-  const breedingProgress = computed(() => {
-    if (!fishPondStore.pond.breeding) return 0
-    return ((breedingTotalDays - fishPondStore.pond.breeding.daysLeft) / breedingTotalDays) * 100
+  const currentLocationName = computed(() => {
+    return FISHING_LOCATIONS.find(l => l.id === fishingStore.fishingLocation)?.name ?? 'Dere'
   })
 
-  // === İnşa / yükseltme ortak pencere ===
-
-  const upgradeNextLevel = computed(() => Math.min(fishPondStore.pond.level + 1, 3) as 2 | 3)
-
-  const modalTitle = computed(() => (pondModal.value === 'build' ? 'Balık Havuzu İnşa Et' : 'Balık Havuzu Yükselt'))
-
-  const modalCurrentLevel = computed(() => (pondModal.value === 'build' ? 1 : fishPondStore.pond.level))
-
-  const modalCurrentCapacity = computed(() => (pondModal.value === 'build' ? POND_CAPACITY[1] : fishPondStore.capacity))
-
-  const modalTargetLevel = computed(() => upgradeNextLevel.value)
-
-  const modalTargetCapacity = computed(() => POND_CAPACITY[upgradeNextLevel.value])
-
-  const modalMoney = computed(() =>
-    pondModal.value === 'build' ? POND_BUILD_COST.money : POND_UPGRADE_COSTS[upgradeNextLevel.value].money
-  )
-
-  const modalMaterials = computed(() => {
-    const mats = pondModal.value === 'build' ? POND_BUILD_COST.materials : POND_UPGRADE_COSTS[upgradeNextLevel.value].materials
-    return mats.map(m => ({
-      itemId: m.itemId,
-      name: getItemName(m.itemId),
-      required: m.quantity,
-      owned: inventoryStore.getItemCount(m.itemId),
-      enough: inventoryStore.getItemCount(m.itemId) >= m.quantity
-    }))
+  const currentLocationDesc = computed(() => {
+    return FISHING_LOCATIONS.find(l => l.id === fishingStore.fishingLocation)?.description ?? ''
   })
 
-  const canConfirmModal = computed(() => {
-    if (playerStore.money < modalMoney.value) return false
-    return modalMaterials.value.every(m => m.enough)
+  const rodTierName = computed(() => {
+    const tier = inventoryStore.getTool?.('fishingRod')?.tier ?? 'basic'
+    const names: Record<string, string> = { basic: 'Bambu Olta', iron: 'Demir Olta', steel: 'Çelik Olta', iridium: 'İridyum Olta' }
+    return names[tier] ?? tier
   })
 
-  const handleModalConfirm = () => {
-    if (pondModal.value === 'build') {
-      if (fishPondStore.buildPond()) {
-        addLog('Balık havuzu tamamlandı!')
-        showFloat('Balık havuzu tamamlandı!', 'success')
-        pondModal.value = null
-      } else {
-        addLog('Malzeme veya para yetersiz, balık havuzu inşa edilemiyor.')
-      }
-    } else {
-      const nextLevel = (fishPondStore.pond.level + 1) as 2 | 3
-      if (fishPondStore.upgradePond()) {
-        addLog(`Balık havuzu Lv.${nextLevel} oldu! Kapasite arttı.`)
-        showFloat(`Balık havuzu Lv.${nextLevel}`, 'success')
-        pondModal.value = null
-      } else {
-        addLog('Malzeme veya para yetersiz, yükseltme yapılamıyor.')
-      }
-    }
-  }
+  const canEquipTackle = computed(() => {
+    const tier = inventoryStore.getTool?.('fishingRod')?.tier ?? 'basic'
+    return tier !== 'basic'
+  })
 
-  /** Çantadan havuza konulabilecek balıklar */
-  const pondableFishInBag = computed(() => {
-    const result: { itemId: string; name: string; count: number }[] = []
-    for (const def of PONDABLE_FISH) {
-      const count = inventoryStore.getItemCount(def.fishId)
-      if (count > 0) {
-        result.push({ itemId: def.fishId, name: def.name, count })
+  const ALL_BAIT_TYPES: BaitType[] = ['standard_bait', 'wild_bait', 'magic_bait', 'deluxe_bait', 'targeted_bait']
+  const availableBaits = computed(() => {
+    return ALL_BAIT_TYPES.map(id => ({ id, name: getBaitById(id)?.name ?? id, count: inventoryStore.getItemCount(id) })).filter(
+      b => b.count > 0
+    )
+  })
+
+  const availableTackles = computed(() => {
+    const tackleTypes: TackleType[] = ['spinner', 'trap_bobber', 'cork_bobber', 'quality_bobber', 'lead_bobber']
+    if (!canEquipTackle.value) return []
+    return tackleTypes
+      .map(id => ({ id, name: getTackleById(id)?.name ?? id, count: inventoryStore.getItemCount(id) }))
+      .filter(t => t.count > 0)
+  })
+
+  const hasCrabPotInBag = computed(() => inventoryStore.getItemCount('crab_pot') > 0)
+
+  const crabPotLocations = computed(() => {
+    const result: { id: string; name: string; total: number; baited: number }[] = []
+    for (const loc of FISHING_LOCATIONS) {
+      const info = fishingStore.crabPotsByLocation[loc.id as FishingLocation]
+      if (info) {
+        result.push({ id: loc.id, name: loc.name, total: info.total, baited: info.baited })
       }
     }
     return result
   })
 
-  /** Balık detay penceresi genetik çubukları */
-  const fishAttributes = computed(() => {
-    if (!detailFish.value) return []
-    const g = detailFish.value.genetics
-    return [
-      { key: 'weight', label: 'Ağırlık', value: g.weight, barClass: 'bg-accent' },
-      { key: 'growthRate', label: 'Büyüme', value: g.growthRate, barClass: 'bg-success' },
-      { key: 'diseaseRes', label: 'Direnç', value: g.diseaseRes, barClass: 'bg-water' },
-      { key: 'qualityGene', label: 'Kalite', value: g.qualityGene, barClass: 'bg-quality-fine' },
-      { key: 'mutationRate', label: 'Mutasyon', value: g.mutationRate, barClass: 'bg-danger' }
-    ]
+  const PAN_LOCATIONS: FishingLocation[] = ['creek', 'river', 'waterfall']
+  const canPan = computed(() => gameStore.isRainy && PAN_LOCATIONS.includes(fishingStore.fishingLocation))
+  const panDisabledReason = computed(() => {
+    if (!gameStore.isRainy) return 'Altın elemek için yağmurlu hava gerekir (nehir yükseldiğinde altın kumu ortaya çıkar).'
+    if (!PAN_LOCATIONS.includes(fishingStore.fishingLocation)) return 'Bu konumda altın elenemez, dereye, nehre ya da şelaleye gitmelisin.'
+    return ''
   })
 
-  /** Balık detayını aç */
-  const openFishDetail = (fish: PondFish) => {
-    detailFish.value = fish
+  const DIFFICULTY_NAMES: Record<string, string> = {
+    easy: 'Kolay',
+    normal: 'Normal',
+    hard: 'Zor',
+    legendary: 'Efsanevi'
+  }
+  const DIFFICULTY_COLORS: Record<string, string> = {
+    easy: 'text-success',
+    normal: 'text-muted',
+    hard: 'text-danger',
+    legendary: 'text-accent'
   }
 
-  /** Pencereden üreme ebeveyni seç */
-  const handleDetailBreed = () => {
-    if (!detailFish.value) return
-    handleSelectForBreeding(detailFish.value)
-    detailFish.value = null
+  const SEASON_LABEL: Record<string, string> = { spring: 'İlkbahar', summer: 'Yaz', autumn: 'Sonbahar', winter: 'Kış' }
+  const WEATHER_LABEL: Record<string, string> = {
+    any: 'Herhangi',
+    sunny: 'Güneşli',
+    rainy: 'Yağmurlu',
+    stormy: 'Fırtınalı',
+    snowy: 'Karlı',
+    windy: 'Rüzgârlı'
   }
 
-  /** Pencereden çantaya geri al */
-  const handleDetailRemove = () => {
-    if (!detailFish.value) return
-    handleRemoveFish(detailFish.value.id)
-    detailFish.value = null
+  // === Yardımcılar ===
+
+  const getBaitName = (type: BaitType): string => getBaitById(type)?.name ?? type
+  const getTackleName = (type: TackleType): string => getTackleById(type)?.name ?? type
+
+  // === Konum ===
+
+  const handleSetLocation = (loc: FishingLocation) => {
+    fishingStore.setLocation(loc)
+    sfxClick()
   }
 
-  // === İşlemler ===
+  // === Ekipman ===
 
-  const handleFeed = () => {
-    if (fishPondStore.feedFish()) {
-      addLog('Havuzdaki balıklara yem verildi.')
-      const tr = gameStore.advanceTime(ACTION_TIME_COSTS.feedFish)
+  const handleEquipBaitFromModal = (baitId: BaitType) => {
+    const result = fishingStore.equipBait(baitId)
+    addLog(result.message)
+    showBaitModal.value = false
+  }
+
+  const handleUnequipBait = () => {
+    const msg = fishingStore.unequipBait()
+    addLog(msg)
+  }
+
+  const handleEquipTackleFromModal = (tackleId: TackleType) => {
+    const result = fishingStore.equipTackle(tackleId)
+    addLog(result.message)
+    showTackleModal.value = false
+  }
+
+  const handleUnequipTackle = () => {
+    const msg = fishingStore.unequipTackle()
+    addLog(msg)
+  }
+
+  // === Balık Tutma ===
+
+  const handleStartFishing = () => {
+    if (gameStore.isPastBedtime) {
+      addLog('Çok geç oldu, artık balık tutulamaz.')
+      handleEndDay()
+      return
+    }
+    if (!inventoryStore.isToolAvailable('fishingRod')) {
+      addLog('Olta yükseltiliyor, bu yüzden balık tutulamaz.')
+      return
+    }
+    const result = fishingStore.startFishing()
+    if (result.success) {
+      sfxClick()
+      const tr = gameStore.advanceTime(fishTime.value)
       if (tr.message) addLog(tr.message)
-      if (tr.passedOut) handleEndDay()
-    } else if (fishPondStore.pond.fedToday) {
-      addLog('Bugün zaten yem verildi.')
-    } else {
-      addLog('Balık yemi yok, yem verilemiyor.')
-    }
-  }
-
-  const handleClean = () => {
-    if (fishPondStore.cleanPond()) {
-      addLog('Su kalitesi düzenleyicisi kullanılarak havuz temizlendi.')
-      showFloat('+Su kalitesi', 'success')
-      const tr = gameStore.advanceTime(ACTION_TIME_COSTS.cleanPond)
-      if (tr.message) addLog(tr.message)
-      if (tr.passedOut) handleEndDay()
-    } else {
-      addLog('Su kalitesi düzenleyicisi yok.')
-    }
-  }
-
-  const handleTreat = () => {
-    const count = fishPondStore.treatSickFish()
-    if (count > 0) {
-      addLog(`${count} hasta balık tedavi edildi.`)
-      showFloat(`${count} balık tedavi edildi`, 'success')
-    } else {
-      addLog('İlaç yok ya da hasta balık bulunmuyor.')
-    }
-  }
-
-  const handleCollect = () => {
-    const products = fishPondStore.collectProducts()
-    if (products.length > 0) {
-      for (const p of products) {
-        inventoryStore.addItem(p.itemId, 1, p.quality)
+      if (tr.passedOut) {
+        handleEndDay()
+        return
       }
-      const names = products.map(p => getItemName(p.itemId)).join('、')
-      addLog(`${names} toplandı.`)
-      showFloat(`+${products.length} su ürünü`, 'success')
-      const tr = gameStore.advanceTime(ACTION_TIME_COSTS.collectFishProducts)
-      if (tr.message) addLog(tr.message)
-      if (tr.passedOut) handleEndDay()
-    } else {
-      addLog('Toplanacak ürün yok.')
-    }
-  }
-
-  const handleAddFish = (fishId: string) => {
-    const added = fishPondStore.addFish(fishId, 1)
-    if (added > 0) {
-      const name = getPondableFishName(fishId)
-      addLog(`${added} adet ${name} eklendi.`)
-    } else if (fishPondStore.isFull) {
-      addLog('Balık havuzu dolu, daha fazla balık eklenemez.')
-    } else {
-      addLog('Çantada bu tür balık yok.')
-    }
-  }
-
-  const handleRemoveFish = (pondFishId: string) => {
-    if (fishPondStore.removeFish(pondFishId)) {
-      addLog('Bir balık çantaya geri alındı.')
-      selectedBreedingFish.value = null
-    } else {
-      addLog('Çanta dolu, balık geri alınamıyor.')
-    }
-  }
-
-  const handleSelectForBreeding = (fish: PondFish) => {
-    if (!selectedBreedingFish.value) {
-      selectedBreedingFish.value = fish
-      return
-    }
-
-    if (selectedBreedingFish.value.id === fish.id) {
-      selectedBreedingFish.value = null
-      return
-    }
-
-    // Eşleştirmeyi dene
-    if (fishPondStore.startBreeding(selectedBreedingFish.value.id, fish.id)) {
-      addLog(`${fish.name} üremeye başladı, ${fishPondStore.pond.breeding!.daysLeft} gün sonra sonuç alınacak.`)
-      showFloat('Üreme başladı', 'success')
-      selectedBreedingFish.value = null
-    } else {
-      if (selectedBreedingFish.value.fishId !== fish.fishId) {
-        addLog('Sadece aynı tür balıklar eşleştirilebilir.')
-      } else if (fishPondStore.isFull) {
-        addLog('Balık havuzu dolu, üreme yapılamıyor.')
+      if (result.junk) {
+        // Çöp doğrudan çantaya gider, mini oyun açılmaz
+        lastResult.value = result.message
       } else {
-        addLog('Eşleştirme yapılamıyor; balıkların olgun ve sağlıklı olduğundan emin ol.')
+        miniGameParams.value = fishingStore.calculateMiniGameParams()
+        miniGameCompleted.value = false
+        showCloseConfirm.value = false
+        showFishingModal.value = true
       }
-      selectedBreedingFish.value = null
     }
+    addLog(result.message)
+    if (!result.success) {
+      lastResult.value = result.message
+    }
+  }
+
+  const QUALITY_NAMES: Record<Quality, string> = {
+    normal: 'Normal',
+    fine: 'İyi',
+    excellent: 'Çok İyi',
+    supreme: 'Mükemmel'
+  }
+
+  const QUALITY_COLORS: Record<Quality, string> = {
+    normal: 'text-muted',
+    fine: 'text-quality-fine',
+    excellent: 'text-quality-excellent',
+    supreme: 'text-quality-supreme'
+  }
+
+  const handleMiniGameComplete = (result: MiniGameResult) => {
+    miniGameCompleted.value = true
+
+    const ratingNames: Record<string, string> = {
+      perfect: 'Mükemmel',
+      excellent: 'Harika',
+      good: 'İyi',
+      poor: 'Başarısız'
+    }
+    addLog(`Mini oyun puanı: ${ratingNames[result.rating]}!`)
+
+    const catchData = fishingStore.completeFishing(result.rating)
+    if (catchData) {
+      addLog(catchData.message)
+      lastResult.value = catchData.message
+      if (catchData.success) sfxFishCatch()
+      else sfxLineBroken()
+
+      // Sonuç penceresini göster
+      catchResult.value = {
+        fishName: catchData.fishName ?? '',
+        fishId: catchData.fishId,
+        difficulty: catchData.difficulty,
+        sellPrice: catchData.sellPrice,
+        description: catchData.description,
+        quality: catchData.quality,
+        quantity: catchData.quantity,
+        success: catchData.success,
+        message: catchData.message
+      }
+    }
+
+    showFishingModal.value = false
+    showCloseConfirm.value = false
+    miniGameParams.value = null
+  }
+
+  const dismissCatchResult = () => {
+    catchResult.value = null
+  }
+
+  const handleCloseFishingModal = () => {
+    if (!miniGameCompleted.value) {
+      showCloseConfirm.value = true
+    } else {
+      showFishingModal.value = false
+      miniGameParams.value = null
+    }
+  }
+
+  const handleConfirmClose = () => {
+    showCloseConfirm.value = false
+    showFishingModal.value = false
+    miniGameParams.value = null
+    lastResult.value = 'Balık tutmaktan vazgeçtin, balık kaçtı.'
+    addLog('Balık tutmaktan vazgeçtin, balık kaçtı.')
+  }
+
+  // === Yengeç Kapanları ===
+
+  const handlePlaceCrabPot = () => {
+    const result = fishingStore.placeCrabPot(fishingStore.fishingLocation)
+    addLog(result.message)
+  }
+
+  const handleRemoveCrabPot = (locId: string) => {
+    const result = fishingStore.removeCrabPot(locId as FishingLocation)
+    addLog(result.message)
+  }
+
+  const handleBaitCrabPots = (locId: string) => {
+    const result = fishingStore.baitCrabPots(locId as FishingLocation)
+    addLog(result.message)
+  }
+
+  // === Altın Eleme ===
+
+  const handlePan = () => {
+    if (gameStore.isPastBedtime) {
+      addLog('Çok geç oldu, artık altın elenemez.')
+      handleEndDay()
+      return
+    }
+
+    if (!inventoryStore.isToolAvailable('pan')) {
+      addLog('Altın eleği yükseltiliyor, bu yüzden altın elenemez.')
+      return
+    }
+
+    const panMultiplier = inventoryStore.getToolStaminaMultiplier('pan')
+    const cost = Math.max(1, Math.floor(4 * panMultiplier))
+    if (!playerStore.consumeStamina(cost)) {
+      addLog('Dayanıklılık yetersiz, altın elenemez.')
+      return
+    }
+
+    const panTier = inventoryStore.getTool('pan')?.tier ?? 'basic'
+    const tiers: string[] = ['basic', 'iron', 'steel', 'iridium']
+    const tierIndex = tiers.indexOf(panTier)
+
+    const roll = Math.random()
+    let itemId: string
+    let qty = 1
+    let name: string
+
+    if (roll < 0.4) {
+      itemId = 'copper_ore'
+      qty = 1
+      name = 'Bakır Cevheri'
+    } else if (roll < 0.62) {
+      itemId = tierIndex >= 1 ? 'iron_ore' : 'copper_ore'
+      qty = 1
+      name = tierIndex >= 1 ? 'Demir Cevheri' : 'Bakır Cevheri'
+    } else if (roll < 0.75) {
+      itemId = tierIndex >= 2 ? 'gold_ore' : 'iron_ore'
+      qty = 1
+      name = tierIndex >= 2 ? 'Altın Cevheri' : 'Demir Cevheri'
+    } else if (roll < 0.84) {
+      itemId = 'quartz'
+      qty = 1
+      name = 'Kuvars'
+    } else if (roll < 0.9) {
+      itemId = 'jade'
+      qty = 1
+      name = 'Yeşim'
+    } else if (roll < 0.95) {
+      itemId = 'ruby'
+      qty = 1
+      name = 'Yakut'
+    } else {
+      const goldNuggetChance = tierIndex >= 3 ? 0.12 : 0.04
+      if (Math.random() < goldNuggetChance / 0.05) {
+        itemId = 'gold_nugget'
+        qty = 1
+        name = 'Altın Parçası'
+      } else {
+        itemId = 'copper_ore'
+        qty = 1
+        name = 'Bakır Cevheri'
+      }
+    }
+
+    inventoryStore.addItem(itemId, qty)
+    achievementStore.discoverItem(itemId)
+    skillStore.addExp('mining', 5)
+    panResult.value = `${name} bulundu! (-${cost} dayanıklılık)`
+    addLog(`Altın elemeden ${name} elde edildi. (-${cost} dayanıklılık)`)
+
+    const tr = gameStore.advanceTime(panTime.value)
+    if (tr.message) addLog(tr.message)
+    if (tr.passedOut) handleEndDay()
   }
 </script>
