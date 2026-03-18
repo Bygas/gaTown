@@ -7,18 +7,18 @@ import { useSkillStore } from './useSkillStore'
 import { useMiningStore } from './useMiningStore'
 
 export const useWalletStore = defineStore('wallet', () => {
-  /** 已解锁的钱袋物品ID */
+  /** Kilidi açılmış cüzdan eşyalarının ID'leri */
   const unlockedItems = ref<string[]>([])
 
-  /** 已解锁的钱袋物品定义 */
+  /** Kilidi açılmış cüzdan eşyalarının tanımları */
   const unlockedDefs = computed(() => WALLET_ITEMS.filter(w => unlockedItems.value.includes(w.id)))
 
-  /** 检查是否已拥有某物品 */
+  /** Bir eşyaya sahip olunup olunmadığını kontrol et */
   const has = (id: string): boolean => {
     return unlockedItems.value.includes(id)
   }
 
-  /** 手动解锁 */
+  /** Manuel olarak kilit aç */
   const unlock = (id: string): boolean => {
     if (has(id)) return false
     if (!WALLET_ITEMS.find(w => w.id === id)) return false
@@ -26,7 +26,7 @@ export const useWalletStore = defineStore('wallet', () => {
     return true
   }
 
-  /** 检查并自动解锁满足条件的物品，返回新解锁的物品名 */
+  /** Koşulları sağlayan eşyaları otomatik kontrol edip açar, yeni açılan eşya adlarını döndürür */
   const checkAndUnlock = (): string[] => {
     const achievementStore = useAchievementStore()
     const skillStore = useSkillStore()
@@ -34,77 +34,77 @@ export const useWalletStore = defineStore('wallet', () => {
 
     const newlyUnlocked: string[] = []
 
-    // 商人印鉴：累计赚钱10000文
+    // Tüccar Mührü: toplam 10000 akçe kazan
     if (!has('merchant_seal') && achievementStore.stats.totalMoneyEarned >= 10000) {
       unlock('merchant_seal')
-      newlyUnlocked.push('商人印章')
+      newlyUnlocked.push('Tüccar Mührü')
     }
 
-    // 草药图鉴：采集等级8
+    // Şifalı Ot Rehberi: Toplayıcılık seviyesi 8
     if (!has('herb_guide') && skillStore.getSkill('foraging').level >= 8) {
       unlock('herb_guide')
-      newlyUnlocked.push('神农本草')
+      newlyUnlocked.push('Şifalı Ot Rehberi')
     }
 
-    // 矿工护符：矿洞50层
+    // Madenci Tılsımı: Madende 50. kat
     if (!has('miners_charm') && miningStore.safePointFloor >= 50) {
       unlock('miners_charm')
-      newlyUnlocked.push('矿工护符')
+      newlyUnlocked.push('Madenci Tılsımı')
     }
 
-    // 垂钓者令牌：钓到30种鱼
+    // Balıkçı Jetonu: 30 farklı balık yakala
     if (!has('anglers_token')) {
       const fishIdSet = new Set(FISH.map(f => f.id))
       const fishCount = achievementStore.discoveredItems.filter(id => fishIdSet.has(id)).length
       if (fishCount >= 30) {
         unlock('anglers_token')
-        newlyUnlocked.push('钓翁令牌')
+        newlyUnlocked.push('Balıkçı Jetonu')
       }
     }
 
-    // 厨师帽：烹饪10道不同食谱
+    // Aşçı Şapkası: 10 farklı tarif pişir
     if (!has('chefs_hat') && achievementStore.stats.totalRecipesCooked >= 10) {
       unlock('chefs_hat')
-      newlyUnlocked.push('厨师帽')
+      newlyUnlocked.push('Aşçı Şapkası')
     }
 
-    // 大地图腾：收获100次作物
+    // Toprak Totemi: 100 kez ürün hasat et
     if (!has('earth_totem') && achievementStore.stats.totalCropsHarvested >= 100) {
       unlock('earth_totem')
-      newlyUnlocked.push('土地图腾')
+      newlyUnlocked.push('Toprak Totemi')
     }
 
     return newlyUnlocked
   }
 
-  // === 被动效果查询 ===
+  // === Pasif etki sorguları ===
 
-  /** 商店折扣 (0.1 = 10%) */
+  /** Mağaza indirimi (0.1 = %10) */
   const getShopDiscount = (): number => {
     return has('merchant_seal') ? 0.1 : 0
   }
 
-  /** 采集品质加成档数 */
+  /** Toplayıcılık kalite bonus seviyesi */
   const getForageQualityBoost = (): number => {
     return has('herb_guide') ? 1 : 0
   }
 
-  /** 挖矿体力减免 (0.15 = 15%) */
+  /** Madencilik dayanıklılık tüketimi azaltma (0.15 = %15) */
   const getMiningStaminaReduction = (): number => {
     return has('miners_charm') ? 0.15 : 0
   }
 
-  /** 钓鱼calm概率加成 */
+  /** Balıkçılıkta calm olasılığı bonusu */
   const getFishingCalmBonus = (): number => {
     return has('anglers_token') ? 0.1 : 0
   }
 
-  /** 烹饪恢复量加成 (0.25 = 25%) */
+  /** Yemek iyileştirme miktarı bonusu (0.25 = %25) */
   const getCookingRestoreBonus = (): number => {
     return has('chefs_hat') ? 0.25 : 0
   }
 
-  /** 作物生长速度加成 (0.1 = 10%) */
+  /** Ürün büyüme hızı bonusu (0.1 = %10) */
   const getCropGrowthBonus = (): number => {
     return has('earth_totem') ? 0.1 : 0
   }
