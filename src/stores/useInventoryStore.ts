@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { InventoryItem, Quality, Tool, ToolType, ToolTier, OwnedWeapon, OwnedRing, RingEffectType, OwnedHat, OwnedShoe } from '@/types'
 
-/** 装备方案 */
+/** Ekipman ön ayarı */
 export interface EquipmentPreset {
   id: string
   name: string
@@ -40,49 +40,49 @@ export const useInventoryStore = defineStore('inventory', () => {
     { type: 'pan', tier: 'basic' }
   ])
 
-  /** 拥有的武器列表 */
+  /** Sahip olunan silah listesi */
   const ownedWeapons = ref<OwnedWeapon[]>([{ defId: 'wooden_stick', enchantmentId: null }])
-  /** 当前装备的武器索引 */
+  /** Şu anda kuşanılmış silahın indeksi */
   const equippedWeaponIndex = ref(0)
 
-  /** 拥有的戒指列表 */
+  /** Sahip olunan yüzük listesi */
   const ownedRings = ref<OwnedRing[]>([])
-  /** 装备的戒指索引（2个槽位，-1 = 空） */
+  /** Kuşanılmış yüzük indeksleri (2 yuva, -1 = boş) */
   const equippedRingSlot1 = ref(-1)
   const equippedRingSlot2 = ref(-1)
 
-  /** 拥有的帽子列表 */
+  /** Sahip olunan şapka listesi */
   const ownedHats = ref<OwnedHat[]>([])
-  /** 当前装备的帽子索引（-1 = 空） */
+  /** Şu anda kuşanılmış şapkanın indeksi (-1 = boş) */
   const equippedHatIndex = ref(-1)
 
-  /** 拥有的鞋子列表 */
+  /** Sahip olunan ayakkabı listesi */
   const ownedShoes = ref<OwnedShoe[]>([])
-  /** 当前装备的鞋子索引（-1 = 空） */
+  /** Şu anda kuşanılmış ayakkabının indeksi (-1 = boş) */
   const equippedShoeIndex = ref(-1)
 
-  /** 装备方案列表 */
+  /** Ekipman ön ayarı listesi */
   const equipmentPresets = ref<EquipmentPreset[]>([])
-  /** 当前使用的方案ID */
+  /** Şu anda kullanılan ön ayarın ID'si */
   const activePresetId = ref<string | null>(null)
 
-  /** 正在升级中的工具（2天等待期） */
+  /** Yükseltme aşamasındaki araç (2 günlük bekleme süresi) */
   const pendingUpgrade = ref<{ toolType: ToolType; targetTier: ToolTier; daysRemaining: number } | null>(null)
 
   const isFull = computed(() => items.value.length >= capacity.value)
 
-  /** 临时背包（溢出缓冲区） */
+  /** Geçici envanter (taşma tamponu) */
   const tempItems = ref<InventoryItem[]>([])
   const isTempFull = computed(() => tempItems.value.length >= TEMP_CAPACITY)
-  /** 主背包+临时背包均满 */
+  /** Ana envanter + geçici envanter tamamen dolu */
   const isAllFull = computed(() => isFull.value && isTempFull.value)
 
-  /** 获取当前装备的武器 */
+  /** Şu anda kuşanılmış silahı al */
   const getEquippedWeapon = (): OwnedWeapon => {
     return ownedWeapons.value[equippedWeaponIndex.value] ?? { defId: 'wooden_stick', enchantmentId: null }
   }
 
-  /** 获取武器攻击力（含附魔加成） */
+  /** Silah saldırı gücünü al (büyü bonusu dahil) */
   const getWeaponAttack = (): number => {
     const owned = getEquippedWeapon()
     const def = getWeaponById(owned.defId)
@@ -95,7 +95,7 @@ export const useInventoryStore = defineStore('inventory', () => {
     return attack
   }
 
-  /** 获取武器暴击率（含附魔加成） */
+  /** Silah kritik vuruş oranını al (büyü bonusu dahil) */
   const getWeaponCritRate = (): number => {
     const owned = getEquippedWeapon()
     const def = getWeaponById(owned.defId)
@@ -108,52 +108,52 @@ export const useInventoryStore = defineStore('inventory', () => {
     return critRate
   }
 
-  /** 添加武器到收藏 */
+  /** Koleksiyona silah ekle */
   const addWeapon = (defId: string, enchantmentId: string | null = null): boolean => {
     ownedWeapons.value.push({ defId, enchantmentId })
     useAchievementStore().discoverItem(defId)
     return true
   }
 
-  /** 检查是否已拥有某武器（不含附魔区分） */
+  /** Belirli bir silaha sahip olunup olunmadığını kontrol et (büyü farkı gözetilmez) */
   const hasWeapon = (defId: string): boolean => {
     return ownedWeapons.value.some(w => w.defId === defId)
   }
 
-  /** 装备武器（按索引） */
+  /** Silah kuşan (indekse göre) */
   const equipWeapon = (index: number): boolean => {
     if (index < 0 || index >= ownedWeapons.value.length) return false
     equippedWeaponIndex.value = index
     return true
   }
 
-  /** 卖出武器（不能卖装备中的武器，不能卖唯一武器） */
+  /** Silah sat (kuşanılmış silah satılamaz, tek silah satılamaz) */
   const sellWeapon = (index: number): { success: boolean; message: string } => {
-    if (ownedWeapons.value.length <= 1) return { success: false, message: '至少保留一把武器。' }
-    if (index === equippedWeaponIndex.value) return { success: false, message: '不能卖出装备中的武器，请先切换。' }
-    if (index < 0 || index >= ownedWeapons.value.length) return { success: false, message: '无效索引。' }
+    if (ownedWeapons.value.length <= 1) return { success: false, message: 'En az bir silah bırakılmalıdır.' }
+    if (index === equippedWeaponIndex.value) return { success: false, message: 'Kuşanılmış silah satılamaz, önce değiştirin.' }
+    if (index < 0 || index >= ownedWeapons.value.length) return { success: false, message: 'Geçersiz indeks.' }
     const weapon = ownedWeapons.value[index]!
     const price = getWeaponSellPrice(weapon.defId, weapon.enchantmentId)
     const playerStore = usePlayerStore()
     playerStore.earnMoney(price)
     ownedWeapons.value.splice(index, 1)
-    // 修正装备索引
+    // Kuşanım indeksini düzelt
     if (equippedWeaponIndex.value > index) {
       equippedWeaponIndex.value--
     }
     const def = getWeaponById(weapon.defId)
-    return { success: true, message: `卖出了${def?.name ?? '武器'}，获得${price}文。` }
+    return { success: true, message: `${def?.name ?? 'Silah'} satıldı, ${price} para kazanıldı.` }
   }
 
-  /** 添加物品到背包 */
+  /** Envantere eşya ekle */
   const addItem = (itemId: string, quantity: number = 1, quality: Quality = 'normal'): boolean => {
-    // 校验物品是否存在
+    // Eşyanın var olup olmadığını doğrula
     if (!getItemById(itemId)) return false
-    // 自动注册到图鉴
+    // Otomatik olarak koleksiyona kaydet
     useAchievementStore().discoverItem(itemId)
     let remaining = quantity
 
-    // 先填充已有的同类栈
+    // Önce mevcut aynı tür yığınları doldur
     for (const slot of items.value) {
       if (remaining <= 0) break
       if (slot.itemId === itemId && slot.quality === quality && slot.quantity < MAX_STACK) {
@@ -163,14 +163,14 @@ export const useInventoryStore = defineStore('inventory', () => {
       }
     }
 
-    // 剩余部分创建新栈
+    // Kalan kısmı yeni yığınlar oluştur
     while (remaining > 0 && !isFull.value) {
       const batch = Math.min(remaining, MAX_STACK)
       items.value.push({ itemId, quantity: batch, quality })
       remaining -= batch
     }
 
-    // 溢出到临时背包
+    // Taşanı geçici envantere aktar
     if (remaining > 0) {
       for (const slot of tempItems.value) {
         if (remaining <= 0) break
@@ -189,27 +189,27 @@ export const useInventoryStore = defineStore('inventory', () => {
 
     if (remaining > 0) {
       const name = getItemById(itemId)?.name ?? itemId
-      showFloat(`背包已满！${name}×${remaining}丢失了`, 'danger')
+      showFloat(`Envanter dolu! ${name}×${remaining} kayboldu`, 'danger')
     } else {
-      // 背包快满预警：剩余格数 ≤ 3 时提示一次
+      // Envanter neredeyse dolu uyarısı: kalan yuva ≤ 3 ise bir kez göster
       const freeSlots = capacity.value - items.value.length
       if (freeSlots <= 3) {
-        showFloat(`背包快满了！剩余${freeSlots}格`, 'accent')
+        showFloat(`Envanter neredeyse dolu! Kalan ${freeSlots} yuva`, 'accent')
       }
     }
 
     return remaining <= 0
   }
 
-  /** 移除物品（支持跨栈删除）。quality 不传时优先消耗低品质 */
+  /** Eşya kaldır (yığınlar arası silmeyi destekler). quality verilmezse önce düşük kalite tüketilir */
   const removeItem = (itemId: string, quantity: number = 1, quality?: Quality): boolean => {
-    // 先检查总数是否足够
+    // Önce toplam miktarın yeterli olup olmadığını kontrol et
     const matchQuality = (i: { itemId: string; quality: Quality }) =>
       i.itemId === itemId && (quality === undefined || i.quality === quality)
     const total = items.value.filter(matchQuality).reduce((sum, i) => sum + i.quantity, 0)
     if (total < quantity) return false
 
-    // 不指定品质时按 normal → fine → excellent → supreme 顺序消耗
+    // Kalite belirtilmemişse normal → fine → excellent → supreme sırasıyla tüket
     const qualityOrder: Quality[] = ['normal', 'fine', 'excellent', 'supreme']
     let remaining = quantity
     for (const q of quality !== undefined ? [quality] : qualityOrder) {
@@ -227,19 +227,19 @@ export const useInventoryStore = defineStore('inventory', () => {
     return true
   }
 
-  /** 查询物品数量 */
+  /** Eşya miktarını sorgula */
   const getItemCount = (itemId: string, quality?: Quality): number => {
     return items.value
       .filter(i => i.itemId === itemId && (quality === undefined || i.quality === quality))
       .reduce((sum, i) => sum + i.quantity, 0)
   }
 
-  /** 检查是否拥有足够数量 */
+  /** Yeterli miktarda eşya olup olmadığını kontrol et */
   const hasItem = (itemId: string, quantity: number = 1): boolean => {
     return getItemCount(itemId) >= quantity
   }
 
-  /** 物品分类排序优先级 */
+  /** Eşya kategorisi sıralama önceliği */
   const CATEGORY_ORDER: Record<string, number> = {
     seed: 0,
     crop: 1,
@@ -264,15 +264,15 @@ export const useInventoryStore = defineStore('inventory', () => {
     misc: 20
   }
 
-  /** 切换物品锁定状态 */
+  /** Eşya kilit durumunu değiştir */
   const toggleLock = (itemId: string, quality: Quality) => {
     const slot = items.value.find(i => i.itemId === itemId && i.quality === quality)
     if (slot) slot.locked = !slot.locked
   }
 
-  /** 一键整理背包（按分类→物品ID→品质排序，合并同类栈） */
+  /** Envanteri tek tuşla düzenle (kategori → eşya ID → kaliteye göre sırala, aynı tür yığınları birleştir) */
   const sortItems = () => {
-    // 先合并同类栈（任一栈锁定则合并后保持锁定）
+    // Önce aynı tür yığınları birleştir (herhangi bir yığın kilitliyse birleşim sonrası da kilitli kalır)
     const merged: InventoryItem[] = []
     for (const item of items.value) {
       const existing = merged.find(m => m.itemId === item.itemId && m.quality === item.quality)
@@ -283,7 +283,7 @@ export const useInventoryStore = defineStore('inventory', () => {
         merged.push({ ...item })
       }
     }
-    // 拆分超过 MAX_STACK 的栈（保留锁定状态）
+    // MAX_STACK'i aşan yığınları böl (kilit durumunu koru)
     const split: InventoryItem[] = []
     for (const item of merged) {
       let remaining = item.quantity
@@ -293,7 +293,7 @@ export const useInventoryStore = defineStore('inventory', () => {
         remaining -= batch
       }
     }
-    // 按分类 → 物品ID → 品质排序
+    // Kategori → Eşya ID → Kaliteye göre sırala
     const qualityOrder: Record<string, number> = { normal: 0, fine: 1, excellent: 2, supreme: 3 }
     split.sort((a, b) => {
       const defA = getItemById(a.itemId)
@@ -307,20 +307,20 @@ export const useInventoryStore = defineStore('inventory', () => {
     items.value = split
   }
 
-  /** 扩容背包 */
+  /** Envanter kapasitesini artır */
   const expandCapacity = (): boolean => {
     if (capacity.value >= MAX_CAPACITY) return false
     capacity.value += 4
     return true
   }
 
-  /** 超限扩容背包（+1格，突破 MAX_CAPACITY） */
+  /** Sınır üstü envanter genişletme (+1 yuva, MAX_CAPACITY aşılır) */
   const expandCapacityExtra = (): boolean => {
     capacity.value += 1
     return true
   }
 
-  /** 将临时背包中的物品转移到主背包 */
+  /** Geçici envanterdeki eşyaları ana envantere taşı */
   const moveFromTemp = (index: number): boolean => {
     if (index < 0 || index >= tempItems.value.length) return false
     const tempSlot = tempItems.value[index]!
@@ -349,7 +349,7 @@ export const useInventoryStore = defineStore('inventory', () => {
     return false
   }
 
-  /** 一键将所有可转移的临时背包物品移入主背包 */
+  /** Geçici envanterde taşınabilen tüm eşyaları tek seferde ana envantere taşı */
   const moveAllFromTemp = (): number => {
     let movedCount = 0
     for (let i = tempItems.value.length - 1; i >= 0; i--) {
@@ -359,19 +359,19 @@ export const useInventoryStore = defineStore('inventory', () => {
     return movedCount
   }
 
-  /** 丢弃临时背包中的物品 */
+  /** Geçici envanterdeki eşyayı at */
   const discardTempItem = (index: number): boolean => {
     if (index < 0 || index >= tempItems.value.length) return false
     tempItems.value.splice(index, 1)
     return true
   }
 
-  /** 获取工具 */
+  /** Aracı al */
   const getTool = (type: ToolType): Tool | undefined => {
     return tools.value.find(t => t.type === type)
   }
 
-  /** 获取工具等级对应的体力消耗倍率 */
+  /** Araç seviyesine karşılık gelen dayanıklılık tüketim çarpanını al */
   const getToolStaminaMultiplier = (type: ToolType): number => {
     const tool = getTool(type)
     if (!tool) return 1
@@ -379,7 +379,7 @@ export const useInventoryStore = defineStore('inventory', () => {
     return multipliers[tool.tier]
   }
 
-  /** 获取工具等级对应的批量操作数量（蓄力机制） */
+  /** Araç seviyesine karşılık gelen toplu işlem sayısını al (şarj mekaniği) */
   const getToolBatchCount = (type: ToolType): number => {
     const tool = getTool(type)
     if (!tool) return 1
@@ -387,7 +387,7 @@ export const useInventoryStore = defineStore('inventory', () => {
     return counts[tool.tier]
   }
 
-  /** 升级工具 */
+  /** Araç yükselt */
   const upgradeTool = (type: ToolType): boolean => {
     const tool = getTool(type)
     if (!tool) return false
@@ -398,19 +398,19 @@ export const useInventoryStore = defineStore('inventory', () => {
     return true
   }
 
-  /** 检查工具是否可用（未在升级中） */
+  /** Aracın kullanılabilir olup olmadığını kontrol et (yükseltmede değil) */
   const isToolAvailable = (type: ToolType): boolean => {
     return !pendingUpgrade.value || pendingUpgrade.value.toolType !== type
   }
 
-  /** 开始升级工具（进入2天等待期） */
+  /** Araç yükseltmesini başlat (2 günlük bekleme süresine girer) */
   const startUpgrade = (type: ToolType, targetTier: ToolTier): boolean => {
     if (pendingUpgrade.value) return false
     pendingUpgrade.value = { toolType: type, targetTier, daysRemaining: 2 }
     return true
   }
 
-  /** 每日升级进度更新，返回完成的工具名（若有） */
+  /** Günlük yükseltme ilerlemesini güncelle, tamamlanan aracın adını döndürür (varsa) */
   const dailyUpgradeUpdate = (): { completed: boolean; toolType: ToolType; targetTier: ToolTier } | null => {
     if (!pendingUpgrade.value) return null
     pendingUpgrade.value.daysRemaining--
@@ -424,35 +424,35 @@ export const useInventoryStore = defineStore('inventory', () => {
   }
 
   // ============================================================
-  // 戒指系统
+  // Yüzük sistemi
   // ============================================================
 
-  /** 添加戒指到收藏 */
+  /** Koleksiyona yüzük ekle */
   const addRing = (defId: string): boolean => {
     ownedRings.value.push({ defId })
     useAchievementStore().discoverItem(defId)
     return true
   }
 
-  /** 检查是否已拥有某戒指 */
+  /** Belirli bir yüzüğe sahip olunup olunmadığını kontrol et */
   const hasRing = (defId: string): boolean => {
     return ownedRings.value.some(r => r.defId === defId)
   }
 
-  /** 装备戒指到指定槽位（0 或 1），禁止两个槽位装备同defId戒指 */
+  /** Belirtilen yuvaya yüzük kuşan (0 veya 1), iki yuvada aynı defId yüzük yasaktır */
   const equipRing = (ringIndex: number, slot: 0 | 1): boolean => {
     if (ringIndex < 0 || ringIndex >= ownedRings.value.length) return false
     const targetSlot = slot === 0 ? equippedRingSlot1 : equippedRingSlot2
     const otherSlot = slot === 0 ? equippedRingSlot2 : equippedRingSlot1
-    // 已在目标槽位，无操作
+    // Hedef yuvadaysa işlem yapma
     if (targetSlot.value === ringIndex) return true
-    // 同一枚戒指在另一个槽位 → 交换
+    // Aynı yüzük diğer yuvadaysa → yer değiştir
     if (otherSlot.value === ringIndex) {
-      otherSlot.value = targetSlot.value // 可能是 -1
+      otherSlot.value = targetSlot.value // -1 olabilir
       targetSlot.value = ringIndex
       return true
     }
-    // 禁止两个槽位装备同defId戒指
+    // İki yuvada aynı defId yüzük takılmasını engelle
     const targetDefId = ownedRings.value[ringIndex]!.defId
     if (otherSlot.value >= 0 && otherSlot.value < ownedRings.value.length && ownedRings.value[otherSlot.value]!.defId === targetDefId) {
       return false
@@ -461,7 +461,7 @@ export const useInventoryStore = defineStore('inventory', () => {
     return true
   }
 
-  /** 卸下戒指（指定槽位） */
+  /** Yüzüğü çıkar (belirtilen yuva) */
   const unequipRing = (slot: 0 | 1): boolean => {
     if (slot === 0) {
       if (equippedRingSlot1.value < 0) return false
@@ -473,28 +473,28 @@ export const useInventoryStore = defineStore('inventory', () => {
     return true
   }
 
-  /** 卖出戒指（自动卸下已装备的戒指） */
+  /** Yüzük sat (kuşanılmışsa otomatik çıkarılır) */
   const sellRing = (index: number): { success: boolean; message: string } => {
-    if (index < 0 || index >= ownedRings.value.length) return { success: false, message: '无效索引。' }
+    if (index < 0 || index >= ownedRings.value.length) return { success: false, message: 'Geçersiz indeks.' }
     const ring = ownedRings.value[index]!
     const def = getRingById(ring.defId)
     const price = def?.sellPrice ?? 0
-    // 自动卸下
+    // Otomatik çıkar
     if (equippedRingSlot1.value === index) equippedRingSlot1.value = -1
     if (equippedRingSlot2.value === index) equippedRingSlot2.value = -1
     const playerStore = usePlayerStore()
     playerStore.earnMoney(price)
     ownedRings.value.splice(index, 1)
-    // 修正装备索引
+    // Kuşanım indekslerini düzelt
     if (equippedRingSlot1.value > index) equippedRingSlot1.value--
     if (equippedRingSlot2.value > index) equippedRingSlot2.value--
-    return { success: true, message: `卖出了${def?.name ?? '戒指'}，获得${price}文。` }
+    return { success: true, message: `${def?.name ?? 'Yüzük'} satıldı, ${price} para kazanıldı.` }
   }
 
-  /** 查询某种装备效果的合计值（戒指+帽子+鞋子叠加） */
+  /** Belirli bir ekipman etkisinin toplam değerini sorgula (yüzük + şapka + ayakkabı birikir) */
   const getEquipmentBonus = (effectType: RingEffectType): number => {
     let total = 0
-    // 戒指（2槽位）
+    // Yüzükler (2 yuva)
     const ringIndices = [equippedRingSlot1.value, equippedRingSlot2.value]
     for (const idx of ringIndices) {
       if (idx < 0 || idx >= ownedRings.value.length) continue
@@ -506,7 +506,7 @@ export const useInventoryStore = defineStore('inventory', () => {
         }
       }
     }
-    // 帽子（1槽位）
+    // Şapka (1 yuva)
     if (equippedHatIndex.value >= 0 && equippedHatIndex.value < ownedHats.value.length) {
       const hat = ownedHats.value[equippedHatIndex.value]!
       const def = getHatById(hat.defId)
@@ -516,7 +516,7 @@ export const useInventoryStore = defineStore('inventory', () => {
         }
       }
     }
-    // 鞋子（1槽位）
+    // Ayakkabı (1 yuva)
     if (equippedShoeIndex.value >= 0 && equippedShoeIndex.value < ownedShoes.value.length) {
       const shoe = ownedShoes.value[equippedShoeIndex.value]!
       const def = getShoeById(shoe.defId)
@@ -526,31 +526,31 @@ export const useInventoryStore = defineStore('inventory', () => {
         }
       }
     }
-    // 套装奖励
+    // Set bonusları
     for (const b of activeSetBonuses.value) {
       if (b.type === effectType) total += b.value
     }
     return total
   }
 
-  /** 查询某种戒指效果的合计值（代理到 getEquipmentBonus，包含帽子/鞋子加成） */
+  /** Belirli bir yüzük etkisinin toplam değerini sorgula (getEquipmentBonus'a yönlendirir, şapka/ayakkabı bonuslarını da içerir) */
   const getRingEffectValue = (effectType: RingEffectType): number => {
     return getEquipmentBonus(effectType)
   }
 
   // ============================================================
-  // 套装系统
+  // Set sistemi
   // ============================================================
 
-  /** 计算当前装备中每个套装的激活件数 */
+  /** Mevcut kuşanımda her set için etkin parça sayısını hesapla */
   const _getSetPieceCount = (set: (typeof EQUIPMENT_SETS)[number]): number => {
     let count = 0
-    // 武器（可选字段）
+    // Silah (isteğe bağlı alan)
     if (set.pieces.weapon) {
       const w = ownedWeapons.value[equippedWeaponIndex.value]
       if (w && w.defId === set.pieces.weapon) count++
     }
-    // 戒指：两个槽位只算一次（避免两个同ID戒指重复计数）
+    // Yüzük: iki yuva yalnızca bir kez sayılır (aynı ID'li iki yüzüğün tekrar sayılmasını önlemek için)
     let ringMatched = false
     for (const idx of [equippedRingSlot1.value, equippedRingSlot2.value]) {
       if (!ringMatched && idx >= 0 && idx < ownedRings.value.length && ownedRings.value[idx]!.defId === set.pieces.ring) {
@@ -573,7 +573,7 @@ export const useInventoryStore = defineStore('inventory', () => {
     return count
   }
 
-  /** 当前激活的套装奖励效果列表 */
+  /** Şu anda etkin olan set bonus etkileri listesi */
   const activeSetBonuses = computed(() => {
     const bonuses: { type: RingEffectType; value: number }[] = []
     for (const set of EQUIPMENT_SETS) {
@@ -585,7 +585,7 @@ export const useInventoryStore = defineStore('inventory', () => {
     return bonuses
   })
 
-  /** 套装激活状态（供UI显示） */
+  /** Set etkinlik durumu (arayüzde göstermek için) */
   const activeSets = computed(() => {
     return EQUIPMENT_SETS.map(set => {
       const equippedCount = _getSetPieceCount(set)
@@ -603,177 +603,177 @@ export const useInventoryStore = defineStore('inventory', () => {
     }).filter(s => s.equippedCount > 0)
   })
 
-  /** 合成戒指 */
+  /** Yüzük üret */
   const craftRing = (defId: string): { success: boolean; message: string } => {
     const def = getRingById(defId)
-    if (!def || !def.recipe) return { success: false, message: '该戒指无法合成。' }
+    if (!def || !def.recipe) return { success: false, message: 'Bu yüzük üretilemez.' }
 
-    // 检查材料
+    // Malzemeleri kontrol et
     for (const mat of def.recipe) {
       if (getItemCount(mat.itemId) < mat.quantity) {
         const matName = getItemById(mat.itemId)?.name ?? mat.itemId
-        return { success: false, message: `材料不足：${matName}。` }
+        return { success: false, message: `Yetersiz malzeme: ${matName}.` }
       }
     }
 
-    // 检查铜钱（延迟导入避免循环依赖）
+    // Parayı kontrol et (döngüsel bağımlılığı önlemek için gecikmeli içe aktarma)
     const playerStore = usePlayerStore()
     if (playerStore.money < def.recipeMoney) {
-      return { success: false, message: `铜钱不足（需要${def.recipeMoney}文）。` }
+      return { success: false, message: `Yetersiz para (gereken: ${def.recipeMoney}).` }
     }
 
-    // 消耗材料
+    // Malzemeleri tüket
     for (const mat of def.recipe) {
       removeItem(mat.itemId, mat.quantity)
     }
     playerStore.spendMoney(def.recipeMoney)
 
-    // 添加戒指
+    // Yüzüğü ekle
     addRing(defId)
-    return { success: true, message: `合成了${def.name}！` }
+    return { success: true, message: `${def.name} üretildi!` }
   }
 
   // ============================================================
-  // 帽子系统
+  // Şapka sistemi
   // ============================================================
 
-  /** 添加帽子到收藏 */
+  /** Koleksiyona şapka ekle */
   const addHat = (defId: string): boolean => {
     ownedHats.value.push({ defId })
     useAchievementStore().discoverItem(defId)
     return true
   }
 
-  /** 检查是否已拥有某帽子 */
+  /** Belirli bir şapkaya sahip olunup olunmadığını kontrol et */
   const hasHat = (defId: string): boolean => {
     return ownedHats.value.some(h => h.defId === defId)
   }
 
-  /** 装备帽子 */
+  /** Şapka kuşan */
   const equipHat = (index: number): boolean => {
     if (index < 0 || index >= ownedHats.value.length) return false
     equippedHatIndex.value = index
     return true
   }
 
-  /** 卸下帽子 */
+  /** Şapkayı çıkar */
   const unequipHat = (): boolean => {
     if (equippedHatIndex.value < 0) return false
     equippedHatIndex.value = -1
     return true
   }
 
-  /** 卖出帽子 */
+  /** Şapka sat */
   const sellHat = (index: number): { success: boolean; message: string } => {
-    if (index < 0 || index >= ownedHats.value.length) return { success: false, message: '无效索引。' }
+    if (index < 0 || index >= ownedHats.value.length) return { success: false, message: 'Geçersiz indeks.' }
     const hat = ownedHats.value[index]!
     const def = getHatById(hat.defId)
     const price = def?.sellPrice ?? 0
-    // 自动卸下
+    // Otomatik çıkar
     if (equippedHatIndex.value === index) equippedHatIndex.value = -1
     const playerStore = usePlayerStore()
     playerStore.earnMoney(price)
     ownedHats.value.splice(index, 1)
-    // 修正装备索引
+    // Kuşanım indeksini düzelt
     if (equippedHatIndex.value > index) equippedHatIndex.value--
-    return { success: true, message: `卖出了${def?.name ?? '帽子'}，获得${price}文。` }
+    return { success: true, message: `${def?.name ?? 'Şapka'} satıldı, ${price} para kazanıldı.` }
   }
 
-  /** 合成帽子 */
+  /** Şapka üret */
   const craftHat = (defId: string): { success: boolean; message: string } => {
     const def = getHatById(defId)
-    if (!def || !def.recipe) return { success: false, message: '该帽子无法合成。' }
+    if (!def || !def.recipe) return { success: false, message: 'Bu şapka üretilemez.' }
     for (const mat of def.recipe) {
       if (getItemCount(mat.itemId) < mat.quantity) {
         const matName = getItemById(mat.itemId)?.name ?? mat.itemId
-        return { success: false, message: `材料不足：${matName}。` }
+        return { success: false, message: `Yetersiz malzeme: ${matName}.` }
       }
     }
     const playerStore = usePlayerStore()
     if (playerStore.money < def.recipeMoney) {
-      return { success: false, message: `铜钱不足（需要${def.recipeMoney}文）。` }
+      return { success: false, message: `Yetersiz para (gereken: ${def.recipeMoney}).` }
     }
     for (const mat of def.recipe) {
       removeItem(mat.itemId, mat.quantity)
     }
     playerStore.spendMoney(def.recipeMoney)
     addHat(defId)
-    return { success: true, message: `合成了${def.name}！` }
+    return { success: true, message: `${def.name} üretildi!` }
   }
 
   // ============================================================
-  // 鞋子系统
+  // Ayakkabı sistemi
   // ============================================================
 
-  /** 添加鞋子到收藏 */
+  /** Koleksiyona ayakkabı ekle */
   const addShoe = (defId: string): boolean => {
     ownedShoes.value.push({ defId })
     useAchievementStore().discoverItem(defId)
     return true
   }
 
-  /** 检查是否已拥有某鞋子 */
+  /** Belirli bir ayakkabıya sahip olunup olunmadığını kontrol et */
   const hasShoe = (defId: string): boolean => {
     return ownedShoes.value.some(s => s.defId === defId)
   }
 
-  /** 装备鞋子 */
+  /** Ayakkabı kuşan */
   const equipShoe = (index: number): boolean => {
     if (index < 0 || index >= ownedShoes.value.length) return false
     equippedShoeIndex.value = index
     return true
   }
 
-  /** 卸下鞋子 */
+  /** Ayakkabıyı çıkar */
   const unequipShoe = (): boolean => {
     if (equippedShoeIndex.value < 0) return false
     equippedShoeIndex.value = -1
     return true
   }
 
-  /** 卖出鞋子 */
+  /** Ayakkabı sat */
   const sellShoe = (index: number): { success: boolean; message: string } => {
-    if (index < 0 || index >= ownedShoes.value.length) return { success: false, message: '无效索引。' }
+    if (index < 0 || index >= ownedShoes.value.length) return { success: false, message: 'Geçersiz indeks.' }
     const shoe = ownedShoes.value[index]!
     const def = getShoeById(shoe.defId)
     const price = def?.sellPrice ?? 0
-    // 自动卸下
+    // Otomatik çıkar
     if (equippedShoeIndex.value === index) equippedShoeIndex.value = -1
     const playerStore = usePlayerStore()
     playerStore.earnMoney(price)
     ownedShoes.value.splice(index, 1)
-    // 修正装备索引
+    // Kuşanım indeksini düzelt
     if (equippedShoeIndex.value > index) equippedShoeIndex.value--
-    return { success: true, message: `卖出了${def?.name ?? '鞋子'}，获得${price}文。` }
+    return { success: true, message: `${def?.name ?? 'Ayakkabı'} satıldı, ${price} para kazanıldı.` }
   }
 
-  /** 合成鞋子 */
+  /** Ayakkabı üret */
   const craftShoe = (defId: string): { success: boolean; message: string } => {
     const def = getShoeById(defId)
-    if (!def || !def.recipe) return { success: false, message: '该鞋子无法合成。' }
+    if (!def || !def.recipe) return { success: false, message: 'Bu ayakkabı üretilemez.' }
     for (const mat of def.recipe) {
       if (getItemCount(mat.itemId) < mat.quantity) {
         const matName = getItemById(mat.itemId)?.name ?? mat.itemId
-        return { success: false, message: `材料不足：${matName}。` }
+        return { success: false, message: `Yetersiz malzeme: ${matName}.` }
       }
     }
     const playerStore = usePlayerStore()
     if (playerStore.money < def.recipeMoney) {
-      return { success: false, message: `铜钱不足（需要${def.recipeMoney}文）。` }
+      return { success: false, message: `Yetersiz para (gereken: ${def.recipeMoney}).` }
     }
     for (const mat of def.recipe) {
       removeItem(mat.itemId, mat.quantity)
     }
     playerStore.spendMoney(def.recipeMoney)
     addShoe(defId)
-    return { success: true, message: `合成了${def.name}！` }
+    return { success: true, message: `${def.name} üretildi!` }
   }
 
   // ============================================================
-  // 装备方案系统
+  // Ekipman ön ayarı sistemi
   // ============================================================
 
-  /** 创建空方案 */
+  /** Boş ön ayar oluştur */
   const createEquipmentPreset = (name: string): boolean => {
     if (equipmentPresets.value.length >= 3) return false
     equipmentPresets.value.push({
@@ -788,20 +788,20 @@ export const useInventoryStore = defineStore('inventory', () => {
     return true
   }
 
-  /** 删除方案 */
+  /** Ön ayarı sil */
   const deleteEquipmentPreset = (id: string) => {
     const idx = equipmentPresets.value.findIndex(p => p.id === id)
     if (idx >= 0) equipmentPresets.value.splice(idx, 1)
     if (activePresetId.value === id) activePresetId.value = null
   }
 
-  /** 重命名方案 */
+  /** Ön ayarı yeniden adlandır */
   const renameEquipmentPreset = (id: string, name: string) => {
     const preset = equipmentPresets.value.find(p => p.id === id)
     if (preset) preset.name = name.trim() || preset.name
   }
 
-  /** 将当前装备保存到方案 */
+  /** Mevcut kuşanımı ön ayara kaydet */
   const saveCurrentToPreset = (id: string) => {
     const preset = equipmentPresets.value.find(p => p.id === id)
     if (!preset) return
@@ -812,59 +812,59 @@ export const useInventoryStore = defineStore('inventory', () => {
     preset.shoeDefId = equippedShoeIndex.value >= 0 ? (ownedShoes.value[equippedShoeIndex.value]?.defId ?? null) : null
   }
 
-  /** 应用装备方案 */
+  /** Ekipman ön ayarını uygula */
   const applyEquipmentPreset = (id: string): { success: boolean; message: string } => {
     const preset = equipmentPresets.value.find(p => p.id === id)
-    if (!preset) return { success: false, message: '方案不存在。' }
+    if (!preset) return { success: false, message: 'Ön ayar mevcut değil.' }
 
     const missing: string[] = []
 
-    // 武器
+    // Silah
     if (preset.weaponDefId) {
       const idx = ownedWeapons.value.findIndex(w => w.defId === preset.weaponDefId)
       if (idx >= 0) equipWeapon(idx)
-      else missing.push('武器')
+      else missing.push('Silah')
     }
 
-    // 戒指槽1
+    // Yüzük yuvası 1
     let ring1Idx = -1
     if (preset.ringSlot1DefId) {
       ring1Idx = ownedRings.value.findIndex(r => r.defId === preset.ringSlot1DefId)
       if (ring1Idx >= 0) equipRing(ring1Idx, 0)
-      else missing.push('戒指1')
+      else missing.push('Yüzük 1')
     } else {
       unequipRing(0)
     }
 
-    // 戒指槽2（禁止与槽1装备同defId戒指）
+    // Yüzük yuvası 2 (yuva 1 ile aynı defId yüzük yasaktır)
     if (preset.ringSlot2DefId) {
       if (preset.ringSlot2DefId === preset.ringSlot1DefId) {
-        // 旧方案中两个槽保存了同defId戒指，现已禁止，跳过槽2
+        // Eski ön ayarda iki yuvada da aynı defId yüzük kayıtlıysa, artık yasak; yuva 2 atlanır
         unequipRing(1)
-        missing.push('戒指2（不可与槽1相同）')
+        missing.push('Yüzük 2 (Yuva 1 ile aynı olamaz)')
       } else {
         const idx = ownedRings.value.findIndex(r => r.defId === preset.ringSlot2DefId)
         if (idx >= 0) equipRing(idx, 1)
-        else missing.push('戒指2')
+        else missing.push('Yüzük 2')
       }
     } else {
       unequipRing(1)
     }
 
-    // 帽子
+    // Şapka
     if (preset.hatDefId) {
       const idx = ownedHats.value.findIndex(h => h.defId === preset.hatDefId)
       if (idx >= 0) equipHat(idx)
-      else missing.push('帽子')
+      else missing.push('Şapka')
     } else {
       unequipHat()
     }
 
-    // 鞋子
+    // Ayakkabı
     if (preset.shoeDefId) {
       const idx = ownedShoes.value.findIndex(s => s.defId === preset.shoeDefId)
       if (idx >= 0) equipShoe(idx)
-      else missing.push('鞋子')
+      else missing.push('Ayakkabı')
     } else {
       unequipShoe()
     }
@@ -872,9 +872,9 @@ export const useInventoryStore = defineStore('inventory', () => {
     activePresetId.value = id
 
     if (missing.length > 0) {
-      return { success: true, message: `已应用方案「${preset.name}」，但${missing.join('、')}已不在背包中。` }
+      return { success: true, message: `Ön ayar "${preset.name}" uygulandı, ancak ${missing.join('、')} artık envanterde yok.` }
     }
-    return { success: true, message: `已应用方案「${preset.name}」。` }
+    return { success: true, message: `Ön ayar "${preset.name}" uygulandı.` }
   }
 
   const serialize = () => {
@@ -911,7 +911,7 @@ export const useInventoryStore = defineStore('inventory', () => {
       { type: 'axe', tier: 'basic' },
       { type: 'pan', tier: 'basic' }
     ]
-    // 向后兼容：旧存档可能缺少新工具
+    // Geriye dönük uyumluluk: eski kayıtlar yeni araçları içermeyebilir
     const requiredTools: ToolType[] = ['wateringCan', 'hoe', 'pickaxe', 'fishingRod', 'scythe', 'axe', 'pan']
     for (const rt of requiredTools) {
       if (!tools.value.find(t => t.type === rt)) {
@@ -919,12 +919,12 @@ export const useInventoryStore = defineStore('inventory', () => {
       }
     }
 
-    // 新版武器系统
+    // Yeni silah sistemi
     if ((data as any).ownedWeapons) {
       ownedWeapons.value = (data as any).ownedWeapons
       equippedWeaponIndex.value = (data as any).equippedWeaponIndex ?? 0
     } else {
-      // 旧存档迁移：weapon: { tier: 'copper' } → ownedWeapons
+      // Eski kayıt geçişi: weapon: { tier: 'copper' } → ownedWeapons
       const oldWeapon = (data as any).weapon
       if (oldWeapon?.tier) {
         const tierMap: Record<string, string> = {
@@ -944,25 +944,25 @@ export const useInventoryStore = defineStore('inventory', () => {
 
     pendingUpgrade.value = (data as any).pendingUpgrade ?? null
 
-    // 戒指系统（向后兼容旧存档）
+    // Yüzük sistemi (eski kayıtlarla geriye dönük uyumluluk)
     ownedRings.value = ((data as Record<string, unknown>).ownedRings as OwnedRing[]) ?? []
     equippedRingSlot1.value = ((data as Record<string, unknown>).equippedRingSlot1 as number | undefined) ?? -1
     equippedRingSlot2.value = ((data as Record<string, unknown>).equippedRingSlot2 as number | undefined) ?? -1
-    // 修复无效索引
+    // Geçersiz indeksleri düzelt
     if (equippedRingSlot1.value >= ownedRings.value.length) equippedRingSlot1.value = -1
     if (equippedRingSlot2.value >= ownedRings.value.length) equippedRingSlot2.value = -1
 
-    // 帽子系统（向后兼容旧存档）
+    // Şapka sistemi (eski kayıtlarla geriye dönük uyumluluk)
     ownedHats.value = ((data as Record<string, unknown>).ownedHats as OwnedHat[]) ?? []
     equippedHatIndex.value = ((data as Record<string, unknown>).equippedHatIndex as number | undefined) ?? -1
     if (equippedHatIndex.value >= ownedHats.value.length) equippedHatIndex.value = -1
 
-    // 鞋子系统（向后兼容旧存档）
+    // Ayakkabı sistemi (eski kayıtlarla geriye dönük uyumluluk)
     ownedShoes.value = ((data as Record<string, unknown>).ownedShoes as OwnedShoe[]) ?? []
     equippedShoeIndex.value = ((data as Record<string, unknown>).equippedShoeIndex as number | undefined) ?? -1
     if (equippedShoeIndex.value >= ownedShoes.value.length) equippedShoeIndex.value = -1
 
-    // 装备方案（向后兼容旧存档）
+    // Ekipman ön ayarları (eski kayıtlarla geriye dönük uyumluluk)
     equipmentPresets.value = ((data as Record<string, unknown>).equipmentPresets as EquipmentPreset[] | undefined) ?? []
     activePresetId.value = ((data as Record<string, unknown>).activePresetId as string | null | undefined) ?? null
   }
