@@ -1,32 +1,32 @@
-/** 瀚海商店物品定义 */
+/** Hanhai mağaza eşya tanımı */
 export interface HanhaiShopItemDef {
   itemId: string
   name: string
   price: number
   description: string
-  /** 每周限购数量（0或不填=不限购） */
+  /** Haftalık satın alma limiti (0 veya boş = sınırsız) */
   weeklyLimit?: number
 }
 
-/** 赌坊游戏类型 */
+/** Kumar oyunu türü */
 export type CasinoGameType = 'roulette' | 'dice' | 'cup' | 'cricket' | 'cardflip' | 'texas' | 'buckshot'
 
-/** 蛐蛐定义 */
+/** Cırcır böceği (cricket) tanımı */
 export interface CricketDef {
   id: string
   name: string
   description: string
 }
 
-/** 轮盘赔率档位 */
+/** Rulet sonuç oranları */
 export interface RouletteOutcome {
   label: string
   multiplier: number
-  /** 概率百分比（所有项之和应为100） */
+  /** Olasılık yüzdesi (toplamı 100 olmalı) */
   chance: number
 }
 
-// === 瀚海扑克 ===
+// === Poker ===
 
 export type PokerSuit = 'spade' | 'heart' | 'diamond' | 'club'
 export type PokerRank = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14
@@ -50,9 +50,9 @@ export type PokerHandType =
 
 export interface PokerHandResult {
   type: PokerHandType
-  /** 牌型优先级（越大越强） */
+  /** El sıralaması (büyük = daha güçlü) */
   typeRank: number
-  /** 用于同类型比较的排序值数组（降序） */
+  /** Aynı tip karşılaştırması için sıralı değerler (azalan) */
   ranks: number[]
   label: string
 }
@@ -64,28 +64,28 @@ export type TexasTierId = 'beginner' | 'normal' | 'expert'
 export interface TexasTierDef {
   id: TexasTierId
   name: string
-  /** 入场费（= 双方初始筹码） */
+  /** Giriş ücreti (= başlangıç fişleri) */
   entryFee: number
-  /** 大盲注 */
+  /** Büyük kör bahis */
   blind: number
-  /** 每局抽水（荷官小费） */
+  /** Masa kesintisi (krupiye payı) */
   rake: number
-  /** 入场最低持有金钱 */
+  /** Katılım için minimum para */
   minMoney: number
-  /** 每次入场可对局手数 */
+  /** Oynanabilecek el sayısı */
   rounds: number
 }
 
 export interface TexasSetup {
   playerHole: PokerCard[]
   dealerHole: PokerCard[]
-  /** 预发5张，组件按街逐步展示 */
+  /** Önceden dağıtılmış 5 kart (sokaklara göre açılır) */
   community: PokerCard[]
-  /** 场次配置 */
+  /** Masa ayarları */
   tier: TexasTierDef
 }
 
-// === 恶魔轮盘 ===
+// === Şeytan Ruleti (Buckshot) ===
 
 export type ShellType = 'live' | 'blank'
 
