@@ -18,25 +18,25 @@ export const useQuestStore = defineStore('quest', () => {
   const npcStore = useNpcStore()
   const achievementStore = useAchievementStore()
 
-  /** 告示栏上的可接取任务 */
+  /** İlan panosundaki alınabilir görevler */
   const boardQuests = ref<QuestInstance[]>([])
 
-  /** 已接取的进行中任务 */
+  /** Kabul edilmiş, devam eden görevler */
   const activeQuests = ref<QuestInstance[]>([])
 
-  /** 累计完成任务数 */
+  /** Toplam tamamlanan görev sayısı */
   const completedQuestCount = ref<number>(0)
 
-  /** 当前可接取的特殊订单 */
+  /** Şu anda alınabilir özel sipariş */
   const specialOrder = ref<QuestInstance | null>(null)
 
-  /** 最大同时接取任务数 */
+  /** Aynı anda alınabilecek azami görev sayısı */
   const MAX_ACTIVE_QUESTS = 3
 
-  /** 每日生成新任务到告示栏 */
+  /** Her gün ilan panosuna yeni görevler üret */
   const generateDailyQuests = (season: Season, day: number) => {
-    boardQuests.value = [] // 清空旧的告示栏
-    const count = 1 + Math.floor(Math.random() * 2) // 1-2个
+    boardQuests.value = [] // Eski ilan panosunu temizle
+    const count = 1 + Math.floor(Math.random() * 2) // 1-2 adet
     for (let i = 0; i < count; i++) {
       const quest = generateQuest(season, day)
       if (quest) {
@@ -45,38 +45,38 @@ export const useQuestStore = defineStore('quest', () => {
     }
   }
 
-  /** 按梯度生成特殊订单 (tier: 1-4 对应 第7/14/21/28天) */
+  /** Kademeye göre özel sipariş üret (tier: 1-4 = 7/14/21/28. gün) */
   const generateSpecialOrder = (season: Season, tier: number) => {
     const order = _generateSpecialOrder(season, tier)
     specialOrder.value = order
   }
 
-  /** 接取任务 */
+  /** Görev kabul et */
   const acceptQuest = (questId: string): { success: boolean; message: string } => {
     if (activeQuests.value.length >= MAX_ACTIVE_QUESTS) {
-      return { success: false, message: `最多同时接取${MAX_ACTIVE_QUESTS}个任务。` }
+      return { success: false, message: `Aynı anda en fazla ${MAX_ACTIVE_QUESTS} görev alınabilir.` }
     }
     const idx = boardQuests.value.findIndex(q => q.id === questId)
-    if (idx === -1) return { success: false, message: '任务不存在。' }
+    if (idx === -1) return { success: false, message: 'Görev bulunamadı.' }
 
     const quest = boardQuests.value[idx]!
     quest.accepted = true
 
-    // 非送货类委托：检查背包中已有的物品数量
+    // Teslimat dışı görevler: çantadaki mevcut eşya miktarını kontrol et
     if (quest.type !== 'delivery') {
       quest.collectedQuantity = Math.min(inventoryStore.getItemCount(quest.targetItemId), quest.targetQuantity)
     }
 
     activeQuests.value.push(quest)
     boardQuests.value.splice(idx, 1)
-    return { success: true, message: `接取了任务：${quest.description}` }
+    return { success: true, message: `Görev alındı: ${quest.description}` }
   }
 
-  /** 接取特殊订单 */
+  /** Özel siparişi kabul et */
   const acceptSpecialOrder = (): { success: boolean; message: string } => {
-    if (!specialOrder.value) return { success: false, message: '没有可接取的特殊订单。' }
+    if (!specialOrder.value) return { success: false, message: 'Alınabilir özel sipariş yok.' }
     if (activeQuests.value.length >= MAX_ACTIVE_QUESTS) {
-      return { success: false, message: `最多同时接取${MAX_ACTIVE_QUESTS}个任务。` }
+      return { success: false, message: `Aynı anda en fazla ${MAX_ACTIVE_QUESTS} görev alınabilir.` }
     }
 
     const order = specialOrder.value
@@ -85,66 +85,67 @@ export const useQuestStore = defineStore('quest', () => {
 
     activeQuests.value.push(order)
     specialOrder.value = null
-    return { success: true, message: `接取了特殊订单：${order.description}` }
+    return { success: true, message: `Özel sipariş alındı: ${order.description}` }
   }
 
-  /** 提交完成的任务 */
+  /** Tamamlanan görevi teslim et */
   const submitQuest = (questId: string): { success: boolean; message: string } => {
     const idx = activeQuests.value.findIndex(q => q.id === questId)
-    if (idx === -1) return { success: false, message: '任务不存在。' }
+    if (idx === -1) return { success: false, message: 'Görev bulunamadı.' }
 
     const quest = activeQuests.value[idx]!
 
-    // 送货类委托：提交时从背包扣除物品
+    // Teslimat türü görevler: teslim sırasında çantadan eşya eksilt
     if (quest.type === 'delivery') {
       if (!inventoryStore.hasItem(quest.targetItemId, quest.targetQuantity)) {
-        return { success: false, message: `背包中${quest.targetItemName}不足。` }
+        return { success: false, message: `Çantada yeterli ${quest.targetItemName} yok.` }
       }
       inventoryStore.removeItem(quest.targetItemId, quest.targetQuantity)
     } else {
-      // 钓鱼/挖矿/采集/特殊订单类：检查收集进度或背包数量
+      // Balıkçılık / madencilik / toplama / özel sipariş görevleri:
+      // toplama ilerlemesini veya çanta miktarını kontrol et
       const effectiveProgress = Math.max(quest.collectedQuantity, inventoryStore.getItemCount(quest.targetItemId))
       if (effectiveProgress < quest.targetQuantity) {
-        return { success: false, message: `${quest.targetItemName}收集进度不足（${effectiveProgress}/${quest.targetQuantity}）。` }
+        return { success: false, message: `${quest.targetItemName} ilerlemesi yetersiz (${effectiveProgress}/${quest.targetQuantity}).` }
       }
     }
 
-    // 发放铜钱奖励
+    // Para ödülünü ver
     playerStore.earnMoney(quest.moneyReward)
     npcStore.adjustFriendship(quest.npcId, quest.friendshipReward)
 
-    // 发放物品奖励
+    // Eşya ödüllerini ver
     if (quest.itemReward) {
       for (const item of quest.itemReward) {
         inventoryStore.addItem(item.itemId, item.quantity)
       }
     }
 
-    // 记录完成
+    // Tamamlanma kaydı
     completedQuestCount.value++
 
-    // 从活跃列表移除
+    // Aktif listeden kaldır
     activeQuests.value.splice(idx, 1)
 
-    let message = `完成了${quest.npcName}的委托！获得${quest.moneyReward}文，${quest.npcName}好感+${quest.friendshipReward}。`
+    let message = `${quest.npcName} adlı karakterin görevi tamamlandı! ${quest.moneyReward} akçe kazanıldı, ${quest.npcName} yakınlığı +${quest.friendshipReward}.`
     if (quest.itemReward && quest.itemReward.length > 0) {
-      const itemNames = quest.itemReward.map(i => `${i.quantity}个物品`).join('、')
-      message += ` 额外获得${itemNames}。`
+      const itemNames = quest.itemReward.map(i => `${i.quantity} adet eşya`).join('、')
+      message += ` Ek olarak ${itemNames} kazanıldı.`
     }
 
     return { success: true, message }
   }
 
-  /** 当玩家获得某物品时，更新进行中任务的进度（钓鱼/挖矿/采集类） */
+  /** Oyuncu bir eşya aldığında aktif görev ilerlemesini güncelle */
   const onItemObtained = (itemId: string, quantity: number = 1) => {
     for (const quest of activeQuests.value) {
-      if (quest.type === 'delivery') continue // 送货类不自动追踪
+      if (quest.type === 'delivery') continue // Teslimat görevleri otomatik takip edilmez
       if (quest.targetItemId === itemId && quest.collectedQuantity < quest.targetQuantity) {
         quest.collectedQuantity = Math.min(quest.collectedQuantity + quantity, quest.targetQuantity)
       }
     }
 
-    // 同步刷新主线任务中 deliverItem 目标的进度
+    // Ana görevlerde deliverItem hedeflerini de senkronize et
     if (mainQuest.value?.accepted) {
       const def = getStoryQuestById(mainQuest.value.questId)
       if (def) {
@@ -158,9 +159,8 @@ export const useQuestStore = defineStore('quest', () => {
     }
   }
 
-  /** 每日更新：天数递减，过期移除 */
+  /** Günlük güncelleme: kalan günleri azalt, süresi dolanları kaldır */
   const dailyUpdate = () => {
-    // 活跃委托剩余天数递减
     const expired: QuestInstance[] = []
     activeQuests.value = activeQuests.value.filter(q => {
       q.daysRemaining--
@@ -171,7 +171,7 @@ export const useQuestStore = defineStore('quest', () => {
       return true
     })
 
-    // 特殊订单过期（未接取也会过期）
+    // Özel siparişin süresi dolabilir, alınmamış olsa bile
     if (specialOrder.value) {
       specialOrder.value.daysRemaining--
       if (specialOrder.value.daysRemaining <= 0) {
@@ -182,28 +182,28 @@ export const useQuestStore = defineStore('quest', () => {
     return expired
   }
 
-  /** 检查是否有任务关注某物品 */
+  /** Belirli eşyayı isteyen aktif görev var mı */
   const hasActiveQuestFor = (itemId: string): boolean => {
     return activeQuests.value.some(q => q.targetItemId === itemId)
   }
 
   // ============================================================
-  // 主线任务
+  // Ana hikâye görevleri
   // ============================================================
 
-  /** 当前主线任务状态 */
+  /** Mevcut ana görev durumu */
   const mainQuest = ref<MainQuestState | null>(null)
 
-  /** 已完成的主线任务ID列表 */
+  /** Tamamlanan ana görev ID listesi */
   const completedMainQuests = ref<string[]>([])
 
-  /** 好感等级层级顺序 */
+  /** Yakınlık seviyeleri sıralaması */
   const LEVEL_ORDER = ['stranger', 'acquaintance', 'friendly', 'bestFriend'] as const
   const meetsLevel = (current: string, required: string): boolean => {
     return LEVEL_ORDER.indexOf(current as (typeof LEVEL_ORDER)[number]) >= LEVEL_ORDER.indexOf(required as (typeof LEVEL_ORDER)[number])
   }
 
-  /** 评估单个目标是否达成 */
+  /** Tek bir hedefin tamamlanıp tamamlanmadığını değerlendir */
   const evaluateObjective = (obj: MainQuestObjective): boolean => {
     const skillStore = useSkillStore()
     const shopStore = useShopStore()
@@ -220,7 +220,7 @@ export const useQuestStore = defineStore('quest', () => {
         if (obj.skillType) {
           return skillStore.getSkill(obj.skillType as 'farming' | 'foraging' | 'fishing' | 'mining' | 'combat').level >= (obj.target ?? 0)
         }
-        // 无指定技能类型 = 任意技能达标
+        // Belirli bir yetenek yoksa: herhangi bir yetenek yeterli
         return skillStore.skills.some(s => s.level >= (obj.target ?? 0))
       case 'allSkillsLevel':
         return skillStore.skills.every(s => s.level >= (obj.target ?? 0))
@@ -236,7 +236,7 @@ export const useQuestStore = defineStore('quest', () => {
         return achievementStore.discoveredItems.length >= (obj.target ?? 0)
       case 'npcFriendship': {
         if (obj.npcId === '_any') {
-          // 任意NPC达到指定好感
+          // Herhangi bir NPC belirtilen yakınlık seviyesine ulaşmış mı
           return npcStore.npcStates.some(n => meetsLevel(npcStore.getFriendshipLevel(n.npcId), obj.friendshipLevel ?? 'acquaintance'))
         }
         const level = npcStore.getFriendshipLevel(obj.npcId ?? '')
@@ -257,19 +257,18 @@ export const useQuestStore = defineStore('quest', () => {
       case 'hasChild':
         return npcStore.children.length > 0
       case 'deliverItem':
-        // deliverItem 只检查背包有足够物品（提交时才扣除）
+        // deliverItem sadece çantada yeterli eşya olup olmadığını kontrol eder
         return inventoryStore.hasItem(obj.itemId ?? '', obj.itemQuantity ?? 1)
       default:
         return false
     }
   }
 
-  /** 初始化主线任务：如果没有当前任务，设置下一个可接取的 */
+  /** Ana görevi başlat: mevcut görev yoksa sıradaki görevi ayarla */
   const initMainQuest = () => {
-    if (mainQuest.value) return // 已有当前任务
-    if (completedMainQuests.value.length >= STORY_QUESTS.length) return // 全部完成
+    if (mainQuest.value) return
+    if (completedMainQuests.value.length >= STORY_QUESTS.length) return
 
-    // 找到下一个未完成的主线任务
     const nextQuest =
       completedMainQuests.value.length === 0
         ? getFirstStoryQuest()
@@ -284,27 +283,27 @@ export const useQuestStore = defineStore('quest', () => {
     }
   }
 
-  /** 接取主线任务 */
+  /** Ana görevi kabul et */
   const acceptMainQuest = (): { success: boolean; message: string } => {
-    if (!mainQuest.value) return { success: false, message: '没有可接取的主线任务。' }
-    if (mainQuest.value.accepted) return { success: false, message: '主线任务已接取。' }
+    if (!mainQuest.value) return { success: false, message: 'Alınabilir ana görev yok.' }
+    if (mainQuest.value.accepted) return { success: false, message: 'Ana görev zaten alınmış.' }
 
     const def = getStoryQuestById(mainQuest.value.questId)
-    if (!def) return { success: false, message: '主线任务数据异常。' }
+    if (!def) return { success: false, message: 'Ana görev verisi hatalı.' }
 
     mainQuest.value.accepted = true
 
-    // 接取时立即评估一次进度
+    // Kabul edildiği anda ilerlemeyi bir kez değerlendir
     for (let i = 0; i < def.objectives.length; i++) {
       mainQuest.value.objectiveProgress[i] = evaluateObjective(def.objectives[i]!)
     }
 
     const npcDef = getNpcById(def.npcId)
     const npcName = npcDef?.name ?? def.npcId
-    return { success: true, message: `接取了主线任务：${def.title}（${npcName}）` }
+    return { success: true, message: `Ana görev alındı: ${def.title} (${npcName})` }
   }
 
-  /** 每日更新主线任务进度 */
+  /** Ana görev ilerlemesini günlük güncelle */
   const updateMainQuestProgress = () => {
     if (!mainQuest.value || !mainQuest.value.accepted) return
 
@@ -318,14 +317,13 @@ export const useQuestStore = defineStore('quest', () => {
     }
   }
 
-  /** 检查主线任务是否可提交（实时评估未完成的目标） */
+  /** Ana görev teslim edilebilir mi */
   const canSubmitMainQuest = (): boolean => {
     if (!mainQuest.value || !mainQuest.value.accepted) return false
 
     const def = getStoryQuestById(mainQuest.value.questId)
     if (!def) return false
 
-    // 实时刷新未完成目标的进度，使 UI 同步显示最新状态
     for (let i = 0; i < def.objectives.length; i++) {
       if (!mainQuest.value.objectiveProgress[i]) {
         mainQuest.value.objectiveProgress[i] = evaluateObjective(def.objectives[i]!)
@@ -335,65 +333,64 @@ export const useQuestStore = defineStore('quest', () => {
     return mainQuest.value.objectiveProgress.every(p => p)
   }
 
-  /** 提交主线任务 */
+  /** Ana görevi teslim et */
   const submitMainQuest = (): { success: boolean; message: string } => {
     if (!mainQuest.value || !mainQuest.value.accepted) {
-      return { success: false, message: '没有可提交的主线任务。' }
+      return { success: false, message: 'Teslim edilebilecek ana görev yok.' }
     }
 
     const def = getStoryQuestById(mainQuest.value.questId)
-    if (!def) return { success: false, message: '主线任务数据异常。' }
+    if (!def) return { success: false, message: 'Ana görev verisi hatalı.' }
 
-    // 最终验证所有目标
+    // Son doğrulama
     for (let i = 0; i < def.objectives.length; i++) {
       mainQuest.value.objectiveProgress[i] = evaluateObjective(def.objectives[i]!)
     }
     if (!mainQuest.value.objectiveProgress.every(p => p)) {
-      return { success: false, message: '主线任务目标尚未全部完成。' }
+      return { success: false, message: 'Ana görev hedefleri henüz tamamlanmadı.' }
     }
 
-    // deliverItem 类型扣除背包物品
+    // deliverItem hedeflerinde çantadan eşya eksilt
     for (const obj of def.objectives) {
       if (obj.type === 'deliverItem' && obj.itemId && obj.itemQuantity) {
         if (!inventoryStore.removeItem(obj.itemId, obj.itemQuantity)) {
-          return { success: false, message: `背包中物品不足，无法提交。` }
+          return { success: false, message: `Çantadaki eşya yetersiz, teslim edilemiyor.` }
         }
       }
     }
 
-    // 发放铜钱奖励
+    // Para ödülü
     playerStore.earnMoney(def.moneyReward)
 
-    // 发放好感奖励
+    // Yakınlık ödülü
     if (def.friendshipReward) {
       for (const fr of def.friendshipReward) {
         npcStore.adjustFriendship(fr.npcId, fr.amount)
       }
     }
 
-    // 发放物品奖励
+    // Eşya ödülü
     if (def.itemReward) {
       for (const item of def.itemReward) {
         inventoryStore.addItem(item.itemId, item.quantity)
       }
     }
 
-    // 记录完成
     completedMainQuests.value.push(mainQuest.value.questId)
     mainQuest.value = null
 
-    // 自动初始化下一个主线任务
+    // Sonraki ana görevi otomatik başlat
     initMainQuest()
 
     const npcDef = getNpcById(def.npcId)
     const npcName = npcDef?.name ?? def.npcId
-    let message = `【主线完成】${def.title}！${npcName}：获得${def.moneyReward}文。`
+    let message = `【Ana Görev Tamamlandı】${def.title}! ${npcName}: ${def.moneyReward} akçe kazanıldı.`
     if (def.itemReward && def.itemReward.length > 0) {
-      message += ` 额外获得物品奖励。`
+      message += ` Ayrıca eşya ödülü alındı.`
     }
     if (!mainQuest.value) {
       if (completedMainQuests.value.length >= STORY_QUESTS.length) {
-        message += ` 恭喜！你已完成桃源乡全部主线任务！`
+        message += ` Tebrikler! Taoyuanxiang ana hikâyesinin tüm görevleri tamamlandı!`
       }
     }
 
@@ -401,7 +398,7 @@ export const useQuestStore = defineStore('quest', () => {
   }
 
   // ============================================================
-  // 序列化
+  // Serileştirme
   // ============================================================
 
   const serialize = () => {
@@ -422,7 +419,7 @@ export const useQuestStore = defineStore('quest', () => {
     specialOrder.value = ((data as Record<string, unknown>).specialOrder as QuestInstance | null) ?? null
     mainQuest.value = ((data as Record<string, unknown>).mainQuest as MainQuestState | null) ?? null
     completedMainQuests.value = ((data as Record<string, unknown>).completedMainQuests as string[] | undefined) ?? []
-    // 加载后初始化主线任务（兼容旧存档）
+    // Yükleme sonrası ana görevi başlat (eski kayıtlarla uyumluluk için)
     initMainQuest()
   }
 
