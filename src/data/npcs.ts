@@ -7,7 +7,7 @@ export const NPCS: NpcDef[] = [
   // ============================================================
   {
     id: 'chen_bo',
-    name: 'Chen Bo',
+    name: 'Mustafa Amca',
     gender: 'male',
     role: 'Genel dükkân sahibi',
     personality: 'Yardımsever ve cömert',
@@ -16,7 +16,7 @@ export const NPCS: NpcDef[] = [
     likedItems: ['cabbage', 'rice', 'potato', 'goat_milk', 'truffle', 'rabbit_foot', 'hanhai_spice'],
     hatedItems: ['copper_ore', 'quartz'],
     dialogues: {
-      stranger: ['Müşteri, belli ki buralara yeni geldin, öyle değil mi? Ben ihtiyar Chen Bo, bu genel dükkânın sahibiyim.', '{title}, neye ihtiyacın olursa gel, herkese dürüst davranırım.'],
+      stranger: ['Müşteri, belli ki buralara yeni geldin, öyle değil mi? Ben ihtiyar Mustafa Amca, bu genel dükkânın sahibiyim.', '{title}, neye ihtiyacın olursa gel, herkese dürüst davranırım.'],
       acquaintance: ['Haha, {title} yine gelmiş! Bugün ne almak istiyorsun?', 'Son zamanlarda güzel mallar geldi, bir bak istersen.'],
       friendly: ['{player}, gençliğinde dedene çok benziyorsun; çalışkan ve dayanıklısın.', 'Bazı güzel şeyleri sadece senin için ayırıyorum, {title}.'],
       bestFriend: ['{player}, sen benim kendi çocuğum gibisin.', 'Belki bir gün bu dükkânı sana bırakırım... şaka yapıyorum.']
