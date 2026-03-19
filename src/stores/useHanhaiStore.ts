@@ -32,102 +32,102 @@ import { addLog } from '@/composables/useGameLog'
 import type { TexasSetup, TexasTierId, BuckshotSetup } from '@/types'
 
 export const useHanhaiStore = defineStore('hanhai', () => {
-  /** 是否已解锁瀚海 */
+  /** Hanhai kilidi açık mı */
   const unlocked = ref(false)
-  /** 今日赌博次数 */
+  /** Bugünkü kumar oynama sayısı */
   const casinoBetsToday = ref(0)
-  /** 本周商店购买计数 { itemId: count } */
+  /** Bu haftaki mağaza satın alma sayacı { itemId: count } */
   const weeklyPurchases = ref<Record<string, number>>({})
 
   const canBet = computed(() => casinoBetsToday.value < MAX_DAILY_BETS)
   const betsRemaining = computed(() => MAX_DAILY_BETS - casinoBetsToday.value)
 
-  /** 解锁瀚海 */
+  /** Hanhai'nin kilidini aç */
   const unlockHanhai = (): { success: boolean; message: string } => {
-    if (unlocked.value) return { success: false, message: '瀚海已经解锁。' }
+    if (unlocked.value) return { success: false, message: 'Hanhai zaten açık.' }
     const playerStore = usePlayerStore()
     if (!playerStore.spendMoney(HANHAI_UNLOCK_COST)) {
-      return { success: false, message: `金钱不足（需要${HANHAI_UNLOCK_COST}文）。` }
+      return { success: false, message: `Yetersiz para (gerekli: ${HANHAI_UNLOCK_COST}).` }
     }
     unlocked.value = true
-    addLog('修通了前往瀚海的商路！新的冒险等待着你。')
-    return { success: true, message: '瀚海商路已开通！' }
+    addLog('Hanhai’ye giden ticaret yolu açıldı! Seni yeni maceralar bekliyor.')
+    return { success: true, message: 'Hanhai ticaret yolu açıldı!' }
   }
 
-  /** 查询某商品本周剩余可购买数量 */
+  /** Bir ürünün bu hafta kalan satın alma hakkını sorgula */
   const getWeeklyRemaining = (itemId: string): number => {
     const item = HANHAI_SHOP_ITEMS.find(i => i.itemId === itemId)
     if (!item?.weeklyLimit) return Infinity
     return Math.max(0, item.weeklyLimit - (weeklyPurchases.value[itemId] ?? 0))
   }
 
-  /** 购买驿站商品 */
+  /** Kervansaray mağazasından ürün satın al */
   const buyShopItem = (itemId: string): { success: boolean; message: string } => {
     const item = HANHAI_SHOP_ITEMS.find(i => i.itemId === itemId)
-    if (!item) return { success: false, message: '商品不存在。' }
+    if (!item) return { success: false, message: 'Ürün bulunamadı.' }
     if (item.weeklyLimit && (weeklyPurchases.value[itemId] ?? 0) >= item.weeklyLimit) {
-      return { success: false, message: `${item.name}本周限购已达上限。` }
+      return { success: false, message: `${item.name} için bu haftaki satın alma sınırına ulaşıldı.` }
     }
     const playerStore = usePlayerStore()
     if (!playerStore.spendMoney(item.price)) {
-      return { success: false, message: '金钱不足。' }
+      return { success: false, message: 'Yetersiz para.' }
     }
     const inventoryStore = useInventoryStore()
     if (!inventoryStore.addItem(item.itemId, 1)) {
       playerStore.earnMoney(item.price)
-      return { success: false, message: '背包已满，无法购买。' }
+      return { success: false, message: 'Envanter dolu, satın alma başarısız.' }
     }
     weeklyPurchases.value[itemId] = (weeklyPurchases.value[itemId] ?? 0) + 1
-    return { success: true, message: `购买了${item.name}。` }
+    return { success: true, message: `${item.name} satın alındı.` }
   }
 
-  /** 使用藏宝图寻宝 */
+  /** Hazine haritası kullanarak define ara */
   const useTreasureMap = (): { success: boolean; message: string; rewards: { name: string; quantity: number }[] } => {
     const inventoryStore = useInventoryStore()
     if (!inventoryStore.removeItem('hanhai_map')) {
-      return { success: false, message: '没有藏宝图。', rewards: [] }
+      return { success: false, message: 'Hazine haritası yok.', rewards: [] }
     }
     const playerStore = usePlayerStore()
-    // 随机奖励池
+    // Rastgele ödül havuzu
     const roll = Math.random()
     const rewards: { itemId: string; name: string; quantity: number }[] = []
     if (roll < 0.05) {
-      // 5% 大奖：金钱+稀有物品
+      // %5 büyük ödül: para + nadir eşya
       playerStore.earnMoney(5000)
-      rewards.push({ itemId: '', name: '5000文', quantity: 1 })
-      rewards.push({ itemId: 'hanhai_turquoise', name: '绿松石', quantity: 2 })
+      rewards.push({ itemId: '', name: '5000 para', quantity: 1 })
+      rewards.push({ itemId: 'hanhai_turquoise', name: 'Turkuaz', quantity: 2 })
       inventoryStore.addItem('hanhai_turquoise', 2)
     } else if (roll < 0.2) {
-      // 15% 中奖：金钱+材料
+      // %15 orta ödül: para + malzeme
       playerStore.earnMoney(2000)
-      rewards.push({ itemId: '', name: '2000文', quantity: 1 })
-      rewards.push({ itemId: 'hanhai_spice', name: '西域香料', quantity: 3 })
+      rewards.push({ itemId: '', name: '2000 para', quantity: 1 })
+      rewards.push({ itemId: 'hanhai_spice', name: 'Batı Diyarı Baharatı', quantity: 3 })
       inventoryStore.addItem('hanhai_spice', 3)
     } else if (roll < 0.45) {
-      // 25% 小奖：金钱
+      // %25 küçük ödül: para
       playerStore.earnMoney(1000)
-      rewards.push({ itemId: '', name: '1000文', quantity: 1 })
-      rewards.push({ itemId: 'hanhai_silk', name: '丝绸', quantity: 1 })
+      rewards.push({ itemId: '', name: '1000 para', quantity: 1 })
+      rewards.push({ itemId: 'hanhai_silk', name: 'İpek', quantity: 1 })
       inventoryStore.addItem('hanhai_silk', 1)
     } else {
-      // 55% 安慰奖
+      // %55 teselli ödülü
       playerStore.earnMoney(500)
-      rewards.push({ itemId: '', name: '500文', quantity: 1 })
+      rewards.push({ itemId: '', name: '500 para', quantity: 1 })
     }
     const rewardText = rewards.map(r => r.name + (r.quantity > 1 ? `×${r.quantity}` : '')).join('、')
-    addLog(`使用藏宝图寻宝，发现了：${rewardText}！`)
-    return { success: true, message: `寻宝成功！获得：${rewardText}`, rewards }
+    addLog(`Hazine haritası kullanıldı, bulunanlar: ${rewardText}!`)
+    return { success: true, message: `Define avı başarılı! Kazanılanlar: ${rewardText}`, rewards }
   }
 
-  /** 玩幸运轮盘 */
+  /** Şans ruleti oyna */
   const playRoulette = (betTier: number): { success: boolean; message: string; multiplier: number; winnings: number } => {
-    if (!canBet.value) return { success: false, message: '今天的赌博次数已用完。', multiplier: 0, winnings: 0 }
+    if (!canBet.value) return { success: false, message: 'Bugünkü kumar hakkı tükendi.', multiplier: 0, winnings: 0 }
     if (!ROULETTE_BET_TIERS.includes(betTier as (typeof ROULETTE_BET_TIERS)[number])) {
-      return { success: false, message: '无效的投注金额。', multiplier: 0, winnings: 0 }
+      return { success: false, message: 'Geçersiz bahis miktarı.', multiplier: 0, winnings: 0 }
     }
     const playerStore = usePlayerStore()
     if (!playerStore.spendMoney(betTier)) {
-      return { success: false, message: '金钱不足。', multiplier: 0, winnings: 0 }
+      return { success: false, message: 'Yetersiz para.', multiplier: 0, winnings: 0 }
     }
     casinoBetsToday.value++
     const outcome = spinRoulette()
@@ -136,21 +136,21 @@ export const useHanhaiStore = defineStore('hanhai', () => {
       playerStore.earnMoney(winnings)
     }
     if (outcome.multiplier === 0) {
-      addLog(`轮盘停在了"${outcome.label}"，损失了${betTier}文。`)
+      addLog(`Rulet "${outcome.label}" üzerinde durdu, ${betTier} para kaybettin.`)
     } else {
-      addLog(`轮盘停在了"${outcome.label}"！赢得${winnings}文！`)
+      addLog(`Rulet "${outcome.label}" üzerinde durdu! ${winnings} para kazandın!`)
     }
-    return { success: true, message: `轮盘停在了"${outcome.label}"`, multiplier: outcome.multiplier, winnings }
+    return { success: true, message: `Rulet "${outcome.label}" üzerinde durdu`, multiplier: outcome.multiplier, winnings }
   }
 
-  /** 玩骰子（猜大小） */
+  /** Zar oyunu oyna (büyük / küçük tahmini) */
   const playDice = (
     guessBig: boolean
   ): { success: boolean; message: string; dice1: number; dice2: number; won: boolean; winnings: number } => {
-    if (!canBet.value) return { success: false, message: '今天的赌博次数已用完。', dice1: 0, dice2: 0, won: false, winnings: 0 }
+    if (!canBet.value) return { success: false, message: 'Bugünkü kumar hakkı tükendi.', dice1: 0, dice2: 0, won: false, winnings: 0 }
     const playerStore = usePlayerStore()
     if (!playerStore.spendMoney(DICE_BET_AMOUNT)) {
-      return { success: false, message: '金钱不足。', dice1: 0, dice2: 0, won: false, winnings: 0 }
+      return { success: false, message: 'Yetersiz para.', dice1: 0, dice2: 0, won: false, winnings: 0 }
     }
     casinoBetsToday.value++
     const result = rollDice()
@@ -159,22 +159,22 @@ export const useHanhaiStore = defineStore('hanhai', () => {
     if (won) {
       playerStore.earnMoney(winnings)
     }
-    const guessText = guessBig ? '大' : '小'
-    const resultText = result.isBig ? '大' : '小'
+    const guessText = guessBig ? 'büyük' : 'küçük'
+    const resultText = result.isBig ? 'büyük' : 'küçük'
     if (won) {
-      addLog(`骰子${result.dice1}+${result.dice2}=${result.total}（${resultText}），你猜${guessText}——赢了${winnings}文！`)
+      addLog(`Zarlar ${result.dice1}+${result.dice2}=${result.total} (${resultText}), tahminin ${guessText} — ${winnings} para kazandın!`)
     } else {
-      addLog(`骰子${result.dice1}+${result.dice2}=${result.total}（${resultText}），你猜${guessText}——输了${DICE_BET_AMOUNT}文。`)
+      addLog(`Zarlar ${result.dice1}+${result.dice2}=${result.total} (${resultText}), tahminin ${guessText} — ${DICE_BET_AMOUNT} para kaybettin.`)
     }
-    return { success: true, message: won ? '赢了！' : '输了…', dice1: result.dice1, dice2: result.dice2, won, winnings }
+    return { success: true, message: won ? 'Kazandın!' : 'Kaybettin…', dice1: result.dice1, dice2: result.dice2, won, winnings }
   }
 
-  /** 玩猜杯 */
+  /** Bardak tahmin oyunu oyna */
   const playCup = (guess: number): { success: boolean; message: string; correctCup: number; won: boolean; winnings: number } => {
-    if (!canBet.value) return { success: false, message: '今天的赌博次数已用完。', correctCup: 0, won: false, winnings: 0 }
+    if (!canBet.value) return { success: false, message: 'Bugünkü kumar hakkı tükendi.', correctCup: 0, won: false, winnings: 0 }
     const playerStore = usePlayerStore()
     if (!playerStore.spendMoney(CUP_BET_AMOUNT)) {
-      return { success: false, message: '金钱不足。', correctCup: 0, won: false, winnings: 0 }
+      return { success: false, message: 'Yetersiz para.', correctCup: 0, won: false, winnings: 0 }
     }
     casinoBetsToday.value++
     const result = playCupRound()
@@ -182,22 +182,22 @@ export const useHanhaiStore = defineStore('hanhai', () => {
     const winnings = won ? Math.floor(CUP_BET_AMOUNT * CUP_WIN_MULTIPLIER) : 0
     if (won) {
       playerStore.earnMoney(winnings)
-      addLog(`猜杯猜中了第${guess + 1}号杯！赢得${winnings}文！`)
+      addLog(`Bardak tahmininde ${guess + 1}. bardağı doğru bildin! ${winnings} para kazandın!`)
     } else {
-      addLog(`猜杯猜错了，球在第${result.correctCup + 1}号杯下，损失了${CUP_BET_AMOUNT}文。`)
+      addLog(`Bardak tahmininde yanıldın, top ${result.correctCup + 1}. bardağın altındaydı, ${CUP_BET_AMOUNT} para kaybettin.`)
     }
-    return { success: true, message: won ? '猜中了！' : '猜错了…', correctCup: result.correctCup, won, winnings }
+    return { success: true, message: won ? 'Doğru bildin!' : 'Yanlış tahmin…', correctCup: result.correctCup, won, winnings }
   }
 
-  /** 玩斗蛐蛐 */
+  /** Cırcır böceği dövüşü oyna */
   const playCricketFight = (
     cricketId: string
   ): { success: boolean; message: string; playerPower: number; opponentPower: number; won: boolean; draw: boolean; winnings: number } => {
     if (!canBet.value)
-      return { success: false, message: '今天的赌博次数已用完。', playerPower: 0, opponentPower: 0, won: false, draw: false, winnings: 0 }
+      return { success: false, message: 'Bugünkü kumar hakkı tükendi.', playerPower: 0, opponentPower: 0, won: false, draw: false, winnings: 0 }
     const playerStore = usePlayerStore()
     if (!playerStore.spendMoney(CRICKET_BET_AMOUNT)) {
-      return { success: false, message: '金钱不足。', playerPower: 0, opponentPower: 0, won: false, draw: false, winnings: 0 }
+      return { success: false, message: 'Yetersiz para.', playerPower: 0, opponentPower: 0, won: false, draw: false, winnings: 0 }
     }
     casinoBetsToday.value++
     const result = fightCricket()
@@ -208,15 +208,15 @@ export const useHanhaiStore = defineStore('hanhai', () => {
       playerStore.earnMoney(winnings)
     }
     if (won) {
-      addLog(`斗蛐蛐（${cricketId}）：力量${result.playerPower}对${result.opponentPower}，大获全胜！赢得${winnings}文！`)
+      addLog(`Cırcır böceği dövüşü (${cricketId}): güç ${result.playerPower} - ${result.opponentPower}, ezici zafer! ${winnings} para kazandın!`)
     } else if (draw) {
-      addLog(`斗蛐蛐（${cricketId}）：力量${result.playerPower}对${result.opponentPower}，平局，退还${CRICKET_BET_AMOUNT}文。`)
+      addLog(`Cırcır böceği dövüşü (${cricketId}): güç ${result.playerPower} - ${result.opponentPower}, beraberlik, ${CRICKET_BET_AMOUNT} para iade edildi.`)
     } else {
-      addLog(`斗蛐蛐（${cricketId}）：力量${result.playerPower}对${result.opponentPower}，败下阵来，损失${CRICKET_BET_AMOUNT}文。`)
+      addLog(`Cırcır böceği dövüşü (${cricketId}): güç ${result.playerPower} - ${result.opponentPower}, yenildin, ${CRICKET_BET_AMOUNT} para kaybettin.`)
     }
     return {
       success: true,
-      message: won ? '赢了！' : draw ? '平局' : '输了…',
+      message: won ? 'Kazandın!' : draw ? 'Berabere' : 'Kaybettin…',
       playerPower: result.playerPower,
       opponentPower: result.opponentPower,
       won,
@@ -225,12 +225,12 @@ export const useHanhaiStore = defineStore('hanhai', () => {
     }
   }
 
-  /** 玩翻牌寻宝 */
+  /** Kart çevirerek hazine bulma oyunu oyna */
   const playCardFlip = (pick: number): { success: boolean; message: string; treasures: number[]; won: boolean; winnings: number } => {
-    if (!canBet.value) return { success: false, message: '今天的赌博次数已用完。', treasures: [], won: false, winnings: 0 }
+    if (!canBet.value) return { success: false, message: 'Bugünkü kumar hakkı tükendi.', treasures: [], won: false, winnings: 0 }
     const playerStore = usePlayerStore()
     if (!playerStore.spendMoney(CARD_BET_AMOUNT)) {
-      return { success: false, message: '金钱不足。', treasures: [], won: false, winnings: 0 }
+      return { success: false, message: 'Yetersiz para.', treasures: [], won: false, winnings: 0 }
     }
     casinoBetsToday.value++
     const result = dealCards()
@@ -238,30 +238,30 @@ export const useHanhaiStore = defineStore('hanhai', () => {
     const winnings = won ? Math.floor(CARD_BET_AMOUNT * CARD_WIN_MULTIPLIER) : 0
     if (won) {
       playerStore.earnMoney(winnings)
-      addLog(`翻牌寻宝翻到了宝牌！赢得${winnings}文！`)
+      addLog(`Kart çevirme oyununda hazine kartını buldun! ${winnings} para kazandın!`)
     } else {
-      addLog(`翻牌寻宝翻到了空牌，损失了${CARD_BET_AMOUNT}文。`)
+      addLog(`Kart çevirme oyununda boş kart açtın, ${CARD_BET_AMOUNT} para kaybettin.`)
     }
-    return { success: true, message: won ? '翻到宝了！' : '空牌…', treasures: result.treasures, won, winnings }
+    return { success: true, message: won ? 'Hazineyi buldun!' : 'Boş kart…', treasures: result.treasures, won, winnings }
   }
 
-  /** 开始瀚海扑克（扣入场费+抽水，发牌） */
+  /** Hanhai pokerini başlat (giriş ücreti + komisyon düşülür, kartlar dağıtılır) */
   const startTexas = (tierId: TexasTierId): { success: boolean; message: string } & Partial<TexasSetup> => {
-    if (!canBet.value) return { success: false, message: '今天的赌博次数已用完。' }
+    if (!canBet.value) return { success: false, message: 'Bugünkü kumar hakkı tükendi.' }
     const tier = getTexasTier(tierId)
     const playerStore = usePlayerStore()
     if (playerStore.money < tier.minMoney) {
-      return { success: false, message: `需要至少持有${tier.minMoney}文才能入场。` }
+      return { success: false, message: `Oyuna girmek için en az ${tier.minMoney} para gerekir.` }
     }
     const totalCost = tier.entryFee + tier.rake
     if (!playerStore.spendMoney(totalCost)) {
-      return { success: false, message: '金钱不足。' }
+      return { success: false, message: 'Yetersiz para.' }
     }
     casinoBetsToday.value++
     const deal = dealTexas()
     return {
       success: true,
-      message: `${tier.name}开始！`,
+      message: `${tier.name} başladı!`,
       playerHole: deal.playerHole,
       dealerHole: deal.dealerHole,
       community: deal.community,
@@ -269,50 +269,50 @@ export const useHanhaiStore = defineStore('hanhai', () => {
     }
   }
 
-  /** 结束瀚海扑克（结算：返还剩余筹码） */
+  /** Hanhai pokerini bitir (hesaplaşma: kalan fişler iade edilir) */
   const endTexas = (finalChips: number, tierName: string) => {
     const playerStore = usePlayerStore()
     if (finalChips > 0) {
       playerStore.earnMoney(finalChips)
     }
-    addLog(`瀚海扑克（${tierName}）结束，收回筹码${finalChips}文。`)
+    addLog(`Hanhai Pokeri (${tierName}) sona erdi, ${finalChips} para değerinde fiş geri alındı.`)
   }
 
-  /** 开始恶魔轮盘（下注+生成初始状态） */
+  /** Şeytan ruletini başlat (bahis alınır + başlangıç durumu oluşturulur) */
   const startBuckshot = (): { success: boolean; message: string } & Partial<BuckshotSetup> => {
-    if (!canBet.value) return { success: false, message: '今天的赌博次数已用完。' }
+    if (!canBet.value) return { success: false, message: 'Bugünkü kumar hakkı tükendi.' }
     const playerStore = usePlayerStore()
     if (!playerStore.spendMoney(BUCKSHOT_BET_AMOUNT)) {
-      return { success: false, message: '金钱不足。' }
+      return { success: false, message: 'Yetersiz para.' }
     }
     casinoBetsToday.value++
     return {
       success: true,
-      message: '恶魔轮盘开始！',
+      message: 'Şeytan ruleti başladı!',
       shells: loadShotgun(),
       playerHP: BUCKSHOT_PLAYER_HP,
       dealerHP: BUCKSHOT_DEALER_HP
     }
   }
 
-  /** 恶魔轮盘结算 */
+  /** Şeytan ruleti sonuçlandır */
   const endBuckshot = (won: boolean, draw: boolean) => {
     const playerStore = usePlayerStore()
     if (won) {
       playerStore.earnMoney(BUCKSHOT_BET_AMOUNT * BUCKSHOT_WIN_MULTIPLIER)
-      addLog(`恶魔轮盘胜利！赢得${BUCKSHOT_BET_AMOUNT * BUCKSHOT_WIN_MULTIPLIER}文！`)
+      addLog(`Şeytan ruletinde zafer! ${BUCKSHOT_BET_AMOUNT * BUCKSHOT_WIN_MULTIPLIER} para kazandın!`)
     } else if (draw) {
       playerStore.earnMoney(BUCKSHOT_BET_AMOUNT)
-      addLog(`恶魔轮盘平局，退还${BUCKSHOT_BET_AMOUNT}文。`)
+      addLog(`Şeytan ruletinde beraberlik, ${BUCKSHOT_BET_AMOUNT} para iade edildi.`)
     } else {
-      addLog(`恶魔轮盘落败，损失了${BUCKSHOT_BET_AMOUNT}文。`)
+      addLog(`Şeytan ruletinde yenildin, ${BUCKSHOT_BET_AMOUNT} para kaybettin.`)
     }
   }
 
-  /** 每日重置赌博次数，每周重置商店限购 */
+  /** Günlük kumar sayısını sıfırla, haftalık mağaza limitlerini yenile */
   const resetDailyBets = () => {
     casinoBetsToday.value = 0
-    // 每周重置商店限购 (day 7, 14, 21, 28)
+    // Haftalık mağaza limiti sıfırlanır (7, 14, 21, 28. gün)
     const gameStore = useGameStore()
     if (gameStore.day % 7 === 0) {
       weeklyPurchases.value = {}
