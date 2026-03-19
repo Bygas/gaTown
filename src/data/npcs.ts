@@ -606,14 +606,14 @@ export const NPCS: NpcDef[] = [
     hatedItems: ['herb', 'ginseng'],
     dialogues: {
       stranger: ['Sen kimsin? Benim adım Ece! Dedem yabancılarla konuşma dedi... aa konuştum!', '{title}, ne ekiyorsun? Güzel mi, değil mi?'],
-      acquaintance: ['{title}! Bugün Shi Tou yine bana sataştı! Hıh!', 'Öğretmen Zhou bana “çiçek” karakterini yazmayı öğretti ama çok zor.'],
-      friendly: ['{player}, bak ne güzel taş buldum!', 'En çok {title}’ı seviyorum! Shi Tou’dan yüz kat daha çok!'],
+      acquaintance: ['{title}! Bugün Sinan yine bana sataştı! Hıh!', 'Öğretmen Bayram bana “çiçek” karakterini yazmayı öğretti ama çok zor.'],
+      friendly: ['{player}, bak ne güzel taş buldum!', 'En çok {title}’ı seviyorum! Sinan’dan yüz kat daha çok!'],
       bestFriend: ['{player}, sana bir resim yaptım! Bak, burada sen tarla sürüyorsun.', 'Büyüyünce ben de {title} kadar güçlü olacağım!']
     }
   },
   {
     id: 'shi_tou',
-    name: 'Shi Tou',
+    name: 'Sinan',
     gender: 'male',
     role: 'Köyün afacanı',
     personality: 'Yaramaz ve ele avuca sığmaz',
@@ -622,15 +622,15 @@ export const NPCS: NpcDef[] = [
     likedItems: ['wild_berry', 'corn', 'peanut', 'rabbit_foot'],
     hatedItems: ['tea', 'herb'],
     dialogues: {
-      stranger: ['Hehehe! Demek yeni gelen çiftçi sensin? Pek de güçlü görünmüyorsun!', 'Ben Shi Tou! Köyde en hızlı koşan benim!'],
-      acquaintance: ['{title}, koşu yarışı yapalım mı?', 'Bugün öğretmen Zhou’nun mürekkebine su kattım, fark etmedi! Hehe!'],
-      friendly: ['{player}, bana balık tutmayı öğretsene! Qiu Yue abla çok gürültü yapıyorum diye beni kovuyor!', 'Sana bir sır vereyim {title}— köyün arkasındaki mağarada yarasalar var!'],
+      stranger: ['Hehehe! Demek yeni gelen çiftçi sensin? Pek de güçlü görünmüyorsun!', 'Ben Sinan! Köyde en hızlı koşan benim!'],
+      acquaintance: ['{title}, koşu yarışı yapalım mı?', 'Bugün öğretmen Bayram`ın mürekkebine su kattım, fark etmedi! Hehe!'],
+      friendly: ['{player}, bana balık tutmayı öğretsene! Gamze abla çok gürültü yapıyorum diye beni kovuyor!', 'Sana bir sır vereyim {title}— köyün arkasındaki mağarada yarasalar var!'],
       bestFriend: ['Aslında... {player}, annemle babam dışarıda çalışıyor, uzun zamandır dönmediler.', '{title}, sen köyde kalacaksın değil mi? Gitme olur mu?']
     }
   },
   {
     id: 'hui_niang',
-    name: 'Hui Niang',
+    name: 'Huriye',
     gender: 'female',
     role: 'Nakış dükkânı sahibi',
     personality: 'Güçlü ve yumuşak huylu',
@@ -639,7 +639,7 @@ export const NPCS: NpcDef[] = [
     likedItems: ['wool', 'tea', 'osmanthus', 'rabbit_fur', 'peacock_feather', 'rabbit_foot'],
     hatedItems: ['iron_ore', 'copper_ore'],
     dialogues: {
-      stranger: ['Merhaba, ben Hui Niang. Bu nakış dükkânı bana eşimden kaldı.', '{title} nakış işi isterse gelip bakabilir.'],
+      stranger: ['Merhaba, ben Huriye. Bu nakış dükkânı bana eşimden kaldı.', '{title} nakış işi isterse gelip bakabilir.'],
       acquaintance: ['Bu dükkânı tek başına ayakta tutmak kolay değildi ama artık alıştım.', '{title}, bugün bayağı rahatsın anlaşılan.'],
       friendly: ['{player}, sorumluluk sahibi birisin; insana güven veriyorsun.', 'Bu işlemeli mendili sana veriyorum, {title}; kendi ellerimle işledim.'],
       bestFriend: ['{player}, bana insanın tek başına da iyi yaşayabileceğini gösterdi.', '{title} varken Hui Niang kendini yalnız hissetmiyor.']
@@ -647,7 +647,7 @@ export const NPCS: NpcDef[] = [
   },
   {
     id: 'lao_lu',
-    name: 'Yaşlı Lu',
+    name: 'Yaşlı Ertuğrul',
     gender: 'male',
     role: 'Şarap mahzeni sahibi',
     personality: 'İçkiyi seven ve misafirperver',
@@ -656,15 +656,15 @@ export const NPCS: NpcDef[] = [
     likedItems: ['jujube_wine', 'corn_wine', 'peanut', 'rabbit_foot'],
     hatedItems: ['tea', 'herb'],
     dialogues: {
-      stranger: ['Gel gel gel! İçeri gir, bir şeyler iç! Ben Yaşlı Lu!', 'İnsan ömrü kısa; içmeden yaşamanın ne anlamı var ki! {title}, öyle değil mi?'],
-      acquaintance: ['{title}! Gel gel, bugün yeni yaptığım şeftali şarabını dene!', 'Hong Dou denen kızın şarap yeteneği benden bile iyi... hehe.'],
-      friendly: ['{player}, sen dürüst bir insansın; Yaşlı Lu dürüst insanlarla içmeyi sever.', 'Üç yıllık şu şarabı senin için ayırdım, {title}.'],
+      stranger: ['Gel gel gel! İçeri gir, bir şeyler iç! Ben Yaşlı Ertuğrul!', 'İnsan ömrü kısa; içmeden yaşamanın ne anlamı var ki! {title}, öyle değil mi?'],
+      acquaintance: ['{title}! Gel gel, bugün yeni yaptığım şeftali şarabını dene!', 'Miray denen kızın şarap yeteneği benden bile iyi... hehe.'],
+      friendly: ['{player}, sen dürüst bir insansın; Yaşlı Ertuğrul dürüst insanlarla içmeyi sever.', 'Üç yıllık şu şarabı senin için ayırdım, {title}.'],
       bestFriend: ['{player} ile karşılıklı içmek, bu hayatta yaşadığım büyük mutluluklardan biri.', '{title}, hadi, fondip!']
     }
   },
   {
     id: 'liu_cunzhang',
-    name: 'Muhtar Liu',
+    name: 'Muhtar Gökhan',
     gender: 'male',
     role: 'Köy muhtarı',
     personality: 'Vakarlı ve adil',
@@ -673,15 +673,15 @@ export const NPCS: NpcDef[] = [
     likedItems: ['herb', 'osmanthus', 'bamboo', 'rabbit_foot'],
     hatedItems: ['pickled_cabbage', 'firewood'],
     dialogues: {
-      stranger: ['Atalarından kalan o çiftliği devralan genç sen misin? Ben Muhtar Liu. Umarım ailenden kalan emeği boşa çıkarmazsın.', 'Taoyuan Köyü’nün kuralları vardır; onlara uyulmalıdır.'],
-      acquaintance: ['{title}, son zamanlarda iyi iş çıkarıyorsun; köylüler seni çalışkan buluyor.', 'Liu Niang senden birkaç kez bahsetti... hm.'],
+      stranger: ['Atalarından kalan o çiftliği devralan genç sen misin? Ben Muhtar Gökhan. Umarım ailenden kalan emeği boşa çıkarmazsın.', 'Taoyuan Köyü’nün kuralları vardır; onlara uyulmalıdır.'],
+      acquaintance: ['{title}, son zamanlarda iyi iş çıkarıyorsun; köylüler seni çalışkan buluyor.', 'Öykü senden birkaç kez bahsetti... hm.'],
       friendly: ['{player}, köy için yaptıklarını yaşlı gözlerim görüyor.', 'Deden de eskiden tıpkı senin gibi kararlıydı.'],
       bestFriend: ['{player}, Taoyuan Köyü için büyük bir nimettir.', 'Ben yaşlandım; bu köyün geleceğinde {title}’ın daha çok sorumluluk alması gerekecek.']
     }
   },
   {
     id: 'qian_niang',
-    name: 'Qian Niang',
+    name: 'Nida',
     gender: 'female',
     role: 'Eczane çırağı',
     personality: 'Utangaç ve yumuşak huylu',
@@ -690,8 +690,8 @@ export const NPCS: NpcDef[] = [
     likedItems: ['tea', 'chrysanthemum', 'winter_bamboo_shoot', 'rabbit_foot'],
     hatedItems: ['iron_ore', 'gold_ore'],
     dialogues: {
-      stranger: ['Aa... merhaba... be-ben Qian Niang, Lin Lao’nun çırağıyım.', 'Şifalı ot lazım olursa... bana gelebilirsin...'],
-      acquaintance: ['{title}, merhaba... bugün taze otlar topladım.', 'Lin Lao bana birçok tarif öğretti, ben de ezberlemeye çalışıyorum...'],
+      stranger: ['Aa... merhaba... be-ben Nida, Demirhan`ın çırağıyım.', 'Şifalı ot lazım olursa... bana gelebilirsin...'],
+      acquaintance: ['{title}, merhaba... bugün taze otlar topladım.', 'Demirhan bana birçok tarif öğretti, ben de ezberlemeye çalışıyorum...'],
       friendly: ['{player}, bu hapları pratik olsun diye yaptım, s-sen denemek ister misin?', '{title} gelip benimle sohbet edince daha az geriliyorum.'],
       bestFriend: ['{player} ile birlikteyken... sanki biraz daha cesur oluyorum.', '{title} için kuvvet ilacını mutlaka özenle hazırlayacağım.']
     }
@@ -715,7 +715,7 @@ export const NPCS: NpcDef[] = [
   },
   {
     id: 'qin_dashu',
-    name: 'Amca Qin',
+    name: 'Oğuz Amca',
     gender: 'male',
     role: 'Meyve bahçesi sahibi',
     personality: 'Dürüst ve çalışkan',
@@ -724,7 +724,7 @@ export const NPCS: NpcDef[] = [
     likedItems: ['persimmon', 'sweet_potato', 'corn', 'rabbit_foot'],
     hatedItems: ['jade', 'moonstone'],
     dialogues: {
-      stranger: ['Merhaba, soyadım Qin, herkes bana Amca Qin der. Köyün doğusunda bir meyve bahçem var.', 'Meyve ağacı dediğin sabır ister. {title}, acele etmemelisin.'],
+      stranger: ['Merhaba, adım Oğuz, herkes bana Oğuz Amca der. Köyün doğusunda bir meyve bahçem var.', 'Meyve ağacı dediğin sabır ister. {title}, acele etmemelisin.'],
       acquaintance: ['{title} de meyve ağacı mı dikiyor? Bilmediğin bir şey olursa sor bana.', 'Bu yıl şeftaliler çok tatlı oldu, senin için birkaç tane ayırdım.'],
       friendly: ['{player}’ın çiftçilik becerisi gittikçe gelişiyor.', 'Bu fidanları ben yetiştirdim, {title}, alıp dikebilirsin.'],
       bestFriend: ['{player}, bana gençliğimdeki çalışma azmini hatırlatıyor.', 'Benim bahçeme {title} istediği zaman gelip meyve toplayabilir.']
@@ -732,7 +732,7 @@ export const NPCS: NpcDef[] = [
   },
   {
     id: 'a_fu',
-    name: 'A Fu',
+    name: 'Batu',
     gender: 'male',
     role: 'Çoban çocuk',
     personality: 'Saf ve iyimser',
@@ -741,10 +741,10 @@ export const NPCS: NpcDef[] = [
     likedItems: ['corn', 'hay', 'wild_berry', 'truffle', 'buffalo_milk', 'rabbit_foot'],
     hatedItems: ['jade', 'silk'],
     dialogues: {
-      stranger: ['Hehe, merhaba! Ben A Fu! Da Niu ağabeyin ineklerine ben bakıyorum!', 'İnekler en tatlısı, değil mi {title}?'],
-      acquaintance: ['{title}! Bugün yine inekler çitten kaçtı, hehe.', 'Da Niu ağabey bir gün benim de çiftlik sahibi olacağımı söylüyor!'],
+      stranger: ['Hehe, merhaba! Ben Batu! Dağhan ağabeyin ineklerine ben bakıyorum!', 'İnekler en tatlısı, değil mi {title}?'],
+      acquaintance: ['{title}! Bugün yine inekler çitten kaçtı, hehe.', 'Dağhan ağabey bir gün benim de çiftlik sahibi olacağımı söylüyor!'],
       friendly: ['{player}’ın tavukları yumurtladı mı? Bizim inek bugün süt verdi!', '{title} için bir saman şapka ördüm, güzel olmadı ama güneşten korur!'],
-      bestFriend: ['{player} bana çok iyi davranıyor... Da Niu ağabey kadar iyi.', 'Ben büyüyünce ben de {title} gibi başarılı olacağım!']
+      bestFriend: ['{player} bana çok iyi davranıyor... Dağhan ağabey kadar iyi.', 'Ben büyüyünce ben de {title} gibi başarılı olacağım!']
     }
   }
 ]
