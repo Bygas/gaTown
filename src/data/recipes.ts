@@ -18,7 +18,7 @@ export const RECIPES: RecipeDef[] = [
       { itemId: 'firewood', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 10 },
-    unlockSource: 'Chen Amca yakınlık: “Tanışıklık”',
+    unlockSource: 'Mustafa Amca yakınlık: “Tanışıklık”',
     description: 'Sıcacık turp çorbası, hem bedeni hem içi ısıtır.'
   },
   {
@@ -33,7 +33,7 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 15,
       buff: { type: 'fishing', value: 1, description: 'Balıkçılık becerisi +1 (bugün)' }
     },
-    unlockSource: 'Qiuyue yakınlık: “Tanışıklık”',
+    unlockSource: 'Gamze yakınlık: “Tanışıklık”',
     description: 'Lezzetli ve aromatik kızarmış sazan.'
   },
   {
@@ -44,7 +44,7 @@ export const RECIPES: RecipeDef[] = [
       { itemId: 'rice', quantity: 1 }
     ],
     effect: { staminaRestore: 40, healthRestore: 20 },
-    unlockSource: 'Yaşlı Lin yakınlık: “Tanışıklık”',
+    unlockSource: 'Demirhan yakınlık: “Tanışıklık”',
     description: 'Vücudu dengeleyen şifalı bir lapa.'
   },
   {
@@ -59,7 +59,7 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 5,
       buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
     },
-    unlockSource: 'Liuniang yakınlık: “Tanışıklık”',
+    unlockSource: 'Öykü yakınlık: “Tanışıklık”',
     description: 'Zarif osmanthus keki, hediye için harika bir seçim.'
   },
   {
@@ -74,7 +74,7 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 25,
       buff: { type: 'mining', value: 20, description: 'Madencilik dayanıklılık tüketimi -20% (bugün)' }
     },
-    unlockSource: 'Ashi yakınlık: “Tanışıklık”',
+    unlockSource: 'Mehmethan yakınlık: “Tanışıklık”',
     description: 'Gerçek bir madenci yemeği.'
   },
   {
@@ -392,7 +392,7 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 5,
       buff: { type: 'luck', value: 10, description: 'Şans +10% (bugün)' }
     },
-    unlockSource: 'Xiaoman yakınlık: “Tanışıklık”',
+    unlockSource: 'Orhan yakınlık: “Tanışıklık”',
     description: 'Mis kokulu ve tatlı osmanthus çayı.'
   },
 
@@ -405,8 +405,8 @@ export const RECIPES: RecipeDef[] = [
       { itemId: 'firewood', quantity: 2 }
     ],
     effect: { staminaRestore: 40, healthRestore: 25 },
-    unlockSource: 'Chen Amca yakınlık: “Yakın Dostluk”',
-    description: 'Chen Amca’nın gizli turp yahni tarifi, iyice lezzetlenmiş.'
+    unlockSource: 'Mustafa Amca yakınlık: “Yakın Dostluk”',
+    description: 'Mustafa Amca’nın gizli turp yahni tarifi, iyice lezzetlenmiş.'
   },
   {
     id: 'maple_grilled_fish',
@@ -420,8 +420,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 20,
       buff: { type: 'fishing', value: 2, description: 'Balıkçılık becerisi +2 (bugün)' }
     },
-    unlockSource: 'Qiuyue yakınlık: “Yakın Dostluk”',
-    description: 'Qiuyue’nin kendi icadı akçaağaç aromalı ızgara balık yöntemi.'
+    unlockSource: 'Gamze yakınlık: “Yakın Dostluk”',
+    description: 'Gamze’nin kendi icadı akçaağaç aromalı ızgara balık yöntemi.'
   },
   {
     id: 'herbal_pill',
@@ -431,8 +431,8 @@ export const RECIPES: RecipeDef[] = [
       { itemId: 'ginseng', quantity: 1 }
     ],
     effect: { staminaRestore: 60, healthRestore: 30 },
-    unlockSource: 'Yaşlı Lin yakınlık: “Yakın Dostluk”',
-    description: 'Yaşlı Lin’in hazırladığı şifalı bitki ilacı.'
+    unlockSource: 'Demirhan yakınlık: “Yakın Dostluk”',
+    description: 'Demirhan`ın hazırladığı şifalı bitki ilacı.'
   },
   {
     id: 'embroidered_cake',
@@ -446,8 +446,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 15,
       buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
     },
-    unlockSource: 'Liuniang yakınlık: “Yakın Dostluk”',
-    description: 'Liuniang’ın özenle yaptığı özel kek.'
+    unlockSource: 'Öykü yakınlık: “Yakın Dostluk”',
+    description: 'Öykü`nün özenle yaptığı özel kek.'
   },
   {
     id: 'deep_mine_stew',
@@ -462,8 +462,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 35,
       buff: { type: 'mining', value: 30, description: 'Madencilik dayanıklılık tüketimi -30% (bugün)' }
     },
-    unlockSource: 'Ashi yakınlık: “Yakın Dostluk”',
-    description: 'Ashi’nin madenin derinliklerinde icat ettiği yahni.'
+    unlockSource: 'Mehmethan yakınlık: “Yakın Dostluk”',
+    description: 'Mehmethan`ın madenin derinliklerinde icat ettiği yahni.'
   },
   {
     id: 'wild_berry_jam',
@@ -477,8 +477,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 10,
       buff: { type: 'speed', value: 20, description: 'Hareket hızı +20% (bugün)' }
     },
-    unlockSource: 'Xiaoman yakınlık: “Yakın Dostluk”',
-    description: 'Xiaoman’ın orman meyveleriyle yaptığı reçel.'
+    unlockSource: 'Orhan yakınlık: “Yakın Dostluk”',
+    description: 'Orhan`ın orman meyveleriyle yaptığı reçel.'
   },
 
   // ==================== NPC yakınlık tarifleri — En İyi Dost (6) ====================
@@ -496,8 +496,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 40,
       buff: { type: 'farming', value: 25, description: 'Tarım dayanıklılık tüketimi -25% (bugün)' }
     },
-    unlockSource: 'Chen Amca yakınlık: “En İyi Dost”',
-    description: 'Chen Amca’nın sakladığı büyük çiftçi yemeği.'
+    unlockSource: 'Mustafa Amca yakınlık: “En İyi Dost”',
+    description: 'Mustafa Amca’nın sakladığı büyük çiftçi yemeği.'
   },
   {
     id: 'autumn_moon_feast',
@@ -512,8 +512,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 30,
       buff: { type: 'luck', value: 20, description: 'Şans +20% (bugün)' }
     },
-    unlockSource: 'Qiuyue yakınlık: “En İyi Dost”',
-    description: 'Qiuyue’nin yakın dostu için hazırladığı sonbahar gecesi ziyafeti.'
+    unlockSource: 'Gamze yakınlık: “En İyi Dost”',
+    description: 'Gamze’nin yakın dostu için hazırladığı sonbahar gecesi ziyafeti.'
   },
   {
     id: 'longevity_soup',
@@ -524,8 +524,8 @@ export const RECIPES: RecipeDef[] = [
       { itemId: 'honey', quantity: 1 }
     ],
     effect: { staminaRestore: 80, healthRestore: 40 },
-    unlockSource: 'Yaşlı Lin yakınlık: “En İyi Dost”',
-    description: 'Yaşlı Lin’in hayat boyu biriktirdiği sağlık reçetesi.'
+    unlockSource: 'Demirhan yakınlık: “En İyi Dost”',
+    description: 'Demirhan`ın hayat boyu biriktirdiği sağlık reçetesi.'
   },
   {
     id: 'lovers_pastry',
@@ -540,8 +540,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 20,
       buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı ×3 (bugün)' }
     },
-    unlockSource: 'Liuniang yakınlık: “En İyi Dost”',
-    description: 'Liuniang’ın aşıklar için özel yaptığı tatlı börek.'
+    unlockSource: 'Öykü yakınlık: “En İyi Dost”',
+    description: 'Öykü`nün aşıklar için özel yaptığı tatlı börek.'
   },
   {
     id: 'forgemasters_meal',
@@ -556,8 +556,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 50,
       buff: { type: 'defense', value: 25, description: 'Alınan hasar -25% (bugün)' }
     },
-    unlockSource: 'Ashi yakınlık: “En İyi Dost”',
-    description: 'Ashi’nin kendi icadı yüksek enerjili demirci yemeği.'
+    unlockSource: 'Mehmethan yakınlık: “En İyi Dost”',
+    description: 'Mehmethan`ın kendi icadı yüksek enerjili demirci yemeği.'
   },
   {
     id: 'spirit_fruit_wine',
@@ -571,8 +571,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 25,
       buff: { type: 'luck', value: 25, description: 'Şans +25% (bugün)' }
     },
-    unlockSource: 'Xiaoman yakınlık: “En İyi Dost”',
-    description: 'Xiaoman’ın ruh meyvelerinden yaptığı şans şarabı.'
+    unlockSource: 'Orhan yakınlık: “En İyi Dost”',
+    description: 'Orhan`ın ruh meyvelerinden yaptığı şans şarabı.'
   },
 
   // ==================== NPC evlilik tarifleri (12) ====================
@@ -590,8 +590,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 25,
       buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı ×3 (bugün)' }
     },
-    unlockSource: 'Liuniang ile evlendikten sonra',
-    description: 'Liuniang’ın evlilik sonrası öğrettiği Anka keki tarifi.'
+    unlockSource: 'Öykü ile evlendikten sonra',
+    description: 'Öykü`nün evlilik sonrası öğrettiği Anka keki tarifi.'
   },
   {
     id: 'molten_hotpot',
@@ -606,8 +606,8 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 50,
       buff: { type: 'mining', value: 35, description: 'Madencilik dayanıklılık tüketimi -35% (bugün)' }
     },
-    unlockSource: 'Ashi ile evlendikten sonra',
-    description: 'Ashi’nin evlilik sonrası öğrettiği lav tencere yemeği.'
+    unlockSource: 'Mehmethan ile evlendikten sonra',
+    description: 'Mehmethan`ın evlilik sonrası öğrettiği lav tencere yemeği.'
   },
   {
     id: 'moonlight_sashimi',
@@ -621,7 +621,7 @@ export const RECIPES: RecipeDef[] = [
       healthRestore: 20,
       buff: { type: 'fishing', value: 3, description: 'Balıkçılık becerisi +3 (bugün)' }
     },
-    unlockSource: 'Qiuyue ile evlendikten sonra',
+    unlockSource: 'Gamze ile evlendikten sonra',
     description: 'Qiuyue’nin evlilik sonrası paylaştığı ay ışığı sashimi.'
   },
   {
