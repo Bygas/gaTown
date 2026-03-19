@@ -1,47 +1,47 @@
 import type { ShoeDef } from '@/types'
 
-/** 所有鞋子定义 */
+/** Tüm ayakkabı tanımları */
 export const SHOES: ShoeDef[] = [
-  // ===== Tier 1: 基础款（绸缎庄购买）=====
+  // ===== Seviye 1: Temel modeller (İpek Mağazası’ndan satın alınır) =====
   {
     id: 'straw_sandals',
-    name: '草鞋',
-    description: '朴素的草编鞋，减少体力消耗。',
+    name: 'Hasır Sandalet',
+    description: 'Sade hasırdan örülmüş ayakkabı, dayanıklılık tüketimini azaltır.',
     effects: [{ type: 'stamina_reduction', value: 0.05 }],
     shopPrice: 200,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '绸缎庄',
+    obtainSource: 'İpek Mağazası',
     sellPrice: 80
   },
   {
     id: 'cloth_shoes',
-    name: '布鞋',
-    description: '舒适的布鞋，农作时更加轻松。',
+    name: 'Kumaş Ayakkabı',
+    description: 'Rahat kumaş ayakkabı, tarım işlerini daha kolay hale getirir.',
     effects: [{ type: 'farming_stamina', value: 0.08 }],
     shopPrice: 300,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '绸缎庄',
+    obtainSource: 'İpek Mağazası',
     sellPrice: 120
   },
 
-  // ===== Tier 2: 中级款（绸缎庄购买）=====
+  // ===== Seviye 2: Orta seviye modeller (İpek Mağazası’ndan satın alınır) =====
   {
     id: 'leather_boots',
-    name: '皮靴',
-    description: '结实的皮革长靴，走路更快。',
+    name: 'Deri Çizme',
+    description: 'Sağlam deri çizme, yürümeyi hızlandırır.',
     effects: [{ type: 'travel_speed', value: 0.15 }],
     shopPrice: 800,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '绸缎庄',
+    obtainSource: 'İpek Mağazası',
     sellPrice: 320
   },
   {
     id: 'miner_boots',
-    name: '矿工靴',
-    description: '厚底铁头靴，矿洞探索更加安全。',
+    name: 'Madenci Çizmesi',
+    description: 'Kalın tabanlı ve demir uçlu çizme, maden keşfini daha güvenli hale getirir.',
     effects: [
       { type: 'mining_stamina', value: 0.1 },
       { type: 'defense_bonus', value: 0.05 }
@@ -49,15 +49,15 @@ export const SHOES: ShoeDef[] = [
     shopPrice: 1000,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '绸缎庄',
+    obtainSource: 'İpek Mağazası',
     sellPrice: 400
   },
 
-  // ===== Tier 3: 高级款（铁匠铺合成）=====
+  // ===== Seviye 3: Gelişmiş modeller (Demircide üretilebilir) =====
   {
     id: 'gale_boots',
-    name: '疾风靴',
-    description: '轻盈如风的皮靴，大幅缩短旅途时间。',
+    name: 'Fırtına Çizmeleri',
+    description: 'Rüzgâr kadar hafif deri çizmeler, yolculuk süresini büyük ölçüde kısaltır.',
     effects: [
       { type: 'travel_speed', value: 0.25 },
       { type: 'stamina_reduction', value: 0.08 }
@@ -68,13 +68,13 @@ export const SHOES: ShoeDef[] = [
       { itemId: 'rabbit_foot', quantity: 1 }
     ],
     recipeMoney: 2000,
-    obtainSource: '铁匠铺合成',
+    obtainSource: 'Demircide üretim',
     sellPrice: 1000
   },
   {
     id: 'iron_greaves',
-    name: '铁甲靴',
-    description: '厚重的铁甲护胫，防御力出众。',
+    name: 'Demir Zırh Çizmesi',
+    description: 'Ağır demir zırhlı tozluklar, yüksek savunma sağlar.',
     effects: [
       { type: 'defense_bonus', value: 0.12 },
       { type: 'max_hp_bonus', value: 10 }
@@ -82,13 +82,13 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: [{ itemId: 'iron_bar', quantity: 8 }],
     recipeMoney: 1500,
-    obtainSource: '铁匠铺合成',
+    obtainSource: 'Demircide üretim',
     sellPrice: 750
   },
   {
     id: 'silk_slippers',
-    name: '丝绸绣鞋',
-    description: '精致的丝绸绣花鞋，踏青采药脚步轻盈。',
+    name: 'İpek İşlemeli Ayakkabı',
+    description: 'Zarif ipek işlemeli ayakkabılar, kır yürüyüşü ve bitki toplamayı kolaylaştırır.',
     effects: [
       { type: 'farming_stamina', value: 0.08 },
       { type: 'crop_quality_bonus', value: 0.04 }
@@ -99,13 +99,13 @@ export const SHOES: ShoeDef[] = [
       { itemId: 'herb', quantity: 5 }
     ],
     recipeMoney: 800,
-    obtainSource: '铁匠铺合成',
+    obtainSource: 'Demircide üretim',
     sellPrice: 400
   },
   {
     id: 'merchant_boots',
-    name: '商旅靴',
-    description: '行商常穿的皮靴，行路快且购物有折扣。',
+    name: 'Tüccar Çizmeleri',
+    description: 'Gezgin tüccarların sık giydiği deri çizmeler, hem hızlı yürütür hem alışverişte indirim sağlar.',
     effects: [
       { type: 'travel_speed', value: 0.18 },
       { type: 'shop_discount', value: 0.05 }
@@ -116,15 +116,15 @@ export const SHOES: ShoeDef[] = [
       { itemId: 'silk_cloth', quantity: 1 }
     ],
     recipeMoney: 2500,
-    obtainSource: '铁匠铺合成',
+    obtainSource: 'Demircide üretim',
     sellPrice: 1200
   },
 
-  // ===== Tier 4: 顶级款（铁匠铺合成）=====
+  // ===== Seviye 4: Üst düzey modeller (Demircide üretilebilir) =====
   {
     id: 'moon_step_boots',
-    name: '月步靴',
-    description: '月光石嵌入的灵巧之靴，行路如飞。',
+    name: 'Ay Adımı Çizmeleri',
+    description: 'Aytaşıyla süslenmiş çevik çizmeler, adımları uçurur.',
     effects: [
       { type: 'travel_speed', value: 0.3 },
       { type: 'luck', value: 0.08 }
@@ -135,13 +135,13 @@ export const SHOES: ShoeDef[] = [
       { itemId: 'moonstone', quantity: 2 }
     ],
     recipeMoney: 4000,
-    obtainSource: '铁匠铺合成',
+    obtainSource: 'Demircide üretim',
     sellPrice: 2000
   },
   {
     id: 'dragon_scale_boots',
-    name: '龙鳞靴',
-    description: '龙鳞制成的战靴，攻守兼备行如风。',
+    name: 'Ejder Pulu Çizmeleri',
+    description: 'Ejder pullarından yapılmış savaş çizmeleri; saldırı, savunma ve hız sağlar.',
     effects: [
       { type: 'defense_bonus', value: 0.1 },
       { type: 'attack_bonus', value: 3 },
@@ -153,15 +153,15 @@ export const SHOES: ShoeDef[] = [
       { itemId: 'dragon_jade', quantity: 1 }
     ],
     recipeMoney: 8000,
-    obtainSource: '铁匠铺合成',
+    obtainSource: 'Demircide üretim',
     sellPrice: 4000
   },
 
-  // ===== 怪物掉落 =====
+  // ===== Canavar düşürür =====
   {
     id: 'frost_treads',
-    name: '霜行靴',
-    description: '寒冰层怪物留下的冻结护胫，穿上后脚步稳健。',
+    name: 'Ayaz Çizmeleri',
+    description: 'Buz katmanı canavarlarının geride bıraktığı donmuş tozluklar, adımları daha sağlam kılar.',
     effects: [
       { type: 'travel_speed', value: 0.08 },
       { type: 'defense_bonus', value: 0.03 }
@@ -169,13 +169,13 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '冰霜层怪物掉落',
+    obtainSource: 'Buz katmanı canavar düşürmesi',
     sellPrice: 150
   },
   {
     id: 'shadow_striders',
-    name: '暗影行者',
-    description: '暗影层怪物的暗能凝聚而成，移动迅捷无声。',
+    name: 'Gölge Yürüyüşçüleri',
+    description: 'Gölge katmanı canavarlarının karanlık enerjisinden oluşur, sessiz ve hızlı hareket sağlar.',
     effects: [
       { type: 'travel_speed', value: 0.18 },
       { type: 'monster_drop_bonus', value: 0.06 }
@@ -183,13 +183,13 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '暗影层怪物掉落',
+    obtainSource: 'Gölge katmanı canavar düşürmesi',
     sellPrice: 1000
   },
   {
     id: 'void_treads',
-    name: '虚空战靴',
-    description: '深渊骨龙的骨骼锻成，蕴含毁灭之力。',
+    name: 'Boşluk Savaş Çizmeleri',
+    description: 'Uçurum kemik ejderinin kemiklerinden dövülmüş, yıkıcı güç barındıran savaş çizmeleri.',
     effects: [
       { type: 'attack_bonus', value: 3 },
       { type: 'defense_bonus', value: 0.08 },
@@ -198,15 +198,15 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '深渊层怪物掉落',
+    obtainSource: 'Uçurum katmanı canavar düşürmesi',
     sellPrice: 1800
   },
 
-  // ===== BOSS掉落 =====
+  // ===== BOSS düşürür =====
   {
     id: 'lava_lord_greaves',
-    name: '熔岩铠靴',
-    description: '熔岩领主的余热凝结而成，坚固且灼热。',
+    name: 'Lav Zırh Çizmeleri',
+    description: 'Lav lordunun kalan sıcaklığından oluşmuş, dayanıklı ve yakıcı zırh çizmeleri.',
     effects: [
       { type: 'defense_bonus', value: 0.1 },
       { type: 'attack_bonus', value: 2 }
@@ -214,13 +214,13 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '60层BOSS首杀',
+    obtainSource: '60. kat BOSS ilk zafer',
     sellPrice: 800
   },
   {
     id: 'shadow_sovereign_treads',
-    name: '暗王之靴',
-    description: '暗影君主的遗物，暗能缠绕脚踝，步履生风。',
+    name: 'Karanlık Kralın Çizmeleri',
+    description: 'Gölge hükümdarının yadigârı; karanlık enerji bilekleri sarar, adımları rüzgâr gibi yapar.',
     effects: [
       { type: 'travel_speed', value: 0.22 },
       { type: 'defense_bonus', value: 0.08 },
@@ -229,15 +229,15 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '100层BOSS首杀',
+    obtainSource: '100. kat BOSS ilk zafer',
     sellPrice: 1500
   },
 
-  // ===== 宝箱掉落 =====
+  // ===== Hazine sandığı düşürür =====
   {
     id: 'fortune_slippers',
-    name: '福运鞋',
-    description: '宝箱中发现的柔软拖鞋，似乎能招来好运。',
+    name: 'Şans Terlikleri',
+    description: 'Hazine sandığında bulunan yumuşak terlikler, iyi şans getiriyor gibi görünüyor.',
     effects: [
       { type: 'sell_price_bonus', value: 0.04 },
       { type: 'luck', value: 0.03 }
@@ -245,15 +245,15 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '矿洞宝箱',
+    obtainSource: 'Maden hazine sandığı',
     sellPrice: 300
   },
 
-  // ===== 新增商店鞋子（绸缎庄）=====
+  // ===== Yeni mağaza ayakkabıları (İpek Mağazası) =====
   {
     id: 'cotton_shoes',
-    name: '棉鞋',
-    description: '柔软保暖的棉鞋，减少日常体力消耗。',
+    name: 'Pamuklu Ayakkabı',
+    description: 'Yumuşak ve sıcak tutan pamuklu ayakkabılar, günlük dayanıklılık tüketimini azaltır.',
     effects: [
       { type: 'stamina_reduction', value: 0.04 },
       { type: 'farming_stamina', value: 0.04 }
@@ -261,13 +261,13 @@ export const SHOES: ShoeDef[] = [
     shopPrice: 400,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '绸缎庄',
+    obtainSource: 'İpek Mağazası',
     sellPrice: 160
   },
   {
     id: 'fishing_waders',
-    name: '钓鱼靴',
-    description: '防水长靴，钓鱼时更加从容。',
+    name: 'Balıkçı Çizmeleri',
+    description: 'Su geçirmez uzun çizmeler, balık tutarken daha rahat olmanı sağlar.',
     effects: [
       { type: 'fishing_stamina', value: 0.1 },
       { type: 'fishing_calm', value: 0.03 }
@@ -275,13 +275,13 @@ export const SHOES: ShoeDef[] = [
     shopPrice: 700,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '绸缎庄',
+    obtainSource: 'İpek Mağazası',
     sellPrice: 280
   },
   {
     id: 'jade_slippers',
-    name: '玉底鞋',
-    description: '翡翠镶底的绣花鞋，提升售价并增加送礼好感。',
+    name: 'Yeşim Tabanlı Ayakkabı',
+    description: 'Yeşim taşlı işlemeli ayakkabılar, satış fiyatını artırır ve hediye dostluğunu yükseltir.',
     effects: [
       { type: 'sell_price_bonus', value: 0.04 },
       { type: 'gift_friendship', value: 0.06 }
@@ -289,15 +289,15 @@ export const SHOES: ShoeDef[] = [
     shopPrice: 1200,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '绸缎庄',
+    obtainSource: 'İpek Mağazası',
     sellPrice: 480
   },
 
-  // ===== 新增合成鞋子（铁匠铺）=====
+  // ===== Yeni üretilebilir ayakkabılar (Demirci) =====
   {
     id: 'obsidian_greaves',
-    name: '黑曜甲靴',
-    description: '黑曜石锻造的重甲靴，防御力极强。',
+    name: 'Obsidyen Zırh Çizmeleri',
+    description: 'Obsidyenden dövülmüş ağır zırh çizmeleri, son derece yüksek savunma sağlar.',
     effects: [
       { type: 'defense_bonus', value: 0.15 },
       { type: 'max_hp_bonus', value: 15 }
@@ -308,13 +308,13 @@ export const SHOES: ShoeDef[] = [
       { itemId: 'iron_bar', quantity: 5 }
     ],
     recipeMoney: 3000,
-    obtainSource: '铁匠铺合成',
+    obtainSource: 'Demircide üretim',
     sellPrice: 1500
   },
   {
     id: 'wind_walker',
-    name: '风行靴',
-    description: '月光石赋予的轻盈之力，旅行速度大幅提升。',
+    name: 'Rüzgâr Yürüyüşçüsü',
+    description: 'Aytaşının verdiği hafiflik, seyahat hızını büyük ölçüde artırır.',
     effects: [
       { type: 'travel_speed', value: 0.22 },
       { type: 'stamina_reduction', value: 0.06 }
@@ -325,13 +325,13 @@ export const SHOES: ShoeDef[] = [
       { itemId: 'moonstone', quantity: 1 }
     ],
     recipeMoney: 2500,
-    obtainSource: '铁匠铺合成',
+    obtainSource: 'Demircide üretim',
     sellPrice: 1200
   },
   {
     id: 'phoenix_boots',
-    name: '凤鸣靴',
-    description: '龙玉与金铸成的华美靴子，带来好运与悟性。',
+    name: 'Anka Çizmeleri',
+    description: 'Ejder yeşimi ve altından yapılmış gösterişli çizmeler; şans ve deneyim artışı sağlar.',
     effects: [
       { type: 'luck', value: 0.06 },
       { type: 'exp_bonus', value: 0.08 }
@@ -342,15 +342,15 @@ export const SHOES: ShoeDef[] = [
       { itemId: 'dragon_jade', quantity: 1 }
     ],
     recipeMoney: 5000,
-    obtainSource: '铁匠铺合成',
+    obtainSource: 'Demircide üretim',
     sellPrice: 2500
   },
 
-  // ===== 新增BOSS掉落鞋子 =====
+  // ===== Yeni BOSS düşürme ayakkabıları =====
   {
     id: 'frost_queen_slippers',
-    name: '冰后舞靴',
-    description: '冰霜女王的遗物，穿上后脚步轻盈如冰上起舞。',
+    name: 'Buz Kraliçesi Dans Ayakkabıları',
+    description: 'Buz kraliçesinin yadigârı; giyildiğinde adımlar buz üstünde dans eder gibi hafifleşir.',
     effects: [
       { type: 'travel_speed', value: 0.12 },
       { type: 'fishing_calm', value: 0.06 }
@@ -358,13 +358,13 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '40层BOSS首杀',
+    obtainSource: '40. kat BOSS ilk zafer',
     sellPrice: 500
   },
   {
     id: 'abyss_dragon_treads',
-    name: '龙王战靴',
-    description: '深渊龙王鳞片锻成的至高战靴，行如疾风攻守兼备。',
+    name: 'Ejder Kral Savaş Çizmeleri',
+    description: 'Uçurum ejder kralının pullarından dövülmüş üstün savaş çizmeleri; hız, saldırı ve savunmayı birlikte artırır.',
     effects: [
       { type: 'travel_speed', value: 0.25 },
       { type: 'attack_bonus', value: 5 },
@@ -373,15 +373,15 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '120层BOSS首杀',
+    obtainSource: '120. kat BOSS ilk zafer',
     sellPrice: 5000
   },
 
-  // ===== 新增怪物掉落鞋子 =====
+  // ===== Yeni canavar düşürme ayakkabıları =====
   {
     id: 'crystal_treads',
-    name: '晶矿踏靴',
-    description: '水晶层怪物碎片凝成的矿靴，采矿效率提升。',
+    name: 'Kristal Maden Çizmeleri',
+    description: 'Kristal katmanı canavarlarının parçalarından oluşan madenci çizmeleri, maden verimini artırır.',
     effects: [
       { type: 'ore_bonus', value: 1 },
       { type: 'mining_stamina', value: 0.06 }
@@ -389,15 +389,15 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '水晶层怪物掉落',
+    obtainSource: 'Kristal katmanı canavar düşürmesi',
     sellPrice: 800
   },
 
-  // ===== 新增宝箱掉落鞋子 =====
+  // ===== Yeni hazine sandığı ayakkabıları =====
   {
     id: 'lucky_boots',
-    name: '幸运长靴',
-    description: '宝箱中发现的古怪长靴，带来好运与额外战利品。',
+    name: 'Şanslı Çizmeler',
+    description: 'Hazine sandığında bulunan tuhaf çizmeler, iyi şans ve ek ganimet sağlar.',
     effects: [
       { type: 'luck', value: 0.05 },
       { type: 'monster_drop_bonus', value: 0.04 }
@@ -405,15 +405,15 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '矿洞宝箱',
+    obtainSource: 'Maden hazine sandığı',
     sellPrice: 450
   },
 
-  // === 公会专属 ===
+  // === Lonca özel ===
   {
     id: 'guild_war_boots',
-    name: '公会战靴',
-    description: '冒险家公会精英成员的战斗靴，轻便且坚韧。',
+    name: 'Lonca Savaş Çizmeleri',
+    description: 'Maceracılar Loncası seçkin üyelerine özel savaş çizmeleri; hafif ama dayanıklıdır.',
     effects: [
       { type: 'attack_bonus', value: 2 },
       { type: 'defense_bonus', value: 0.05 },
@@ -422,23 +422,23 @@ export const SHOES: ShoeDef[] = [
     shopPrice: null,
     recipe: null,
     recipeMoney: 0,
-    obtainSource: '公会商店',
+    obtainSource: 'Lonca mağazası',
     sellPrice: 800
   }
 ]
 
-/** 根据ID获取鞋子定义 */
+/** ID’ye göre ayakkabı tanımını al */
 export const getShoeById = (id: string): ShoeDef | undefined => {
   return SHOES.find(s => s.id === id)
 }
 
-/** 绸缎庄可购买的鞋子 */
+/** İpek Mağazası’nda satın alınabilen ayakkabılar */
 export const SHOP_SHOES: ShoeDef[] = SHOES.filter(s => s.shopPrice !== null)
 
-/** 铁匠铺可合成的鞋子 */
+/** Demircide üretilebilen ayakkabılar */
 export const CRAFTABLE_SHOES: ShoeDef[] = SHOES.filter(s => s.recipe !== null)
 
-/** 怪物掉落鞋子（按矿洞区域） */
+/** Canavar düşürme ayakkabıları (maden bölgesine göre) */
 export const MONSTER_DROP_SHOES: Record<string, { shoeId: string; chance: number }[]> = {
   shallow: [],
   frost: [{ shoeId: 'frost_treads', chance: 0.015 }],
@@ -448,7 +448,7 @@ export const MONSTER_DROP_SHOES: Record<string, { shoeId: string; chance: number
   abyss: [{ shoeId: 'void_treads', chance: 0.01 }]
 }
 
-/** BOSS首杀掉落鞋子 */
+/** BOSS ilk zafer ayakkabı düşürmeleri */
 export const BOSS_DROP_SHOES: Record<number, string> = {
   40: 'frost_queen_slippers',
   60: 'lava_lord_greaves',
@@ -456,7 +456,7 @@ export const BOSS_DROP_SHOES: Record<number, string> = {
   120: 'abyss_dragon_treads'
 }
 
-/** 宝箱掉落鞋子（按矿洞区域） */
+/** Hazine sandığı ayakkabı düşürmeleri (maden bölgesine göre) */
 export const TREASURE_DROP_SHOES: Record<string, { shoeId: string; chance: number }[]> = {
   shallow: [{ shoeId: 'lucky_boots', chance: 0.05 }],
   frost: [{ shoeId: 'lucky_boots', chance: 0.04 }],
