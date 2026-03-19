@@ -37,7 +37,7 @@ const generateFishId = (): string => {
 const clamp = (v: number, min: number, max: number): number => Math.max(min, Math.min(max, v))
 
 export const useFishPondStore = defineStore('fishPond', () => {
-  // === 状态 ===
+  // === Durum ===
 
   const pond = ref<FishPondState>({
     built: false,
@@ -49,10 +49,10 @@ export const useFishPondStore = defineStore('fishPond', () => {
     collectedToday: false
   })
 
-  /** 已发现的品种ID集合（图鉴） */
+  /** Keşfedilmiş tür ID'leri kümesi (ansiklopedi) */
   const discoveredBreeds = ref<Set<string>>(new Set())
 
-  // === 计算属性 ===
+  // === Hesaplanan özellikler ===
 
   const capacity = computed(() => (pond.value.built ? POND_CAPACITY[pond.value.level] : 0))
   const fishCount = computed(() => pond.value.fish.length)
@@ -60,13 +60,13 @@ export const useFishPondStore = defineStore('fishPond', () => {
   const sickFish = computed(() => pond.value.fish.filter(f => f.sick))
   const matureFish = computed(() => pond.value.fish.filter(f => f.mature))
 
-  /** 密度百分比 */
+  /** Yoğunluk yüzdesi */
   const density = computed(() => {
     if (capacity.value === 0) return 0
     return fishCount.value / capacity.value
   })
 
-  // === 建造/升级 ===
+  // === İnşa / yükseltme ===
 
   const buildPond = (): boolean => {
     if (pond.value.built) return false
@@ -106,9 +106,9 @@ export const useFishPondStore = defineStore('fishPond', () => {
     return true
   }
 
-  // === 鱼操作 ===
+  // === Balık işlemleri ===
 
-  /** 从背包放鱼入塘（自动分配随机 Gen1 品种） */
+  /** Envanterden havuza balık ekle (rastgele Gen1 türü otomatik atanır) */
   const addFish = (fishId: string, quantity: number = 1): number => {
     if (!pond.value.built) return 0
     if (!isPondableFish(fishId)) return 0
@@ -138,7 +138,7 @@ export const useFishPondStore = defineStore('fishPond', () => {
     return added
   }
 
-  /** 从塘中取鱼回背包 */
+  /** Havuzdan balığı çıkarıp envantere geri koy */
   const removeFish = (pondFishId: string): boolean => {
     const idx = pond.value.fish.findIndex(f => f.id === pondFishId)
     if (idx === -1) return false
@@ -147,14 +147,14 @@ export const useFishPondStore = defineStore('fishPond', () => {
     if (inventoryStore.isAllFull && !inventoryStore.items.some(s => s.itemId === fish.fishId && s.quantity < 99)) return false
     inventoryStore.addItem(fish.fishId, 1)
     pond.value.fish.splice(idx, 1)
-    // 如果正在繁殖的鱼被取出，取消繁殖
+    // Üreyen balık çıkarılırsa üremeyi iptal et
     if (pond.value.breeding && (pond.value.breeding.parentA === pondFishId || pond.value.breeding.parentB === pondFishId)) {
       pond.value.breeding = null
     }
     return true
   }
 
-  // === 喂食/清理/治疗 ===
+  // === Besleme / temizleme / tedavi ===
 
   const feedFish = (): boolean => {
     if (!pond.value.built || pond.value.fedToday) return false
@@ -187,7 +187,7 @@ export const useFishPondStore = defineStore('fishPond', () => {
     return sick.length
   }
 
-  // === 繁殖 ===
+  // === Üreme ===
 
   const startBreeding = (fishIdA: string, fishIdB: string): boolean => {
     if (!pond.value.built) return false
@@ -210,7 +210,7 @@ export const useFishPondStore = defineStore('fishPond', () => {
     return true
   }
 
-  /** 遗传算法：生成后代基因 */
+  /** Genetik algoritma: yavru genlerini oluştur */
   const _breedGenetics = (a: FishGenetics, b: FishGenetics): FishGenetics => {
     const avgStability = (a.diseaseRes + b.diseaseRes) / 2
     const fluctuationRange = GENETICS_FLUCTUATION_BASE * (1 - avgStability / 200)
@@ -221,7 +221,7 @@ export const useFishPondStore = defineStore('fishPond', () => {
       const fluctuation = (Math.random() - 0.5) * 2 * fluctuationRange
       let val = avg + fluctuation
 
-      // 变异
+      // Mutasyon
       if (Math.random() < avgMutRate / 100) {
         const jump = POND_MUTATION_JUMP_MIN + Math.random() * (POND_MUTATION_JUMP_MAX - POND_MUTATION_JUMP_MIN)
         val += Math.random() < 0.5 ? jump : -jump
@@ -239,7 +239,7 @@ export const useFishPondStore = defineStore('fishPond', () => {
     }
   }
 
-  // === 产出品质 ===
+  // === Ürün kalitesi ===
 
   const _getProductQuality = (qualityGene: number): Quality => {
     const roll = Math.random() * 100
@@ -249,9 +249,9 @@ export const useFishPondStore = defineStore('fishPond', () => {
     return 'normal'
   }
 
-  // === 收获 ===
+  // === Hasat ===
 
-  /** 当日待收集产出（由 dailyUpdate 填充） */
+  /** Gün sonunda toplanmayı bekleyen ürünler (dailyUpdate doldurur) */
   const pendingProducts = ref<{ itemId: string; quality: Quality }[]>([])
 
   const collectProducts = (): { itemId: string; quality: Quality }[] => {
@@ -262,7 +262,7 @@ export const useFishPondStore = defineStore('fishPond', () => {
     return collected
   }
 
-  // === 每日更新 ===
+  // === Günlük güncelleme ===
 
   const dailyUpdate = (): PondDailyResult => {
     const result: PondDailyResult = {
@@ -283,24 +283,24 @@ export const useFishPondStore = defineStore('fishPond', () => {
     const skillStore = useSkillStore()
     const fishingLevel = skillStore.getSkill('fishing').level
 
-    // 1. 水质衰减
+    // 1. Su kalitesi düşüşü
     let decay = WATER_QUALITY_DECAY_BASE
     if (density.value > 0.8) decay += WATER_QUALITY_DECAY_CROWDED
     else if (density.value > 0.5) decay += WATER_QUALITY_DECAY_HALF
 
-    // 2. 未喂食额外衰减
+    // 2. Beslenmediyse ek düşüş
     if (!pond.value.fedToday) {
       decay += WATER_QUALITY_DECAY_HUNGRY
     }
 
     pond.value.waterQuality = clamp(pond.value.waterQuality - decay, 0, 100)
 
-    // 3. 疾病判定 + 4. 死亡判定 + 5. 自然恢复
+    // 3. Hastalık kontrolü + 4. Ölüm kontrolü + 5. Doğal iyileşme
     const toRemove: number[] = []
     for (let i = 0; i < pond.value.fish.length; i++) {
       const fish = pond.value.fish[i]!
 
-      // 生病鱼死亡判定
+      // Hasta balık için ölüm kontrolü
       if (fish.sick) {
         fish.sickDays++
         if (fish.sickDays >= SICK_DEATH_DAYS) {
@@ -310,10 +310,10 @@ export const useFishPondStore = defineStore('fishPond', () => {
         }
       }
 
-      // 疾病判定
+      // Hastalık kontrolü
       if (!fish.sick && pond.value.waterQuality < DISEASE_THRESHOLD) {
         const resist = fish.genetics.diseaseRes / 100
-        // 钓鱼等级降低生病率
+        // Balıkçılık seviyesi hastalanma oranını düşürür
         const chance = (DISEASE_CHANCE_BASE * (1 - resist)) / (1 + fishingLevel * 0.05)
         if (Math.random() < chance) {
           fish.sick = true
@@ -322,14 +322,14 @@ export const useFishPondStore = defineStore('fishPond', () => {
         }
       }
 
-      // 自然恢复：已喂食 + 水质OK → 清除生病
+      // Doğal iyileşme: beslenmiş + su kalitesi yeterli → hastalık kalkar
       if (fish.sick && pond.value.fedToday && pond.value.waterQuality >= DISEASE_THRESHOLD) {
         fish.sick = false
         fish.sickDays = 0
         result.healed.push(fish.name)
       }
 
-      // 6. 成熟判定
+      // 6. Olgunlaşma kontrolü
       fish.daysInPond++
       if (!fish.mature) {
         const def = getPondableFish(fish.fishId)
@@ -343,24 +343,24 @@ export const useFishPondStore = defineStore('fishPond', () => {
       }
     }
 
-    // 移除死亡鱼（倒序）
+    // Ölü balıkları çıkar (ters sırayla)
     for (let i = toRemove.length - 1; i >= 0; i--) {
       const idx = toRemove[i]!
       const deadFish = pond.value.fish[idx]!
-      // 如果死亡鱼正在繁殖中，取消繁殖
+      // Ölen balık üreme sürecindeyse üremeyi iptal et
       if (pond.value.breeding && (pond.value.breeding.parentA === deadFish.id || pond.value.breeding.parentB === deadFish.id)) {
         pond.value.breeding = null
       }
       pond.value.fish.splice(idx, 1)
     }
 
-    // 7. 产出生成（成熟 + 已喂食 + 未生病）
+    // 7. Ürün üretimi (olgun + beslenmiş + hasta değil)
     if (pond.value.fedToday) {
       for (const fish of pond.value.fish) {
         if (!fish.mature || fish.sick) continue
         const def = getPondableFish(fish.fishId)
         if (!def) continue
-        // 产出概率受体重基因影响
+        // Üretim olasılığı ağırlık geninden etkilenir
         const weightBonus = fish.genetics.weight / 200
         const rate = def.baseProductionRate + weightBonus
         if (Math.random() < rate) {
@@ -370,21 +370,21 @@ export const useFishPondStore = defineStore('fishPond', () => {
       }
     }
 
-    // 8. 繁殖进度
+    // 8. Üreme ilerlemesi
     if (pond.value.breeding) {
       pond.value.breeding.daysLeft--
       if (pond.value.breeding.daysLeft <= 0) {
         const parentA = pond.value.fish.find(f => f.id === pond.value.breeding!.parentA)
         const parentB = pond.value.fish.find(f => f.id === pond.value.breeding!.parentB)
         if (!parentA || !parentB) {
-          result.breedingFailed = '亲鱼死亡，繁殖失败'
+          result.breedingFailed = 'Ebeveyn balık öldü, üreme başarısız oldu'
         } else if (fishCount.value >= capacity.value) {
-          result.breedingFailed = '鱼塘已满，繁殖失败'
+          result.breedingFailed = 'Havuz dolu, üreme başarısız oldu'
         } else {
           const childGenetics = _breedGenetics(parentA.genetics, parentB.genetics)
           const def = getPondableFish(pond.value.breeding.fishId)
           if (def) {
-            // 品种配方匹配：检查父本品种组合是否产出高代品种
+            // Tür tarifi eşleşmesi: ebeveyn tür kombinasyonu daha yüksek nesil tür üretiyor mu kontrol et
             let childBreedId: string | null = null
             let childName = def.name
             if (parentA.breedId && parentB.breedId) {
@@ -395,7 +395,7 @@ export const useFishPondStore = defineStore('fishPond', () => {
                 discoveredBreeds.value.add(recipe.breedId)
               }
             }
-            // 无匹配配方时：后代继承父母同代品种（而非总是回退到Gen1）
+            // Tarif eşleşmesi yoksa: yavru ebeveynlerle aynı nesil türü miras alır (her zaman Gen1'e dönmez)
             if (!childBreedId) {
               const parentABreed = parentA.breedId ? getBreedById(parentA.breedId) : null
               const parentBBreed = parentB.breedId ? getBreedById(parentB.breedId) : null
@@ -427,17 +427,17 @@ export const useFishPondStore = defineStore('fishPond', () => {
       }
     }
 
-    // 将产出存入待收集
+    // Ürünleri bekleyen toplama listesine koy
     pendingProducts.value = [...result.products]
 
-    // 9. 重置
+    // 9. Sıfırlama
     pond.value.fedToday = false
     pond.value.collectedToday = false
 
     return result
   }
 
-  // === 基因星级 ===
+  // === Gen yıldız puanı ===
 
   const getGeneticStarRating = (genetics: FishGenetics): number => {
     const total = genetics.weight + genetics.growthRate + genetics.diseaseRes + genetics.qualityGene
@@ -448,7 +448,7 @@ export const useFishPondStore = defineStore('fishPond', () => {
     return 1
   }
 
-  // === 序列化 ===
+  // === Serileştirme ===
 
   const serialize = () => ({
     pond: pond.value,
