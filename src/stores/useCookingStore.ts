@@ -1,3 +1,4 @@
+
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import type { RecipeDef, Quality } from '@/types'
@@ -13,14 +14,14 @@ import { getCombinedItemCount, removeCombinedItem, getLowestCombinedQuality } fr
 
 const QUALITY_ORDER: Quality[] = ['normal', 'fine', 'excellent', 'supreme']
 const QUALITY_MULTIPLIER: Record<Quality, number> = { normal: 1, fine: 1.25, excellent: 1.5, supreme: 2 }
-const QUALITY_LABEL: Record<Quality, string> = { normal: '', fine: '优良', excellent: '精品', supreme: '极品' }
+const QUALITY_LABEL: Record<Quality, string> = { normal: '', fine: 'İyi', excellent: 'Seçkin', supreme: 'Üstün' }
 
 export const useCookingStore = defineStore('cooking', () => {
   const inventoryStore = useInventoryStore()
   const playerStore = usePlayerStore()
   const skillStore = useSkillStore()
 
-  /** 已解锁的食谱ID列表 */
+  /** Kilidi açılmış tarif ID listesi */
   const unlockedRecipes = ref<string[]>([
     'stir_fried_cabbage',
     'honey_tea',
@@ -40,18 +41,18 @@ export const useCookingStore = defineStore('cooking', () => {
     'silkie_egg_soup'
   ])
 
-  /** 当天生效的食物增益 */
+  /** O gün geçerli olan yemek güçlendirmesi */
   const activeBuff = ref<RecipeDef['effect']['buff'] | null>(null)
 
-  /** 已解锁的食谱定义 */
+  /** Kilidi açılmış tarif tanımları */
   const recipes = computed(() => unlockedRecipes.value.map(id => getRecipeById(id)).filter((r): r is RecipeDef => r !== undefined))
 
-  /** 检查是否有足够材料 */
+  /** Yeterli malzeme var mı kontrol et */
   const canCook = (recipeId: string): boolean => {
     const recipe = getRecipeById(recipeId)
     if (!recipe) return false
     if (!unlockedRecipes.value.includes(recipeId)) return false
-    // 检查技能等级门槛
+    // Beceri seviyesi gereksinimini kontrol et
     if (recipe.requiredSkill) {
       const skill = skillStore.getSkill(recipe.requiredSkill.type)
       if (skill.level < recipe.requiredSkill.level) return false
@@ -59,7 +60,7 @@ export const useCookingStore = defineStore('cooking', () => {
     return recipe.ingredients.every(ing => getCombinedItemCount(ing.itemId) >= ing.quantity)
   }
 
-  /** 计算最多能烹饪几份 */
+  /** En fazla kaç porsiyon pişirilebilir hesapla */
   const maxCookable = (recipeId: string): number => {
     const recipe = getRecipeById(recipeId)
     if (!recipe) return 0
@@ -76,7 +77,7 @@ export const useCookingStore = defineStore('cooking', () => {
     return max === Infinity ? 0 : max
   }
 
-  /** 预览烹饪品质（取所有材料最低品质） */
+  /** Pişirme kalitesini önizle (tüm malzemeler içindeki en düşük kalite alınır) */
   const previewCookQuality = (recipeId: string): Quality => {
     const recipe = getRecipeById(recipeId)
     if (!recipe) return 'normal'
@@ -89,21 +90,21 @@ export const useCookingStore = defineStore('cooking', () => {
     return QUALITY_ORDER[minIdx]!
   }
 
-  /** 烹饪 */
+  /** Yemek pişir */
   const cook = (recipeId: string, quantity: number = 1): { success: boolean; message: string } => {
     const recipe = getRecipeById(recipeId)
-    if (!recipe) return { success: false, message: '食谱不存在。' }
-    if (!unlockedRecipes.value.includes(recipeId)) return { success: false, message: '尚未解锁此食谱。' }
+    if (!recipe) return { success: false, message: 'Tarif bulunamadı.' }
+    if (!unlockedRecipes.value.includes(recipeId)) return { success: false, message: 'Bu tarifin kilidi henüz açılmadı.' }
 
-    // 计算最多能做几份
+    // En fazla kaç porsiyon yapılabilir hesapla
     let maxPossible = quantity
     for (const ing of recipe.ingredients) {
       const available = getCombinedItemCount(ing.itemId)
       maxPossible = Math.min(maxPossible, Math.floor(available / ing.quantity))
     }
-    if (maxPossible <= 0) return { success: false, message: '材料不足。' }
+    if (maxPossible <= 0) return { success: false, message: 'Yetersiz malzeme.' }
 
-    // 计算品质（取所有材料中最低品质）
+    // Kaliteyi hesapla (tüm malzemeler arasındaki en düşük kalite alınır)
     let minQualityIndex = 3
     for (const ing of recipe.ingredients) {
       const quality = getLowestCombinedQuality(ing.itemId)
@@ -112,61 +113,61 @@ export const useCookingStore = defineStore('cooking', () => {
     }
     const resultQuality = QUALITY_ORDER[minQualityIndex]!
 
-    // 批量消耗材料
+    // Malzemeleri toplu olarak tüket
     for (const ing of recipe.ingredients) {
       removeCombinedItem(ing.itemId, ing.quantity * maxPossible)
     }
 
-    // 添加食物到背包
+    // Yemeği envantere ekle
     inventoryStore.addItem(`food_${recipe.id}`, maxPossible, resultQuality)
     for (let i = 0; i < maxPossible; i++) {
       useAchievementStore().recordRecipeCooked()
     }
     const qualityTag = QUALITY_LABEL[resultQuality] ? `【${QUALITY_LABEL[resultQuality]}】` : ''
-    const qtyTag = maxPossible > 1 ? `${maxPossible}份` : ''
-    return { success: true, message: `烹饪了${qtyTag}${qualityTag}${recipe.name}！` }
+    const qtyTag = maxPossible > 1 ? `${maxPossible} porsiyon ` : ''
+    return { success: true, message: `${qtyTag}${qualityTag}${recipe.name} pişirildi!` }
   }
 
-  /** 食用烹饪品 */
+  /** Pişirilen yemeği ye */
   const eat = (recipeId: string, quality: Quality = 'normal'): { success: boolean; message: string } => {
     const foodItemId = `food_${recipeId}`
     if (!inventoryStore.removeItem(foodItemId, 1, quality)) {
-      return { success: false, message: '背包中没有这个食物。' }
+      return { success: false, message: 'Envanterde bu yiyecek yok.' }
     }
 
     const recipe = getRecipeById(recipeId)
-    if (!recipe) return { success: false, message: '食谱数据丢失。' }
+    if (!recipe) return { success: false, message: 'Tarif verisi eksik.' }
 
-    // 品质加成
+    // Kalite bonusu
     const qualityBonus = QUALITY_MULTIPLIER[quality]
-    // 炼金师专精：食物恢复+50%
+    // Simyacı uzmanlığı: yemek iyileştirmesi +%50
     const walletStore = useWalletStore()
     const homeStore = useHomeStore()
     const chefBonus = 1 + walletStore.getCookingRestoreBonus()
     const alchemistBonus = skillStore.getSkill('foraging').perk10 === 'alchemist' ? 1.5 : 1.0
     const kitchenBonus = homeStore.getKitchenBonus()
-    // 仙缘能力：月膳（yue_tu_2）食物恢复+50%
+    // Ruhani bağ yeteneği: Ay Sofrası (yue_tu_2) yemek iyileştirmesi +%50
     const moonRabbitBonus = useHiddenNpcStore().isAbilityActive('yue_tu_2') ? 1.5 : 1.0
     const staminaRestore = Math.floor(
       recipe.effect.staminaRestore * qualityBonus * alchemistBonus * chefBonus * kitchenBonus * moonRabbitBonus
     )
     playerStore.restoreStamina(staminaRestore)
     const qualityTag = QUALITY_LABEL[quality] ? `【${QUALITY_LABEL[quality]}】` : ''
-    let msg = `食用了${qualityTag}${recipe.name}，恢复${staminaRestore}体力`
+    let msg = `${qualityTag}${recipe.name} yendi, ${staminaRestore} dayanıklılık yenilendi`
 
     if (recipe.effect.healthRestore) {
       const healthRestore = Math.floor(
         recipe.effect.healthRestore * qualityBonus * alchemistBonus * chefBonus * kitchenBonus * moonRabbitBonus
       )
       playerStore.restoreHealth(healthRestore)
-      msg += `、${healthRestore}生命值`
+      msg += `, ${healthRestore} can yenilendi`
     }
-    msg += '。'
+    msg += '.'
 
     if (recipe.effect.buff) {
       activeBuff.value = { ...recipe.effect.buff }
       msg += ` ${recipe.effect.buff.description}`
-      // 「体力全恢复」类buff：立即将体力回满
+      // “Dayanıklılığı tamamen yenile” türü güçlendirme: dayanıklılığı hemen doldur
       if (recipe.effect.buff.type === 'stamina') {
         playerStore.restoreStamina(playerStore.maxStamina)
       }
@@ -175,7 +176,7 @@ export const useCookingStore = defineStore('cooking', () => {
     return { success: true, message: msg }
   }
 
-  /** 解锁食谱 */
+  /** Tarifin kilidini aç */
   const unlockRecipe = (recipeId: string): boolean => {
     if (unlockedRecipes.value.includes(recipeId)) return false
     const recipe = getRecipeById(recipeId)
@@ -184,7 +185,7 @@ export const useCookingStore = defineStore('cooking', () => {
     return true
   }
 
-  /** 每日重置增益 */
+  /** Günlük güçlendirmeleri sıfırla */
   const dailyReset = () => {
     activeBuff.value = null
   }
