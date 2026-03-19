@@ -12,14 +12,14 @@ import { useWalletStore } from './useWalletStore'
 import { useGameStore } from './useGameStore'
 import { useHiddenNpcStore } from './useHiddenNpcStore'
 
-/** 已放置洒水器 */
+/** Yerleştirilmiş sulayıcı */
 export interface PlacedSprinkler {
   id: string
   type: SprinklerType
   plotId: number
 }
 
-/** 创建初始地块 */
+/** Başlangıç tarlalarını oluştur */
 const createPlots = (size: FarmSize): FarmPlot[] => {
   const total = size * size
   return Array.from({ length: total }, (_, i) => ({
@@ -56,7 +56,7 @@ export const useFarmStore = defineStore('farm', () => {
   const tilledPlots = computed(() => plots.value.filter(p => p.state !== 'wasteland'))
   const harvestableCount = computed(() => plots.value.filter(p => p.state === 'harvestable').length)
 
-  /** 重置农场为指定大小（用于新游戏初始化） */
+  /** Çiftliği belirtilen boyuta sıfırla (yeni oyun başlangıcı için) */
   const resetFarm = (size: FarmSize) => {
     farmSize.value = size
     plots.value = createPlots(size)
@@ -68,7 +68,7 @@ export const useFarmStore = defineStore('farm', () => {
     nextWildTreeId.value = 0
   }
 
-  /** 开垦地块 */
+  /** Tarlayı sür */
   const tillPlot = (plotId: number): boolean => {
     const plot = plots.value[plotId]
     if (!plot || plot.state !== 'wasteland') return false
@@ -76,7 +76,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 播种 */
+  /** Ürün ek */
   const plantCrop = (plotId: number, cropId: string): boolean => {
     const plot = plots.value[plotId]
     if (!plot || plot.state !== 'tilled') return false
@@ -96,7 +96,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 种下育种种子 */
+  /** Islah tohumu ek */
   const plantGeneticSeed = (plotId: number, genetics: SeedGenetics): boolean => {
     const plot = plots.value[plotId]
     if (!plot || plot.state !== 'tilled') return false
@@ -116,7 +116,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 浇水 */
+  /** Sula */
   const waterPlot = (plotId: number): boolean => {
     const plot = plots.value[plotId]
     if (!plot || (plot.state !== 'planted' && plot.state !== 'growing')) return false
@@ -126,7 +126,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 收获，返回作物ID（支持多茬作物） */
+  /** Hasat et, ürün ID'sini döndür (çoklu hasat ürünlerini destekler) */
   const harvestPlot = (plotId: number): { cropId: string | null; genetics: SeedGenetics | null } => {
     const plot = plots.value[plotId]
     if (!plot || plot.state !== 'harvestable') return { cropId: null, genetics: null }
@@ -134,11 +134,11 @@ export const useFarmStore = defineStore('farm', () => {
     const crop = cropId ? getCropById(cropId) : null
     const genetics = plot.seedGenetics
 
-    // 多茬作物：收获后回到生长状态（有次数上限）
+    // Çoklu hasat ürünleri: hasattan sonra yeniden büyüme durumuna döner (hasat sınırı olabilir)
     if (crop && crop.regrowth && crop.regrowthDays) {
       plot.harvestCount++
       if (crop.maxHarvests && plot.harvestCount >= crop.maxHarvests) {
-        // 达到最大收获次数，清除作物
+        // Maksimum hasat sayısına ulaşıldı, ürünü temizle
         plot.state = 'tilled'
         plot.cropId = null
         plot.growthDays = 0
@@ -158,7 +158,7 @@ export const useFarmStore = defineStore('farm', () => {
         plot.watered = getAllWateredBySprinklers().has(plotId) || useGameStore().isRainy
         plot.unwateredDays = 0
         plot.giantCropGroup = null
-        // seedGenetics 保留（多茬作物继续使用同一基因）
+        // seedGenetics korunur (çoklu hasat ürünü aynı genlerle devam eder)
       }
     } else {
       plot.state = 'tilled'
@@ -179,7 +179,7 @@ export const useFarmStore = defineStore('farm', () => {
     return { cropId, genetics }
   }
 
-  /** 铲除作物：将有作物的地块恢复为已耕状态（保留肥料） */
+  /** Ürünü sök: ürün bulunan tarlayı sürülmüş duruma döndürür (gübre korunur) */
   const removeCrop = (plotId: number): { cropId: string | null } => {
     const plot = plots.value[plotId]
     if (!plot) return { cropId: null }
@@ -202,7 +202,7 @@ export const useFarmStore = defineStore('farm', () => {
     return { cropId }
   }
 
-  /** 除虫：清除地块虫害 */
+  /** Zararlıyı temizle */
   const curePest = (plotId: number): boolean => {
     const plot = plots.value[plotId]
     if (!plot || !plot.infested) return false
@@ -211,7 +211,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 除草：清除地块杂草 */
+  /** Otu temizle */
   const clearWeed = (plotId: number): boolean => {
     const plot = plots.value[plotId]
     if (!plot || !plot.weedy) return false
@@ -220,9 +220,9 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  // === 洒水器 ===
+  // === Sulayıcılar ===
 
-  /** 获取洒水器覆盖的地块ID列表 */
+  /** Sulayıcının kapsadığı tarla ID listesini al */
   const getSprinklerCoverage = (plotId: number, range: number): number[] => {
     const size = farmSize.value
     const row = Math.floor(plotId / size)
@@ -230,7 +230,7 @@ export const useFarmStore = defineStore('farm', () => {
     const covered: number[] = []
 
     if (range === 4) {
-      // 上下左右4块
+      // Üst alt sağ sol 4 tarla
       const offsets = [
         [-1, 0],
         [1, 0],
@@ -245,7 +245,7 @@ export const useFarmStore = defineStore('farm', () => {
         }
       }
     } else if (range === 8) {
-      // 周围8块
+      // Etrafındaki 8 tarla
       for (let dr = -1; dr <= 1; dr++) {
         for (let dc = -1; dc <= 1; dc++) {
           if (dr === 0 && dc === 0) continue
@@ -257,7 +257,7 @@ export const useFarmStore = defineStore('farm', () => {
         }
       }
     } else if (range === 24) {
-      // 5×5 区域（2格半径）
+      // 5×5 alan (2 kare yarıçap)
       for (let dr = -2; dr <= 2; dr++) {
         for (let dc = -2; dc <= 2; dc++) {
           if (dr === 0 && dc === 0) continue
@@ -272,7 +272,7 @@ export const useFarmStore = defineStore('farm', () => {
     return covered
   }
 
-  /** 放置洒水器 */
+  /** Sulayıcı yerleştir */
   const placeSprinkler = (plotId: number, sprinklerType: SprinklerType): boolean => {
     if (sprinklers.value.some(s => s.plotId === plotId)) return false
     const plot = plots.value[plotId]
@@ -285,7 +285,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 移除洒水器 */
+  /** Sulayıcıyı kaldır */
   const removeSprinkler = (plotId: number): SprinklerType | null => {
     const idx = sprinklers.value.findIndex(s => s.plotId === plotId)
     if (idx === -1) return null
@@ -294,7 +294,7 @@ export const useFarmStore = defineStore('farm', () => {
     return type
   }
 
-  /** 获取被所有洒水器覆盖的地块集合（含洒水器自身所在地块） */
+  /** Tüm sulayıcıların kapsadığı tarla kümesini al (sulayıcının bulunduğu tarla dahil) */
   const getAllWateredBySprinklers = (): Set<number> => {
     const watered = new Set<number>()
     for (const s of sprinklers.value) {
@@ -308,9 +308,9 @@ export const useFarmStore = defineStore('farm', () => {
     return watered
   }
 
-  // === 肥料 ===
+  // === Gübre ===
 
-  /** 给地块施肥 */
+  /** Tarlaya gübre uygula */
   const applyFertilizer = (plotId: number, fertilizerType: FertilizerType): boolean => {
     const plot = plots.value[plotId]
     if (!plot) return false
@@ -320,7 +320,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 桃源田庄：季初给所有已耕但无肥料的地块施加基础肥料 */
+  /** Bereketli çiftlik: mevsim başında sürülmüş ama gübresiz tüm tarlalara temel gübre uygula */
   const applyFertileSoil = (): number => {
     let count = 0
     for (const plot of plots.value) {
@@ -338,12 +338,12 @@ export const useFarmStore = defineStore('farm', () => {
     return count
   }
 
-  /** 每日更新所有地块 */
+  /** Tüm tarlaları günlük güncelle */
   const dailyUpdate = (isRainy: boolean): { newInfestations: number; pestDeaths: number; newWeeds: number; weedDeaths: number } => {
     const sprinklerWatered = getAllWateredBySprinklers()
     const walletGrowth = useWalletStore().getCropGrowthBonus()
     const gameStore = useGameStore()
-    // 仙缘能力：春息（tao_yao_2）春季作物生长加速
+    // Ruhani bağ yeteneği: İlkbahar Nefesi (tao_yao_2) ilkbahar ürünlerini hızlandırır
     const spiritGrowth = gameStore.season === 'spring' ? useHiddenNpcStore().getAbilityValue('tao_yao_2') / 100 : 0
     let newInfestations = 0
     let pestDeaths = 0
@@ -353,7 +353,7 @@ export const useFarmStore = defineStore('farm', () => {
     for (const plot of plots.value) {
       if (plot.state !== 'planted' && plot.state !== 'growing') continue
 
-      // 虫害处理：感染中的地块不生长、不枯萎
+      // Zararlı durumu: bulaşmış tarlada büyüme olmaz, kurumaz da
       if (plot.infested) {
         plot.infestedDays++
         if (plot.infestedDays >= 3) {
@@ -375,7 +375,7 @@ export const useFarmStore = defineStore('farm', () => {
         continue
       }
 
-      // 杂草处理：长草中的地块生长减速
+      // Yabani ot durumu: otlanan tarlada büyüme yavaşlar
       if (plot.weedy) {
         plot.weedyDays++
         if (plot.weedyDays >= 4) {
@@ -397,15 +397,15 @@ export const useFarmStore = defineStore('farm', () => {
         }
       }
 
-      // 雨天或洒水器范围内自动浇水
+      // Yağmurda veya sulayıcı alanında otomatik sulama
       if (isRainy || sprinklerWatered.has(plot.id)) {
         plot.watered = true
         plot.unwateredDays = 0
       }
 
-      // 处理浇水状态
+      // Sulama durumunu işle
       if (plot.watered) {
-        // 肥料加速：减少作物所需生长天数
+        // Gübre hızlandırması: ürünün ihtiyaç duyduğu büyüme gününü azaltır
         const fertDef = plot.fertilizer ? getFertilizerById(plot.fertilizer) : null
         const speedup = (fertDef?.growthSpeedup ?? 0) + walletGrowth + spiritGrowth
         plot.growthDays += 1
@@ -419,7 +419,7 @@ export const useFarmStore = defineStore('farm', () => {
           }
         }
       } else {
-        // 抗性减缓枯萎：高抗性时 unwateredDays 增长更慢
+        // Dayanıklılık kuruma hızını azaltır: yüksek dayanıklılıkta unwateredDays daha yavaş artar
         const resistanceFactor = plot.seedGenetics ? 1 - plot.seedGenetics.resistance / 100 : 1
         plot.unwateredDays += resistanceFactor
         if (plot.unwateredDays >= 2) {
@@ -438,18 +438,18 @@ export const useFarmStore = defineStore('farm', () => {
         }
       }
 
-      // 重置每日浇水状态（洒水器覆盖或保湿土可能保留）
+      // Günlük sulama durumunu sıfırla (sulayıcı alanı veya su tutan toprak koruyabilir)
       if (sprinklerWatered.has(plot.id)) {
-        // 洒水器覆盖，保持浇水状态
+        // Sulayıcı kapsıyor, sulu durum korunur
       } else {
         const retainFert = plot.fertilizer ? getFertilizerById(plot.fertilizer) : null
         if (retainFert?.retainChance && Math.random() < retainFert.retainChance) {
-          // 保湿土保持浇水
+          // Su tutan gübre nemi korur
         } else {
           plot.watered = false
         }
       }
-      // 虫害感染检查（未感染的 planted/growing 地块，跳过巨型作物）
+      // Zararlı bulaşma kontrolü (dev ürünler atlanır)
       if (!plot.infested && plot.giantCropGroup === null && (plot.state === 'planted' || plot.state === 'growing')) {
         const baseChance = 0.08
         const pestChance = scarecrows.value > 0 ? baseChance * 0.5 : baseChance
@@ -459,7 +459,7 @@ export const useFarmStore = defineStore('farm', () => {
           newInfestations++
         }
       }
-      // 杂草滋生检查（未长草的 planted/growing 地块，跳过巨型作物）
+      // Yabani ot çıkma kontrolü (dev ürünler atlanır)
       if (!plot.weedy && plot.giantCropGroup === null && (plot.state === 'planted' || plot.state === 'growing')) {
         const baseWeedChance = 0.06
         const weedChance = scarecrows.value > 0 ? baseWeedChance * 0.6 : baseWeedChance
@@ -473,14 +473,15 @@ export const useFarmStore = defineStore('farm', () => {
 
     return { newInfestations, pestDeaths, newWeeds, weedDeaths }
   }
+
   const onSeasonChange = (newSeason: Season): { witheredCount: number; reclaimedCount: number } => {
     let witheredCount = 0
     let reclaimedCount = 0
 
-    // 先记录换季前就已经空置的耕地
+    // Önce mevsim değişiminden önce zaten boş olan sürülmüş tarlaları kaydet
     const preExistingTilled = new Set(plots.value.filter(p => p.state === 'tilled' && !p.cropId).map(p => p.id))
 
-    // 作物枯萎检查（肥料保留在土壤中）
+    // Ürün solma kontrolü (gübre toprakta kalır)
     for (const plot of plots.value) {
       if ((plot.state === 'planted' || plot.state === 'growing' || plot.state === 'harvestable') && plot.cropId) {
         const crop = getCropById(plot.cropId)
@@ -502,7 +503,7 @@ export const useFarmStore = defineStore('farm', () => {
       }
     }
 
-    // 只有换季前就空置的耕地才可能退化（冬→春更严重）
+    // Yalnızca mevsim değişmeden önce boş olan sürülmüş tarlalar bozulabilir (kıştan bahara daha ağır)
     for (const plot of plots.value) {
       if (plot.state === 'tilled' && preExistingTilled.has(plot.id)) {
         const revertChance = newSeason === 'spring' ? 0.3 : 0.15
@@ -517,11 +518,11 @@ export const useFarmStore = defineStore('farm', () => {
     return { witheredCount, reclaimedCount }
   }
 
-  /** 雷暴闪电：25%概率触发，避雷针可吸收 */
+  /** Yıldırım düşmesi: %25 olasılık, paratoner varsa emer */
   const lightningStrike = (): { hit: boolean; absorbed: boolean; cropName?: string } => {
     if (Math.random() > 0.25) return { hit: false, absorbed: false }
 
-    // 避雷针吸收
+    // Paratoner emer
     if (lightningRods.value > 0) {
       return { hit: false, absorbed: true }
     }
@@ -531,7 +532,7 @@ export const useFarmStore = defineStore('farm', () => {
 
     const target = croppedPlots[Math.floor(Math.random() * croppedPlots.length)]!
     const crop = getCropById(target.cropId!)
-    const cropName = crop?.name ?? '作物'
+    const cropName = crop?.name ?? 'Ürün'
 
     target.state = 'tilled'
     target.cropId = null
@@ -549,7 +550,7 @@ export const useFarmStore = defineStore('farm', () => {
     return { hit: true, absorbed: false, cropName }
   }
 
-  /** 乌鸦袭击：无稻草人时 15% 概率毁一株作物 */
+  /** Karga saldırısı: korkuluk yoksa %15 olasılıkla bir ürünü yok eder */
   const crowAttack = (): { attacked: boolean; cropName?: string } => {
     if (scarecrows.value > 0) return { attacked: false }
     if (Math.random() > 0.15) return { attacked: false }
@@ -557,7 +558,7 @@ export const useFarmStore = defineStore('farm', () => {
     if (croppedPlots.length === 0) return { attacked: false }
     const target = croppedPlots[Math.floor(Math.random() * croppedPlots.length)]!
     const crop = getCropById(target.cropId!)
-    const cropName = crop?.name ?? '作物'
+    const cropName = crop?.name ?? 'Ürün'
     target.state = 'tilled'
     target.cropId = null
     target.growthDays = 0
@@ -573,7 +574,7 @@ export const useFarmStore = defineStore('farm', () => {
     return { attacked: true, cropName }
   }
 
-  /** 检测并形成巨型作物：3×3 同种 harvestable 且 giantCropEligible，1% 概率 */
+  /** Dev ürünleri kontrol et ve oluştur: 3×3 aynı tür harvestable ve giantCropEligible ise %1 olasılık */
   const checkGiantCrops = (): { cropId: string; cropName: string }[] => {
     const size = farmSize.value
     if (size < 4) return []
@@ -611,7 +612,7 @@ export const useFarmStore = defineStore('farm', () => {
     return formed
   }
 
-  /** 收获巨型作物：清除同组 9 块，返回作物ID和总产出数量 */
+  /** Dev ürünü hasat et: aynı gruptaki 9 tarlayı temizler, ürün ID'si ve toplam miktarı döndürür */
   const harvestGiantCrop = (plotId: number): { cropId: string; quantity: number } | null => {
     const plot = plots.value[plotId]
     if (!plot || plot.state !== 'harvestable' || plot.giantCropGroup === null) return null
@@ -637,7 +638,7 @@ export const useFarmStore = defineStore('farm', () => {
     return { cropId, quantity: groupPlots.length * 2 }
   }
 
-  /** 扩建农场 */
+  /** Çiftliği genişlet */
   const expandFarm = (): FarmSize | null => {
     const sizes: FarmSize[] = [4, 6, 8]
     const currentIndex = sizes.indexOf(farmSize.value)
@@ -655,7 +656,7 @@ export const useFarmStore = defineStore('farm', () => {
         }
       }
     }
-    // 重映射洒水器坐标
+    // Sulayıcı koordinatlarını yeniden eşle
     const oldSize = farmSize.value
     for (const s of sprinklers.value) {
       const oldRow = Math.floor(s.plotId / oldSize)
@@ -668,9 +669,9 @@ export const useFarmStore = defineStore('farm', () => {
     return newSize
   }
 
-  // === 果树 ===
+  // === Meyve ağaçları ===
 
-  /** 种植果树 */
+  /** Meyve ağacı dik */
   const plantFruitTree = (treeType: FruitTreeType): boolean => {
     if (fruitTrees.value.length >= MAX_FRUIT_TREES) return false
     fruitTrees.value.push({
@@ -684,13 +685,13 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 果树每日更新 */
+  /** Meyve ağacı günlük güncellemesi */
   const dailyFruitTreeUpdate = (currentSeason: Season): { fruits: { fruitId: string; quality: Quality }[] } => {
     const results: { fruitId: string; quality: Quality }[] = []
-    // 仙缘能力
+    // Ruhani bağ yetenekleri
     const hiddenNpcStore2 = useHiddenNpcStore()
-    const extraFruit = hiddenNpcStore2.isAbilityActive('tao_yao_1') // 花泽：果树+1产量
-    const spiritPeachActive = hiddenNpcStore2.isAbilityActive('tao_yao_3') // 灵桃：桃树概率产灵桃
+    const extraFruit = hiddenNpcStore2.isAbilityActive('tao_yao_1') // Çiçek Bereketi: meyve ağacı +1 ürün
+    const spiritPeachActive = hiddenNpcStore2.isAbilityActive('tao_yao_3') // Ruh Şeftalisi: şeftali ağacı ruh şeftalisi verebilir
     for (const tree of fruitTrees.value) {
       tree.growthDays++
       tree.todayFruit = false
@@ -701,7 +702,7 @@ export const useFarmStore = defineStore('farm', () => {
         const def = FRUIT_TREE_DEFS.find(d => d.type === tree.type)
         if (def && def.fruitSeason === currentSeason) {
           const quality = getFruitQuality(tree.yearAge)
-          // 仙缘能力：灵桃（tao_yao_3）桃树10%概率产灵桃
+          // Ruhani bağ yeteneği: Ruh Şeftalisi (tao_yao_3) şeftali ağacında %10 olasılıkla ruh şeftalisi
           const fruitId = tree.type === 'peach_tree' && spiritPeachActive && Math.random() < 0.1 ? 'spirit_peach' : def.fruitId
           results.push({ fruitId, quality })
           if (extraFruit) results.push({ fruitId, quality })
@@ -712,7 +713,7 @@ export const useFarmStore = defineStore('farm', () => {
     return { fruits: results }
   }
 
-  /** 果树品质：随年龄提升 0年normal, 1年fine, 2年excellent, 3+年supreme */
+  /** Meyve ağacı kalitesi: yaş arttıkça yükselir 0 yıl normal, 1 yıl fine, 2 yıl excellent, 3+ yıl supreme */
   const getFruitQuality = (yearAge: number): Quality => {
     if (yearAge >= 3) return 'supreme'
     if (yearAge >= 2) return 'excellent'
@@ -720,17 +721,17 @@ export const useFarmStore = defineStore('farm', () => {
     return 'normal'
   }
 
-  /** 移除果树（砍伐），返回木材数量 */
+  /** Meyve ağacını kaldır (kes), odun miktarını döndür */
   const removeFruitTree = (treeId: number): number => {
     const idx = fruitTrees.value.findIndex(t => t.id === treeId)
     if (idx === -1) return 0
     const tree = fruitTrees.value[idx]!
     fruitTrees.value.splice(idx, 1)
-    // 成熟树砍伐获得更多木材
+    // Olgun ağaç daha fazla odun verir
     return tree.mature ? 5 : 2
   }
 
-  /** 果树换季更新（仅新年时增加年龄） */
+  /** Meyve ağacı mevsim güncellemesi (yalnızca yeni yılda yaş artar) */
   const fruitTreeSeasonUpdate = (isNewYear: boolean): void => {
     for (const tree of fruitTrees.value) {
       if (tree.mature && isNewYear) tree.yearAge++
@@ -738,9 +739,9 @@ export const useFarmStore = defineStore('farm', () => {
     }
   }
 
-  // === 野树 ===
+  // === Yabani ağaçlar ===
 
-  /** 种植野树 */
+  /** Yabani ağaç dik */
   const plantWildTree = (treeType: WildTreeType): boolean => {
     if (wildTrees.value.length >= MAX_WILD_TREES) return false
     wildTrees.value.push({
@@ -756,7 +757,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 安装采脂器 */
+  /** Musluk tak */
   const attachTapper = (treeId: number): boolean => {
     const tree = wildTrees.value.find(t => t.id === treeId)
     if (!tree || !tree.mature || tree.hasTapper) return false
@@ -766,7 +767,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 收取采脂产物 */
+  /** Musluk ürününü topla */
   const collectTapProduct = (treeId: number): string | null => {
     const tree = wildTrees.value.find(t => t.id === treeId)
     if (!tree || !tree.tapReady) return null
@@ -777,7 +778,7 @@ export const useFarmStore = defineStore('farm', () => {
     return def.tapProduct
   }
 
-  /** 伐木（增加chopCount，>=3则移除） */
+  /** Ağaç kes (chopCount artar, >=3 ise kaldırılır) */
   const chopWildTree = (treeId: number): { removed: boolean } => {
     const tree = wildTrees.value.find(t => t.id === treeId)
     if (!tree) return { removed: false }
@@ -789,7 +790,7 @@ export const useFarmStore = defineStore('farm', () => {
     return { removed: false }
   }
 
-  /** 野树每日更新 */
+  /** Yabani ağaç günlük güncellemesi */
   const dailyWildTreeUpdate = (): { products: { treeId: number; productId: string; productName: string }[] } => {
     const readyProducts: { treeId: number; productId: string; productName: string }[] = []
     for (const tree of wildTrees.value) {
@@ -812,9 +813,9 @@ export const useFarmStore = defineStore('farm', () => {
     return { products: readyProducts }
   }
 
-  // === 温室 ===
+  // === Sera ===
 
-  /** 初始化温室地块 */
+  /** Sera tarlalarını başlat */
   const initGreenhouse = (): void => {
     if (greenhousePlots.value.length > 0) return
     greenhousePlots.value = Array.from({ length: GREENHOUSE_PLOT_COUNT }, (_, i) => ({
@@ -835,7 +836,7 @@ export const useFarmStore = defineStore('farm', () => {
     }))
   }
 
-  /** 温室播种 */
+  /** Seraya ürün ek */
   const greenhousePlantCrop = (plotId: number, cropId: string): boolean => {
     const plot = greenhousePlots.value[plotId]
     if (!plot || plot.state !== 'tilled') return false
@@ -849,7 +850,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 温室收获 */
+  /** Sera hasadı */
   const greenhouseHarvestPlot = (plotId: number): string | null => {
     const plot = greenhousePlots.value[plotId]
     if (!plot || plot.state !== 'harvestable') return null
@@ -884,7 +885,7 @@ export const useFarmStore = defineStore('farm', () => {
     return cropId
   }
 
-  /** 温室每日更新（自动浇水，无天气影响） */
+  /** Sera günlük güncellemesi (otomatik sulama, hava durumundan etkilenmez) */
   const greenhouseDailyUpdate = (): void => {
     const walletGrowth = useWalletStore().getCropGrowthBonus()
     for (const plot of greenhousePlots.value) {
@@ -906,7 +907,7 @@ export const useFarmStore = defineStore('farm', () => {
     }
   }
 
-  /** 温室升级：扩展地块数量 */
+  /** Serayı yükselt: tarla sayısını artır */
   const upgradeGreenhouse = (newPlotCount: number): boolean => {
     const current = greenhousePlots.value.length
     if (newPlotCount <= current) return false
@@ -932,7 +933,7 @@ export const useFarmStore = defineStore('farm', () => {
     return true
   }
 
-  /** 温室一键收获：返回收获结果列表 */
+  /** Serada tek tuşla hasat: hasat sonuç listesini döndür */
   const greenhouseBatchHarvest = (): { cropId: string }[] => {
     const results: { cropId: string }[] = []
     for (let i = 0; i < greenhousePlots.value.length; i++) {
@@ -961,7 +962,7 @@ export const useFarmStore = defineStore('farm', () => {
     }
   }
 
-  /** 存档迁移：旧肥料名称映射 */
+  /** Kayıt aktarımı: eski gübre adlarını eşle */
   const migrateFertilizer = (f: string | null): FertilizerType | null => {
     if (!f) return null
     if (f === 'compost') return 'basic_fertilizer'
