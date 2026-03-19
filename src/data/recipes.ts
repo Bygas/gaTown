@@ -1,29 +1,29 @@
 import type { RecipeDef } from '@/types'
 
-/** 所有食谱定义 */
+/** Tüm tarif tanımları */
 export const RECIPES: RecipeDef[] = [
   {
     id: 'stir_fried_cabbage',
-    name: '炒青菜',
+    name: 'Sote Lahana',
     ingredients: [{ itemId: 'cabbage', quantity: 2 }],
     effect: { staminaRestore: 15, healthRestore: 5 },
-    unlockSource: '初始自带',
-    description: '简单朴素的家常菜。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Basit ve mütevazı bir ev yemeği.'
   },
   {
     id: 'radish_soup',
-    name: '萝卜汤',
+    name: 'Turp Çorbası',
     ingredients: [
       { itemId: 'radish', quantity: 2 },
       { itemId: 'firewood', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 10 },
-    unlockSource: '陈伯好感「相识」',
-    description: '热腾腾的萝卜汤，暖身又暖心。'
+    unlockSource: 'Chen Amca yakınlık: “Tanışıklık”',
+    description: 'Sıcacık turp çorbası, hem bedeni hem içi ısıtır.'
   },
   {
     id: 'braised_carp',
-    name: '红烧鲤鱼',
+    name: 'Kızarmış Sazan',
     ingredients: [
       { itemId: 'carp', quantity: 1 },
       { itemId: 'sesame', quantity: 2 }
@@ -31,25 +31,25 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 15,
-      buff: { type: 'fishing', value: 1, description: '钓鱼技能+1（当天）' }
+      buff: { type: 'fishing', value: 1, description: 'Balıkçılık becerisi +1 (bugün)' }
     },
-    unlockSource: '秋月好感「相识」',
-    description: '鲜香可口的红烧鲤鱼。'
+    unlockSource: 'Qiuyue yakınlık: “Tanışıklık”',
+    description: 'Lezzetli ve aromatik kızarmış sazan.'
   },
   {
     id: 'herbal_porridge',
-    name: '药膳粥',
+    name: 'Şifalı Lapa',
     ingredients: [
       { itemId: 'herb', quantity: 2 },
       { itemId: 'rice', quantity: 1 }
     ],
     effect: { staminaRestore: 40, healthRestore: 20 },
-    unlockSource: '林老好感「相识」',
-    description: '调理身体的药膳粥。'
+    unlockSource: 'Yaşlı Lin yakınlık: “Tanışıklık”',
+    description: 'Vücudu dengeleyen şifalı bir lapa.'
   },
   {
     id: 'osmanthus_cake',
-    name: '桂花糕',
+    name: 'Osmanthus Keki',
     ingredients: [
       { itemId: 'osmanthus', quantity: 3 },
       { itemId: 'rice', quantity: 2 }
@@ -57,14 +57,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 20,
       healthRestore: 5,
-      buff: { type: 'giftBonus', value: 2, description: '送礼好感×2（当天）' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
     },
-    unlockSource: '柳娘好感「相识」',
-    description: '精致的桂花糕，送礼极佳。'
+    unlockSource: 'Liuniang yakınlık: “Tanışıklık”',
+    description: 'Zarif osmanthus keki, hediye için harika bir seçim.'
   },
   {
     id: 'miner_lunch',
-    name: '矿工便当',
+    name: 'Madenci Kumanyası',
     ingredients: [
       { itemId: 'potato', quantity: 2 },
       { itemId: 'sweet_potato', quantity: 1 }
@@ -72,14 +72,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 25,
       healthRestore: 25,
-      buff: { type: 'mining', value: 20, description: '挖矿体力消耗-20%（当天）' }
+      buff: { type: 'mining', value: 20, description: 'Madencilik dayanıklılık tüketimi -20% (bugün)' }
     },
-    unlockSource: '阿石好感「相识」',
-    description: '实打实的矿工饭。'
+    unlockSource: 'Ashi yakınlık: “Tanışıklık”',
+    description: 'Gerçek bir madenci yemeği.'
   },
   {
     id: 'spicy_hotpot',
-    name: '麻辣火锅',
+    name: 'Acılı Hotpot',
     ingredients: [
       { itemId: 'chili', quantity: 2 },
       { itemId: 'cabbage', quantity: 1 },
@@ -88,15 +88,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 40,
-      buff: { type: 'defense', value: 20, description: '受到伤害-20%（当天）' }
+      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (bugün)' }
     },
-    unlockSource: '烹饪等级4',
+    unlockSource: 'Yemek pişirme seviye 4',
     requiredSkill: { type: 'farming', level: 4 },
-    description: '火辣辣的麻辣火锅，驱寒暖身。'
+    description: 'Yakıcı derecede acılı hotpot, soğuğu uzaklaştırır.'
   },
   {
     id: 'steamed_bass',
-    name: '清蒸鲈鱼',
+    name: 'Buharda Levrek',
     ingredients: [
       { itemId: 'bass', quantity: 1 },
       { itemId: 'ginger', quantity: 1 }
@@ -104,26 +104,26 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'fishing', value: 2, description: '钓鱼技能+2（当天）' }
+      buff: { type: 'fishing', value: 2, description: 'Balıkçılık becerisi +2 (bugün)' }
     },
-    unlockSource: '钓鱼等级3',
+    unlockSource: 'Balıkçılık seviye 3',
     requiredSkill: { type: 'fishing', level: 3 },
-    description: '鲜嫩的清蒸鲈鱼。'
+    description: 'Yumuşacık ve taze buharda levrek.'
   },
   {
     id: 'honey_tea',
-    name: '蜂蜜茶',
+    name: 'Bal Çayı',
     ingredients: [
       { itemId: 'honey', quantity: 1 },
       { itemId: 'herb', quantity: 1 }
     ],
     effect: { staminaRestore: 30, healthRestore: 10 },
-    unlockSource: '初始自带',
-    description: '甜蜜温润的蜂蜜茶。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Tatlı ve yumuşak içimli bal çayı.'
   },
   {
     id: 'ginger_soup',
-    name: '姜汤',
+    name: 'Zencefil Çorbası',
     ingredients: [
       { itemId: 'ginger', quantity: 2 },
       { itemId: 'firewood', quantity: 1 }
@@ -131,26 +131,26 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 20,
       healthRestore: 10,
-      buff: { type: 'speed', value: 15, description: '行动速度+15%（当天）' }
+      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (bugün)' }
     },
-    unlockSource: '初始自带',
-    description: '驱寒暖胃的姜汤。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'İç ısıtan ve mideyi rahatlatan zencefil çorbası.'
   },
   {
     id: 'jujube_cake',
-    name: '红枣糕',
+    name: 'Hünnap Keki',
     ingredients: [
       { itemId: 'jujube', quantity: 3 },
       { itemId: 'rice', quantity: 1 }
     ],
     effect: { staminaRestore: 35, healthRestore: 15 },
-    unlockSource: '烹饪等级2',
+    unlockSource: 'Yemek pişirme seviye 2',
     requiredSkill: { type: 'farming', level: 2 },
-    description: '香甜软糯的红枣糕。'
+    description: 'Tatlı ve yumuşak hünnap keki.'
   },
   {
     id: 'peach_blossom_cake',
-    name: '桃花饼',
+    name: 'Şeftali Çiçeği Çöreği',
     ingredients: [
       { itemId: 'peach', quantity: 2 },
       { itemId: 'rice', quantity: 1 }
@@ -158,27 +158,27 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 25,
       healthRestore: 10,
-      buff: { type: 'giftBonus', value: 2, description: '送礼好感×2（当天）' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
     },
-    unlockSource: '烹饪等级3',
+    unlockSource: 'Yemek pişirme seviye 3',
     requiredSkill: { type: 'farming', level: 3 },
-    description: '春日限定的桃花饼。'
+    description: 'İlkbahara özel şeftali çiçeği çöreği.'
   },
   {
     id: 'fish_noodle',
-    name: '鱼汤面',
+    name: 'Balık Çorbalı Erişte',
     ingredients: [
       { itemId: 'crucian', quantity: 1 },
       { itemId: 'winter_wheat', quantity: 2 }
     ],
     effect: { staminaRestore: 30, healthRestore: 15 },
-    unlockSource: '钓鱼等级2',
+    unlockSource: 'Balıkçılık seviye 2',
     requiredSkill: { type: 'fishing', level: 2 },
-    description: '鲜美的鱼汤面。'
+    description: 'Lezzetli balık çorbalı erişte.'
   },
   {
     id: 'miner_iron_pot',
-    name: '矿工铁锅饭',
+    name: 'Madenci Demir Tencere Pilavı',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'copper_ore', quantity: 1 },
@@ -187,34 +187,34 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 30,
-      buff: { type: 'mining', value: 25, description: '挖矿体力消耗-25%（当天）' }
+      buff: { type: 'mining', value: 25, description: 'Madencilik dayanıklılık tüketimi -25% (bugün)' }
     },
-    unlockSource: '挖矿等级4',
+    unlockSource: 'Madencilik seviye 4',
     requiredSkill: { type: 'mining', level: 4 },
-    description: '矿工们的铁锅大杂烩。'
+    description: 'Madencilerin demir tencerede karışık yemeği.'
   },
   {
     id: 'bamboo_shoot_stir_fry',
-    name: '冬笋炒肉',
+    name: 'Kış Bambusu Kavurması',
     ingredients: [
       { itemId: 'winter_bamboo_shoot', quantity: 2 },
       { itemId: 'firewood', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 10 },
-    unlockSource: '初始自带',
-    description: '鲜香的冬笋炒肉片。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Aromalı kış bambusu et sotesi.'
   },
   {
     id: 'dried_persimmon',
-    name: '柿饼',
+    name: 'Kurutulmuş Trabzon Hurması',
     ingredients: [{ itemId: 'persimmon', quantity: 3 }],
     effect: { staminaRestore: 20, healthRestore: 5 },
-    unlockSource: '初始自带',
-    description: '晒干的柿饼，甘甜绵密。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Kurutulmuş, yoğun tatlılığa sahip trabzon hurması.'
   },
   {
     id: 'lotus_seed_soup',
-    name: '莲子羹',
+    name: 'Nilüfer Tohumu Tatlısı',
     ingredients: [
       { itemId: 'lotus_seed', quantity: 2 },
       { itemId: 'honey', quantity: 1 }
@@ -222,26 +222,26 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'luck', value: 15, description: '幸运+15%（当天）' }
+      buff: { type: 'luck', value: 15, description: 'Şans +15% (bugün)' }
     },
-    unlockSource: '烹饪等级5',
+    unlockSource: 'Yemek pişirme seviye 5',
     requiredSkill: { type: 'farming', level: 5 },
-    description: '清心安神的莲子羹。'
+    description: 'Zihni sakinleştiren nilüfer tohumu tatlısı.'
   },
   {
     id: 'sesame_paste',
-    name: '芝麻糊',
+    name: 'Susam Ezmesi',
     ingredients: [
       { itemId: 'sesame', quantity: 3 },
       { itemId: 'rice', quantity: 1 }
     ],
     effect: { staminaRestore: 30, healthRestore: 10 },
-    unlockSource: '初始自带',
-    description: '浓郁香滑的芝麻糊。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Yoğun aromalı ve pürüzsüz susam ezmesi.'
   },
   {
     id: 'ginseng_soup',
-    name: '人参汤',
+    name: 'Ginseng Çorbası',
     ingredients: [
       { itemId: 'ginseng', quantity: 1 },
       { itemId: 'herb', quantity: 2 },
@@ -250,26 +250,26 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'farming', value: 20, description: '农耕体力消耗-20%（当天）' }
+      buff: { type: 'farming', value: 20, description: 'Tarım dayanıklılık tüketimi -20% (bugün)' }
     },
-    unlockSource: '采集等级5',
+    unlockSource: 'Toplayıcılık seviye 5',
     requiredSkill: { type: 'foraging', level: 5 },
-    description: '滋补元气的人参汤。'
+    description: 'Canlandırıcı ginseng çorbası.'
   },
   {
     id: 'corn_pancake',
-    name: '玉米烙',
+    name: 'Mısır Tavası',
     ingredients: [
       { itemId: 'corn', quantity: 2 },
       { itemId: 'sesame_oil', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 10 },
-    unlockSource: '初始自带',
-    description: '金黄酥脆的玉米烙。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Altın sarısı ve çıtır mısır tavası.'
   },
   {
     id: 'osmanthus_lotus_root',
-    name: '桂花藕粉',
+    name: 'Osmanthus Lotus Kökü Peltesi',
     ingredients: [
       { itemId: 'osmanthus', quantity: 1 },
       { itemId: 'lotus_root', quantity: 1 }
@@ -277,112 +277,112 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'luck', value: 10, description: '幸运+10%（当天）' }
+      buff: { type: 'luck', value: 10, description: 'Şans +10% (bugün)' }
     },
-    unlockSource: '烹饪等级3',
+    unlockSource: 'Yemek pişirme seviye 3',
     requiredSkill: { type: 'farming', level: 3 },
-    description: '清香四溢的桂花藕粉。'
+    description: 'Mis gibi kokan osmanthus lotus kökü peltesi.'
   },
 
-  // ==================== 新增初始食谱 (8) ====================
+  // ==================== Yeni başlangıç tarifleri (8) ====================
   {
     id: 'scrambled_egg_rice',
-    name: '蛋炒饭',
+    name: 'Yumurtalı Kızarmış Pilav',
     ingredients: [
       { itemId: 'egg', quantity: 1 },
       { itemId: 'rice', quantity: 1 }
     ],
     effect: { staminaRestore: 20, healthRestore: 10 },
-    unlockSource: '初始自带',
-    description: '简单可口的蛋炒饭。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Basit ama lezzetli yumurtalı kızarmış pilav.'
   },
   {
     id: 'stir_fried_potato',
-    name: '炒土豆丝',
+    name: 'Patates Kavurması',
     ingredients: [{ itemId: 'potato', quantity: 2 }],
     effect: { staminaRestore: 18, healthRestore: 5 },
-    unlockSource: '初始自带',
-    description: '酸辣爽脆的炒土豆丝。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Ekşi-acı ve çıtır patates kavurması.'
   },
   {
     id: 'boiled_egg',
-    name: '水煮蛋',
+    name: 'Haşlanmış Yumurta',
     ingredients: [{ itemId: 'egg', quantity: 2 }],
     effect: { staminaRestore: 15, healthRestore: 10 },
-    unlockSource: '初始自带',
-    description: '最朴实的营养来源。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'En sade besin kaynağı.'
   },
   {
     id: 'congee',
-    name: '白粥',
+    name: 'Beyaz Lapa',
     ingredients: [{ itemId: 'rice', quantity: 2 }],
     effect: { staminaRestore: 15, healthRestore: 5 },
-    unlockSource: '初始自带',
-    description: '清淡养胃的白粥。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Mideyi rahatlatan hafif beyaz lapa.'
   },
   {
     id: 'rice_ball',
-    name: '饭团',
+    name: 'Pirinç Topu',
     ingredients: [{ itemId: 'rice', quantity: 1 }],
     effect: { staminaRestore: 12, healthRestore: 3 },
-    unlockSource: '初始自带',
-    description: '简单捏制的米饭团子，方便携带。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Kolay taşınabilen basit pirinç topları.'
   },
   {
     id: 'steamed_bun',
-    name: '馒头',
+    name: 'Mantou',
     ingredients: [{ itemId: 'wheat_flour', quantity: 1 }],
     effect: { staminaRestore: 12, healthRestore: 3 },
-    unlockSource: '初始自带',
-    description: '松软的白面馒头，最朴素的主食。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Yumuşak beyaz buğday ekmeği, en sade temel besin.'
   },
   {
     id: 'roasted_sweet_potato',
-    name: '烤红薯',
+    name: 'Fırınlanmış Tatlı Patates',
     ingredients: [{ itemId: 'sweet_potato', quantity: 2 }],
     effect: { staminaRestore: 20, healthRestore: 5 },
-    unlockSource: '初始自带',
-    description: '香甜绵软的烤红薯。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Tatlı ve yumuşacık fırınlanmış tatlı patates.'
   },
   {
     id: 'vegetable_soup',
-    name: '田园蔬菜汤',
+    name: 'Kır Sebze Çorbası',
     ingredients: [
       { itemId: 'cabbage', quantity: 1 },
       { itemId: 'radish', quantity: 1 },
       { itemId: 'firewood', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 10 },
-    unlockSource: '初始自带',
-    description: '新鲜蔬菜熬制的清汤。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Taze sebzelerle kaynatılmış hafif bir çorba.'
   },
   {
     id: 'chive_egg_stir_fry',
-    name: '韭菜炒蛋',
+    name: 'Frenk Soğanlı Yumurta',
     ingredients: [
       { itemId: 'chives', quantity: 2 },
       { itemId: 'egg', quantity: 1 }
     ],
     effect: { staminaRestore: 22, healthRestore: 10 },
-    unlockSource: '初始自带',
-    description: '韭菜与鸡蛋的经典搭配。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Frenk soğanı ve yumurtanın klasik uyumu.'
   },
   {
     id: 'peanut_candy',
-    name: '花生糖',
+    name: 'Fıstık Şekeri',
     ingredients: [
       { itemId: 'peanut', quantity: 3 },
       { itemId: 'honey', quantity: 1 }
     ],
     effect: { staminaRestore: 18, healthRestore: 5 },
-    unlockSource: '初始自带',
-    description: '酥脆香甜的花生糖。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Çıtır ve tatlı fıstık şekeri.'
   },
 
-  // ==================== NPC 好感食谱 — 相识 (1 新) ====================
+  // ==================== NPC yakınlık tarifleri — Tanışıklık (1 yeni) ====================
   {
     id: 'sweet_osmanthus_tea',
-    name: '桂花甜茶',
+    name: 'Tatlı Osmanthus Çayı',
     ingredients: [
       { itemId: 'osmanthus', quantity: 1 },
       { itemId: 'honey', quantity: 1 }
@@ -390,27 +390,27 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 20,
       healthRestore: 5,
-      buff: { type: 'luck', value: 10, description: '幸运+10%（当天）' }
+      buff: { type: 'luck', value: 10, description: 'Şans +10% (bugün)' }
     },
-    unlockSource: '小满好感「相识」',
-    description: '芬芳甜蜜的桂花甜茶。'
+    unlockSource: 'Xiaoman yakınlık: “Tanışıklık”',
+    description: 'Mis kokulu ve tatlı osmanthus çayı.'
   },
 
-  // ==================== NPC 好感食谱 — 相知 (6) ====================
+  // ==================== NPC yakınlık tarifleri — Yakın Dostluk (6) ====================
   {
     id: 'aged_radish_stew',
-    name: '老萝卜炖肉',
+    name: 'Uzun Pişmiş Turp Yahnisi',
     ingredients: [
       { itemId: 'radish', quantity: 3 },
       { itemId: 'firewood', quantity: 2 }
     ],
     effect: { staminaRestore: 40, healthRestore: 25 },
-    unlockSource: '陈伯好感「相知」',
-    description: '陈伯秘传的萝卜炖肉，入味三分。'
+    unlockSource: 'Chen Amca yakınlık: “Yakın Dostluk”',
+    description: 'Chen Amca’nın gizli turp yahni tarifi, iyice lezzetlenmiş.'
   },
   {
     id: 'maple_grilled_fish',
-    name: '枫叶烤鱼',
+    name: 'Akçaağaç Aromalı Izgara Balık',
     ingredients: [
       { itemId: 'mandarin_fish', quantity: 1 },
       { itemId: 'firewood', quantity: 1 }
@@ -418,25 +418,25 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'fishing', value: 2, description: '钓鱼技能+2（当天）' }
+      buff: { type: 'fishing', value: 2, description: 'Balıkçılık becerisi +2 (bugün)' }
     },
-    unlockSource: '秋月好感「相知」',
-    description: '秋月独创的枫叶烤鱼法。'
+    unlockSource: 'Qiuyue yakınlık: “Yakın Dostluk”',
+    description: 'Qiuyue’nin kendi icadı akçaağaç aromalı ızgara balık yöntemi.'
   },
   {
     id: 'herbal_pill',
-    name: '百草丹',
+    name: 'Yüz Ot Hapı',
     ingredients: [
       { itemId: 'herb', quantity: 3 },
       { itemId: 'ginseng', quantity: 1 }
     ],
     effect: { staminaRestore: 60, healthRestore: 30 },
-    unlockSource: '林老好感「相知」',
-    description: '林老配方的百草良药。'
+    unlockSource: 'Yaşlı Lin yakınlık: “Yakın Dostluk”',
+    description: 'Yaşlı Lin’in hazırladığı şifalı bitki ilacı.'
   },
   {
     id: 'embroidered_cake',
-    name: '绣囊糕',
+    name: 'İşlemeli Kese Keki',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'osmanthus', quantity: 2 }
@@ -444,14 +444,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 15,
-      buff: { type: 'giftBonus', value: 2, description: '送礼好感×2（当天）' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
     },
-    unlockSource: '柳娘好感「相知」',
-    description: '柳娘精心制作的绣囊糕。'
+    unlockSource: 'Liuniang yakınlık: “Yakın Dostluk”',
+    description: 'Liuniang’ın özenle yaptığı özel kek.'
   },
   {
     id: 'deep_mine_stew',
-    name: '深矿炖菜',
+    name: 'Derin Maden Güveci',
     ingredients: [
       { itemId: 'potato', quantity: 2 },
       { itemId: 'copper_ore', quantity: 2 },
@@ -460,14 +460,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 35,
-      buff: { type: 'mining', value: 30, description: '挖矿体力消耗-30%（当天）' }
+      buff: { type: 'mining', value: 30, description: 'Madencilik dayanıklılık tüketimi -30% (bugün)' }
     },
-    unlockSource: '阿石好感「相知」',
-    description: '阿石在矿洞深处发明的炖菜。'
+    unlockSource: 'Ashi yakınlık: “Yakın Dostluk”',
+    description: 'Ashi’nin madenin derinliklerinde icat ettiği yahni.'
   },
   {
     id: 'wild_berry_jam',
-    name: '野果酱',
+    name: 'Yabani Meyve Reçeli',
     ingredients: [
       { itemId: 'wild_berry', quantity: 3 },
       { itemId: 'honey', quantity: 1 }
@@ -475,16 +475,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 25,
       healthRestore: 10,
-      buff: { type: 'speed', value: 20, description: '行动速度+20%（当天）' }
+      buff: { type: 'speed', value: 20, description: 'Hareket hızı +20% (bugün)' }
     },
-    unlockSource: '小满好感「相知」',
-    description: '小满用林中野果做的果酱。'
+    unlockSource: 'Xiaoman yakınlık: “Yakın Dostluk”',
+    description: 'Xiaoman’ın orman meyveleriyle yaptığı reçel.'
   },
 
-  // ==================== NPC 好感食谱 — 挚友 (6) ====================
+  // ==================== NPC yakınlık tarifleri — En İyi Dost (6) ====================
   {
     id: 'farmers_feast',
-    name: '农家盛宴',
+    name: 'Çiftçi Şöleni',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'cabbage', quantity: 2 },
@@ -494,14 +494,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 40,
-      buff: { type: 'farming', value: 25, description: '农耕体力消耗-25%（当天）' }
+      buff: { type: 'farming', value: 25, description: 'Tarım dayanıklılık tüketimi -25% (bugün)' }
     },
-    unlockSource: '陈伯好感「挚友」',
-    description: '陈伯压箱底的农家大菜。'
+    unlockSource: 'Chen Amca yakınlık: “En İyi Dost”',
+    description: 'Chen Amca’nın sakladığı büyük çiftçi yemeği.'
   },
   {
     id: 'autumn_moon_feast',
-    name: '秋月宴',
+    name: 'Sonbahar Ayı Ziyafeti',
     ingredients: [
       { itemId: 'mandarin_fish', quantity: 1 },
       { itemId: 'river_crab', quantity: 1 },
@@ -510,26 +510,26 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'luck', value: 20, description: '幸运+20%（当天）' }
+      buff: { type: 'luck', value: 20, description: 'Şans +20% (bugün)' }
     },
-    unlockSource: '秋月好感「挚友」',
-    description: '秋月为挚友备的秋夜佳宴。'
+    unlockSource: 'Qiuyue yakınlık: “En İyi Dost”',
+    description: 'Qiuyue’nin yakın dostu için hazırladığı sonbahar gecesi ziyafeti.'
   },
   {
     id: 'longevity_soup',
-    name: '长生汤',
+    name: 'Uzun Ömür Çorbası',
     ingredients: [
       { itemId: 'ginseng', quantity: 2 },
       { itemId: 'herb', quantity: 3 },
       { itemId: 'honey', quantity: 1 }
     ],
     effect: { staminaRestore: 80, healthRestore: 40 },
-    unlockSource: '林老好感「挚友」',
-    description: '林老毕生心血的养生秘方。'
+    unlockSource: 'Yaşlı Lin yakınlık: “En İyi Dost”',
+    description: 'Yaşlı Lin’in hayat boyu biriktirdiği sağlık reçetesi.'
   },
   {
     id: 'lovers_pastry',
-    name: '鸳鸯酥',
+    name: 'Aşıklar Böreği',
     ingredients: [
       { itemId: 'peach', quantity: 2 },
       { itemId: 'rice', quantity: 2 },
@@ -538,14 +538,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'giftBonus', value: 3, description: '送礼好感×3（当天）' }
+      buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı ×3 (bugün)' }
     },
-    unlockSource: '柳娘好感「挚友」',
-    description: '柳娘专为有情人做的鸳鸯酥。'
+    unlockSource: 'Liuniang yakınlık: “En İyi Dost”',
+    description: 'Liuniang’ın aşıklar için özel yaptığı tatlı börek.'
   },
   {
     id: 'forgemasters_meal',
-    name: '锻造师套餐',
+    name: 'Dövme Ustası Menüsü',
     ingredients: [
       { itemId: 'iron_ore', quantity: 2 },
       { itemId: 'potato', quantity: 3 },
@@ -554,14 +554,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 50,
-      buff: { type: 'defense', value: 25, description: '受到伤害-25%（当天）' }
+      buff: { type: 'defense', value: 25, description: 'Alınan hasar -25% (bugün)' }
     },
-    unlockSource: '阿石好感「挚友」',
-    description: '阿石独创的锻造师能量餐。'
+    unlockSource: 'Ashi yakınlık: “En İyi Dost”',
+    description: 'Ashi’nin kendi icadı yüksek enerjili demirci yemeği.'
   },
   {
     id: 'spirit_fruit_wine',
-    name: '灵果酒',
+    name: 'Ruh Meyvesi Şarabı',
     ingredients: [
       { itemId: 'wild_berry', quantity: 3 },
       { itemId: 'honey', quantity: 2 }
@@ -569,16 +569,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'luck', value: 25, description: '幸运+25%（当天）' }
+      buff: { type: 'luck', value: 25, description: 'Şans +25% (bugün)' }
     },
-    unlockSource: '小满好感「挚友」',
-    description: '小满用灵果酿的幸运酒。'
+    unlockSource: 'Xiaoman yakınlık: “En İyi Dost”',
+    description: 'Xiaoman’ın ruh meyvelerinden yaptığı şans şarabı.'
   },
 
-  // ==================== NPC 结婚食谱 (12) ====================
+  // ==================== NPC evlilik tarifleri (12) ====================
   {
     id: 'phoenix_cake',
-    name: '凤凰糕',
+    name: 'Anka Keki',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'osmanthus', quantity: 2 },
@@ -588,14 +588,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'giftBonus', value: 3, description: '送礼好感×3（当天）' }
+      buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı ×3 (bugün)' }
     },
-    unlockSource: '与柳娘结婚后',
-    description: '柳娘婚后传授的凤凰糕秘方。'
+    unlockSource: 'Liuniang ile evlendikten sonra',
+    description: 'Liuniang’ın evlilik sonrası öğrettiği Anka keki tarifi.'
   },
   {
     id: 'molten_hotpot',
-    name: '熔岩铁锅',
+    name: 'Lav Demir Tencere',
     ingredients: [
       { itemId: 'iron_ore', quantity: 3 },
       { itemId: 'chili', quantity: 2 },
@@ -604,14 +604,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 50,
-      buff: { type: 'mining', value: 35, description: '挖矿体力消耗-35%（当天）' }
+      buff: { type: 'mining', value: 35, description: 'Madencilik dayanıklılık tüketimi -35% (bugün)' }
     },
-    unlockSource: '与阿石结婚后',
-    description: '阿石婚后教你的熔岩铁锅料理。'
+    unlockSource: 'Ashi ile evlendikten sonra',
+    description: 'Ashi’nin evlilik sonrası öğrettiği lav tencere yemeği.'
   },
   {
     id: 'moonlight_sashimi',
-    name: '月下刺身',
+    name: 'Ay Işığı Sashimi',
     ingredients: [
       { itemId: 'sturgeon', quantity: 1 },
       { itemId: 'ginger', quantity: 1 }
@@ -619,14 +619,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 20,
-      buff: { type: 'fishing', value: 3, description: '钓鱼技能+3（当天）' }
+      buff: { type: 'fishing', value: 3, description: 'Balıkçılık becerisi +3 (bugün)' }
     },
-    unlockSource: '与秋月结婚后',
-    description: '秋月婚后分享的月下刺身。'
+    unlockSource: 'Qiuyue ile evlendikten sonra',
+    description: 'Qiuyue’nin evlilik sonrası paylaştığı ay ışığı sashimi.'
   },
   {
     id: 'tea_banquet',
-    name: '茶宴八珍',
+    name: 'Sekiz Hazineli Çay Şöleni',
     ingredients: [
       { itemId: 'tea', quantity: 3 },
       { itemId: 'lotus_seed', quantity: 2 },
@@ -635,14 +635,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 30,
-      buff: { type: 'giftBonus', value: 2, description: '送礼好感×2（当天）' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
     },
-    unlockSource: '与春兰结婚后',
-    description: '春兰婚后传授的茶宴配方，以茶入馔。'
+    unlockSource: 'Chunlan ile evlendikten sonra',
+    description: 'Chunlan’ın çayla hazırlanan özel şölen tarifi.'
   },
   {
     id: 'snow_plum_soup',
-    name: '雪梅羹',
+    name: 'Kar Erik Tatlısı',
     ingredients: [
       { itemId: 'snow_lotus', quantity: 1 },
       { itemId: 'honey', quantity: 2 }
@@ -650,14 +650,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 65,
       healthRestore: 35,
-      buff: { type: 'luck', value: 3, description: '幸运+3（当天）' }
+      buff: { type: 'luck', value: 3, description: 'Şans +3 (bugün)' }
     },
-    unlockSource: '与雪芹结婚后',
-    description: '雪芹婚后分享的画室私房羹汤。'
+    unlockSource: 'Xueqin ile evlendikten sonra',
+    description: 'Xueqin’in atölye mutfağından özel tatlı çorba.'
   },
   {
     id: 'silk_dumpling',
-    name: '锦囊玉饺',
+    name: 'İpek Bohça Mantısı',
     ingredients: [
       { itemId: 'silk', quantity: 1 },
       { itemId: 'rice', quantity: 2 },
@@ -666,14 +666,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'giftBonus', value: 2, description: '送礼好感×2（当天）' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
     },
-    unlockSource: '与素素结婚后',
-    description: '素素婚后教你包的精致饺子，形如锦囊。'
+    unlockSource: 'Susu ile evlendikten sonra',
+    description: 'Susu’nun öğrettiği, bohça biçiminde zarif mantılar.'
   },
   {
     id: 'drunken_chicken',
-    name: '醉仙鸡',
+    name: 'Sarhoş Tavuk',
     ingredients: [
       { itemId: 'egg', quantity: 3 },
       { itemId: 'peach_wine', quantity: 1 },
@@ -682,14 +682,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 40,
-      buff: { type: 'farming', value: 30, description: '农作体力消耗-30%（当天）' }
+      buff: { type: 'farming', value: 30, description: 'Tarım dayanıklılık tüketimi -30% (bugün)' }
     },
-    unlockSource: '与红豆结婚后',
-    description: '红豆婚后传授的酒香名菜。'
+    unlockSource: 'Hongdou ile evlendikten sonra',
+    description: 'Hongdou’nun öğrettiği şarap aromalı meşhur yemek.'
   },
   {
     id: 'scholars_porridge',
-    name: '文曲星粥',
+    name: 'Bilgin Lapası',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'tea', quantity: 1 },
@@ -698,14 +698,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 30,
-      buff: { type: 'speed', value: 2, description: '移动速度+2（当天）' }
+      buff: { type: 'speed', value: 2, description: 'Hareket hızı +2 (bugün)' }
     },
-    unlockSource: '与丹青结婚后',
-    description: '丹青婚后按古方熬煮的养心粥。'
+    unlockSource: 'Danqing ile evlendikten sonra',
+    description: 'Danqing’in eski tariflere göre yaptığı sakinleştirici lapa.'
   },
   {
     id: 'ironforge_stew',
-    name: '铁匠炖',
+    name: 'Demirci Güveci',
     ingredients: [
       { itemId: 'potato', quantity: 3 },
       { itemId: 'corn', quantity: 2 },
@@ -714,14 +714,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 50,
-      buff: { type: 'mining', value: 40, description: '挖矿体力消耗-40%（当天）' }
+      buff: { type: 'mining', value: 40, description: 'Madencilik dayanıklılık tüketimi -40% (bugün)' }
     },
-    unlockSource: '与阿铁结婚后',
-    description: '阿铁婚后做的粗犷炖菜，量大管饱。'
+    unlockSource: 'Atie ile evlendikten sonra',
+    description: 'Atie’nin doyurucu ve kaba ama güçlü güveci.'
   },
   {
     id: 'hunters_roast',
-    name: '猎人烤',
+    name: 'Avcı Kızartması',
     ingredients: [
       { itemId: 'wild_mushroom', quantity: 3 },
       { itemId: 'herb', quantity: 2 },
@@ -730,14 +730,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 45,
-      buff: { type: 'defense', value: 3, description: '防御+3（当天）' }
+      buff: { type: 'defense', value: 3, description: 'Savunma +3 (bugün)' }
     },
-    unlockSource: '与云飞结婚后',
-    description: '云飞婚后教你的山野烤法。'
+    unlockSource: 'Yunfei ile evlendikten sonra',
+    description: 'Yunfei’nin öğrettiği dağ usulü kızartma.'
   },
   {
     id: 'ranch_milk_soup',
-    name: '牧场鲜奶汤',
+    name: 'Çiftlik Süt Çorbası',
     ingredients: [
       { itemId: 'milk', quantity: 2 },
       { itemId: 'corn', quantity: 2 },
@@ -746,14 +746,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 35,
-      buff: { type: 'farming', value: 25, description: '农作体力消耗-25%（当天）' }
+      buff: { type: 'farming', value: 25, description: 'Tarım dayanıklılık tüketimi -25% (bugün)' }
     },
-    unlockSource: '与大牛结婚后',
-    description: '大牛婚后常做的香浓奶汤。'
+    unlockSource: 'Daniu ile evlendikten sonra',
+    description: 'Daniu’nun sık yaptığı yoğun süt çorbası.'
   },
   {
     id: 'moonlit_tea_rice',
-    name: '月下茶泡饭',
+    name: 'Ay Işığında Çaylı Pilav',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'tea', quantity: 2 },
@@ -762,16 +762,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'luck', value: 2, description: '幸运+2（当天）' }
+      buff: { type: 'luck', value: 2, description: 'Şans +2 (bugün)' }
     },
-    unlockSource: '与墨白结婚后',
-    description: '墨白婚后常在月下泡的清淡茶饭。'
+    unlockSource: 'Mobai ile evlendikten sonra',
+    description: 'Mobai’nin ay ışığında sık hazırladığı hafif çaylı pilav.'
   },
 
-  // ==================== 农耕技能食谱 (3 新) ====================
+  // ==================== Tarım becerisi tarifleri (3 yeni) ====================
   {
     id: 'pumpkin_pie',
-    name: '南瓜饼',
+    name: 'Balkabağı Tatlısı',
     ingredients: [
       { itemId: 'pumpkin', quantity: 2 },
       { itemId: 'rice', quantity: 1 }
@@ -779,15 +779,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'farming', value: 15, description: '农耕体力消耗-15%（当天）' }
+      buff: { type: 'farming', value: 15, description: 'Tarım dayanıklılık tüketimi -15% (bugün)' }
     },
-    unlockSource: '农耕等级6',
+    unlockSource: 'Tarım seviye 6',
     requiredSkill: { type: 'farming', level: 6 },
-    description: '金黄松软的南瓜饼。'
+    description: 'Altın sarısı ve yumuşacık balkabağı tatlısı.'
   },
   {
     id: 'golden_fried_rice',
-    name: '黄金炒饭',
+    name: 'Altın Kızarmış Pilav',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'egg', quantity: 2 },
@@ -796,15 +796,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'farming', value: 20, description: '农耕体力消耗-20%（当天）' }
+      buff: { type: 'farming', value: 20, description: 'Tarım dayanıklılık tüketimi -20% (bugün)' }
     },
-    unlockSource: '农耕等级7',
+    unlockSource: 'Tarım seviye 7',
     requiredSkill: { type: 'farming', level: 7 },
-    description: '粒粒金黄的炒饭。'
+    description: 'Taneleri altın gibi parlayan kızarmış pilav.'
   },
   {
     id: 'supreme_farm_feast',
-    name: '田园盛筵',
+    name: 'Kırsal Büyük Şölen',
     ingredients: [
       { itemId: 'pumpkin', quantity: 1 },
       { itemId: 'watermelon', quantity: 1 },
@@ -814,17 +814,17 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 35,
-      buff: { type: 'farming', value: 30, description: '农耕体力消耗-30%（当天）' }
+      buff: { type: 'farming', value: 30, description: 'Tarım dayanıklılık tüketimi -30% (bugün)' }
     },
-    unlockSource: '农耕等级9',
+    unlockSource: 'Tarım seviye 9',
     requiredSkill: { type: 'farming', level: 9 },
-    description: '集四季精华的田园盛筵。'
+    description: 'Dört mevsimin özünü taşıyan kır şöleni.'
   },
 
-  // ==================== 钓鱼技能食谱 (5 新) ====================
+  // ==================== Balıkçılık becerisi tarifleri (5 yeni) ====================
   {
     id: 'braised_catfish',
-    name: '红烧鲶鱼',
+    name: 'Kızarmış Yayın Balığı',
     ingredients: [
       { itemId: 'catfish', quantity: 1 },
       { itemId: 'chili', quantity: 1 }
@@ -832,15 +832,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'fishing', value: 1, description: '钓鱼技能+1（当天）' }
+      buff: { type: 'fishing', value: 1, description: 'Balıkçılık becerisi +1 (bugün)' }
     },
-    unlockSource: '钓鱼等级4',
+    unlockSource: 'Balıkçılık seviye 4',
     requiredSkill: { type: 'fishing', level: 4 },
-    description: '辣味十足的红烧鲶鱼。'
+    description: 'Bol acılı kızarmış yayın balığı.'
   },
   {
     id: 'grilled_eel',
-    name: '烤鳗鱼',
+    name: 'Izgara Yılan Balığı',
     ingredients: [
       { itemId: 'eel', quantity: 1 },
       { itemId: 'sesame', quantity: 1 },
@@ -849,15 +849,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'fishing', value: 2, description: '钓鱼技能+2（当天）' }
+      buff: { type: 'fishing', value: 2, description: 'Balıkçılık becerisi +2 (bugün)' }
     },
-    unlockSource: '钓鱼等级5',
+    unlockSource: 'Balıkçılık seviye 5',
     requiredSkill: { type: 'fishing', level: 5 },
-    description: '外焦里嫩的烤鳗鱼。'
+    description: 'Dışı çıtır, içi yumuşak ızgara yılan balığı.'
   },
   {
     id: 'crab_soup',
-    name: '蟹黄汤',
+    name: 'Yengeç Yumurtası Çorbası',
     ingredients: [
       { itemId: 'river_crab', quantity: 2 },
       { itemId: 'ginger', quantity: 1 }
@@ -865,15 +865,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'luck', value: 15, description: '幸运+15%（当天）' }
+      buff: { type: 'luck', value: 15, description: 'Şans +15% (bugün)' }
     },
-    unlockSource: '钓鱼等级6',
+    unlockSource: 'Balıkçılık seviye 6',
     requiredSkill: { type: 'fishing', level: 6 },
-    description: '鲜美浓郁的蟹黄汤。'
+    description: 'Yoğun aromalı yengeç yumurtası çorbası.'
   },
   {
     id: 'sturgeon_stew',
-    name: '鲟鱼羹',
+    name: 'Mersin Balığı Güveci',
     ingredients: [
       { itemId: 'sturgeon', quantity: 1 },
       { itemId: 'herb', quantity: 1 },
@@ -882,15 +882,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 30,
-      buff: { type: 'fishing', value: 3, description: '钓鱼技能+3（当天）' }
+      buff: { type: 'fishing', value: 3, description: 'Balıkçılık becerisi +3 (bugün)' }
     },
-    unlockSource: '钓鱼等级7',
+    unlockSource: 'Balıkçılık seviye 7',
     requiredSkill: { type: 'fishing', level: 7 },
-    description: '珍贵的鲟鱼炖羹。'
+    description: 'Nadir mersin balığından yapılan özel güveç.'
   },
   {
     id: 'dragon_sashimi',
-    name: '龙鱼刺身',
+    name: 'Ejder Balığı Sashimi',
     ingredients: [
       { itemId: 'dragonfish', quantity: 1 },
       { itemId: 'ginger', quantity: 2 }
@@ -898,30 +898,30 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 35,
-      buff: { type: 'fishing', value: 4, description: '钓鱼技能+4（当天）' }
+      buff: { type: 'fishing', value: 4, description: 'Balıkçılık becerisi +4 (bugün)' }
     },
-    unlockSource: '钓鱼等级8',
+    unlockSource: 'Balıkçılık seviye 8',
     requiredSkill: { type: 'fishing', level: 8 },
-    description: '传说龙鱼制成的极品刺身。'
+    description: 'Efsanevi ejder balığından yapılmış üstün sashimi.'
   },
 
-  // ==================== 采矿技能食谱 (5 新) ====================
+  // ==================== Madencilik becerisi tarifleri (5 yeni) ====================
   {
     id: 'stone_soup',
-    name: '矿石汤',
+    name: 'Maden Taşı Çorbası',
     ingredients: [
       { itemId: 'copper_ore', quantity: 2 },
       { itemId: 'radish', quantity: 1 },
       { itemId: 'firewood', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 20 },
-    unlockSource: '采矿等级3',
+    unlockSource: 'Madencilik seviye 3',
     requiredSkill: { type: 'mining', level: 3 },
-    description: '矿洞中就地取材的汤。'
+    description: 'Maden içinde bulunan malzemelerle yapılan çorba.'
   },
   {
     id: 'crystal_jelly',
-    name: '水晶冻',
+    name: 'Kristal Jöle',
     ingredients: [
       { itemId: 'crystal_ore', quantity: 1 },
       { itemId: 'honey', quantity: 1 }
@@ -929,15 +929,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 25,
-      buff: { type: 'mining', value: 25, description: '挖矿体力消耗-25%（当天）' }
+      buff: { type: 'mining', value: 25, description: 'Madencilik dayanıklılık tüketimi -25% (bugün)' }
     },
-    unlockSource: '采矿等级5',
+    unlockSource: 'Madencilik seviye 5',
     requiredSkill: { type: 'mining', level: 5 },
-    description: '晶莹剔透的水晶冻。'
+    description: 'Kristal gibi berrak ve titreşimli jöle.'
   },
   {
     id: 'iron_tonic',
-    name: '铁骨汤',
+    name: 'Demir Kemik Çorbası',
     ingredients: [
       { itemId: 'iron_ore', quantity: 2 },
       { itemId: 'herb', quantity: 2 },
@@ -946,15 +946,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 35,
-      buff: { type: 'defense', value: 20, description: '受到伤害-20%（当天）' }
+      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (bugün)' }
     },
-    unlockSource: '采矿等级6',
+    unlockSource: 'Madencilik seviye 6',
     requiredSkill: { type: 'mining', level: 6 },
-    description: '强筋健骨的铁骨汤。'
+    description: 'Kasları ve kemikleri güçlendiren demir çorbası.'
   },
   {
     id: 'gold_dumpling',
-    name: '金矿饺',
+    name: 'Altın Maden Mantısı',
     ingredients: [
       { itemId: 'gold_ore', quantity: 1 },
       { itemId: 'winter_wheat', quantity: 2 }
@@ -962,15 +962,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 30,
-      buff: { type: 'mining', value: 30, description: '挖矿体力消耗-30%（当天）' }
+      buff: { type: 'mining', value: 30, description: 'Madencilik dayanıklılık tüketimi -30% (bugün)' }
     },
-    unlockSource: '采矿等级7',
+    unlockSource: 'Madencilik seviye 7',
     requiredSkill: { type: 'mining', level: 7 },
-    description: '金粉入馅的矿工饺子。'
+    description: 'Altın tozu dolgulu madenci mantısı.'
   },
   {
     id: 'void_essence_soup',
-    name: '虚空精华汤',
+    name: 'Boşluk Özlü Çorba',
     ingredients: [
       { itemId: 'void_ore', quantity: 1 },
       { itemId: 'ginseng', quantity: 1 },
@@ -979,29 +979,29 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 40,
-      buff: { type: 'mining', value: 35, description: '挖矿体力消耗-35%（当天）' }
+      buff: { type: 'mining', value: 35, description: 'Madencilik dayanıklılık tüketimi -35% (bugün)' }
     },
-    unlockSource: '采矿等级8',
+    unlockSource: 'Madencilik seviye 8',
     requiredSkill: { type: 'mining', level: 8 },
-    description: '虚空矿石炼制的神秘汤剂。'
+    description: 'Boşluk cevherinden hazırlanmış gizemli çorba.'
   },
 
-  // ==================== 采集技能食谱 (4 新) ====================
+  // ==================== Toplayıcılık becerisi tarifleri (4 yeni) ====================
   {
     id: 'wild_salad',
-    name: '野菜沙拉',
+    name: 'Yabani Ot Salatası',
     ingredients: [
       { itemId: 'herb', quantity: 2 },
       { itemId: 'wild_berry', quantity: 1 }
     ],
     effect: { staminaRestore: 20, healthRestore: 10 },
-    unlockSource: '采集等级3',
+    unlockSource: 'Toplayıcılık seviye 3',
     requiredSkill: { type: 'foraging', level: 3 },
-    description: '山间新鲜野菜拌成的沙拉。'
+    description: 'Dağdan toplanmış taze otlarla yapılan salata.'
   },
   {
     id: 'mushroom_stew',
-    name: '蘑菇炖',
+    name: 'Mantar Güveci',
     ingredients: [
       { itemId: 'wild_mushroom', quantity: 3 },
       { itemId: 'firewood', quantity: 1 }
@@ -1009,15 +1009,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 20,
-      buff: { type: 'speed', value: 15, description: '行动速度+15%（当天）' }
+      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (bugün)' }
     },
-    unlockSource: '采集等级4',
+    unlockSource: 'Toplayıcılık seviye 4',
     requiredSkill: { type: 'foraging', level: 4 },
-    description: '野生蘑菇慢炖的浓汤。'
+    description: 'Yavaş pişirilmiş yabani mantar çorbası.'
   },
   {
     id: 'forest_tonic',
-    name: '林间补药',
+    name: 'Orman Güç İlacı',
     ingredients: [
       { itemId: 'ginseng', quantity: 1 },
       { itemId: 'wild_mushroom', quantity: 2 },
@@ -1026,15 +1026,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 30,
-      buff: { type: 'farming', value: 20, description: '农耕体力消耗-20%（当天）' }
+      buff: { type: 'farming', value: 20, description: 'Tarım dayanıklılık tüketimi -20% (bugün)' }
     },
-    unlockSource: '采集等级7',
+    unlockSource: 'Toplayıcılık seviye 7',
     requiredSkill: { type: 'foraging', level: 7 },
-    description: '林中珍材熬制的补药。'
+    description: 'Ormanın değerli malzemeleriyle hazırlanan tonik.'
   },
   {
     id: 'spirit_herb_elixir',
-    name: '灵草秘药',
+    name: 'Ruh Otu İksiri',
     ingredients: [
       { itemId: 'ginseng', quantity: 2 },
       { itemId: 'herb', quantity: 3 },
@@ -1043,29 +1043,29 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 40,
-      buff: { type: 'luck', value: 25, description: '幸运+25%（当天）' }
+      buff: { type: 'luck', value: 25, description: 'Şans +25% (bugün)' }
     },
-    unlockSource: '采集等级9',
+    unlockSource: 'Toplayıcılık seviye 9',
     requiredSkill: { type: 'foraging', level: 9 },
-    description: '采集大师秘传的灵草药剂。'
+    description: 'Usta toplayıcıların gizli ruh otu ilacı.'
   },
 
-  // ==================== 战斗技能食谱 (5 新) ====================
+  // ==================== Savaş becerisi tarifleri (5 yeni) ====================
   {
     id: 'warrior_ration',
-    name: '战士口粮',
+    name: 'Savaşçı Kumanyası',
     ingredients: [
       { itemId: 'potato', quantity: 2 },
       { itemId: 'egg', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 25 },
-    unlockSource: '战斗等级3',
+    unlockSource: 'Savaş seviye 3',
     requiredSkill: { type: 'combat', level: 3 },
-    description: '简单实用的战士口粮。'
+    description: 'Basit ama kullanışlı bir savaşçı kumanyası.'
   },
   {
     id: 'battle_stew',
-    name: '战斗炖菜',
+    name: 'Savaş Güveci',
     ingredients: [
       { itemId: 'chili', quantity: 1 },
       { itemId: 'potato', quantity: 1 },
@@ -1074,15 +1074,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 30,
-      buff: { type: 'defense', value: 15, description: '受到伤害-15%（当天）' }
+      buff: { type: 'defense', value: 15, description: 'Alınan hasar -15% (bugün)' }
     },
-    unlockSource: '战斗等级4',
+    unlockSource: 'Savaş seviye 4',
     requiredSkill: { type: 'combat', level: 4 },
-    description: '提升战斗力的辛辣炖菜。'
+    description: 'Savaş gücünü artıran acılı güveç.'
   },
   {
     id: 'iron_fist_soup',
-    name: '铁拳汤',
+    name: 'Demir Yumruk Çorbası',
     ingredients: [
       { itemId: 'iron_ore', quantity: 1 },
       { itemId: 'chili', quantity: 2 },
@@ -1091,15 +1091,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 35,
-      buff: { type: 'defense', value: 20, description: '受到伤害-20%（当天）' }
+      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (bugün)' }
     },
-    unlockSource: '战斗等级5',
+    unlockSource: 'Savaş seviye 5',
     requiredSkill: { type: 'combat', level: 5 },
-    description: '拳师专用的铁拳汤。'
+    description: 'Dövüşçülere özel demir yumruk çorbası.'
   },
   {
     id: 'shadow_brew',
-    name: '暗影酿',
+    name: 'Gölge Demlemesi',
     ingredients: [
       { itemId: 'shadow_ore', quantity: 1 },
       { itemId: 'herb', quantity: 2 },
@@ -1108,15 +1108,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 40,
-      buff: { type: 'defense', value: 25, description: '受到伤害-25%（当天）' }
+      buff: { type: 'defense', value: 25, description: 'Alınan hasar -25% (bugün)' }
     },
-    unlockSource: '战斗等级7',
+    unlockSource: 'Savaş seviye 7',
     requiredSkill: { type: 'combat', level: 7 },
-    description: '暗影矿石酿制的神秘饮品。'
+    description: 'Gölge cevherinden hazırlanan gizemli bir içecek.'
   },
   {
     id: 'void_elixir',
-    name: '虚空药剂',
+    name: 'Boşluk İksiri',
     ingredients: [
       { itemId: 'void_ore', quantity: 1 },
       { itemId: 'ginseng', quantity: 1 },
@@ -1125,17 +1125,17 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 50,
-      buff: { type: 'defense', value: 30, description: '受到伤害-30%（当天）' }
+      buff: { type: 'defense', value: 30, description: 'Alınan hasar -30% (bugün)' }
     },
-    unlockSource: '战斗等级9',
+    unlockSource: 'Savaş seviye 9',
     requiredSkill: { type: 'combat', level: 9 },
-    description: '战斗大师炼制的终极药剂。'
+    description: 'Savaş ustalarının hazırladığı nihai iksir.'
   },
 
-  // ==================== 季节节日食谱 (4) ====================
+  // ==================== Mevsimlik ve festival tarifleri (4) ====================
   {
     id: 'spring_roll',
-    name: '春卷',
+    name: 'Bahar Böreği',
     ingredients: [
       { itemId: 'cabbage', quantity: 2 },
       { itemId: 'bamboo_shoot', quantity: 1 },
@@ -1144,14 +1144,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 15,
-      buff: { type: 'speed', value: 15, description: '行动速度+15%（当天）' }
+      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (bugün)' }
     },
-    unlockSource: '春耕祭奖励',
-    description: '春耕祭传统的春卷。'
+    unlockSource: 'İlkbahar Tarım Festivali ödülü',
+    description: 'İlkbahar festivalinin geleneksel böreği.'
   },
   {
     id: 'lotus_lantern_cake',
-    name: '荷灯糕',
+    name: 'Lotus Feneri Keki',
     ingredients: [
       { itemId: 'lotus_seed', quantity: 2 },
       { itemId: 'rice', quantity: 2 },
@@ -1160,14 +1160,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'luck', value: 15, description: '幸运+15%（当天）' }
+      buff: { type: 'luck', value: 15, description: 'Şans +15% (bugün)' }
     },
-    unlockSource: '荷灯节奖励',
-    description: '荷灯节限定的荷灯糕。'
+    unlockSource: 'Lotus Feneri Festivali ödülü',
+    description: 'Lotus feneri festivaline özel kek.'
   },
   {
     id: 'harvest_feast',
-    name: '丰收盛宴',
+    name: 'Hasat Şöleni',
     ingredients: [
       { itemId: 'pumpkin', quantity: 1 },
       { itemId: 'sweet_potato', quantity: 1 },
@@ -1177,14 +1177,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'farming', value: 20, description: '农耕体力消耗-20%（当天）' }
+      buff: { type: 'farming', value: 20, description: 'Tarım dayanıklılık tüketimi -20% (bugün)' }
     },
-    unlockSource: '丰收宴奖励',
-    description: '丰收宴上的传统大菜。'
+    unlockSource: 'Hasat Şöleni ödülü',
+    description: 'Hasat şenliğinin geleneksel büyük yemeği.'
   },
   {
     id: 'new_year_dumpling',
-    name: '年夜饺',
+    name: 'Yılbaşı Mantısı',
     ingredients: [
       { itemId: 'winter_wheat', quantity: 3 },
       { itemId: 'napa_cabbage', quantity: 2 },
@@ -1193,16 +1193,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'luck', value: 20, description: '幸运+20%（当天）' }
+      buff: { type: 'luck', value: 20, description: 'Şans +20% (bugün)' }
     },
-    unlockSource: '除夕守岁奖励',
-    description: '除夕夜包的幸运饺子。'
+    unlockSource: 'Yılbaşı gecesi ödülü',
+    description: 'Yılbaşı gecesi yapılan şans mantısı.'
   },
 
-  // ==================== 新增节日食谱 (10) ====================
+  // ==================== Yeni festival tarifleri (10) ====================
   {
     id: 'nian_gao',
-    name: '年糕',
+    name: 'Yıl Keki',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'honey', quantity: 1 }
@@ -1210,14 +1210,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 15,
-      buff: { type: 'farming', value: 10, description: '农耕体力消耗-10%（当天）' }
+      buff: { type: 'farming', value: 10, description: 'Tarım dayanıklılık tüketimi -10% (bugün)' }
     },
-    unlockSource: '元日奖励',
-    description: '「年年高」的吉祥年糕。'
+    unlockSource: 'Yılbaşı ödülü',
+    description: '“Her yıl daha yükseğe” anlamı taşıyan uğurlu yıl keki.'
   },
   {
     id: 'hua_gao',
-    name: '花糕',
+    name: 'Çiçek Keki',
     ingredients: [
       { itemId: 'peach', quantity: 2 },
       { itemId: 'rice', quantity: 1 },
@@ -1226,14 +1226,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 10,
-      buff: { type: 'luck', value: 10, description: '幸运+10%（当天）' }
+      buff: { type: 'luck', value: 10, description: 'Şans +10% (bugün)' }
     },
-    unlockSource: '花朝节奖励',
-    description: '以鲜花入馅的精致糕点。'
+    unlockSource: 'Çiçek Festivali ödülü',
+    description: 'Çiçek dolgulu zarif bir tatlı.'
   },
   {
     id: 'qing_tuan',
-    name: '青团',
+    name: 'Yeşil Pirinç Topu',
     ingredients: [
       { itemId: 'herb', quantity: 2 },
       { itemId: 'rice', quantity: 2 }
@@ -1241,14 +1241,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 10,
-      buff: { type: 'farming', value: 15, description: '农耕体力消耗-15%（当天）' }
+      buff: { type: 'farming', value: 15, description: 'Tarım dayanıklılık tüketimi -15% (bugün)' }
     },
-    unlockSource: '上巳踏青奖励',
-    description: '草药清香的踏青小食。'
+    unlockSource: 'İlkbahar gezisi ödülü',
+    description: 'Bitkisel aromalı açık hava atıştırmalığı.'
   },
   {
     id: 'yue_bing',
-    name: '月饼',
+    name: 'Ay Keki',
     ingredients: [
       { itemId: 'lotus_seed', quantity: 2 },
       { itemId: 'sesame_oil', quantity: 1 },
@@ -1257,14 +1257,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'luck', value: 15, description: '幸运+15%（当天）' }
+      buff: { type: 'luck', value: 15, description: 'Şans +15% (bugün)' }
     },
-    unlockSource: '中秋赏月奖励',
-    description: '月圆之夜的莲蓉月饼。'
+    unlockSource: 'Orta Sonbahar Ay Seyri ödülü',
+    description: 'Dolunay gecesine özel nilüfer dolgulu ay keki.'
   },
   {
     id: 'la_ba_zhou',
-    name: '腊八粥',
+    name: 'Laba Lapası',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'peanut', quantity: 1 },
@@ -1274,12 +1274,12 @@ export const RECIPES: RecipeDef[] = [
       staminaRestore: 50,
       healthRestore: 25
     },
-    unlockSource: '腊八粥会奖励',
-    description: '暖胃驱寒的腊八粥。'
+    unlockSource: 'Laba Lapası etkinlik ödülü',
+    description: 'Soğuğu kıran ve mideyi ısıtan laba lapası.'
   },
   {
     id: 'dragon_boat_zongzi',
-    name: '粽子',
+    name: 'Zongzi',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'bamboo_shoot', quantity: 1 }
@@ -1287,14 +1287,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'speed', value: 10, description: '行动速度+10%（当天）' }
+      buff: { type: 'speed', value: 10, description: 'Hareket hızı +10% (bugün)' }
     },
-    unlockSource: '端午赛龙舟奖励',
-    description: '竹叶清香的端午粽子。'
+    unlockSource: 'Ejderha Kayığı Festivali ödülü',
+    description: 'Bambu yaprağı kokulu geleneksel festival zongzisi.'
   },
   {
     id: 'qiao_guo',
-    name: '巧果',
+    name: 'Qiaoguo',
     ingredients: [
       { itemId: 'winter_wheat', quantity: 2 },
       { itemId: 'honey', quantity: 1 },
@@ -1303,14 +1303,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 10,
-      buff: { type: 'fishing', value: 1, description: '钓鱼技能+1（当天）' }
+      buff: { type: 'fishing', value: 1, description: 'Balıkçılık becerisi +1 (bugün)' }
     },
-    unlockSource: '七夕猜灯谜奖励',
-    description: '七夕乞巧的传统小点。'
+    unlockSource: 'Qixi bilmece etkinliği ödülü',
+    description: 'Qixi festivalinin geleneksel küçük tatlısı.'
   },
   {
     id: 'chrysanthemum_wine',
-    name: '菊花酒',
+    name: 'Kasımpatı Şarabı',
     ingredients: [
       { itemId: 'chrysanthemum', quantity: 3 },
       { itemId: 'rice', quantity: 1 }
@@ -1318,14 +1318,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'luck', value: 12, description: '幸运+12%（当天）' }
+      buff: { type: 'luck', value: 12, description: 'Şans +12% (bugün)' }
     },
-    unlockSource: '重阳投壶奖励',
-    description: '重阳佳节的菊花酿。'
+    unlockSource: 'Çifte Dokuz Festivali ödülü',
+    description: 'Çifte Dokuz bayramına özel kasımpatı içkisi.'
   },
   {
     id: 'jiaozi',
-    name: '冬至饺',
+    name: 'Kış Gündönümü Mantısı',
     ingredients: [
       { itemId: 'winter_wheat', quantity: 2 },
       { itemId: 'napa_cabbage', quantity: 2 }
@@ -1333,14 +1333,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'mining', value: 1, description: '矿工技能+1（当天）' }
+      buff: { type: 'mining', value: 1, description: 'Madencilik becerisi +1 (bugün)' }
     },
-    unlockSource: '冬至包饺子奖励',
-    description: '冬至时节包的暖心饺子。'
+    unlockSource: 'Kış gündönümü mantı etkinliği ödülü',
+    description: 'Kış gündönümünde yapılan iç ısıtan mantı.'
   },
   {
     id: 'tangyuan',
-    name: '汤圆',
+    name: 'Tangyuan',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'honey', quantity: 1 },
@@ -1349,14 +1349,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'all_skills', value: 1, description: '全技能+1（当天）' }
+      buff: { type: 'all_skills', value: 1, description: 'Tüm beceriler +1 (bugün)' }
     },
-    unlockSource: '年末烟花会奖励',
-    description: '团团圆圆的花生汤圆。'
+    unlockSource: 'Yıl sonu havai fişek etkinliği ödülü',
+    description: 'Birlik ve beraberliği simgeleyen yer fıstıklı tangyuan.'
   },
   {
     id: 'dou_cha_yin',
-    name: '斗茶饮',
+    name: 'Çay Yarışması İçeceği',
     ingredients: [
       { itemId: 'tea', quantity: 2 },
       { itemId: 'honey', quantity: 1 }
@@ -1364,14 +1364,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'all_skills', value: 1, description: '全技能+1（当天）' }
+      buff: { type: 'all_skills', value: 1, description: 'Tüm beceriler +1 (bugün)' }
     },
-    unlockSource: '斗茶大会奖励',
-    description: '斗茶会上的经典茶饮，清香沁脾。'
+    unlockSource: 'Çay yarışması ödülü',
+    description: 'Çay etkinliğinin klasik içeceği, ferah ve hoş kokulu.'
   },
   {
     id: 'zhi_yuan_gao',
-    name: '纸鸢糕',
+    name: 'Uçurtma Keki',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'peach', quantity: 1 },
@@ -1380,38 +1380,38 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'speed', value: 12, description: '行动速度+12%（当天）' }
+      buff: { type: 'speed', value: 12, description: 'Hareket hızı +12% (bugün)' }
     },
-    unlockSource: '秋风筝会奖励',
-    description: '风筝节上的应景糕点，形如纸鸢。'
+    unlockSource: 'Sonbahar uçurtma festivali ödülü',
+    description: 'Uçurtma şeklini andıran, temaya uygun festival tatlısı.'
   },
 
-  // ==================== 成就里程碑食谱 (9) ====================
+  // ==================== Başarım dönüm noktası tarifleri (9) ====================
   {
     id: 'first_catch_soup',
-    name: '初钓鱼汤',
+    name: 'İlk Av Çorbası',
     ingredients: [
       { itemId: 'crucian', quantity: 2 },
       { itemId: 'ginger', quantity: 1 }
     ],
     effect: { staminaRestore: 20, healthRestore: 10 },
-    unlockSource: '成就：初次钓鱼',
-    description: '第一次钓鱼的纪念汤。'
+    unlockSource: 'Başarım: İlk kez balık tut',
+    description: 'İlk balık avının anısına yapılan çorba.'
   },
   {
     id: 'bountiful_porridge',
-    name: '百收粥',
+    name: 'Bereket Lapası',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'jujube', quantity: 2 }
     ],
     effect: { staminaRestore: 40, healthRestore: 20 },
-    unlockSource: '成就：收获100次作物',
-    description: '庆祝百次丰收的粥。'
+    unlockSource: 'Başarım: 100 ürün hasat et',
+    description: 'Yüzüncü hasadı kutlamak için yapılan lapa.'
   },
   {
     id: 'miners_glory',
-    name: '矿工荣光',
+    name: 'Madencinin Zaferi',
     ingredients: [
       { itemId: 'gold_ore', quantity: 1 },
       { itemId: 'egg', quantity: 2 },
@@ -1420,26 +1420,26 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 30,
-      buff: { type: 'mining', value: 25, description: '挖矿体力消耗-25%（当天）' }
+      buff: { type: 'mining', value: 25, description: 'Madencilik dayanıklılık tüketimi -25% (bugün)' }
     },
-    unlockSource: '成就：到达矿洞30层',
-    description: '矿工荣耀的象征。'
+    unlockSource: 'Başarım: Madenin 30. katına ulaş',
+    description: 'Madencilik onurunun simgesi.'
   },
   {
     id: 'chef_special',
-    name: '大厨特供',
+    name: 'Şefin Özel Menüsü',
     ingredients: [
       { itemId: 'egg', quantity: 2 },
       { itemId: 'honey', quantity: 1 },
       { itemId: 'sesame', quantity: 2 }
     ],
     effect: { staminaRestore: 45, healthRestore: 20 },
-    unlockSource: '成就：烹饪20道菜',
-    description: '大厨才能做出的特供菜。'
+    unlockSource: 'Başarım: 20 yemek pişir',
+    description: 'Sadece usta aşçıların yapabileceği özel yemek.'
   },
   {
     id: 'social_tea',
-    name: '交际花茶',
+    name: 'Sosyete Çiçek Çayı',
     ingredients: [
       { itemId: 'osmanthus', quantity: 2 },
       { itemId: 'honey', quantity: 1 }
@@ -1447,14 +1447,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 15,
-      buff: { type: 'giftBonus', value: 2, description: '送礼好感×2（当天）' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
     },
-    unlockSource: '成就：3位NPC达到相知',
-    description: '社交达人的特调花茶。'
+    unlockSource: 'Başarım: 3 NPC ile yakın dostluk kur',
+    description: 'Sosyal ustaların özel karışım çayı.'
   },
   {
     id: 'anglers_platter',
-    name: '渔夫拼盘',
+    name: 'Balıkçı Tabağı',
     ingredients: [
       { itemId: 'bass', quantity: 1 },
       { itemId: 'creek_shrimp', quantity: 1 },
@@ -1463,14 +1463,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 25,
-      buff: { type: 'fishing', value: 2, description: '钓鱼技能+2（当天）' }
+      buff: { type: 'fishing', value: 2, description: 'Balıkçılık becerisi +2 (bugün)' }
     },
-    unlockSource: '成就：钓到20条鱼',
-    description: '渔夫才能拼出的海鲜拼盘。'
+    unlockSource: 'Başarım: 20 balık tut',
+    description: 'Usta balıkçıların hazırlayabildiği deniz ürünü tabağı.'
   },
   {
     id: 'legendary_feast',
-    name: '传说盛宴',
+    name: 'Efsanevi Şölen',
     ingredients: [
       { itemId: 'jade_dragon', quantity: 1 },
       { itemId: 'ginger', quantity: 2 }
@@ -1478,14 +1478,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 40,
-      buff: { type: 'fishing', value: 4, description: '钓鱼技能+4（当天）' }
+      buff: { type: 'fishing', value: 4, description: 'Balıkçılık becerisi +4 (bugün)' }
     },
-    unlockSource: '成就：钓到传说鱼',
-    description: '用传说之鱼做的极品盛宴。'
+    unlockSource: 'Başarım: Efsanevi balık yakala',
+    description: 'Efsanevi balıktan yapılan üstün şölen.'
   },
   {
     id: 'abyss_stew',
-    name: '深渊炖菜',
+    name: 'Uçurum Güveci',
     ingredients: [
       { itemId: 'shadow_ore', quantity: 1 },
       { itemId: 'crystal_shrimp', quantity: 1 },
@@ -1494,14 +1494,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 35,
-      buff: { type: 'defense', value: 20, description: '受到伤害-20%（当天）' }
+      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (bugün)' }
     },
-    unlockSource: '成就：到达矿洞50层',
-    description: '深渊探索者的秘制炖菜。'
+    unlockSource: 'Başarım: Madenin 50. katına ulaş',
+    description: 'Derinlik kaşiflerinin gizli yahni tarifi.'
   },
   {
     id: 'collectors_banquet',
-    name: '收藏家宴',
+    name: 'Koleksiyoncu Ziyafeti',
     ingredients: [
       { itemId: 'ginseng', quantity: 1 },
       { itemId: 'sturgeon', quantity: 1 },
@@ -1511,37 +1511,38 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 40,
-      buff: { type: 'luck', value: 25, description: '幸运+25%（当天）' }
+      buff: { type: 'luck', value: 25, description: 'Şans +25% (bugün)' }
     },
-    unlockSource: '成就：发现50种物品',
-    description: '用珍稀食材做的收藏家宴。'
+    unlockSource: 'Başarım: 50 eşya keşfet',
+    description: 'Nadir malzemelerle hazırlanan koleksiyoncu şöleni.'
   },
-  // ===== 新增：动物产品食谱 =====
+
+  // ===== Yeni: hayvansal ürün tarifleri =====
   {
     id: 'silkie_egg_soup',
-    name: '乌鸡蛋羹',
+    name: 'Siyah Tavuk Yumurtası Kreması',
     ingredients: [
       { itemId: 'silkie_egg', quantity: 2 },
       { itemId: 'ginger', quantity: 1 }
     ],
     effect: { staminaRestore: 50, healthRestore: 30 },
-    unlockSource: '初始自带',
-    description: '滋补养生的乌鸡蛋羹。'
+    unlockSource: 'Başlangıçta açık',
+    description: 'Besleyici ve şifalı siyah tavuk yumurtası kreması.'
   },
   {
     id: 'goat_milk_soup',
-    name: '羊奶汤',
+    name: 'Keçi Sütü Çorbası',
     ingredients: [
       { itemId: 'goat_milk', quantity: 2 },
       { itemId: 'herb', quantity: 1 }
     ],
     effect: { staminaRestore: 45, healthRestore: 25 },
-    unlockSource: '大牛好感「挚友」',
-    description: '温热醇厚的羊奶汤。'
+    unlockSource: 'Daniu yakınlık: “En İyi Dost”',
+    description: 'Sıcak ve yoğun aromalı keçi sütü çorbası.'
   },
   {
     id: 'truffle_fried_rice',
-    name: '松露炒饭',
+    name: 'Trüflü Kızarmış Pilav',
     ingredients: [
       { itemId: 'truffle', quantity: 1 },
       { itemId: 'rice', quantity: 1 },
@@ -1550,14 +1551,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'farming', value: 1, description: '农耕技能+1（当天）' }
+      buff: { type: 'farming', value: 1, description: 'Tarım becerisi +1 (bugün)' }
     },
-    unlockSource: '大牛好感「知己」',
-    description: '奢侈的松露炒饭，香气四溢。'
+    unlockSource: 'Daniu yakınlık: “Can Dost”',
+    description: 'Lüks ve mis kokulu trüflü pilav.'
   },
   {
     id: 'antler_soup',
-    name: '鹿茸汤',
+    name: 'Geyik Boynuzu Çorbası',
     ingredients: [
       { itemId: 'antler_velvet', quantity: 1 },
       { itemId: 'herb', quantity: 2 },
@@ -1566,14 +1567,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 40,
-      buff: { type: 'stamina', value: 100, description: '体力全恢复' }
+      buff: { type: 'stamina', value: 100, description: 'Dayanıklılık tamamen yenilenir' }
     },
-    unlockSource: '林老好感「知己」',
-    description: '大补之物，一碗下去神清气爽。'
+    unlockSource: 'Yaşlı Lin yakınlık: “Can Dost”',
+    description: 'Aşırı besleyici; bir kâse içince insanı baştan ayağa canlandırır.'
   },
   {
     id: 'camel_milk_tea',
-    name: '驼奶茶',
+    name: 'Deve Sütlü Çay',
     ingredients: [
       { itemId: 'camel_milk', quantity: 1 },
       { itemId: 'tea', quantity: 1 }
@@ -1581,14 +1582,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'speed', value: 15, description: '行动速度+15%（当天）' }
+      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (bugün)' }
     },
-    unlockSource: '陈伯好感「挚友」',
-    description: '丝滑醇香的驼奶茶。'
+    unlockSource: 'Chen Amca yakınlık: “En İyi Dost”',
+    description: 'İpeksi ve yoğun aromalı deve sütlü çay.'
   },
   {
     id: 'peacock_feast',
-    name: '孔雀宴',
+    name: 'Tavuskuşu Şöleni',
     ingredients: [
       { itemId: 'peacock_feather', quantity: 1 },
       { itemId: 'rice', quantity: 2 },
@@ -1597,15 +1598,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 90,
       healthRestore: 50,
-      buff: { type: 'all_skills', value: 1, description: '全技能+1（当天）' }
+      buff: { type: 'all_skills', value: 1, description: 'Tüm beceriler +1 (bugün)' }
     },
-    unlockSource: '结婚后解锁',
-    description: '传说中的孔雀宴，尊贵无比。'
+    unlockSource: 'Evlilikten sonra açılır',
+    description: 'Efsanevi tavuskuşu şöleni, son derece görkemli.'
   },
-  // === 瀚海食谱 ===
+
+  // === Hanhai tarifleri ===
   {
     id: 'spiced_lamb',
-    name: '香料烤羊',
+    name: 'Baharatlı Kuzu Kızartması',
     ingredients: [
       { itemId: 'hanhai_spice', quantity: 1 },
       { itemId: 'goat_milk', quantity: 1 }
@@ -1613,14 +1615,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'mining', value: 2, description: '采矿技能+2（当天）' }
+      buff: { type: 'mining', value: 2, description: 'Madencilik becerisi +2 (bugün)' }
     },
-    unlockSource: '瀚海驿站购买香料后解锁',
-    description: '西域风味的烤羊肉，香气扑鼻，力量倍增。'
+    unlockSource: 'Hanhai durağından baharat satın aldıktan sonra açılır',
+    description: 'Batı diyarı usulü baharatlı kuzu, güç verici bir aroma taşır.'
   },
   {
     id: 'silk_dumpling_deluxe',
-    name: '丝路饺子',
+    name: 'İpek Yolu Mantısı',
     ingredients: [
       { itemId: 'hanhai_silk', quantity: 1 },
       { itemId: 'rice', quantity: 2 },
@@ -1629,14 +1631,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 35,
-      buff: { type: 'giftBonus', value: 3, description: '送礼好感×3（当天）' }
+      buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı ×3 (bugün)' }
     },
-    unlockSource: '瀚海驿站购买丝绸后解锁',
-    description: '用丝绸包裹的精致饺子，配以西域香料，送礼佳品。'
+    unlockSource: 'Hanhai durağından ipek satın aldıktan sonra açılır',
+    description: 'İpekle sarılmış zarif mantılar, batı baharatlarıyla hediye için mükemmel.'
   },
   {
     id: 'desert_cactus_soup',
-    name: '仙人掌汤',
+    name: 'Kaktüs Çorbası',
     ingredients: [
       { itemId: 'hanhai_cactus', quantity: 2 },
       { itemId: 'hanhai_spice', quantity: 1 }
@@ -1644,14 +1646,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 40,
-      buff: { type: 'stamina', value: 30, description: '体力上限+30（当天）' }
+      buff: { type: 'stamina', value: 30, description: 'Maksimum dayanıklılık +30 (bugün)' }
     },
-    unlockSource: '收获仙人掌后解锁',
-    description: '清凉解暑的仙人掌汤，沙漠旅人的续命良方。'
+    unlockSource: 'Kaktüs hasat ettikten sonra açılır',
+    description: 'Serinletici kaktüs çorbası, çöl yolcularının can simidi.'
   },
   {
     id: 'date_cake',
-    name: '枣糕',
+    name: 'Hurma Keki',
     ingredients: [
       { itemId: 'hanhai_date', quantity: 3 },
       { itemId: 'rice', quantity: 2 }
@@ -1659,14 +1661,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'farming', value: 2, description: '种植技能+2（当天）' }
+      buff: { type: 'farming', value: 2, description: 'Yetiştiricilik becerisi +2 (bugün)' }
     },
-    unlockSource: '收获椰枣后解锁',
-    description: '甜蜜软糯的枣糕，补气养血。'
+    unlockSource: 'Hurma hasat ettikten sonra açılır',
+    description: 'Tatlı ve yumuşak hurma keki, enerji ve kan tazeler.'
   }
 ]
 
-/** 根据ID获取食谱 */
+/** ID’ye göre tarif al */
 export const getRecipeById = (id: string): RecipeDef | undefined => {
   return RECIPES.find(r => r.id === id)
-}
+    }
