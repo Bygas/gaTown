@@ -7,40 +7,40 @@ import { useGameStore } from './useGameStore'
 import { addLog } from '@/composables/useGameLog'
 
 export const useGuildStore = defineStore('guild', () => {
-  /** 按怪物ID记录击杀数 */
+  /** Canavar ID'sine göre öldürme sayısını kaydeder */
   const monsterKills = ref<Record<string, number>>({})
 
-  /** 已领取奖励的讨伐目标monsterId集合 */
+  /** Ödülü alınmış av hedeflerinin monsterId kümesi */
   const claimedGoals = ref<string[]>([])
 
-  /** 已遭遇过的怪物ID集合（用于图鉴） */
+  /** Daha önce karşılaşılan canavar ID'leri kümesi (ansiklopedi için) */
   const encounteredMonsters = ref<string[]>([])
 
-  /** 贡献点（可消费货币） */
+  /** Katkı puanı (harcanabilir para birimi) */
   const contributionPoints = ref(0)
 
-  /** 公会经验（隐性） */
+  /** Lonca deneyimi (gizli değer) */
   const guildExp = ref(0)
 
-  /** 公会等级（显性） */
+  /** Lonca seviyesi (görünür değer) */
   const guildLevel = ref(0)
 
-  /** 每日限购追踪：{ itemId: 今日已购次数 } */
+  /** Günlük satın alma takibi: { itemId: bugünkü satın alma sayısı } */
   const dailyPurchases = ref<Record<string, number>>({})
 
-  /** 上次重置日限购的天编号 */
+  /** Günlük satın alma sınırının en son sıfırlandığı gün numarası */
   const lastResetDay = ref(-1)
 
-  /** 每周限购追踪：{ itemId: 本周已购次数 } */
+  /** Haftalık satın alma takibi: { itemId: bu haftaki satın alma sayısı } */
   const weeklyPurchases = ref<Record<string, number>>({})
 
-  /** 上次重置周限购的周编号 */
+  /** Haftalık satın alma sınırının en son sıfırlandığı hafta numarası */
   const lastResetWeek = ref(-1)
 
-  /** 永久总购买数追踪：{ itemId: 累计已购次数 } */
+  /** Toplam kalıcı satın alma takibi: { itemId: toplam satın alma sayısı } */
   const totalPurchases = ref<Record<string, number>>({})
 
-  /** 记录击杀 */
+  /** Öldürme kaydı ekle */
   const recordKill = (monsterId: string) => {
     monsterKills.value[monsterId] = (monsterKills.value[monsterId] ?? 0) + 1
     if (!encounteredMonsters.value.includes(monsterId)) {
@@ -48,34 +48,34 @@ export const useGuildStore = defineStore('guild', () => {
     }
   }
 
-  /** 记录遭遇（进入战斗时调用，不管是否击杀） */
+  /** Karşılaşma kaydı ekle (savaş başladığında çağrılır, öldürülse de öldürülmese de) */
   const recordEncounter = (monsterId: string) => {
     if (!encounteredMonsters.value.includes(monsterId)) {
       encounteredMonsters.value.push(monsterId)
     }
   }
 
-  /** 获取某怪物击杀数 */
+  /** Belirli bir canavarın öldürülme sayısını al */
   const getKillCount = (monsterId: string): number => {
     return monsterKills.value[monsterId] ?? 0
   }
 
-  /** 是否已遭遇某怪物 */
+  /** Belirli bir canavarla karşılaşılıp karşılaşılmadığını kontrol et */
   const isEncountered = (monsterId: string): boolean => {
     return encounteredMonsters.value.includes(monsterId)
   }
 
-  /** 已完成的讨伐目标数 */
+  /** Tamamlanan av hedefi sayısı */
   const completedGoalCount = computed(() => {
     return MONSTER_GOALS.filter(g => (monsterKills.value[g.monsterId] ?? 0) >= g.killTarget).length
   })
 
-  /** 可领取奖励的目标 */
+  /** Ödülü alınabilecek hedefler */
   const claimableGoals = computed(() => {
     return MONSTER_GOALS.filter(g => (monsterKills.value[g.monsterId] ?? 0) >= g.killTarget && !claimedGoals.value.includes(g.monsterId))
   })
 
-  /** 领取讨伐奖励 */
+  /** Av ödülünü al */
   const claimGoal = (monsterId: string): boolean => {
     const goal = MONSTER_GOALS.find(g => g.monsterId === monsterId)
     if (!goal) return false
@@ -93,24 +93,24 @@ export const useGuildStore = defineStore('guild', () => {
         inventoryStore.addItem(item.itemId, item.quantity)
       }
     }
-    // 讨伐奖励只给贡献点，不增加公会经验（只有捐献增加经验）
+    // Av ödülü yalnızca katkı puanı verir, lonca deneyimi vermez (yalnızca bağış deneyim kazandırır)
     const bonusPoints = Math.floor((goal.reward.money ?? 0) / 20) + goal.killTarget
     contributionPoints.value += bonusPoints
     claimedGoals.value.push(monsterId)
-    addLog(`领取讨伐奖励，额外获得 ${bonusPoints} 贡献点。`)
+    addLog(`Av ödülü alındı, ayrıca ${bonusPoints} katkı puanı kazanıldı.`)
     return true
   }
 
-  // ==================== 公会等级 ====================
+  // ==================== Lonca seviyesi ====================
 
-  /** 计算当前游戏天编号 */
+  /** Mevcut oyun içi gün numarasını hesapla */
   const getCurrentDay = (): number => {
     const gameStore = useGameStore()
     const seasonIndex = ['spring', 'summer', 'autumn', 'winter'].indexOf(gameStore.season)
     return (gameStore.year - 1) * 112 + seasonIndex * 28 + gameStore.day
   }
 
-  /** 确保每日限购已重置 */
+  /** Günlük satın alma sınırlarının sıfırlandığından emin ol */
   const ensureDailyReset = () => {
     const day = getCurrentDay()
     if (day !== lastResetDay.value) {
@@ -119,12 +119,12 @@ export const useGuildStore = defineStore('guild', () => {
     }
   }
 
-  /** 计算当前游戏周编号 */
+  /** Mevcut oyun içi hafta numarasını hesapla */
   const getCurrentWeek = (): number => {
     return Math.floor((getCurrentDay() - 1) / 7)
   }
 
-  /** 确保每周限购已重置 */
+  /** Haftalık satın alma sınırlarının sıfırlandığından emin ol */
   const ensureWeeklyReset = () => {
     const week = getCurrentWeek()
     if (week !== lastResetWeek.value) {
@@ -133,17 +133,17 @@ export const useGuildStore = defineStore('guild', () => {
     }
   }
 
-  /** 检查升级 */
+  /** Seviye atlamayı kontrol et */
   const checkLevelUp = () => {
     while (guildLevel.value < GUILD_LEVELS.length) {
       const next = GUILD_LEVELS[guildLevel.value]
       if (!next || guildExp.value < next.expRequired) break
       guildLevel.value++
-      addLog(`冒险家公会等级提升到 ${guildLevel.value} 级！`)
+      addLog(`Maceracılar Loncası seviyesi ${guildLevel.value}. seviyeye yükseldi!`)
     }
   }
 
-  /** 捐献物品 */
+  /** Eşya bağışla */
   const donateItem = (itemId: string, quantity: number): { success: boolean; pointsGained: number } => {
     const donation = GUILD_DONATIONS.find(d => d.itemId === itemId)
     if (!donation) return { success: false, pointsGained: 0 }
@@ -159,36 +159,36 @@ export const useGuildStore = defineStore('guild', () => {
     return { success: true, pointsGained: points }
   }
 
-  /** 获取今日剩余购买次数 */
+  /** Bugün için kalan satın alma hakkını al */
   const getDailyRemaining = (itemId: string, dailyLimit: number): number => {
     ensureDailyReset()
     return dailyLimit - (dailyPurchases.value[itemId] ?? 0)
   }
 
-  /** 获取本周剩余购买次数 */
+  /** Bu hafta için kalan satın alma hakkını al */
   const getWeeklyRemaining = (itemId: string, weeklyLimit: number): number => {
     ensureWeeklyReset()
     return weeklyLimit - (weeklyPurchases.value[itemId] ?? 0)
   }
 
-  /** 获取永久剩余购买次数 */
+  /** Toplam kalan kalıcı satın alma hakkını al */
   const getTotalRemaining = (itemId: string, totalLimit: number): number => {
     return totalLimit - (totalPurchases.value[itemId] ?? 0)
   }
 
-  /** 获取公会等级被动攻击加成 */
+  /** Lonca seviyesi pasif saldırı bonusunu al */
   const getGuildAttackBonus = (): number => {
     return guildLevel.value * GUILD_BONUS_PER_LEVEL.attack
   }
 
-  /** 获取公会等级被动HP加成 */
+  /** Lonca seviyesi pasif HP bonusunu al */
   const getGuildHpBonus = (): number => {
     return guildLevel.value * GUILD_BONUS_PER_LEVEL.maxHp
   }
 
-  // ==================== 商店 ====================
+  // ==================== Mağaza ====================
 
-  /** 公会商店：检查物品是否已解锁 */
+  /** Lonca mağazası: eşyanın kilidinin açılıp açılmadığını kontrol et */
   const isShopItemUnlocked = (itemId: string): boolean => {
     const item = GUILD_SHOP_ITEMS.find(i => i.itemId === itemId)
     if (!item) return false
@@ -196,25 +196,25 @@ export const useGuildStore = defineStore('guild', () => {
     return guildLevel.value >= item.unlockGuildLevel
   }
 
-  /** 公会商店：购买物品 */
+  /** Lonca mağazası: eşya satın al */
   const buyShopItem = (itemId: string): boolean => {
     const item = GUILD_SHOP_ITEMS.find(i => i.itemId === itemId)
     if (!item) return false
     if (!isShopItemUnlocked(itemId)) return false
 
-    // 每日限购检查
+    // Günlük sınır kontrolü
     if (item.dailyLimit) {
       ensureDailyReset()
       if ((dailyPurchases.value[itemId] ?? 0) >= item.dailyLimit) return false
     }
 
-    // 每周限购检查
+    // Haftalık sınır kontrolü
     if (item.weeklyLimit) {
       ensureWeeklyReset()
       if ((weeklyPurchases.value[itemId] ?? 0) >= item.weeklyLimit) return false
     }
 
-    // 永久总限购检查
+    // Kalıcı toplam sınır kontrolü
     if (item.totalLimit) {
       if ((totalPurchases.value[itemId] ?? 0) >= item.totalLimit) return false
     }
@@ -222,14 +222,14 @@ export const useGuildStore = defineStore('guild', () => {
     const playerStore = usePlayerStore()
     const inventoryStore = useInventoryStore()
 
-    // 检查材料是否足够
+    // Malzemeler yeterli mi kontrol et
     if (item.materials) {
       for (const mat of item.materials) {
         if (inventoryStore.getItemCount(mat.itemId) < mat.quantity) return false
       }
     }
 
-    // 永久品用贡献点，消耗品用铜钱
+    // Kalıcı ürünlerde katkı puanı, tüketimliklerde para kullanılır
     if (item.contributionCost) {
       if (contributionPoints.value < item.contributionCost) return false
       contributionPoints.value -= item.contributionCost
@@ -238,14 +238,14 @@ export const useGuildStore = defineStore('guild', () => {
       playerStore.spendMoney(item.price)
     }
 
-    // 扣除材料
+    // Malzemeleri düş
     if (item.materials) {
       for (const mat of item.materials) {
         inventoryStore.removeItem(mat.itemId, mat.quantity)
       }
     }
 
-    // 根据装备类型添加到对应栏位
+    // Ekipman türüne göre ilgili bölüme ekle
     let addSuccess = true
     if (item.equipType === 'weapon') {
       addSuccess = inventoryStore.addWeapon(item.itemId, null)
@@ -260,10 +260,10 @@ export const useGuildStore = defineStore('guild', () => {
     }
 
     if (!addSuccess) {
-      // 退还贡献点/铜钱
+      // Katkı puanı / para iadesi
       if (item.contributionCost) contributionPoints.value += item.contributionCost
       else playerStore.earnMoney(item.price)
-      // 退还材料
+      // Malzeme iadesi
       if (item.materials) {
         for (const mat of item.materials) {
           inventoryStore.addItem(mat.itemId, mat.quantity)
@@ -272,7 +272,7 @@ export const useGuildStore = defineStore('guild', () => {
       return false
     }
 
-    // 记录限购
+    // Satın alma sınırlarını kaydet
     if (item.dailyLimit) {
       dailyPurchases.value[itemId] = (dailyPurchases.value[itemId] ?? 0) + 1
     }
@@ -282,11 +282,11 @@ export const useGuildStore = defineStore('guild', () => {
     if (item.totalLimit) {
       totalPurchases.value[itemId] = (totalPurchases.value[itemId] ?? 0) + 1
     }
-    addLog(`在公会商店购买了「${item.name}」。`)
+    addLog(`Lonca mağazasından "${item.name}" satın alındı.`)
     return true
   }
 
-  /** 序列化 */
+  /** Serileştir */
   const serialize = () => ({
     monsterKills: { ...monsterKills.value },
     claimedGoals: [...claimedGoals.value],
@@ -301,7 +301,7 @@ export const useGuildStore = defineStore('guild', () => {
     totalPurchases: { ...totalPurchases.value }
   })
 
-  /** 反序列化 */
+  /** Serileştirmeyi çöz */
   const deserialize = (data: ReturnType<typeof serialize>) => {
     monsterKills.value = data.monsterKills ?? {}
     claimedGoals.value = data.claimedGoals ?? []
@@ -312,7 +312,8 @@ export const useGuildStore = defineStore('guild', () => {
     lastResetWeek.value = ((data as Record<string, unknown>).lastResetWeek as number) ?? -1
     totalPurchases.value = ((data as Record<string, unknown>).totalPurchases as Record<string, number>) ?? {}
 
-    // 旧存档迁移：如果没有贡献点字段但有已领取的讨伐目标，补发贡献点（不补经验，经验只来自捐献）
+    // Eski kayıt aktarımı: katkı puanı alanı yoksa ama alınmış av ödülleri varsa, katkı puanlarını sonradan ekle
+    // (deneyim eklenmez, deneyim yalnızca bağıştan gelir)
     const isOldSave = !('contributionPoints' in data)
     if (isOldSave && claimedGoals.value.length > 0) {
       let migratedPoints = 0
