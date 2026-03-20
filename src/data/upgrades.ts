@@ -8,21 +8,21 @@ export interface ToolUpgradeCost {
   materials: { itemId: string; quantity: number }[]
 }
 
-/** Genel alet yükseltme maliyetleri (sulama kabı / çapa / kazma / orak / balta) */
+/** Genel alet yükseltme bedelleri (sulama güğümü / çapa / kazma / orak / balta) */
 const STANDARD_COSTS: ToolUpgradeCost[] = [
   { fromTier: 'basic', toTier: 'iron', money: 2000, materials: [{ itemId: 'copper_bar', quantity: 5 }] },
   { fromTier: 'iron', toTier: 'steel', money: 5000, materials: [{ itemId: 'iron_bar', quantity: 5 }] },
   { fromTier: 'steel', toTier: 'iridium', money: 10000, materials: [{ itemId: 'gold_bar', quantity: 5 }] }
 ]
 
-/** Sulama kabı yükseltme maliyetleri (ilk yükseltme eşiği daha düşüktür) */
+/** Sulama güğümü yükseltme bedelleri (ilk yükseltme daha uygun tutulur) */
 const WATERING_CAN_COSTS: ToolUpgradeCost[] = [
   { fromTier: 'basic', toTier: 'iron', money: 1200, materials: [{ itemId: 'copper_bar', quantity: 3 }] },
   { fromTier: 'iron', toTier: 'steel', money: 5000, materials: [{ itemId: 'iron_bar', quantity: 5 }] },
   { fromTier: 'steel', toTier: 'iridium', money: 10000, materials: [{ itemId: 'gold_bar', quantity: 5 }] }
 ]
 
-/** Her alet için yükseltme maliyetleri */
+/** Her alet için yükseltme bedelleri */
 export const TOOL_UPGRADE_COSTS: Record<ToolType, ToolUpgradeCost[]> = {
   wateringCan: WATERING_CAN_COSTS,
   hoe: STANDARD_COSTS,
@@ -89,14 +89,14 @@ export const TOOL_UPGRADE_COSTS: Record<ToolType, ToolUpgradeCost[]> = {
   ]
 }
 
-/** Belirli bir alet için mevcut seviyeye göre kullanılabilir yükseltme bilgisini al */
+/** Belirli bir alet için mevcut seviyeye göre yapılabilecek yükseltmeyi al */
 export const getUpgradeCost = (type: ToolType, currentTier: ToolTier): ToolUpgradeCost | undefined => {
   return TOOL_UPGRADE_COSTS[type].find(c => c.fromTier === currentTier)
 }
 
 /** Alet adları */
 export const TOOL_NAMES: Record<ToolType, string> = {
-  wateringCan: 'Sulama Kabı',
+  wateringCan: 'Sulama Güğümü',
   hoe: 'Çapa',
   pickaxe: 'Kazma',
   fishingRod: 'Olta',
@@ -105,7 +105,7 @@ export const TOOL_NAMES: Record<ToolType, string> = {
   pan: 'Altın Eleği'
 }
 
-/** Alet seviye adları */
+/** Alet kademe adları */
 export const TIER_NAMES: Record<ToolTier, string> = {
   basic: 'Basit',
   iron: 'Demir',
