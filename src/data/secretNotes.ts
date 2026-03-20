@@ -21,7 +21,7 @@ export const SECRET_NOTES: SecretNoteDef[] = [
     id: 3,
     type: 'npc',
     title: 'Balıkçının Zevki',
-    content: 'Melisa en çok Alabalık sever. Ona göre Alabalık, nehirlerin kralıdır; Alabalık tutabilen kişi gerçek bir balıkçıdır.',
+    content: 'Aylin en çok Alabalık sever. Ona göre Alabalık, nehirlerin kralıdır; Alabalık tutabilen kişi gerçek bir balıkçıdır.',
     usable: false
   },
   {
@@ -50,7 +50,7 @@ export const SECRET_NOTES: SecretNoteDef[] = [
     id: 7,
     type: 'npc',
     title: 'Demircinin Sırrı',
-    content: 'Demirci Kadir bütün gün demir dövse de aslında bakır cevherini çok sever. Ona göre bakır, en sıcak metaldir.',
+    content: 'Ali Usta bütün gün demir dövse de aslında bakır cevherini çok sever. Ona göre bakır, en sıcak metaldir.',
     usable: false
   },
   {
@@ -78,8 +78,8 @@ export const SECRET_NOTES: SecretNoteDef[] = [
   {
     id: 11,
     type: 'npc',
-    title: 'Gamze`nin İç Dünyası',
-    content: 'Gamze en çok papatya çiçeğini sever. Her sonbahar bütün bir günü papatyaların altında geçirir.',
+    title: 'Elif`in İç Dünyası',
+    content: 'Elif en çok papatya çiçeğini sever. Her sonbahar bütün bir günü papatyaların altında geçirir.',
     usable: false
   },
   {
@@ -108,7 +108,7 @@ export const SECRET_NOTES: SecretNoteDef[] = [
     id: 15,
     type: 'npc',
     title: 'Aşçı Kadının Arzusu',
-    content: 'Müzeyyen Teyze her zaman mükemmel pilavı pişirmek istemiştir. Ona göre iyi pilav, her güzel yemeğin temelidir.',
+    content: 'Fatma Teyze her zaman mükemmel pilavı pişirmek istemiştir. Ona göre iyi pilav, her güzel yemeğin temelidir.',
     usable: false
   },
   {
@@ -136,8 +136,8 @@ export const SECRET_NOTES: SecretNoteDef[] = [
   {
     id: 19,
     type: 'npc',
-    title: 'Bilginin Zevki',
-    content: 'Bilgin Bayram her gün mutlaka bir demlik iyi çay içer. Çayın ruhu arındırdığını, gözleri açtığını ve zihni canlandırdığını söyler. Ona iyi çay hediye etmek kesinlikle doğru seçimdir.',
+    title: 'Hekimin Zevki',
+    content: 'Hekim Dede her gün mutlaka bir demlik iyi çay içer. Çayın ruhu arındırdığını, gözleri açtığını ve zihni canlandırdığını söyler. Ona iyi çay hediye etmek kesinlikle doğru seçimdir.',
     usable: false
   },
   {
@@ -166,8 +166,8 @@ export const SECRET_NOTES: SecretNoteDef[] = [
   {
     id: 23,
     type: 'npc',
-    title: 'Mustafa Amca’nın Sağlık Sırrı',
-    content: 'Mustafa Amca sağlıklı yaşama çok önem verir ve sarı kantoronun bütün otların kralı olduğunu söyler. Ona sarı kantoron verirsen çok mutlu olur.',
+    title: 'Hasan Enişte`nim Sağlık Sırrı',
+    content: 'Hasan Enişte sağlıklı yaşama çok önem verir ve sarı kantoronun bütün otların kralı olduğunu söyler. Ona sarı kantoron verirsen çok mutlu olur.',
     usable: false
   },
   {
