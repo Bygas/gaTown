@@ -9,24 +9,24 @@ import { RINGS } from './rings'
 import { HATS } from './hats'
 import { SHOES } from './shoes'
 
-/** 从作物定义自动生成种子物品（排除已手动定义的种子） */
+/** Ekin tanımlarından otomatik tohum eşyaları üretir (elle tanımlanmış tohumlar hariç) */
 const SEED_ITEMS: ItemDef[] = CROPS.filter(
   crop => crop.seedId !== 'ancient_seed' && crop.seedId !== 'hanhai_cactus_seed' && crop.seedId !== 'hanhai_date_seed'
 ).map(crop => ({
   id: crop.seedId,
-  name: `${crop.name}种子`,
+  name: `${crop.name} Tohumu`,
   category: 'seed',
-  description: `${crop.name}的种子，${crop.season
+  description: `${crop.name} tohumu, ${crop.season
     .map(s => {
-      const names: Record<string, string> = { spring: '春', summer: '夏', autumn: '秋', winter: '冬' }
+      const names: Record<string, string> = { spring: 'ilkbahar', summer: 'yaz', autumn: 'sonbahar', winter: 'kış' }
       return names[s]
     })
-    .join('/')}季可种植。`,
+    .join('/')} mevsiminde ekilebilir.`,
   sellPrice: Math.floor(crop.seedPrice / 2),
   edible: false
 }))
 
-/** 从作物定义自动生成收获物品 */
+/** Ekin tanımlarından otomatik hasat eşyaları üretir */
 const CROP_ITEMS: ItemDef[] = CROPS.map(crop => ({
   id: crop.id,
   name: crop.name,
@@ -38,102 +38,102 @@ const CROP_ITEMS: ItemDef[] = CROPS.map(crop => ({
   healthRestore: Math.floor(crop.sellPrice / 10)
 }))
 
-/** 矿石物品 */
+/** Cevher eşyaları */
 const ORE_ITEMS: ItemDef[] = [
-  { id: 'copper_ore', name: '铜矿', category: 'ore', description: '常见的金属矿石。', sellPrice: 5, edible: false },
-  { id: 'iron_ore', name: '铁矿', category: 'ore', description: '坚硬的铁矿石。', sellPrice: 10, edible: false },
-  { id: 'gold_ore', name: '金矿', category: 'ore', description: '珍贵的金矿石。', sellPrice: 18, edible: false },
-  { id: 'crystal_ore', name: '水晶矿', category: 'ore', description: '折射光芒的水晶矿石。', sellPrice: 30, edible: false },
-  { id: 'shadow_ore', name: '暗影矿', category: 'ore', description: '沉重漆黑的神秘矿石。', sellPrice: 45, edible: false },
-  { id: 'void_ore', name: '虚空矿', category: 'ore', description: '来自深渊尽头的矿石。', sellPrice: 60, edible: false },
-  { id: 'iridium_ore', name: '铱矿', category: 'ore', description: '最坚硬稀有的金属矿石。', sellPrice: 80, edible: false },
-  { id: 'quartz', name: '石英', category: 'gem', description: '晶莹剔透的石英。', sellPrice: 10, edible: false },
-  { id: 'jade', name: '翡翠', category: 'gem', description: '温润的翡翠。', sellPrice: 30, edible: false },
-  { id: 'ruby', name: '红宝石', category: 'gem', description: '光芒四射的红宝石。', sellPrice: 45, edible: false },
-  { id: 'moonstone', name: '月光石', category: 'gem', description: '散发柔和光辉的宝石。', sellPrice: 65, edible: false },
-  { id: 'obsidian', name: '黑曜石', category: 'gem', description: '暗如深渊的火山玻璃。', sellPrice: 90, edible: false },
-  { id: 'dragon_jade', name: '龙玉', category: 'gem', description: '传说中龙脉凝聚的神玉。', sellPrice: 120, edible: false },
-  { id: 'prismatic_shard', name: '五彩碎片', category: 'gem', description: '蕴含远古能量的碎片。', sellPrice: 180, edible: false },
-  { id: 'battery', name: '电池组', category: 'material', description: '避雷针吸收雷电后产出的能量。', sellPrice: 100, edible: false }
+  { id: 'copper_ore', name: 'Bakır Cevheri', category: 'ore', description: 'Yaygın bir metal cevheri.', sellPrice: 5, edible: false },
+  { id: 'iron_ore', name: 'Demir Cevheri', category: 'ore', description: 'Sert bir demir cevheri.', sellPrice: 10, edible: false },
+  { id: 'gold_ore', name: 'Altın Cevheri', category: 'ore', description: 'Değerli bir altın cevheri.', sellPrice: 18, edible: false },
+  { id: 'crystal_ore', name: 'Kristal Cevheri', category: 'ore', description: 'Işığı yansıtan kristal cevheri.', sellPrice: 30, edible: false },
+  { id: 'shadow_ore', name: 'Gölge Cevheri', category: 'ore', description: 'Ağır, simsiyah ve gizemli bir cevher.', sellPrice: 45, edible: false },
+  { id: 'void_ore', name: 'Boşluk Cevheri', category: 'ore', description: 'Uçurumun en dibinden gelen bir cevher.', sellPrice: 60, edible: false },
+  { id: 'iridium_ore', name: 'İridyum Cevheri', category: 'ore', description: 'En sert ve en nadir metal cevheri.', sellPrice: 80, edible: false },
+  { id: 'quartz', name: 'Kuvars', category: 'gem', description: 'Berrak ve parlak bir kuvars.', sellPrice: 10, edible: false },
+  { id: 'jade', name: 'Yeşim', category: 'gem', description: 'Yumuşak dokulu bir yeşim taşı.', sellPrice: 30, edible: false },
+  { id: 'ruby', name: 'Yakut', category: 'gem', description: 'Işıl ışıl parlayan bir yakut.', sellPrice: 45, edible: false },
+  { id: 'moonstone', name: 'Aytaşı', category: 'gem', description: 'Yumuşak bir parıltı yayan değerli taş.', sellPrice: 65, edible: false },
+  { id: 'obsidian', name: 'Obsidyen', category: 'gem', description: 'Uçurum kadar karanlık volkan camı.', sellPrice: 90, edible: false },
+  { id: 'dragon_jade', name: 'Ejder Yeşimi', category: 'gem', description: 'Efsaneye göre ejder damarlarından oluşmuş kutsal taş.', sellPrice: 120, edible: false },
+  { id: 'prismatic_shard', name: 'Prizmatik Parça', category: 'gem', description: 'Kadim enerji taşıyan bir parça.', sellPrice: 180, edible: false },
+  { id: 'battery', name: 'Pil Ünitesi', category: 'material', description: 'Yıldırım çekicinin gök gürültüsünden topladığı enerji.', sellPrice: 100, edible: false }
 ]
 
-/** 杂项 */
+/** Çeşitli eşyalar */
 const MISC_ITEMS: ItemDef[] = [
-  { id: 'wood', name: '木材', category: 'material', description: '建造和制作的基础材料。', sellPrice: 5, edible: false },
-  { id: 'bamboo', name: '竹子', category: 'material', description: '竹林中采集的翠竹。', sellPrice: 10, edible: false },
-  { id: 'herb', name: '草药', category: 'material', description: '山间野生的草药。', sellPrice: 15, edible: false },
-  { id: 'firewood', name: '柴火', category: 'material', description: '烹饪用的燃料。', sellPrice: 5, edible: false },
+  { id: 'wood', name: 'Odun', category: 'material', description: 'İnşa ve üretimin temel malzemesi.', sellPrice: 5, edible: false },
+  { id: 'bamboo', name: 'Bambu', category: 'material', description: 'Bambu ormanından toplanan yemyeşil bambu.', sellPrice: 10, edible: false },
+  { id: 'herb', name: 'Şifalı Ot', category: 'material', description: 'Dağlarda yetişen yabani şifalı ot.', sellPrice: 15, edible: false },
+  { id: 'firewood', name: 'Yakacak Odun', category: 'material', description: 'Yemek pişirmede kullanılan yakıt.', sellPrice: 5, edible: false },
   {
     id: 'winter_bamboo_shoot',
-    name: '冬笋',
+    name: 'Kış Bambu Filizi',
     category: 'misc',
-    description: '冬季特有的鲜嫩竹笋。',
+    description: 'Kışa özgü taze ve körpe bambu filizi.',
     sellPrice: 40,
     edible: true,
     staminaRestore: 8,
     healthRestore: 3
   },
-  { id: 'wintersweet', name: '腊梅', category: 'gift', description: '寒冬中绽放的腊梅，送礼佳品。', sellPrice: 50, edible: false },
+  { id: 'wintersweet', name: 'Kış Yasemini', category: 'gift', description: 'Dondurucu kışta açan kış yasemini, hediye için çok uygundur.', sellPrice: 50, edible: false },
   {
     id: 'wild_mushroom',
-    name: '野蘑菇',
+    name: 'Yabani Mantar',
     category: 'misc',
-    description: '秋天的山林中采到的蘑菇。',
+    description: 'Sonbahar dağlarında toplanan mantar.',
     sellPrice: 30,
     edible: true,
     staminaRestore: 5,
     healthRestore: 2
   },
-  { id: 'ginseng', name: '人参', category: 'misc', description: '极其珍贵的野生人参。', sellPrice: 200, edible: false },
+  { id: 'ginseng', name: 'Ginseng', category: 'misc', description: 'Son derece değerli yabani ginseng.', sellPrice: 200, edible: false },
   {
     id: 'wild_berry',
-    name: '野果',
+    name: 'Yabani Meyve',
     category: 'misc',
-    description: '夏天山间的甜美野果。',
+    description: 'Yaz dağlarında yetişen tatlı yabani meyve.',
     sellPrice: 20,
     edible: true,
     staminaRestore: 5,
     healthRestore: 2
   },
-  { id: 'pine_cone', name: '松果', category: 'material', description: '松树上掉落的果实。', sellPrice: 10, edible: false },
-  { id: 'jade_ring', name: '翡翠戒指', category: 'gift', description: '精心打磨的翡翠戒指，可以用来求婚。', sellPrice: 500, edible: false },
+  { id: 'pine_cone', name: 'Çam Kozalağı', category: 'material', description: 'Çam ağaçlarından düşen kozalak.', sellPrice: 10, edible: false },
+  { id: 'jade_ring', name: 'Yeşim Yüzük', category: 'gift', description: 'Özenle işlenmiş bir yeşim yüzük, evlilik teklifi için kullanılabilir.', sellPrice: 500, edible: false },
   {
     id: 'silk_ribbon',
-    name: '丝帕',
+    name: 'İpek Mendil',
     category: 'gift',
-    description: '精心绣制的丝帕，用来向心仪之人表达心意。',
+    description: 'İnce işçilikle işlenmiş ipek mendil, sevdiğine duygularını anlatmak için verilir.',
     sellPrice: 200,
     edible: false
   },
   {
     id: 'zhiji_jade',
-    name: '知己玉佩',
+    name: 'Dostluk Yeşim Kolyesi',
     category: 'gift',
-    description: '一对精心雕琢的玉佩，赠予同性挚友可结为知己。',
+    description: 'Özenle oyulmuş bir çift yeşim kolye. Aynı cinsiyetten yakın dosta verilirse can dost olunur.',
     sellPrice: 300,
     edible: false
   },
-  { id: 'scarecrow', name: '稻草人', category: 'machine', description: '放置在农场，驱赶偷吃作物的乌鸦。', sellPrice: 75, edible: false },
-  { id: 'rain_totem', name: '雨图腾', category: 'misc', description: '使用后可以让明天下雨。', sellPrice: 30, edible: false },
+  { id: 'scarecrow', name: 'Korkuluk', category: 'machine', description: 'Çiftliğe yerleştirilir, ürünleri yiyen kargaları uzak tutar.', sellPrice: 75, edible: false },
+  { id: 'rain_totem', name: 'Yağmur Totemi', category: 'misc', description: 'Kullanıldıktan sonra yarın yağmur yağdırır.', sellPrice: 30, edible: false },
   {
     id: 'fish_feed',
-    name: '鱼饲料',
+    name: 'Balık Yemi',
     category: 'material',
-    description: '鱼塘专用饲料，维持鱼塘水质和鱼的健康。',
+    description: 'Balık havuzu için özel yem, su kalitesini ve balıkların sağlığını korur.',
     sellPrice: 10,
     edible: false
   },
   {
     id: 'water_purifier',
-    name: '水质改良剂',
+    name: 'Su Arıtıcı Katkı',
     category: 'material',
-    description: '改善鱼塘水质，降低鱼生病概率。',
+    description: 'Balık havuzundaki su kalitesini iyileştirir, balıkların hastalanma ihtimalini azaltır.',
     sellPrice: 50,
     edible: false
   }
 ]
 
-/** 从鱼定义自动生成鱼物品 */
+/** Balık tanımlarından otomatik balık eşyaları üretir */
 const FISH_ITEMS: ItemDef[] = FISH.map(fish => ({
   id: fish.id,
   name: fish.name,
@@ -145,11 +145,11 @@ const FISH_ITEMS: ItemDef[] = FISH.map(fish => ({
   healthRestore: Math.floor(fish.sellPrice / 8)
 }))
 
-/** 从食谱定义自动生成烹饪物品 */
+/** Tarif tanımlarından otomatik yemek eşyaları üretir */
 const _preFoodItems: ItemDef[] = [...SEED_ITEMS, ...CROP_ITEMS, ...ORE_ITEMS, ...MISC_ITEMS, ...FISH_ITEMS]
 const FOOD_ITEMS: ItemDef[] = RECIPES.map(recipe => {
   const baseSellPrice = Math.floor(recipe.effect.staminaRestore * 2)
-  // 计算材料总售价，保底：食物售价不低于材料总售价的1.2倍
+  // Malzeme toplam satış değerini hesapla; alt sınır: yemek satış fiyatı, malzeme toplamının en az 1.2 katı olsun
   const ingredientTotal = recipe.ingredients.reduce((sum, ing) => {
     const def = _preFoodItems.find(i => i.id === ing.itemId)
     return sum + (def?.sellPrice ?? 0) * ing.quantity
@@ -167,13 +167,13 @@ const FOOD_ITEMS: ItemDef[] = RECIPES.map(recipe => {
   }
 })
 
-/** 加工品物品 */
+/** İşlenmiş ürün eşyaları */
 const PROCESSED_ITEMS: ItemDef[] = [
   {
     id: 'watermelon_wine',
-    name: '西瓜酒',
+    name: 'Karpuz Şarabı',
     category: 'processed',
-    description: '甘甜的西瓜酿成的佳酿。',
+    description: 'Tatlı karpuzdan yapılmış nefis bir içki.',
     sellPrice: 390,
     edible: true,
     staminaRestore: 25,
@@ -181,20 +181,20 @@ const PROCESSED_ITEMS: ItemDef[] = [
   },
   {
     id: 'osmanthus_wine',
-    name: '桂花酿',
+    name: 'Osmanthus Şarabı',
     category: 'processed',
-    description: '馥郁芬芳的桂花酒。',
+    description: 'Mis kokulu osmanthus çiçeği şarabı.',
     sellPrice: 600,
     edible: true,
     staminaRestore: 30,
     healthRestore: 18
   },
-  { id: 'rice_vinegar', name: '米醋', category: 'processed', description: '家酿老陈醋。', sellPrice: 290, edible: false },
+  { id: 'rice_vinegar', name: 'Pirinç Sirkesi', category: 'processed', description: 'Ev yapımı yıllanmış sirke.', sellPrice: 290, edible: false },
   {
     id: 'pickled_cabbage',
-    name: '腌白菜',
+    name: 'Lahana Turşusu',
     category: 'processed',
-    description: '开胃的腌白菜。',
+    description: 'İştah açan lahana turşusu.',
     sellPrice: 155,
     edible: true,
     staminaRestore: 10,
@@ -202,9 +202,9 @@ const PROCESSED_ITEMS: ItemDef[] = [
   },
   {
     id: 'dried_radish',
-    name: '萝卜干',
+    name: 'Kuru Turp',
     category: 'processed',
-    description: '香脆的萝卜干。',
+    description: 'Kıtır kıtır kuru turp.',
     sellPrice: 245,
     edible: true,
     staminaRestore: 12,
@@ -212,9 +212,9 @@ const PROCESSED_ITEMS: ItemDef[] = [
   },
   {
     id: 'pumpkin_preserve',
-    name: '南瓜酱',
+    name: 'Balkabağı Reçeli',
     category: 'processed',
-    description: '浓郁的南瓜酱。',
+    description: 'Yoğun aromalı balkabağı reçeli.',
     sellPrice: 410,
     edible: true,
     staminaRestore: 15,
@@ -222,21 +222,21 @@ const PROCESSED_ITEMS: ItemDef[] = [
   },
   {
     id: 'honey',
-    name: '蜂蜜',
+    name: 'Bal',
     category: 'processed',
-    description: '金黄甘甜的蜂蜜。',
+    description: 'Altın sarısı, tatlı bal.',
     sellPrice: 100,
     edible: true,
     staminaRestore: 20,
     healthRestore: 10
   },
-  { id: 'sesame_oil', name: '芝麻油', category: 'processed', description: '醇香的小磨麻油。', sellPrice: 260, edible: false },
-  { id: 'tea_oil', name: '茶油', category: 'processed', description: '珍贵的山茶油。', sellPrice: 620, edible: false },
+  { id: 'sesame_oil', name: 'Susam Yağı', category: 'processed', description: 'Yoğun aromalı taş değirmen susam yağı.', sellPrice: 260, edible: false },
+  { id: 'tea_oil', name: 'Çay Yağı', category: 'processed', description: 'Değerli dağ çayı tohumu yağı.', sellPrice: 620, edible: false },
   {
     id: 'peach_wine',
-    name: '桃花酒',
+    name: 'Şeftali Şarabı',
     category: 'processed',
-    description: '清甜的桃花酒。',
+    description: 'Hafif tatlı şeftali şarabı.',
     sellPrice: 420,
     edible: true,
     staminaRestore: 25,
@@ -244,9 +244,9 @@ const PROCESSED_ITEMS: ItemDef[] = [
   },
   {
     id: 'jujube_wine',
-    name: '红枣酒',
+    name: 'Hünnap Şarabı',
     category: 'processed',
-    description: '醇厚滋补的红枣酒。',
+    description: 'Yoğun ve besleyici hünnap şarabı.',
     sellPrice: 300,
     edible: true,
     staminaRestore: 20,
@@ -254,9 +254,9 @@ const PROCESSED_ITEMS: ItemDef[] = [
   },
   {
     id: 'corn_wine',
-    name: '玉米酒',
+    name: 'Mısır Şarabı',
     category: 'processed',
-    description: '淡雅清香的玉米酒。',
+    description: 'Hafif kokulu mısır şarabı.',
     sellPrice: 330,
     edible: true,
     staminaRestore: 18,
@@ -264,9 +264,9 @@ const PROCESSED_ITEMS: ItemDef[] = [
   },
   {
     id: 'pickled_chili',
-    name: '泡椒',
+    name: 'Acı Biber Turşusu',
     category: 'processed',
-    description: '酸辣开胃的泡椒。',
+    description: 'Ekşi ve acı, iştah açan turşu biber.',
     sellPrice: 270,
     edible: true,
     staminaRestore: 10,
@@ -274,64 +274,64 @@ const PROCESSED_ITEMS: ItemDef[] = [
   },
   {
     id: 'pickled_ginger',
-    name: '腌姜',
+    name: 'Zencefil Turşusu',
     category: 'processed',
-    description: '酸甜脆嫩的腌姜。',
+    description: 'Tatlı-ekşi ve kıtır zencefil turşusu.',
     sellPrice: 315,
     edible: true,
     staminaRestore: 12,
     healthRestore: 5
   },
-  { id: 'mayonnaise', name: '蛋黄酱', category: 'processed', description: '用鸡蛋制成的浓郁蛋黄酱。', sellPrice: 115, edible: false },
+  { id: 'mayonnaise', name: 'Mayonez', category: 'processed', description: 'Yumurtadan yapılan yoğun mayonez.', sellPrice: 115, edible: false },
   {
     id: 'duck_mayonnaise',
-    name: '鸭蛋黄酱',
+    name: 'Ördek Yumurtası Mayonezi',
     category: 'processed',
-    description: '用鸭蛋制成的高级蛋黄酱。',
+    description: 'Ördek yumurtasından yapılan kaliteli mayonez.',
     sellPrice: 215,
     edible: false
   },
   {
     id: 'goose_mayonnaise',
-    name: '鹅蛋黄酱',
+    name: 'Kaz Yumurtası Mayonezi',
     category: 'processed',
-    description: '用鹅蛋制成的浓稠蛋黄酱。',
+    description: 'Kaz yumurtasından yapılan yoğun mayonez.',
     sellPrice: 250,
     edible: false
   },
   {
     id: 'silkie_mayonnaise',
-    name: '乌鸡蛋黄酱',
+    name: 'İpek Tavuk Yumurtası Mayonezi',
     category: 'processed',
-    description: '用乌鸡蛋制成的滋补蛋黄酱。',
+    description: 'İpek tavuk yumurtasından yapılan besleyici mayonez.',
     sellPrice: 295,
     edible: false
   },
   {
     id: 'ostrich_mayonnaise',
-    name: '鸵鸟蛋黄酱',
+    name: 'Devekuşu Yumurtası Mayonezi',
     category: 'processed',
-    description: '用鸵鸟蛋制成的大份蛋黄酱。',
+    description: 'Devekuşu yumurtasından yapılan büyük boy mayonez.',
     sellPrice: 450,
     edible: false
   },
   {
     id: 'quail_mayonnaise',
-    name: '鹌鹑蛋黄酱',
+    name: 'Bıldırcın Yumurtası Mayonezi',
     category: 'processed',
-    description: '用鹌鹑蛋制成的精致蛋黄酱。',
+    description: 'Bıldırcın yumurtasından yapılan zarif mayonez.',
     sellPrice: 170,
     edible: false
   }
 ]
 
-/** 烟熏鱼物品 */
+/** Tütsülenmiş balık eşyaları */
 const SMOKED_ITEMS: ItemDef[] = [
   {
     id: 'smoked_crucian',
-    name: '烟熏鲫鱼',
+    name: 'Tütsülenmiş Havuz Balığı',
     category: 'processed',
-    description: '经过烟熏处理的鲫鱼，风味独特。',
+    description: 'Tütsülenmiş havuz balığı, kendine has aroması vardır.',
     sellPrice: 30,
     edible: true,
     staminaRestore: 7,
@@ -339,9 +339,9 @@ const SMOKED_ITEMS: ItemDef[] = [
   },
   {
     id: 'smoked_carp',
-    name: '烟熏鲤鱼',
+    name: 'Tütsülenmiş Sazan',
     category: 'processed',
-    description: '经过烟熏处理的鲤鱼，肉质紧实。',
+    description: 'Tütsülenmiş sazan, eti sıkı ve doyurucudur.',
     sellPrice: 50,
     edible: true,
     staminaRestore: 12,
@@ -349,9 +349,9 @@ const SMOKED_ITEMS: ItemDef[] = [
   },
   {
     id: 'smoked_grass_carp',
-    name: '烟熏草鱼',
+    name: 'Tütsülenmiş Ot Sazanı',
     category: 'processed',
-    description: '经过烟熏处理的草鱼，鲜香可口。',
+    description: 'Tütsülenmiş ot sazanı, leziz ve hoş kokuludur.',
     sellPrice: 80,
     edible: true,
     staminaRestore: 20,
@@ -359,9 +359,9 @@ const SMOKED_ITEMS: ItemDef[] = [
   },
   {
     id: 'smoked_bass',
-    name: '烟熏鲈鱼',
+    name: 'Tütsülenmiş Levrek',
     category: 'processed',
-    description: '经过烟熏处理的鲈鱼，口感细腻。',
+    description: 'Tütsülenmiş levrek, dokusu son derece yumuşaktır.',
     sellPrice: 120,
     edible: true,
     staminaRestore: 30,
@@ -369,9 +369,9 @@ const SMOKED_ITEMS: ItemDef[] = [
   },
   {
     id: 'smoked_catfish',
-    name: '烟熏鲶鱼',
+    name: 'Tütsülenmiş Yayın Balığı',
     category: 'processed',
-    description: '经过烟熏处理的鲶鱼，味道醇厚。',
+    description: 'Tütsülenmiş yayın balığı, yoğun lezzetlidir.',
     sellPrice: 90,
     edible: true,
     staminaRestore: 22,
@@ -379,9 +379,9 @@ const SMOKED_ITEMS: ItemDef[] = [
   },
   {
     id: 'smoked_mandarin_fish',
-    name: '烟熏桂花鱼',
+    name: 'Tütsülenmiş Mandarin Balığı',
     category: 'processed',
-    description: '经过烟熏处理的桂花鱼，鲜嫩多汁。',
+    description: 'Tütsülenmiş mandarin balığı, yumuşak ve sulu olur.',
     sellPrice: 140,
     edible: true,
     staminaRestore: 35,
@@ -389,9 +389,9 @@ const SMOKED_ITEMS: ItemDef[] = [
   },
   {
     id: 'smoked_eel',
-    name: '烟熏鳗鱼',
+    name: 'Tütsülenmiş Yılanbalığı',
     category: 'processed',
-    description: '经过烟熏处理的鳗鱼，肥美香滑。',
+    description: 'Tütsülenmiş yılanbalığı, yağlı ve kaygan dokuludur.',
     sellPrice: 170,
     edible: true,
     staminaRestore: 42,
@@ -399,9 +399,9 @@ const SMOKED_ITEMS: ItemDef[] = [
   },
   {
     id: 'smoked_sturgeon',
-    name: '烟熏鲟鱼',
+    name: 'Tütsülenmiş Mersin Balığı',
     category: 'processed',
-    description: '经过烟熏处理的鲟鱼，珍贵美味。',
+    description: 'Tütsülenmiş mersin balığı, değerli ve çok lezzetlidir.',
     sellPrice: 260,
     edible: true,
     staminaRestore: 65,
@@ -409,9 +409,9 @@ const SMOKED_ITEMS: ItemDef[] = [
   },
   {
     id: 'smoked_loach',
-    name: '烟熏泥鳅',
+    name: 'Tütsülenmiş Çamur Balığı',
     category: 'processed',
-    description: '经过烟熏处理的泥鳅，酥脆鲜香。',
+    description: 'Tütsülenmiş çamur balığı, kıtır ve hoş aromalıdır.',
     sellPrice: 44,
     edible: true,
     staminaRestore: 11,
@@ -419,9 +419,9 @@ const SMOKED_ITEMS: ItemDef[] = [
   },
   {
     id: 'smoked_yellow_eel',
-    name: '烟熏黄鳝',
+    name: 'Tütsülenmiş Sarı Yılanbalığı',
     category: 'processed',
-    description: '经过烟熏处理的黄鳝，滋补美味。',
+    description: 'Tütsülenmiş sarı yılanbalığı, besleyici ve çok lezzetlidir.',
     sellPrice: 100,
     edible: true,
     staminaRestore: 25,
@@ -429,13 +429,13 @@ const SMOKED_ITEMS: ItemDef[] = [
   }
 ]
 
-/** 脱水食品物品 */
+/** Kurutulmuş yiyecek eşyaları */
 const DRIED_ITEMS: ItemDef[] = [
   {
     id: 'dried_mushroom',
-    name: '干蘑菇',
+    name: 'Kurutulmuş Mantar',
     category: 'processed',
-    description: '脱水保存的蘑菇，浓缩了鲜味。',
+    description: 'Kurutularak saklanmış mantar, lezzeti iyice yoğunlaşmıştır.',
     sellPrice: 135,
     edible: true,
     staminaRestore: 18,
@@ -443,9 +443,9 @@ const DRIED_ITEMS: ItemDef[] = [
   },
   {
     id: 'dried_peach',
-    name: '桃干',
+    name: 'Kuru Şeftali',
     category: 'processed',
-    description: '脱水制成的桃干，酸甜可口。',
+    description: 'Kurutulmuş şeftali, tatlı-ekşi çok hoş gider.',
     sellPrice: 120,
     edible: true,
     staminaRestore: 30,
@@ -453,9 +453,9 @@ const DRIED_ITEMS: ItemDef[] = [
   },
   {
     id: 'dried_lychee',
-    name: '荔枝干',
+    name: 'Kuru Liçi',
     category: 'processed',
-    description: '脱水制成的荔枝干，甘甜浓郁。',
+    description: 'Kurutulmuş liçi, yoğun tatlı aromaya sahiptir.',
     sellPrice: 160,
     edible: true,
     staminaRestore: 40,
@@ -463,9 +463,9 @@ const DRIED_ITEMS: ItemDef[] = [
   },
   {
     id: 'dried_persimmon_slice',
-    name: '柿饼',
+    name: 'Kuru Trabzon Hurması',
     category: 'processed',
-    description: '柿子脱水制成的柿饼，软糯香甜。',
+    description: 'Kurutulmuş hurma dilimleri, yumuşak ve tatlıdır.',
     sellPrice: 170,
     edible: true,
     staminaRestore: 42,
@@ -473,9 +473,9 @@ const DRIED_ITEMS: ItemDef[] = [
   },
   {
     id: 'dried_hawthorn',
-    name: '山楂片',
+    name: 'Kuru Alıç Dilimi',
     category: 'processed',
-    description: '脱水制成的山楂片，酸甜开胃。',
+    description: 'Kurutulmuş alıç dilimleri, ekşi tatlı ve iştah açıcıdır.',
     sellPrice: 130,
     edible: true,
     staminaRestore: 32,
@@ -483,9 +483,9 @@ const DRIED_ITEMS: ItemDef[] = [
   },
   {
     id: 'dried_apricot',
-    name: '杏脯',
+    name: 'Kuru Kayısı',
     category: 'processed',
-    description: '脱水制成的杏脯，酸甜适中。',
+    description: 'Kurutulmuş kayısı, dengeli ekşi tatlı lezzete sahiptir.',
     sellPrice: 110,
     edible: true,
     staminaRestore: 27,
@@ -493,9 +493,9 @@ const DRIED_ITEMS: ItemDef[] = [
   },
   {
     id: 'dried_berry',
-    name: '果脯',
+    name: 'Meyve Kurusu',
     category: 'processed',
-    description: '野果脱水制成的果脯，方便保存。',
+    description: 'Yabani meyvelerden yapılmış meyve kurusu, saklaması kolaydır.',
     sellPrice: 90,
     edible: true,
     staminaRestore: 12,
@@ -503,7 +503,7 @@ const DRIED_ITEMS: ItemDef[] = [
   }
 ]
 
-/** 机器物品 */
+/** Makine eşyaları */
 const MACHINE_ITEMS: ItemDef[] = PROCESSING_MACHINES.map(m => ({
   id: `machine_${m.id}`,
   name: m.name,
@@ -513,7 +513,7 @@ const MACHINE_ITEMS: ItemDef[] = PROCESSING_MACHINES.map(m => ({
   edible: false
 }))
 
-/** 洒水器物品 */
+/** Fıskiye eşyaları */
 const SPRINKLER_ITEMS: ItemDef[] = SPRINKLERS.map(s => ({
   id: s.id,
   name: s.name,
@@ -523,7 +523,7 @@ const SPRINKLER_ITEMS: ItemDef[] = SPRINKLERS.map(s => ({
   edible: false
 }))
 
-/** 肥料物品 */
+/** Gübre eşyaları */
 const FERTILIZER_ITEMS: ItemDef[] = FERTILIZERS.map(f => ({
   id: f.id,
   name: f.name,
@@ -533,7 +533,7 @@ const FERTILIZER_ITEMS: ItemDef[] = FERTILIZERS.map(f => ({
   edible: false
 }))
 
-/** 鱼饵物品 */
+/** Yem eşyaları */
 const BAIT_ITEMS: ItemDef[] = BAITS.map(b => ({
   id: b.id,
   name: b.name,
@@ -543,7 +543,7 @@ const BAIT_ITEMS: ItemDef[] = BAITS.map(b => ({
   edible: false
 }))
 
-/** 浮漂物品 */
+/** Şamandıra eşyaları */
 const TACKLE_ITEMS: ItemDef[] = TACKLES.map(t => ({
   id: t.id,
   name: t.name,
@@ -553,13 +553,13 @@ const TACKLE_ITEMS: ItemDef[] = TACKLES.map(t => ({
   edible: false
 }))
 
-/** 动物产品 */
+/** Hayvansal ürünler */
 const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   {
     id: 'egg',
-    name: '鸡蛋',
+    name: 'Yumurta',
     category: 'animal_product',
-    description: '新鲜的鸡蛋。',
+    description: 'Taze yumurta.',
     sellPrice: 75,
     edible: true,
     staminaRestore: 5,
@@ -567,9 +567,9 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'duck_egg',
-    name: '鸭蛋',
+    name: 'Ördek Yumurtası',
     category: 'animal_product',
-    description: '个大味美的鸭蛋。',
+    description: 'Büyük ve lezzetli ördek yumurtası.',
     sellPrice: 142,
     edible: true,
     staminaRestore: 8,
@@ -577,31 +577,31 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'milk',
-    name: '牛奶',
+    name: 'Süt',
     category: 'animal_product',
-    description: '新鲜的牛奶。',
+    description: 'Taze süt.',
     sellPrice: 187,
     edible: true,
     staminaRestore: 10,
     healthRestore: 5
   },
-  { id: 'wool', name: '羊毛', category: 'animal_product', description: '柔软的羊毛。', sellPrice: 510, edible: false },
-  { id: 'hay', name: '干草', category: 'material', description: '喂养牲畜的干草。', sellPrice: 0, edible: false },
-  // 新增动物产品
-  { id: 'rabbit_fur', name: '兔毛', category: 'animal_product', description: '柔软的兔毛。', sellPrice: 225, edible: false },
+  { id: 'wool', name: 'Yün', category: 'animal_product', description: 'Yumuşak yün.', sellPrice: 510, edible: false },
+  { id: 'hay', name: 'Kuru Ot', category: 'material', description: 'Hayvanları beslemek için kuru ot.', sellPrice: 0, edible: false },
+  // Yeni hayvansal ürünler
+  { id: 'rabbit_fur', name: 'Tavşan Kürkü', category: 'animal_product', description: 'Yumuşak tavşan kürkü.', sellPrice: 225, edible: false },
   {
     id: 'rabbit_foot',
-    name: '幸运兔脚',
+    name: 'Şanslı Tavşan Ayağı',
     category: 'animal_product',
-    description: '传说能带来好运的兔脚，十分稀有。',
+    description: 'Şans getirdiğine inanılan, oldukça nadir tavşan ayağı.',
     sellPrice: 300,
     edible: false
   },
   {
     id: 'goose_egg',
-    name: '鹅蛋',
+    name: 'Kaz Yumurtası',
     category: 'animal_product',
-    description: '个头很大的鹅蛋。',
+    description: 'Oldukça iri bir kaz yumurtası.',
     sellPrice: 165,
     edible: true,
     staminaRestore: 10,
@@ -609,9 +609,9 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'quail_egg',
-    name: '鹌鹑蛋',
+    name: 'Bıldırcın Yumurtası',
     category: 'animal_product',
-    description: '小巧的鹌鹑蛋。',
+    description: 'Küçük bıldırcın yumurtası.',
     sellPrice: 37,
     edible: true,
     staminaRestore: 3,
@@ -619,9 +619,9 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'pigeon_egg',
-    name: '鸽子蛋',
+    name: 'Güvercin Yumurtası',
     category: 'animal_product',
-    description: '营养丰富的鸽子蛋。',
+    description: 'Besleyici güvercin yumurtası.',
     sellPrice: 67,
     edible: true,
     staminaRestore: 5,
@@ -629,20 +629,20 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'silkie_egg',
-    name: '乌鸡蛋',
+    name: 'İpek Tavuk Yumurtası',
     category: 'animal_product',
-    description: '滋补的乌鸡蛋。',
+    description: 'Besleyici ipek tavuk yumurtası.',
     sellPrice: 195,
     edible: true,
     staminaRestore: 15,
     healthRestore: 8
   },
-  { id: 'peacock_feather', name: '孔雀羽', category: 'animal_product', description: '华丽的孔雀尾羽。', sellPrice: 525, edible: false },
+  { id: 'peacock_feather', name: 'Tavuskuşu Tüyü', category: 'animal_product', description: 'Gösterişli tavuskuşu kuyruğu tüyü.', sellPrice: 525, edible: false },
   {
     id: 'goat_milk',
-    name: '羊奶',
+    name: 'Keçi Sütü',
     category: 'animal_product',
-    description: '新鲜的羊奶。',
+    description: 'Taze keçi sütü.',
     sellPrice: 165,
     edible: true,
     staminaRestore: 10,
@@ -650,9 +650,9 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'truffle',
-    name: '松露',
+    name: 'Trüf',
     category: 'animal_product',
-    description: '珍贵的地下菌类。',
+    description: 'Değerli bir yeraltı mantarı.',
     sellPrice: 450,
     edible: true,
     staminaRestore: 5,
@@ -660,9 +660,9 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'buffalo_milk',
-    name: '水牛奶',
+    name: 'Manda Sütü',
     category: 'animal_product',
-    description: '醇厚的水牛奶。',
+    description: 'Yoğun aromalı manda sütü.',
     sellPrice: 150,
     edible: true,
     staminaRestore: 8,
@@ -670,20 +670,20 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'yak_milk',
-    name: '牦牛奶',
+    name: 'Yak Sütü',
     category: 'animal_product',
-    description: '高原牦牛的浓郁奶。',
+    description: 'Yüksek yaylalardan gelen yoğun yak sütü.',
     sellPrice: 210,
     edible: true,
     staminaRestore: 12,
     healthRestore: 6
   },
-  { id: 'alpaca_wool', name: '羊驼毛', category: 'animal_product', description: '极其柔软的羊驼毛。', sellPrice: 375, edible: false },
+  { id: 'alpaca_wool', name: 'Alpaka Yünü', category: 'animal_product', description: 'Son derece yumuşak alpaka yünü.', sellPrice: 375, edible: false },
   {
     id: 'antler_velvet',
-    name: '鹿茸',
+    name: 'Geyik Boynuzu Kadifesi',
     category: 'animal_product',
-    description: '珍贵的鹿茸，可直接食用补体力。',
+    description: 'Değerli geyik boynuzu kadifesi, doğrudan yenerek kuvvet toparlanabilir.',
     sellPrice: 675,
     edible: true,
     staminaRestore: 30,
@@ -691,9 +691,9 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'donkey_milk',
-    name: '驴奶',
+    name: 'Eşek Sütü',
     category: 'animal_product',
-    description: '驴奶，味道温和。',
+    description: 'Yumuşak içimli eşek sütü.',
     sellPrice: 120,
     edible: true,
     staminaRestore: 6,
@@ -701,9 +701,9 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'camel_milk',
-    name: '驼奶',
+    name: 'Deve Sütü',
     category: 'animal_product',
-    description: '营养丰富的驼奶。',
+    description: 'Besleyici deve sütü.',
     sellPrice: 240,
     edible: true,
     staminaRestore: 12,
@@ -711,9 +711,9 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'ostrich_egg',
-    name: '鸵鸟蛋',
+    name: 'Devekuşu Yumurtası',
     category: 'animal_product',
-    description: '巨大的鸵鸟蛋。',
+    description: 'Devasa devekuşu yumurtası.',
     sellPrice: 300,
     edible: true,
     staminaRestore: 15,
@@ -721,55 +721,55 @@ const ANIMAL_PRODUCT_ITEMS: ItemDef[] = [
   }
 ]
 
-/** 果树水果 */
+/** Meyve ağaçları meyveleri */
 const FRUIT_TREE_ITEMS: ItemDef[] = FRUIT_TREE_DEFS.map(t => ({
   id: t.fruitId,
   name: t.fruitName,
   category: 'fruit' as const,
-  description: `${t.name}结出的${t.fruitName}。`,
+  description: `${t.name} ağacının verdiği ${t.fruitName}.`,
   sellPrice: Math.floor(t.fruitSellPrice * 1.5),
   edible: true,
   staminaRestore: Math.floor(t.fruitSellPrice / 5),
   healthRestore: Math.floor(t.fruitSellPrice / 10)
 }))
 
-/** 树苗 */
+/** Fidanlar */
 const SAPLING_ITEMS: ItemDef[] = FRUIT_TREE_DEFS.map(t => ({
   id: t.saplingId,
-  name: `${t.name}苗`,
+  name: `${t.name} Fidanı`,
   category: 'sapling' as const,
-  description: `种下后${t.growthDays}天可成熟，${t.fruitSeason === 'spring' ? '春' : t.fruitSeason === 'summer' ? '夏' : t.fruitSeason === 'autumn' ? '秋' : '冬'}季产出${t.fruitName}。`,
+  description: `Dikildikten ${t.growthDays} gün sonra olgunlaşır, ${t.fruitSeason === 'spring' ? 'ilkbaharda' : t.fruitSeason === 'summer' ? 'yazın' : t.fruitSeason === 'autumn' ? 'sonbaharda' : 'kışın'} ${t.fruitName} verir.`,
   sellPrice: Math.floor(t.saplingPrice / 2),
   edible: false
 }))
 
-/** 野树产物和材料 */
+/** Yabani ağaç ürünleri ve malzemeleri */
 const WILD_TREE_ITEMS: ItemDef[] = [
   {
     id: 'camphor_seed',
-    name: '樟树种子',
+    name: 'Kafur Ağacı Tohumu',
     category: 'material',
-    description: '樟树的种子，种下后可长成樟树。',
+    description: 'Kafur ağacının tohumu, dikilirse kafur ağacına dönüşür.',
     sellPrice: 15,
     edible: false
   },
   {
     id: 'mulberry',
-    name: '桑葚',
+    name: 'Dut',
     category: 'misc',
-    description: '紫黑色的桑葚，酸甜可口。',
+    description: 'Morumsu siyah dut, tatlı ekşi çok lezzetlidir.',
     sellPrice: 25,
     edible: true,
     staminaRestore: 5,
     healthRestore: 2
   },
-  { id: 'pine_resin', name: '松脂', category: 'material', description: '松树分泌的树脂，可用于制作。', sellPrice: 30, edible: false },
-  { id: 'camphor_oil', name: '樟脑油', category: 'material', description: '樟树提取的精油，气味清香。', sellPrice: 50, edible: false },
-  { id: 'silk', name: '蚕丝', category: 'material', description: '桑树上采集的蚕丝，光滑细腻。', sellPrice: 40, edible: false },
-  { id: 'tapper', name: '采脂器', category: 'machine', description: '安装到成熟野树上，定期产出树脂。', sellPrice: 100, edible: false }
+  { id: 'pine_resin', name: 'Çam Reçinesi', category: 'material', description: 'Çam ağacının salgıladığı reçine, üretimde kullanılır.', sellPrice: 30, edible: false },
+  { id: 'camphor_oil', name: 'Kafur Yağı', category: 'material', description: 'Kafur ağacından elde edilen hoş kokulu uçucu yağ.', sellPrice: 50, edible: false },
+  { id: 'silk', name: 'İpek', category: 'material', description: 'Dut ağacından toplanan ipek, pürüzsüz ve yumuşaktır.', sellPrice: 40, edible: false },
+  { id: 'tapper', name: 'Reçine Toplayıcı', category: 'machine', description: 'Olgun yabani ağaca takılır, düzenli olarak reçine verir.', sellPrice: 100, edible: false }
 ]
 
-/** 炸弹物品 */
+/** Bomba eşyaları */
 const BOMB_ITEMS: ItemDef[] = BOMBS.map(b => ({
   id: b.id,
   name: b.name,
@@ -779,21 +779,21 @@ const BOMB_ITEMS: ItemDef[] = BOMBS.map(b => ({
   edible: false
 }))
 
-/** 蟹笼和水产物品 */
+/** Yengeç kapanı ve su ürünü eşyaları */
 const CRAB_POT_ITEMS: ItemDef[] = [
   {
     id: 'crab_pot',
-    name: '蟹笼',
+    name: 'Yengeç Kapanı',
     category: 'machine',
-    description: '放置在钓鱼地点，每日自动捕获水产（需鱼饵）。',
+    description: 'Balık tutulabilen yerlere yerleştirilir, her gün otomatik su ürünü yakalar (yem gerekir).',
     sellPrice: 750,
     edible: false
   },
   {
     id: 'snail',
-    name: '蜗牛',
+    name: 'Salyangoz',
     category: 'fish',
-    description: '小巧的淡水蜗牛。',
+    description: 'Küçük bir tatlı su salyangozu.',
     sellPrice: 15,
     edible: true,
     staminaRestore: 3,
@@ -801,9 +801,9 @@ const CRAB_POT_ITEMS: ItemDef[] = [
   },
   {
     id: 'freshwater_shrimp',
-    name: '淡水虾',
+    name: 'Tatlı Su Karidesi',
     category: 'fish',
-    description: '清澈水域中的小虾。',
+    description: 'Temiz sularda yaşayan küçük karides.',
     sellPrice: 20,
     edible: true,
     staminaRestore: 4,
@@ -811,9 +811,9 @@ const CRAB_POT_ITEMS: ItemDef[] = [
   },
   {
     id: 'crab',
-    name: '螃蟹',
+    name: 'Yengeç',
     category: 'fish',
-    description: '鲜美的河蟹。',
+    description: 'Lezzetli nehir yengeci.',
     sellPrice: 30,
     edible: true,
     staminaRestore: 6,
@@ -821,9 +821,9 @@ const CRAB_POT_ITEMS: ItemDef[] = [
   },
   {
     id: 'lobster',
-    name: '龙虾',
+    name: 'Istakoz',
     category: 'fish',
-    description: '珍贵的淡水龙虾。',
+    description: 'Değerli bir tatlı su ıstakozu.',
     sellPrice: 50,
     edible: true,
     staminaRestore: 10,
@@ -831,9 +831,9 @@ const CRAB_POT_ITEMS: ItemDef[] = [
   },
   {
     id: 'cave_shrimp',
-    name: '洞穴虾',
+    name: 'Mağara Karidesi',
     category: 'fish',
-    description: '矿洞暗河中的透明小虾。',
+    description: 'Madenin karanlık nehirlerinde yaşayan saydam karides.',
     sellPrice: 40,
     edible: true,
     staminaRestore: 8,
@@ -841,27 +841,27 @@ const CRAB_POT_ITEMS: ItemDef[] = [
   },
   {
     id: 'swamp_crab',
-    name: '沼泽蟹',
+    name: 'Bataklık Yengeci',
     category: 'fish',
-    description: '沼泽中的深色螃蟹。',
+    description: 'Bataklıkta yaşayan koyu renkli yengeç.',
     sellPrice: 45,
     edible: true,
     staminaRestore: 9,
     healthRestore: 4
   },
-  { id: 'trash', name: '垃圾', category: 'misc', description: '没什么用的杂物。', sellPrice: 1, edible: false },
-  { id: 'driftwood', name: '浮木', category: 'misc', description: '水中捞起的朽木。', sellPrice: 2, edible: false },
-  { id: 'broken_cd', name: '碎碟片', category: 'misc', description: '不知谁丢的破碟子。', sellPrice: 1, edible: false },
-  { id: 'soggy_newspaper', name: '湿报纸', category: 'misc', description: '泡烂的旧报纸。', sellPrice: 1, edible: false }
+  { id: 'trash', name: 'Çöp', category: 'misc', description: 'Pek işe yaramayan hurdalar.', sellPrice: 1, edible: false },
+  { id: 'driftwood', name: 'Sürüklenen Odun', category: 'misc', description: 'Sudan çıkarılmış çürük odun parçası.', sellPrice: 2, edible: false },
+  { id: 'broken_cd', name: 'Kırık Disk', category: 'misc', description: 'Kim bilir kimin attığı kırık bir disk.', sellPrice: 1, edible: false },
+  { id: 'soggy_newspaper', name: 'Islak Gazete', category: 'misc', description: 'Suda erimiş eski gazete.', sellPrice: 1, edible: false }
 ]
 
-/** 花蜜物品 */
+/** Çiçek balı eşyaları */
 const FLOWER_HONEY_ITEMS: ItemDef[] = [
   {
     id: 'chrysanthemum_honey',
-    name: '菊花蜜',
+    name: 'Kasımpatı Balı',
     category: 'processed',
-    description: '带有菊花清香的蜂蜜。',
+    description: 'Kasımpatı kokusu taşıyan bal.',
     sellPrice: 200,
     edible: true,
     staminaRestore: 25,
@@ -869,9 +869,9 @@ const FLOWER_HONEY_ITEMS: ItemDef[] = [
   },
   {
     id: 'osmanthus_honey',
-    name: '桂花蜜',
+    name: 'Osmanthus Balı',
     category: 'processed',
-    description: '馥郁芬芳的桂花蜂蜜。',
+    description: 'Yoğun ve mis kokulu osmanthus balı.',
     sellPrice: 450,
     edible: true,
     staminaRestore: 30,
@@ -879,9 +879,9 @@ const FLOWER_HONEY_ITEMS: ItemDef[] = [
   },
   {
     id: 'rapeseed_honey',
-    name: '菜花蜜',
+    name: 'Kanola Çiçeği Balı',
     category: 'processed',
-    description: '清甜的油菜花蜂蜜。',
+    description: 'Hafif tatlı kanola çiçeği balı.',
     sellPrice: 150,
     edible: true,
     staminaRestore: 20,
@@ -889,9 +889,9 @@ const FLOWER_HONEY_ITEMS: ItemDef[] = [
   },
   {
     id: 'snow_lotus_honey',
-    name: '雪莲蜜',
+    name: 'Kar Nilüferi Balı',
     category: 'processed',
-    description: '珍贵的雪莲花蜂蜜。',
+    description: 'Nadir ve değerli kar nilüferi balı.',
     sellPrice: 730,
     edible: true,
     staminaRestore: 40,
@@ -899,18 +899,18 @@ const FLOWER_HONEY_ITEMS: ItemDef[] = [
   }
 ]
 
-/** 松露油 */
+/** Trüf yağı */
 const TRUFFLE_OIL_ITEM: ItemDef[] = [
-  { id: 'truffle_oil', name: '松露油', category: 'processed', description: '珍贵的松露油，烹饪佳品。', sellPrice: 680, edible: false }
+  { id: 'truffle_oil', name: 'Trüf Yağı', category: 'processed', description: 'Değerli trüf yağı, yemeklerde çok kıymetlidir.', sellPrice: 680, edible: false }
 ]
 
-/** 奶酪物品 */
+/** Peynir eşyaları */
 const CHEESE_ITEMS: ItemDef[] = [
   {
     id: 'cheese',
-    name: '奶酪',
+    name: 'Peynir',
     category: 'processed',
-    description: '用牛奶制成的醇厚奶酪。',
+    description: 'İnek sütünden yapılan yoğun aromalı peynir.',
     sellPrice: 250,
     edible: true,
     staminaRestore: 50,
@@ -918,9 +918,9 @@ const CHEESE_ITEMS: ItemDef[] = [
   },
   {
     id: 'goat_cheese',
-    name: '山羊奶酪',
+    name: 'Keçi Peyniri',
     category: 'processed',
-    description: '用山羊奶制成的风味奶酪。',
+    description: 'Keçi sütünden yapılan özel aromalı peynir.',
     sellPrice: 220,
     edible: true,
     staminaRestore: 44,
@@ -928,9 +928,9 @@ const CHEESE_ITEMS: ItemDef[] = [
   },
   {
     id: 'buffalo_cheese',
-    name: '水牛奶酪',
+    name: 'Manda Peyniri',
     category: 'processed',
-    description: '用水牛奶制成的浓郁奶酪。',
+    description: 'Manda sütünden yapılan yoğun kıvamlı peynir.',
     sellPrice: 200,
     edible: true,
     staminaRestore: 40,
@@ -938,9 +938,9 @@ const CHEESE_ITEMS: ItemDef[] = [
   },
   {
     id: 'yak_cheese',
-    name: '牦牛奶酪',
+    name: 'Yak Peyniri',
     category: 'processed',
-    description: '用牦牛奶制成的高原奶酪。',
+    description: 'Yak sütünden yapılan yayla peyniri.',
     sellPrice: 280,
     edible: true,
     staminaRestore: 56,
@@ -948,41 +948,41 @@ const CHEESE_ITEMS: ItemDef[] = [
   }
 ]
 
-/** 布料物品 */
+/** Kumaş eşyaları */
 const CLOTH_ITEMS: ItemDef[] = [
-  { id: 'cloth', name: '布匹', category: 'material', description: '用羊毛纺织的布匹。', sellPrice: 660, edible: false },
-  { id: 'silk_cloth', name: '丝绸', category: 'material', description: '华美的丝绸。', sellPrice: 200, edible: false },
-  { id: 'alpaca_cloth', name: '羊驼绒', category: 'material', description: '极其柔软的羊驼绒布。', sellPrice: 530, edible: false },
-  { id: 'felt', name: '毛毡', category: 'material', description: '用兔毛压制的毛毡。', sellPrice: 340, edible: false }
+  { id: 'cloth', name: 'Kumaş', category: 'material', description: 'Yünden dokunmuş kumaş.', sellPrice: 660, edible: false },
+  { id: 'silk_cloth', name: 'İpek Kumaş', category: 'material', description: 'Gösterişli bir ipek kumaş.', sellPrice: 200, edible: false },
+  { id: 'alpaca_cloth', name: 'Alpaka Yünü Kumaşı', category: 'material', description: 'Son derece yumuşak alpaka kumaşı.', sellPrice: 530, edible: false },
+  { id: 'felt', name: 'Keçe', category: 'material', description: 'Tavşan tüyünden bastırılarak yapılan keçe.', sellPrice: 340, edible: false }
 ]
 
-/** 金属锭物品 */
+/** Metal külçe eşyaları */
 const BAR_ITEMS: ItemDef[] = [
-  { id: 'copper_bar', name: '铜锭', category: 'material', description: '冶炼出的铜锭。', sellPrice: 40, edible: false },
-  { id: 'iron_bar', name: '铁锭', category: 'material', description: '冶炼出的铁锭。', sellPrice: 80, edible: false },
-  { id: 'gold_bar', name: '金锭', category: 'material', description: '冶炼出的金锭。', sellPrice: 160, edible: false },
-  { id: 'iridium_bar', name: '铱锭', category: 'material', description: '冶炼出的铱锭，极其珍贵。', sellPrice: 700, edible: false }
+  { id: 'copper_bar', name: 'Bakır Külçesi', category: 'material', description: 'Eritilerek elde edilmiş bakır külçesi.', sellPrice: 40, edible: false },
+  { id: 'iron_bar', name: 'Demir Külçesi', category: 'material', description: 'Eritilerek elde edilmiş demir külçesi.', sellPrice: 80, edible: false },
+  { id: 'gold_bar', name: 'Altın Külçesi', category: 'material', description: 'Eritilerek elde edilmiş altın külçesi.', sellPrice: 160, edible: false },
+  { id: 'iridium_bar', name: 'İridyum Külçesi', category: 'material', description: 'Eritilerek elde edilmiş iridyum külçesi, son derece değerlidir.', sellPrice: 700, edible: false }
 ]
 
-/** 木炭物品 */
+/** Odun kömürü eşyaları */
 const CHARCOAL_ITEMS: ItemDef[] = [
-  { id: 'charcoal', name: '木炭', category: 'material', description: '烧制的木炭，可用作燃料和制作。', sellPrice: 55, edible: false }
+  { id: 'charcoal', name: 'Odun Kömürü', category: 'material', description: 'Yakılarak elde edilen odun kömürü, yakıt ve üretimde kullanılır.', sellPrice: 55, edible: false }
 ]
 
-/** 面粉物品 */
+/** Un eşyaları */
 const FLOUR_ITEMS: ItemDef[] = [
-  { id: 'rice_flour', name: '米粉', category: 'material', description: '用稻米磨成的细腻米粉。', sellPrice: 160, edible: false },
-  { id: 'wheat_flour', name: '面粉', category: 'material', description: '用冬小麦磨成的面粉。', sellPrice: 130, edible: false },
-  { id: 'cornmeal', name: '玉米粉', category: 'material', description: '用玉米磨成的粗粉。', sellPrice: 180, edible: false }
+  { id: 'rice_flour', name: 'Pirinç Unu', category: 'material', description: 'Pirincin öğütülmesiyle elde edilen ince pirinç unu.', sellPrice: 160, edible: false },
+  { id: 'wheat_flour', name: 'Buğday Unu', category: 'material', description: 'Kış buğdayından öğütülen un.', sellPrice: 130, edible: false },
+  { id: 'cornmeal', name: 'Mısır Unu', category: 'material', description: 'Mısırdan öğütülen iri yapılı un.', sellPrice: 180, edible: false }
 ]
 
-/** 茶饮物品 */
+/** Çay içeceği eşyaları */
 const TEA_DRINK_ITEMS: ItemDef[] = [
   {
     id: 'green_tea_drink',
-    name: '绿茶',
+    name: 'Yeşil Çay',
     category: 'processed',
-    description: '清香的绿茶饮品。',
+    description: 'Hoş kokulu yeşil çay içeceği.',
     sellPrice: 620,
     edible: true,
     staminaRestore: 25,
@@ -990,9 +990,9 @@ const TEA_DRINK_ITEMS: ItemDef[] = [
   },
   {
     id: 'chrysanthemum_tea',
-    name: '菊花茶',
+    name: 'Kasımpatı Çayı',
     category: 'processed',
-    description: '清热明目的菊花茶。',
+    description: 'İç serinleten kasımpatı çayı.',
     sellPrice: 470,
     edible: true,
     staminaRestore: 20,
@@ -1000,9 +1000,9 @@ const TEA_DRINK_ITEMS: ItemDef[] = [
   },
   {
     id: 'osmanthus_tea',
-    name: '桂花茶',
+    name: 'Osmanthus Çayı',
     category: 'processed',
-    description: '馥郁芬芳的桂花茶。',
+    description: 'Mis gibi kokan osmanthus çayı.',
     sellPrice: 780,
     edible: true,
     staminaRestore: 30,
@@ -1010,9 +1010,9 @@ const TEA_DRINK_ITEMS: ItemDef[] = [
   },
   {
     id: 'ginseng_tea',
-    name: '人参茶',
+    name: 'Ginseng Çayı',
     category: 'processed',
-    description: '滋补强身的人参茶。',
+    description: 'Bedeni güçlendiren ginseng çayı.',
     sellPrice: 300,
     edible: true,
     staminaRestore: 40,
@@ -1020,13 +1020,13 @@ const TEA_DRINK_ITEMS: ItemDef[] = [
   }
 ]
 
-/** 豆腐物品 */
+/** Tofu eşyaları */
 const TOFU_ITEMS: ItemDef[] = [
   {
     id: 'tofu',
-    name: '豆腐',
+    name: 'Tofu',
     category: 'processed',
-    description: '鲜嫩的豆腐。',
+    description: 'Taze ve yumuşak tofu.',
     sellPrice: 500,
     edible: true,
     staminaRestore: 20,
@@ -1034,9 +1034,9 @@ const TOFU_ITEMS: ItemDef[] = [
   },
   {
     id: 'peanut_tofu',
-    name: '花生豆腐',
+    name: 'Fıstıklı Tofu',
     category: 'processed',
-    description: '香浓的花生豆腐。',
+    description: 'Yoğun aromalı fıstıklı tofu.',
     sellPrice: 380,
     edible: true,
     staminaRestore: 18,
@@ -1044,9 +1044,9 @@ const TOFU_ITEMS: ItemDef[] = [
   },
   {
     id: 'sesame_paste',
-    name: '芝麻酱',
+    name: 'Susam Ezmesi',
     category: 'processed',
-    description: '浓香的芝麻酱。',
+    description: 'Yoğun susam aromalı ezme.',
     sellPrice: 175,
     edible: true,
     staminaRestore: 15,
@@ -1054,13 +1054,13 @@ const TOFU_ITEMS: ItemDef[] = [
   }
 ]
 
-/** 药品物品 */
+/** Şifalı ürün eşyaları */
 const HERB_PRODUCT_ITEMS: ItemDef[] = [
   {
     id: 'herbal_paste',
-    name: '草药膏',
+    name: 'Şifalı Ot Macunu',
     category: 'processed',
-    description: '研磨制成的草药膏。',
+    description: 'Öğütülerek hazırlanmış şifalı ot macunu.',
     sellPrice: 80,
     edible: true,
     staminaRestore: 15,
@@ -1068,9 +1068,9 @@ const HERB_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'ginseng_extract',
-    name: '人参精',
+    name: 'Ginseng Özü',
     category: 'processed',
-    description: '浓缩的人参精华。',
+    description: 'Yoğunlaştırılmış ginseng özü.',
     sellPrice: 400,
     edible: true,
     staminaRestore: 50,
@@ -1078,9 +1078,9 @@ const HERB_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'antler_powder',
-    name: '鹿茸粉',
+    name: 'Boynuz Tozu',
     category: 'processed',
-    description: '研磨的鹿茸粉。',
+    description: 'Öğütülmüş geyik boynuzu tozu.',
     sellPrice: 950,
     edible: true,
     staminaRestore: 60,
@@ -1088,58 +1088,58 @@ const HERB_PRODUCT_ITEMS: ItemDef[] = [
   },
   {
     id: 'animal_medicine',
-    name: '兽药',
+    name: 'Hayvan İlacı',
     category: 'misc',
-    description: '治疗生病的牲畜，立即痊愈。',
+    description: 'Hastalanan çiftlik hayvanını anında iyileştirir.',
     sellPrice: 50,
     edible: false
   },
   {
     id: 'stamina_fruit',
-    name: '仙桃',
+    name: 'Kutsal Şeftali',
     category: 'misc',
-    description: '蕴含远古灵气的果实，食用后永久提升体力上限。极其稀有。',
+    description: 'Kadim ruhani enerji taşıyan meyve, yenince maksimum dayanıklılığı kalıcı artırır. Son derece nadirdir.',
     sellPrice: 5000,
     edible: false
   }
 ]
 
-/** 特殊饲料物品 */
+/** Özel yem eşyaları */
 const FEED_ITEMS: ItemDef[] = [
   {
     id: 'premium_feed',
-    name: '精饲料',
+    name: 'Kaliteli Yem',
     category: 'material',
-    description: '精心配制的优质饲料，显著提升动物心情和好感度。',
+    description: 'Özenle hazırlanmış üstün kaliteli yem, hayvanların keyfini ve sevgisini belirgin biçimde artırır.',
     sellPrice: 40,
     edible: false
   },
   {
     id: 'nourishing_feed',
-    name: '滋补饲料',
+    name: 'Besleyici Yem',
     category: 'material',
-    description: '添加滋补成分的饲料，加速动物产出周期。',
+    description: 'Besleyici katkılar içeren yem, hayvanların üretim döngüsünü hızlandırır.',
     sellPrice: 50,
     edible: false
   },
   {
     id: 'vitality_feed',
-    name: '活力饲料',
+    name: 'Canlandırıcı Yem',
     category: 'material',
-    description: '含有草药精华的饲料，喂食后必定治愈疾病。',
+    description: 'Şifalı bitki özleri içeren yem, yedirildiğinde hastalığı kesin olarak iyileştirir.',
     sellPrice: 60,
     edible: false
   }
 ]
 
-/** 香料物品 */
+/** Tütsü eşyaları */
 const INCENSE_ITEMS: ItemDef[] = [
-  { id: 'pine_incense', name: '松香', category: 'gift', description: '清新的松香，送礼佳品。', sellPrice: 100, edible: false },
-  { id: 'camphor_incense', name: '樟脑香', category: 'gift', description: '提神醒脑的樟脑香。', sellPrice: 150, edible: false },
-  { id: 'osmanthus_incense', name: '桂花香', category: 'gift', description: '馥郁的桂花香。', sellPrice: 780, edible: false }
+  { id: 'pine_incense', name: 'Çam Tütsüsü', category: 'gift', description: 'Taze kokulu çam tütsüsü, güzel bir hediye olur.', sellPrice: 100, edible: false },
+  { id: 'camphor_incense', name: 'Kafur Tütsüsü', category: 'gift', description: 'Zihni açan kafur tütsüsü.', sellPrice: 150, edible: false },
+  { id: 'osmanthus_incense', name: 'Osmanthus Tütsüsü', category: 'gift', description: 'Yoğun kokulu osmanthus tütsüsü.', sellPrice: 780, edible: false }
 ]
 
-/** 武器图鉴物品 */
+/** Silah koleksiyonu eşyaları */
 const WEAPON_ITEMS: ItemDef[] = Object.values(WEAPONS).map(w => ({
   id: w.id,
   name: w.name,
@@ -1149,7 +1149,7 @@ const WEAPON_ITEMS: ItemDef[] = Object.values(WEAPONS).map(w => ({
   edible: false
 }))
 
-/** 戒指图鉴物品 */
+/** Yüzük koleksiyonu eşyaları */
 const RING_ITEMS: ItemDef[] = RINGS.map(r => ({
   id: r.id,
   name: r.name,
@@ -1159,7 +1159,7 @@ const RING_ITEMS: ItemDef[] = RINGS.map(r => ({
   edible: false
 }))
 
-/** 帽子图鉴物品 */
+/** Şapka koleksiyonu eşyaları */
 const HAT_ITEMS: ItemDef[] = HATS.map(h => ({
   id: h.id,
   name: h.name,
@@ -1169,7 +1169,7 @@ const HAT_ITEMS: ItemDef[] = HATS.map(h => ({
   edible: false
 }))
 
-/** 鞋子图鉴物品 */
+/** Ayakkabı koleksiyonu eşyaları */
 const SHOE_ITEMS: ItemDef[] = SHOES.map(s => ({
   id: s.id,
   name: s.name,
@@ -1179,7 +1179,7 @@ const SHOE_ITEMS: ItemDef[] = SHOES.map(s => ({
   edible: false
 }))
 
-/** 所有物品定义 */
+/** Tüm eşya tanımları */
 export const ITEMS: ItemDef[] = [
   ...SEED_ITEMS,
   ...CROP_ITEMS,
@@ -1214,50 +1214,50 @@ export const ITEMS: ItemDef[] = [
   ...FEED_ITEMS,
   ...INCENSE_ITEMS,
 
-  // 装备图鉴
+  // Ekipman koleksiyonu
   ...WEAPON_ITEMS,
   ...RING_ITEMS,
   ...HAT_ITEMS,
   ...SHOE_ITEMS,
 
-  // 淘金产出
-  { id: 'gold_nugget', name: '金砂', category: 'misc', description: '河中淘得的金砂，闪闪发光。', sellPrice: 80, edible: false },
+  // Altın arama ürünleri
+  { id: 'gold_nugget', name: 'Altın Kırıntısı', category: 'misc', description: 'Nehirden çıkarılmış, ışıl ışıl parlayan altın tanesi.', sellPrice: 80, edible: false },
 
-  // ===== 化石 (8) =====
-  { id: 'trilobite_fossil', name: '三叶虫化石', category: 'fossil', description: '远古海洋生物的化石。', sellPrice: 120, edible: false },
-  { id: 'amber', name: '琥珀', category: 'fossil', description: '凝固了万年的树脂化石。', sellPrice: 150, edible: false },
-  { id: 'ammonite_fossil', name: '菊石化石', category: 'fossil', description: '螺旋状的远古海洋化石。', sellPrice: 180, edible: false },
-  { id: 'fern_fossil', name: '蕨叶化石', category: 'fossil', description: '保存完好的远古蕨类化石。', sellPrice: 100, edible: false },
-  { id: 'shell_fossil', name: '螺壳化石', category: 'fossil', description: '古代软体动物的壳化石。', sellPrice: 90, edible: false },
-  { id: 'bone_fragment', name: '骨骸碎片', category: 'fossil', description: '不知名远古生物的骨骸碎片。', sellPrice: 200, edible: false },
-  { id: 'petrified_wood', name: '石化木', category: 'fossil', description: '被矿物质替代的远古木材。', sellPrice: 130, edible: false },
-  { id: 'dragon_tooth', name: '龙牙化石', category: 'fossil', description: '传说中龙族遗留的牙齿化石。', sellPrice: 350, edible: false },
+  // ===== Fosiller (8) =====
+  { id: 'trilobite_fossil', name: 'Trilobit Fosili', category: 'fossil', description: 'Kadim deniz canlısının fosili.', sellPrice: 120, edible: false },
+  { id: 'amber', name: 'Kehribar', category: 'fossil', description: 'Binlerce yılda donmuş reçine fosili.', sellPrice: 150, edible: false },
+  { id: 'ammonite_fossil', name: 'Ammonit Fosili', category: 'fossil', description: 'Sarmal biçimli kadim deniz fosili.', sellPrice: 180, edible: false },
+  { id: 'fern_fossil', name: 'Eğrelti Fosili', category: 'fossil', description: 'İyi korunmuş kadim eğrelti fosili.', sellPrice: 100, edible: false },
+  { id: 'shell_fossil', name: 'Kabuk Fosili', category: 'fossil', description: 'Kadim yumuşakça kabuğu fosili.', sellPrice: 90, edible: false },
+  { id: 'bone_fragment', name: 'Kemik Parçası', category: 'fossil', description: 'Kim olduğu bilinmeyen kadim bir canlının kemik parçası.', sellPrice: 200, edible: false },
+  { id: 'petrified_wood', name: 'Taşlaşmış Odun', category: 'fossil', description: 'Minerallerle yer değiştirmiş kadim odun.', sellPrice: 130, edible: false },
+  { id: 'dragon_tooth', name: 'Ejder Dişi Fosili', category: 'fossil', description: 'Efsanelerde geçen ejder soyundan kalma diş fosili.', sellPrice: 350, edible: false },
 
-  // ===== 古物 (10) =====
-  { id: 'ancient_pottery', name: '古陶片', category: 'artifact', description: '远古文明留下的陶器碎片。', sellPrice: 100, edible: false },
-  { id: 'jade_disc', name: '玉璧残片', category: 'artifact', description: '精美的远古玉璧碎片。', sellPrice: 250, edible: false },
-  { id: 'bronze_mirror', name: '铜镜', category: 'artifact', description: '磨制精良的远古铜镜。', sellPrice: 200, edible: false },
-  { id: 'ancient_coin', name: '远古铜钱', category: 'artifact', description: '不知名朝代的古铜钱。', sellPrice: 150, edible: false },
-  { id: 'oracle_bone', name: '甲骨片', category: 'artifact', description: '刻有卜辞的远古甲骨。', sellPrice: 300, edible: false },
-  { id: 'jade_pendant', name: '玉佩', category: 'artifact', description: '温润如玉的远古佩饰。', sellPrice: 220, edible: false },
+  // ===== Antik eşyalar (10) =====
+  { id: 'ancient_pottery', name: 'Antik Çömlek Parçası', category: 'artifact', description: 'Kadim uygarlıktan kalma çömlek kırığı.', sellPrice: 100, edible: false },
+  { id: 'jade_disc', name: 'Yeşim Disk Parçası', category: 'artifact', description: 'İnce işlenmiş kadim yeşim disk kırığı.', sellPrice: 250, edible: false },
+  { id: 'bronze_mirror', name: 'Bronz Ayna', category: 'artifact', description: 'İyi işlenmiş kadim bronz ayna.', sellPrice: 200, edible: false },
+  { id: 'ancient_coin', name: 'Antik Bakır Para', category: 'artifact', description: 'Hangi hanedana ait olduğu bilinmeyen eski bakır para.', sellPrice: 150, edible: false },
+  { id: 'oracle_bone', name: 'Kehanet Kemiği Parçası', category: 'artifact', description: 'Üzerine kehanet yazıları oyulmuş kadim kemik.', sellPrice: 300, edible: false },
+  { id: 'jade_pendant', name: 'Yeşim Kolye', category: 'artifact', description: 'Kadim çağlardan kalma yumuşak dokulu yeşim süs eşyası.', sellPrice: 220, edible: false },
   {
     id: 'ancient_seed',
-    name: '远古种子',
+    name: 'Kadim Tohum',
     category: 'artifact',
-    description: '蕴含远古生命力的神秘种子，据说能种出远古水果。',
+    description: 'Kadim yaşam gücü taşıyan gizemli tohum, söylentiye göre kadim meyve yetiştirir.',
     sellPrice: 400,
     edible: false
   },
-  { id: 'bamboo_scroll', name: '竹简', category: 'artifact', description: '刻有古文的竹简残片。', sellPrice: 180, edible: false },
-  { id: 'stone_axe_head', name: '石斧头', category: 'artifact', description: '远古先民使用的石斧头。', sellPrice: 120, edible: false },
-  { id: 'painted_pottery', name: '彩陶碎片', category: 'artifact', description: '绘有精美纹饰的彩陶碎片。', sellPrice: 200, edible: false },
+  { id: 'bamboo_scroll', name: 'Bambu Parşömen', category: 'artifact', description: 'Üzerinde eski yazılar bulunan bambu tomar parçası.', sellPrice: 180, edible: false },
+  { id: 'stone_axe_head', name: 'Taş Balta Başı', category: 'artifact', description: 'Kadim insanların kullandığı taş balta başı.', sellPrice: 120, edible: false },
+  { id: 'painted_pottery', name: 'Boyalı Çömlek Parçası', category: 'artifact', description: 'Üzerinde güzel desenler bulunan boyalı çömlek parçası.', sellPrice: 200, edible: false },
 
-  // ===== 公会商店物品 =====
+  // ===== Lonca dükkânı eşyaları =====
   {
     id: 'combat_tonic',
-    name: '战斗补剂',
+    name: 'Savaş İksiri',
     category: 'food',
-    description: '恢复30点HP。',
+    description: '30 HP yeniler.',
     sellPrice: 100,
     edible: true,
     staminaRestore: 0,
@@ -1265,9 +1265,9 @@ export const ITEMS: ItemDef[] = [
   },
   {
     id: 'fortify_brew',
-    name: '强化药水',
+    name: 'Güçlendirme İksiri',
     category: 'food',
-    description: '恢复60点HP。',
+    description: '60 HP yeniler.',
     sellPrice: 250,
     edible: true,
     staminaRestore: 0,
@@ -1275,34 +1275,34 @@ export const ITEMS: ItemDef[] = [
   },
   {
     id: 'ironhide_potion',
-    name: '铁壁药剂',
+    name: 'Demir Deri İksiri',
     category: 'food',
-    description: '恢复全部HP。',
+    description: 'Tüm HP’yi yeniler.',
     sellPrice: 400,
     edible: true,
     staminaRestore: 0,
     healthRestore: 999
   },
-  { id: 'slayer_charm', name: '猎魔符', category: 'misc', description: '怪物掉落率+20%（当次探索）。', sellPrice: 750, edible: false },
+  { id: 'slayer_charm', name: 'Avcı Tılsımı', category: 'misc', description: 'Canavar eşya düşürme oranı +%20 (yalnızca bu keşifte).', sellPrice: 750, edible: false },
   {
     id: 'warriors_feast',
-    name: '勇者盛宴',
+    name: 'Savaşçı Sofrası',
     category: 'food',
-    description: '恢复50体力和50HP。',
+    description: '50 dayanıklılık ve 50 HP yeniler.',
     sellPrice: 500,
     edible: true,
     staminaRestore: 50,
     healthRestore: 50
   },
-  { id: 'monster_lure', name: '怪物诱饵', category: 'misc', description: '本层怪物数量翻倍。', sellPrice: 1000, edible: false },
-  { id: 'guild_badge', name: '公会徽章', category: 'misc', description: '攻击力永久+3。', sellPrice: 0, edible: false },
-  { id: 'life_talisman', name: '生命护符', category: 'misc', description: '最大生命值永久+15。', sellPrice: 0, edible: false },
-  { id: 'defense_charm', name: '守护符', category: 'misc', description: '防御永久+3%。', sellPrice: 0, edible: false },
+  { id: 'monster_lure', name: 'Canavar Yemi', category: 'misc', description: 'Bu kattaki canavar sayısını ikiye katlar.', sellPrice: 1000, edible: false },
+  { id: 'guild_badge', name: 'Lonca Rozeti', category: 'misc', description: 'Saldırı gücü kalıcı olarak +3.', sellPrice: 0, edible: false },
+  { id: 'life_talisman', name: 'Yaşam Tılsımı', category: 'misc', description: 'Maksimum can kalıcı olarak +15.', sellPrice: 0, edible: false },
+  { id: 'defense_charm', name: 'Koruma Tılsımı', category: 'misc', description: 'Savunma kalıcı olarak +%3.', sellPrice: 0, edible: false },
   {
     id: 'adventurer_ration',
-    name: '冒险口粮',
+    name: 'Maceracı Kumanyası',
     category: 'food',
-    description: '恢复25体力和25HP。',
+    description: '25 dayanıklılık ve 25 HP yeniler.',
     sellPrice: 175,
     edible: true,
     staminaRestore: 25,
@@ -1310,322 +1310,322 @@ export const ITEMS: ItemDef[] = [
   },
   {
     id: 'stamina_elixir',
-    name: '精力药剂',
+    name: 'Dayanıklılık İksiri',
     category: 'food',
-    description: '恢复120点体力。',
+    description: '120 dayanıklılık yeniler.',
     sellPrice: 300,
     edible: true,
     staminaRestore: 120,
     healthRestore: 0
   },
-  { id: 'lucky_coin', name: '幸运铜钱', category: 'misc', description: '怪物掉落率永久+5%。', sellPrice: 0, edible: false },
+  { id: 'lucky_coin', name: 'Şans Parası', category: 'misc', description: 'Canavar eşya düşürme oranı kalıcı olarak +%5.', sellPrice: 0, edible: false },
 
-  // ===== 瀚海物品 =====
+  // ===== Hanhai eşyaları =====
   {
     id: 'hanhai_cactus_seed',
-    name: '仙人掌种子',
+    name: 'Kaktüs Tohumu',
     category: 'seed',
-    description: '来自西域的奇特植物种子，夏季可种植。',
+    description: 'Batı diyarından gelen ilginç bitki tohumu, yazın ekilebilir.',
     sellPrice: 250,
     edible: false
   },
   {
     id: 'hanhai_date_seed',
-    name: '椰枣种子',
+    name: 'Hurma Tohumu',
     category: 'seed',
-    description: '丝绸之路带来的西域果实种子，夏/秋季可种植。',
+    description: 'İpek Yolu’yla gelen çöl meyvesi tohumu, yaz/sonbahar mevsiminde ekilebilir.',
     sellPrice: 200,
     edible: false
   },
-  { id: 'hanhai_spice', name: '西域香料', category: 'material', description: '异域风情的香料，烹饪佳品。', sellPrice: 150, edible: false },
-  { id: 'hanhai_silk', name: '丝绸', category: 'material', description: '细腻光滑的上等丝绸。', sellPrice: 400, edible: false },
-  { id: 'hanhai_turquoise', name: '绿松石', category: 'gem', description: '西域特产的珍贵宝石。', sellPrice: 300, edible: false },
-  { id: 'hanhai_map', name: '藏宝图', category: 'misc', description: '标记着荒原某处宝藏的地图。', sellPrice: 500, edible: false },
+  { id: 'hanhai_spice', name: 'Batı Diyarı Baharatı', category: 'material', description: 'Egzotik kokulu baharat, yemeklerde çok işe yarar.', sellPrice: 150, edible: false },
+  { id: 'hanhai_silk', name: 'İpek', category: 'material', description: 'İnce ve pürüzsüz kaliteli ipek.', sellPrice: 400, edible: false },
+  { id: 'hanhai_turquoise', name: 'Firuze', category: 'gem', description: 'Batı diyarına özgü değerli taş.', sellPrice: 300, edible: false },
+  { id: 'hanhai_map', name: 'Define Haritası', category: 'misc', description: 'Çorak arazide bir yerde gömülü hazineyi işaretleyen harita.', sellPrice: 500, edible: false },
   {
     id: 'mega_bomb_recipe',
-    name: '巨型炸弹配方',
+    name: 'Dev Bomba Tarifi',
     category: 'misc',
-    description: '据说能炸开整层矿洞的秘方。',
+    description: 'Söylentiye göre tüm maden katını patlatabilecek gizli formül.',
     sellPrice: 2500,
     edible: false
   },
 
-  // ==================== 仙灵物品 ====================
-  // 发现线索
+  // ==================== Ruhani eşya grubu ====================
+  // Keşif ipuçları
   {
     id: 'fox_bead',
-    name: '狐珠',
+    name: 'Tilki İncisi',
     category: 'misc',
-    description: '矿洞深处捡到的赤红色珠子，温热如有生命。',
+    description: 'Madenin derinliklerinde bulunan kızıl renkli inci, sanki canlıymış gibi sıcaktır.',
     sellPrice: 500,
     edible: false
   },
 
-  // 求缘物品
+  // Gönül bağı kurma eşyaları
   {
     id: 'dragon_scale_charm',
-    name: '龙鳞佩',
+    name: 'Ejder Pulu Tılsımı',
     category: 'misc',
-    description: '以龙玉雕琢的鳞片形佩饰，蕴含潜渊之力。',
+    description: 'Ejder yeşiminden oyulmuş pul biçimli süs, derinliklerin gücünü taşır.',
     sellPrice: 0,
     edible: false
   },
-  { id: 'blossom_crown', name: '花灵冠', category: 'misc', description: '用永不凋零的桃花编织的花冠。', sellPrice: 0, edible: false },
-  { id: 'jade_mortar', name: '玉药杵', category: 'misc', description: '月光石雕成的药杵，与月兔的玉杵成对。', sellPrice: 0, edible: false },
-  { id: 'fox_flame_lantern', name: '狐火灯笼', category: 'misc', description: '内含狐火的灯笼，永不熄灭。', sellPrice: 0, edible: false },
+  { id: 'blossom_crown', name: 'Çiçek Ruhu Tacı', category: 'misc', description: 'Hiç solmayan şeftali çiçeklerinden örülmüş taç.', sellPrice: 0, edible: false },
+  { id: 'jade_mortar', name: 'Yeşim Havan Eli', category: 'misc', description: 'Aytaşından oyulmuş ilaç havanı, ay tavşanının havanıyla eş olur.', sellPrice: 0, edible: false },
+  { id: 'fox_flame_lantern', name: 'Tilki Ateşi Feneri', category: 'misc', description: 'İçinde tilki ateşi taşıyan, hiç sönmeyen fener.', sellPrice: 0, edible: false },
   {
     id: 'cultivation_jade',
-    name: '修炼玉佩',
+    name: 'Yetişim Yeşim Kolyesi',
     category: 'misc',
-    description: '蕴含灵气的玉佩，修行者的信物。',
+    description: 'Ruhani güç taşıyan yeşim kolye, bir müridin simgesidir.',
     sellPrice: 0,
     edible: false
   },
   {
     id: 'silver_thread_ring',
-    name: '银丝戒',
+    name: 'Gümüş İplik Yüzük',
     category: 'misc',
-    description: '用月光银丝编织的戒指，寄托归乡之思。',
+    description: 'Ay ışığı kadar ince gümüş tellerden örülmüş yüzük, yuvaya dönüş özlemini taşır.',
     sellPrice: 0,
     edible: false
   },
 
-  // 结缘物品
+  // Ruh bağı eşyaları
   {
     id: 'dragon_pearl',
-    name: '龙珠',
+    name: 'Ejder İncisi',
     category: 'misc',
-    description: '以龙玉、月光石与棱彩碎片炼成的灵珠，是龙族至高的缘定信物。',
+    description: 'Ejder yeşimi, aytaşı ve prizmatik parçadan dövülmüş ruhani inci; ejder soyunun en yüce bağ nişanesidir.',
     sellPrice: 0,
     edible: false
   },
   {
     id: 'eternal_blossom',
-    name: '不凋花',
+    name: 'Solmayan Çiçek',
     category: 'misc',
-    description: '用至尊桃子、蜂蜜和桂花凝聚而成，永不枯萎的灵花。',
+    description: 'En özel şeftali, bal ve osmanthus ile yoğrulmuş, asla solmayan ruh çiçeği.',
     sellPrice: 0,
     edible: false
   },
   {
     id: 'moon_elixir',
-    name: '月华丹',
+    name: 'Ay Işığı İksiri',
     category: 'misc',
-    description: '人参、雪莲与月光石炼制的仙丹，散发柔和的银白色光芒。',
+    description: 'Ginseng, kar nilüferi ve aytaşından yapılmış kutsal iksir, yumuşak gümüşî bir parıltı yayar.',
     sellPrice: 0,
     edible: false
   },
   {
     id: 'fox_spirit_bead',
-    name: '灵狐珠',
+    name: 'Ruh Tilkisi İncisi',
     category: 'misc',
-    description: '红宝石、月光石与黄金炼成的珠子，封印着狐仙的一缕灵力。',
+    description: 'Yakut, aytaşı ve altından yapılmış inci; tilki ruhunun bir parça kudretini mühürler.',
     sellPrice: 0,
     edible: false
   },
   {
     id: 'immortal_gourd',
-    name: '仙人葫',
+    name: 'Ölümsüz Kabak Şişesi',
     category: 'misc',
-    description: '人参、鹿茸与铱矿炼制的丹葫芦，内蕴五百年修行之力。',
+    description: 'Ginseng, geyik boynuzu ve iridyumdan yapılmış kutsal kap; içinde beş yüz yıllık yetişim gücü taşır.',
     sellPrice: 0,
     edible: false
   },
   {
     id: 'starlight_loom',
-    name: '星光织机',
+    name: 'Yıldız Işığı Dokuma Tezgâhı',
     category: 'misc',
-    description: '蚕丝、月光石与棱彩碎片织成的微型织机，能织出星光般的丝线。',
+    description: 'İpek, aytaşı ve prizmatik parçayla örülmüş minik tezgâh; yıldız ışığı gibi iplikler dokuyabilir.',
     sellPrice: 0,
     edible: false
   },
 
-  // 能力产出物品
+  // Yetenek üretimi eşyaları
   {
     id: 'spirit_peach',
-    name: '灵桃',
+    name: 'Ruh Şeftalisi',
     category: 'misc',
-    description: '桃夭赐福的仙桃，散发着灵气。',
+    description: 'Şeftali ruhunun kutsadığı büyülü şeftali, ruhani enerji yayar.',
     sellPrice: 800,
     edible: true,
     staminaRestore: 50,
     healthRestore: 30
   },
-  { id: 'moon_herb', name: '月草', category: 'material', description: '沐浴月华而生的灵草，药效极佳。', sellPrice: 300, edible: false },
-  { id: 'dream_silk', name: '梦丝', category: 'material', description: '归女织出的银白丝线，闪烁着星光。', sellPrice: 500, edible: false }
+  { id: 'moon_herb', name: 'Ay Otu', category: 'material', description: 'Ay ışığıyla büyüyen ruhani ot, ilaç etkisi son derece güçlüdür.', sellPrice: 300, edible: false },
+  { id: 'dream_silk', name: 'Rüya İpeği', category: 'material', description: 'Dönüş ruhunun dokuduğu gümüş beyaz iplik, yıldız ışığı gibi parlar.', sellPrice: 500, edible: false }
 ]
 
-/** 根据ID查找物品 */
+/** ID ile eşya arar */
 export const getItemById = (id: string): ItemDef | undefined => {
   return ITEMS.find(i => i.id === id)
 }
 
-/** 物品分类默认来源 */
+/** Eşya kategorilerinin varsayılan kaynakları */
 const CATEGORY_SOURCE: Record<ItemCategory, string> = {
-  seed: '商店购买',
-  crop: '种植收获',
-  fish: '钓鱼获得',
-  ore: '矿洞采集',
-  gem: '矿洞采集',
-  material: '采集/合成',
-  food: '烹饪制作',
-  processed: '加工制作',
-  machine: '合成制作',
-  sprinkler: '合成制作',
-  fertilizer: '合成制作',
-  bait: '商店购买',
-  tackle: '商店购买',
-  animal_product: '畜牧产出',
-  fruit: '果树收获',
-  sapling: '商店购买',
-  bomb: '合成制作',
-  gift: '采集/商店',
-  fossil: '矿洞挖掘',
-  artifact: '矿洞挖掘',
-  weapon: '商店/掉落',
-  ring: '商店/合成',
-  hat: '商店/合成',
-  shoe: '铁匠铺合成',
-  misc: '多种途径'
+  seed: 'dükkândan satın alınır',
+  crop: 'ekip hasat edilir',
+  fish: 'balık tutarak elde edilir',
+  ore: 'madenden toplanır',
+  gem: 'madenden toplanır',
+  material: 'toplama / üretim',
+  food: 'yemek yapımı',
+  processed: 'işleme üretimi',
+  machine: 'üretimle yapılır',
+  sprinkler: 'üretimle yapılır',
+  fertilizer: 'üretimle yapılır',
+  bait: 'dükkândan satın alınır',
+  tackle: 'dükkândan satın alınır',
+  animal_product: 'hayvancılık ürünü',
+  fruit: 'meyve ağacından hasat edilir',
+  sapling: 'dükkândan satın alınır',
+  bomb: 'üretimle yapılır',
+  gift: 'toplama / dükkân',
+  fossil: 'madende kazılır',
+  artifact: 'madende kazılır',
+  weapon: 'dükkân / düşme',
+  ring: 'dükkân / üretim',
+  hat: 'dükkân / üretim',
+  shoe: 'demircide üretilir',
+  misc: 'çeşitli yollarla'
 }
 
-/** 特定物品来源覆写 */
+/** Belirli eşyalar için kaynak açıklaması geçersiz kılmaları */
 const ITEM_SOURCE_OVERRIDES: Record<string, string> = {
-  // 材料类
-  wood: '砍树获得',
-  bamboo: '砍竹获得',
-  herb: '山间采集',
-  firewood: '砍树获得',
-  pine_cone: '砍树掉落',
-  battery: '避雷针（雷雨天气）',
-  copper_bar: '熔炉冶炼',
-  iron_bar: '熔炉冶炼',
-  gold_bar: '熔炉冶炼',
-  iridium_bar: '熔炉冶炼',
-  charcoal: '窑炉烧制',
-  rice_flour: '石磨加工',
-  wheat_flour: '石磨加工',
-  cornmeal: '石磨加工',
-  cloth: '织布机加工',
-  silk_cloth: '织布机加工',
-  alpaca_cloth: '织布机加工',
-  felt: '织布机加工',
-  fish_feed: '商店购买',
-  water_purifier: '商店购买',
-  // 采集类
-  wild_mushroom: '矿洞蘑菇层/秋季觅食',
-  winter_bamboo_shoot: '冬季觅食',
-  ginseng: '秋季觅食',
-  wild_berry: '夏季觅食',
-  camphor_seed: '野树掉落',
-  mulberry: '桑树收获',
-  pine_resin: '树液采集器',
-  // 野树相关
-  tapper: '合成制作',
-  lightning_rod: '合成制作',
-  // 机器
-  scarecrow: '合成制作',
-  crab_pot: '合成制作',
-  // 蟹笼捕获
-  snail: '蟹笼捕获',
-  freshwater_shrimp: '蟹笼捕获',
-  crab: '蟹笼捕获',
-  lobster: '蟹笼捕获',
-  cave_shrimp: '蟹笼捕获',
-  swamp_crab: '蟹笼捕获',
-  trash: '蟹笼捕获',
-  driftwood: '蟹笼捕获',
-  broken_cd: '蟹笼捕获',
-  soggy_newspaper: '蟹笼捕获',
-  // 蜂蜜
-  chrysanthemum_honey: '蜂箱产出',
-  osmanthus_honey: '蜂箱产出',
-  rapeseed_honey: '蜂箱产出',
-  snow_lotus_honey: '蜂箱产出',
-  // 奶酪
-  cheese: '奶酪机加工',
-  goat_cheese: '奶酪机加工',
-  buffalo_cheese: '奶酪机加工',
-  yak_cheese: '奶酪机加工',
-  // 松露油
-  truffle_oil: '榨油机加工',
-  // 豆腐
-  tofu: '石磨加工',
-  peanut_tofu: '石磨加工',
-  sesame_paste: '石磨加工',
-  // 茶饮
-  green_tea_drink: '加工制作',
-  chrysanthemum_tea: '加工制作',
-  ginseng_tea: '加工制作',
-  // 礼物
-  jade_ring: '商店购买',
-  silk_ribbon: '商店购买',
-  zhiji_jade: '商店购买',
-  wintersweet: '冬季觅食',
-  pine_incense: '合成制作',
-  camphor_incense: '合成制作',
-  osmanthus_incense: '合成制作',
-  // 杂货
-  rain_totem: '合成制作',
-  gold_nugget: '河边淘金',
-  // 公会商店
-  combat_tonic: '冒险家公会',
-  fortify_brew: '冒险家公会',
-  ironhide_potion: '冒险家公会',
-  warriors_feast: '冒险家公会',
-  slayer_charm: '冒险家公会',
-  monster_lure: '冒险家公会',
-  guild_badge: '冒险家公会',
-  life_talisman: '冒险家公会',
-  defense_charm: '冒险家公会',
-  lucky_coin: '冒险家公会',
-  adventurer_ration: '冒险家公会',
-  stamina_elixir: '冒险家公会',
-  // 瀚海物品
-  hanhai_cactus_seed: '瀚海沙漠商人',
-  hanhai_date_seed: '瀚海沙漠商人',
-  hanhai_spice: '瀚海沙漠商人',
-  hanhai_silk: '瀚海沙漠商人',
-  hanhai_turquoise: '瀚海沙漠商人',
-  hanhai_map: '瀚海沙漠',
-  hanhai_fossil: '瀚海沙漠',
-  mega_bomb_recipe: '瀚海沙漠',
-  // 远古种子
-  ancient_seed: '矿洞挖掘（可种植）',
-  // 草药加工品
-  herbal_paste: '加工制作',
-  ginseng_extract: '加工制作',
-  antler_powder: '加工制作',
-  stamina_fruit: '深渊宝箱(极稀有) / 制作',
-  // 仙灵相关物品
-  fox_bead: '矿洞深处（狐仙发现线索）',
-  spirit_peach: '仙缘能力·灵桃（桃夭）',
-  moon_herb: '仙缘能力·月华（月兔）',
-  dream_silk: '仙缘能力·梦织（归女）',
-  dragon_scale_charm: '制作（龙灵求缘信物）',
-  blossom_crown: '制作（桃夭求缘信物）',
-  jade_mortar: '制作（月兔求缘信物）',
-  fox_flame_lantern: '制作（狐仙求缘信物）',
-  cultivation_jade: '制作（山翁求缘信物）',
-  silver_thread_ring: '制作（归女求缘信物）',
-  dragon_pearl: '制作（龙灵结缘信物）',
-  eternal_blossom: '制作（桃夭结缘信物）',
-  moon_elixir: '制作（月兔结缘信物）',
-  fox_spirit_bead: '制作（狐仙结缘信物）',
-  immortal_gourd: '制作（山翁结缘信物）',
-  starlight_loom: '制作（归女结缘信物）'
+  // Malzeme türü
+  wood: 'ağaç keserek elde edilir',
+  bamboo: 'bambu keserek elde edilir',
+  herb: 'dağlarda toplanır',
+  firewood: 'ağaç keserek elde edilir',
+  pine_cone: 'ağaç kesince düşer',
+  battery: 'yıldırım çekici (fırtınalı havada)',
+  copper_bar: 'ergitme ocağında eritilir',
+  iron_bar: 'ergitme ocağında eritilir',
+  gold_bar: 'ergitme ocağında eritilir',
+  iridium_bar: 'ergitme ocağında eritilir',
+  charcoal: 'kömür ocağında yakılır',
+  rice_flour: 'taş değirmende işlenir',
+  wheat_flour: 'taş değirmende işlenir',
+  cornmeal: 'taş değirmende işlenir',
+  cloth: 'dokuma tezgâhında işlenir',
+  silk_cloth: 'dokuma tezgâhında işlenir',
+  alpaca_cloth: 'dokuma tezgâhında işlenir',
+  felt: 'dokuma tezgâhında işlenir',
+  fish_feed: 'dükkândan satın alınır',
+  water_purifier: 'dükkândan satın alınır',
+  // Toplama türü
+  wild_mushroom: 'maden mantar katı / sonbaharda toplanır',
+  winter_bamboo_shoot: 'kışın toplanır',
+  ginseng: 'sonbaharda toplanır',
+  wild_berry: 'yazın toplanır',
+  camphor_seed: 'yabani ağaçlardan düşer',
+  mulberry: 'dut ağacından hasat edilir',
+  pine_resin: 'reçine toplayıcı ile alınır',
+  // Yabani ağaç bağlantılı
+  tapper: 'üretimle yapılır',
+  lightning_rod: 'üretimle yapılır',
+  // Makineler
+  scarecrow: 'üretimle yapılır',
+  crab_pot: 'üretimle yapılır',
+  // Yengeç kapanı yakalamaları
+  snail: 'yengeç kapanından çıkar',
+  freshwater_shrimp: 'yengeç kapanından çıkar',
+  crab: 'yengeç kapanından çıkar',
+  lobster: 'yengeç kapanından çıkar',
+  cave_shrimp: 'yengeç kapanından çıkar',
+  swamp_crab: 'yengeç kapanından çıkar',
+  trash: 'yengeç kapanından çıkar',
+  driftwood: 'yengeç kapanından çıkar',
+  broken_cd: 'yengeç kapanından çıkar',
+  soggy_newspaper: 'yengeç kapanından çıkar',
+  // Bal
+  chrysanthemum_honey: 'arı kovanından elde edilir',
+  osmanthus_honey: 'arı kovanından elde edilir',
+  rapeseed_honey: 'arı kovanından elde edilir',
+  snow_lotus_honey: 'arı kovanından elde edilir',
+  // Peynir
+  cheese: 'peynir makinesinde işlenir',
+  goat_cheese: 'peynir makinesinde işlenir',
+  buffalo_cheese: 'peynir makinesinde işlenir',
+  yak_cheese: 'peynir makinesinde işlenir',
+  // Trüf yağı
+  truffle_oil: 'yağ presinde işlenir',
+  // Tofu
+  tofu: 'taş değirmende işlenir',
+  peanut_tofu: 'taş değirmende işlenir',
+  sesame_paste: 'taş değirmende işlenir',
+  // Çay içecekleri
+  green_tea_drink: 'işlenerek üretilir',
+  chrysanthemum_tea: 'işlenerek üretilir',
+  ginseng_tea: 'işlenerek üretilir',
+  // Hediyeler
+  jade_ring: 'dükkândan satın alınır',
+  silk_ribbon: 'dükkândan satın alınır',
+  zhiji_jade: 'dükkândan satın alınır',
+  wintersweet: 'kışın toplanır',
+  pine_incense: 'üretimle yapılır',
+  camphor_incense: 'üretimle yapılır',
+  osmanthus_incense: 'üretimle yapılır',
+  // Çeşitli
+  rain_totem: 'üretimle yapılır',
+  gold_nugget: 'nehirde altın arayarak bulunur',
+  // Lonca dükkânı
+  combat_tonic: 'Maceracılar Loncası',
+  fortify_brew: 'Maceracılar Loncası',
+  ironhide_potion: 'Maceracılar Loncası',
+  warriors_feast: 'Maceracılar Loncası',
+  slayer_charm: 'Maceracılar Loncası',
+  monster_lure: 'Maceracılar Loncası',
+  guild_badge: 'Maceracılar Loncası',
+  life_talisman: 'Maceracılar Loncası',
+  defense_charm: 'Maceracılar Loncası',
+  lucky_coin: 'Maceracılar Loncası',
+  adventurer_ration: 'Maceracılar Loncası',
+  stamina_elixir: 'Maceracılar Loncası',
+  // Hanhai eşyaları
+  hanhai_cactus_seed: 'Hanhai çöl tüccarı',
+  hanhai_date_seed: 'Hanhai çöl tüccarı',
+  hanhai_spice: 'Hanhai çöl tüccarı',
+  hanhai_silk: 'Hanhai çöl tüccarı',
+  hanhai_turquoise: 'Hanhai çöl tüccarı',
+  hanhai_map: 'Hanhai Çölü',
+  hanhai_fossil: 'Hanhai Çölü',
+  mega_bomb_recipe: 'Hanhai Çölü',
+  // Kadim tohum
+  ancient_seed: 'madende kazılır (ekilebilir)',
+  // Şifalı işlenmiş ürünler
+  herbal_paste: 'işlenerek üretilir',
+  ginseng_extract: 'işlenerek üretilir',
+  antler_powder: 'işlenerek üretilir',
+  stamina_fruit: 'uçurum sandığı (çok nadir) / üretim',
+  // Ruhani bağlantılı eşyalar
+  fox_bead: 'maden derinliği (tilki ruhu keşif ipucu)',
+  spirit_peach: 'ruh bağı yeteneği · ruh şeftalisi (Taoyao)',
+  moon_herb: 'ruh bağı yeteneği · ay ışığı otu (Ay Tavşanı)',
+  dream_silk: 'ruh bağı yeteneği · rüya dokuması (Dönüş Ruhu)',
+  dragon_scale_charm: 'üretim (ejder ruhu gönül nişanesi)',
+  blossom_crown: 'üretim (Taoyao gönül nişanesi)',
+  jade_mortar: 'üretim (Ay Tavşanı gönül nişanesi)',
+  fox_flame_lantern: 'üretim (Tilki Ruhu gönül nişanesi)',
+  cultivation_jade: 'üretim (Dağ İhtiyarı gönül nişanesi)',
+  silver_thread_ring: 'üretim (Dönüş Ruhu gönül nişanesi)',
+  dragon_pearl: 'üretim (ejder ruhu bağ nişanesi)',
+  eternal_blossom: 'üretim (Taoyao bağ nişanesi)',
+  moon_elixir: 'üretim (Ay Tavşanı bağ nişanesi)',
+  fox_spirit_bead: 'üretim (Tilki Ruhu bağ nişanesi)',
+  immortal_gourd: 'üretim (Dağ İhtiyarı bağ nişanesi)',
+  starlight_loom: 'üretim (Dönüş Ruhu bağ nişanesi)'
 }
 
-/** 获取物品来源描述 */
+/** Eşyanın kaynak açıklamasını al */
 export const getItemSource = (itemId: string): string => {
   const override = ITEM_SOURCE_OVERRIDES[itemId]
   if (override) return override
   const def = getItemById(itemId)
-  if (!def) return '未知'
+  if (!def) return 'Bilinmiyor'
   return CATEGORY_SOURCE[def.category]
 }
 
-/** 箱子阶梯定义 */
+/** Sandık kademeleri tanımı */
 import type { ChestTier } from '@/types'
 
 export const CHEST_DEFS: Record<
@@ -1639,50 +1639,50 @@ export const CHEST_DEFS: Record<
   }
 > = {
   wood: {
-    name: '木箱',
+    name: 'Tahta Sandık',
     capacity: 9,
     craftCost: [{ itemId: 'wood', quantity: 50 }],
     craftMoney: 500,
-    description: '基础储物箱，可存放9格物品。'
+    description: 'Temel depolama sandığı, 9 eşya yuvası vardır.'
   },
   copper: {
-    name: '铜箱',
+    name: 'Bakır Sandık',
     capacity: 18,
     craftCost: [{ itemId: 'copper_bar', quantity: 15 }],
     craftMoney: 2000,
-    description: '坚固的铜制储物箱，可存放18格物品。'
+    description: 'Dayanıklı bakır sandık, 18 eşya yuvası vardır.'
   },
   iron: {
-    name: '铁箱',
+    name: 'Demir Sandık',
     capacity: 27,
     craftCost: [
       { itemId: 'iron_bar', quantity: 10 },
       { itemId: 'wood', quantity: 20 }
     ],
     craftMoney: 5000,
-    description: '耐用的铁制储物箱，可存放27格物品。'
+    description: 'Sağlam demir sandık, 27 eşya yuvası vardır.'
   },
   gold: {
-    name: '金箱',
+    name: 'Altın Sandık',
     capacity: 36,
     craftCost: [
       { itemId: 'gold_bar', quantity: 8 },
       { itemId: 'iron_bar', quantity: 5 }
     ],
     craftMoney: 10000,
-    description: '华贵的金制储物箱，可存放36格物品。'
+    description: 'Gösterişli altın sandık, 36 eşya yuvası vardır.'
   },
   void: {
-    name: '虚空箱',
+    name: 'Boşluk Sandığı',
     capacity: 27,
     craftCost: [
       { itemId: 'iridium_bar', quantity: 5 },
       { itemId: 'void_ore', quantity: 20 }
     ],
     craftMoney: 25000,
-    description: '可远程存取，并可设为作坊原料箱/成品箱。容量27格。'
+    description: 'Uzaktan erişim sağlar ve atölye için hammadde / ürün sandığı olarak ayarlanabilir. Kapasite 27 yuva.'
   }
 }
 
-/** 箱子阶梯顺序 */
+/** Sandık kademe sırası */
 export const CHEST_TIER_ORDER: ChestTier[] = ['wood', 'copper', 'iron', 'gold', 'void']
