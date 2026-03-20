@@ -1,6 +1,6 @@
 import type { WeaponDef, EnchantmentDef, WeaponType } from '@/types'
 
-/** Büyü tanımları */
+/** Tılsım tanımları */
 export const ENCHANTMENTS: Record<string, EnchantmentDef> = {
   sharp: {
     id: 'sharp',
@@ -12,7 +12,7 @@ export const ENCHANTMENTS: Record<string, EnchantmentDef> = {
   },
   fierce: {
     id: 'fierce',
-    name: 'Alevli',
+    name: 'Harlı',
     description: 'Saldırı gücü +5',
     attackBonus: 5,
     critBonus: 0,
@@ -20,7 +20,7 @@ export const ENCHANTMENTS: Record<string, EnchantmentDef> = {
   },
   precise: {
     id: 'precise',
-    name: 'İsabetli',
+    name: 'Nokta Atışı',
     description: 'Kritik vuruş oranı +%10',
     attackBonus: 0,
     critBonus: 0.1,
@@ -28,15 +28,15 @@ export const ENCHANTMENTS: Record<string, EnchantmentDef> = {
   },
   vampiric: {
     id: 'vampiric',
-    name: 'Vampirik',
-    description: 'Verilen hasarın %15’i kadar HP yeniler',
+    name: 'Kan Emici',
+    description: 'Verilen hasarın %15’i kadar can yeniler',
     attackBonus: 0,
     critBonus: 0,
     special: 'vampiric'
   },
   sturdy: {
     id: 'sturdy',
-    name: 'Dayanıklı',
+    name: 'Çelik Gibi',
     description: 'Alınan hasar -%15',
     attackBonus: 0,
     critBonus: 0,
@@ -44,18 +44,18 @@ export const ENCHANTMENTS: Record<string, EnchantmentDef> = {
   },
   lucky: {
     id: 'lucky',
-    name: 'Şanslı',
-    description: 'Canavar ganimet düşme oranı +%20',
+    name: 'Kutlu',
+    description: 'Canavar ganimeti düşme oranı +%20',
     attackBonus: 0,
     critBonus: 0,
     special: 'lucky'
   }
 }
 
-/** Rastgele büyü için kullanılabilecek ID listesi */
+/** Rastgele tılsım için kullanılabilecek ID listesi */
 const RANDOM_ENCHANT_IDS = ['sharp', 'fierce', 'precise', 'vampiric', 'sturdy', 'lucky']
 
-/** Rastgele bir büyü al (%30 olasılıkla tetiklenir) */
+/** Rastgele bir tılsım al (%30 olasılıkla tetiklenir) */
 export const rollRandomEnchantment = (): string | null => {
   if (Math.random() >= 0.3) return null
   return RANDOM_ENCHANT_IDS[Math.floor(Math.random() * RANDOM_ENCHANT_IDS.length)]!
@@ -70,14 +70,14 @@ export const WEAPON_TYPE_NAMES: Record<WeaponType, string> = {
 
 /** Tüm silah tanımları */
 export const WEAPONS: Record<string, WeaponDef> = {
-  // === Mağazada satın alınabilir ===
+  // === Dükkânda satılır ===
   wooden_stick: {
     id: 'wooden_stick',
-    name: 'Tahta Sopa',
+    name: 'Çoban Sopası',
     type: 'club',
     attack: 5,
     critRate: 0.02,
-    description: 'Yerden rastgele alınmış bir sopa, yoktan iyidir.',
+    description: 'Yerden kapılmış sıradan bir değnek, elde hiç yoksa işe yarar.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
@@ -88,7 +88,7 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'sword',
     attack: 12,
     critRate: 0.05,
-    description: 'Bakırdan dövülmüş kısa kılıç, güvenilir bir başlangıç silahı.',
+    description: 'Bakırdan dövülmüş kısa kılıç, yolun başı için güvenilir bir silahtır.',
     shopPrice: 300,
     shopMaterials: [{ itemId: 'copper_ore', quantity: 5 }],
     fixedEnchantment: null
@@ -99,18 +99,18 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'sword',
     attack: 18,
     critRate: 0.05,
-    description: 'İşlenmiş demirden yapılmış uzun kılıç, keskin ve sağlam.',
+    description: 'İşlenmiş demirden yapılmış uzun kılıç, hem keskin hem sağlamdır.',
     shopPrice: 800,
     shopMaterials: [{ itemId: 'iron_ore', quantity: 5 }],
     fixedEnchantment: null
   },
   war_hammer: {
     id: 'war_hammer',
-    name: 'Savaş Çekici',
+    name: 'Cenk Çekici',
     type: 'club',
     attack: 22,
     critRate: 0.03,
-    description: 'Ağır demir çekici, tek vuruşta taşı parçalar.',
+    description: 'Ağır bir savaş çekici, tek vuruşta taşı tuzla buz eder.',
     shopPrice: 1200,
     shopMaterials: [{ itemId: 'iron_ore', quantity: 8 }],
     fixedEnchantment: null
@@ -121,31 +121,31 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'sword',
     attack: 28,
     critRate: 0.08,
-    description: 'Altın ışıklarla parlayan uzun teber, olağanüstü güçlüdür.',
+    description: 'Altın parıltıyla ışıldayan uzun teber, pek kudretlidir.',
     shopPrice: 2500,
     shopMaterials: [{ itemId: 'gold_ore', quantity: 8 }],
     fixedEnchantment: null
   },
 
-  // === Canavar düşürür ===
+  // === Canavardan düşer ===
   bone_dagger: {
     id: 'bone_dagger',
     name: 'Kemik Hançer',
     type: 'dagger',
     attack: 9,
     critRate: 0.15,
-    description: 'Canavar kemiklerinden yapılmış hançer, son derece keskin.',
+    description: 'Canavar kemiğinden yapılmış hançer, beklenmedik kadar keskindir.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
   },
   frost_dagger: {
     id: 'frost_dagger',
-    name: 'Buz Hançeri',
+    name: 'Ayaz Hançeri',
     type: 'dagger',
     attack: 16,
     critRate: 0.18,
-    description: 'Buzdan oluşmuş hançer, dokununca iliklere işler.',
+    description: 'Buzdan yoğrulmuş bu hançer, değdiği yere soğuk işler.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
@@ -156,42 +156,42 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'dagger',
     attack: 24,
     critRate: 0.22,
-    description: 'Gölgelerden oluşan bıçak, görünmeden öldürür.',
+    description: 'Gölgelerden biçim almış bıçak, sessiz ve sinsi vurur.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
   },
 
-  // === BOSS düşürür (sabit büyü) ===
+  // === BOSS düşürür (sabit tılsım) ===
   mud_king_fang: {
     id: 'mud_king_fang',
-    name: 'Çamur Kralın Dişi',
+    name: 'Çamur Han’ın Dişi',
     type: 'sword',
     attack: 20,
     critRate: 0.12,
-    description: 'Çamur kayası yaratığının dişinden dövüldü, ölümcül ve kan emici.',
+    description: 'Çamur yaratığının dişinden dövüldü, hem ölümcül hem kana susamış.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: 'vampiric'
   },
   frost_queen_sting: {
     id: 'frost_queen_sting',
-    name: 'Buz Kraliçesinin İğnesi',
+    name: 'Ayaz Sultan’ın İğnesi',
     type: 'dagger',
     attack: 19,
     critRate: 0.25,
-    description: 'Buz kraliçesinden kalan ölümcül diken, asla şaşmaz.',
+    description: 'Buz sultanından arta kalmış öldürücü diken, pek az şaşar.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: 'precise'
   },
   lava_lord_maul: {
     id: 'lava_lord_maul',
-    name: 'Lav Çekici',
+    name: 'Kor Çekici',
     type: 'club',
     attack: 38,
     critRate: 0.08,
-    description: 'Lav efendisinin asası, ateş gibi yakıcı.',
+    description: 'Lav efendisinin tokmağı, ateş gibi yakıcıdır.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: 'fierce'
@@ -204,77 +204,77 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'dagger',
     attack: 30,
     critRate: 0.2,
-    description: 'Kristal parçalarından oluşmuş keskin bir hançer.',
+    description: 'Kristal kırıklarından biçim almış, jilet gibi bir hançer.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
   },
   shadow_katana: {
     id: 'shadow_katana',
-    name: 'Gölge Katana',
+    name: 'Gölge Yatağanı',
     type: 'sword',
     attack: 35,
     critRate: 0.1,
-    description: 'Gölge yarığından ortaya çıkan katana, ışığı bile biçer.',
+    description: 'Gölge yarığından doğmuş bu kılıç, ışığı bile biçer.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
   },
   void_hammer: {
     id: 'void_hammer',
-    name: 'Boşluk Çekici',
+    name: 'Uçurum Çekici',
     type: 'club',
     attack: 48,
     critRate: 0.05,
-    description: 'Uçurum gücüyle doldurulmuş savaş çekici, olağanüstü ağırdır.',
+    description: 'Derin boşluğun gücüyle yoğrulmuş savaş çekici, ele pek ağır gelir.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
   },
 
-  // === Yeni bölge mağaza silahları ===
+  // === Yeni bölge dükkân silahları ===
   crystal_blade: {
     id: 'crystal_blade',
     name: 'Kristal Uzun Kılıç',
     type: 'sword',
     attack: 35,
     critRate: 0.08,
-    description: 'Kristal cevherinden dövülmüş uzun kılıç, yedi renkli ışık saçar.',
+    description: 'Kristal cevherinden dövülmüş uzun kılıç, yedi renk ışık saçar.',
     shopPrice: 5000,
     shopMaterials: [{ itemId: 'crystal_ore', quantity: 8 }],
     fixedEnchantment: null
   },
   shadow_mace: {
     id: 'shadow_mace',
-    name: 'Gölge Çekici',
+    name: 'Gölge Topuzu',
     type: 'club',
     attack: 42,
     critRate: 0.05,
-    description: 'Gölge cevherinden dövülmüş ağır tokmak, tek darbede düşmanı ezer.',
+    description: 'Gölge cevherinden dövülmüş ağır topuz, tek darbede düşmanı ezer.',
     shopPrice: 8000,
     shopMaterials: [{ itemId: 'shadow_ore', quantity: 8 }],
     fixedEnchantment: null
   },
   void_katana: {
     id: 'void_katana',
-    name: 'Boşluk Katanası',
+    name: 'Uçurum Yatağanı',
     type: 'sword',
     attack: 52,
     critRate: 0.1,
-    description: 'Boşluk cevheriyle işlenmiş üstün bir katana, göğü bile yarar.',
+    description: 'Boşluk cevheriyle işlenmiş üstün bir kılıç, göğü bile yaracak gibidir.',
     shopPrice: 15000,
     shopMaterials: [{ itemId: 'void_ore', quantity: 10 }],
     fixedEnchantment: null
   },
 
-  // === Yeni bölge BOSS düşürür (sabit büyü) ===
+  // === Yeni bölge BOSS düşürür (sabit tılsım) ===
   crystal_king_blade: {
     id: 'crystal_king_blade',
-    name: 'Kristal Kralın Kutsal Kılıcı',
+    name: 'Kristal Han’ın Ulu Kılıcı',
     type: 'sword',
     attack: 45,
     critRate: 0.15,
-    description: 'Kristal kraldan kalan kutsal kılıç, şans ışığıyla çevrilidir.',
+    description: 'Kristal handan kalma kutsal kılıç, talih ışığıyla çevrilidir.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: 'lucky'
@@ -285,31 +285,31 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'dagger',
     attack: 38,
     critRate: 0.3,
-    description: 'Gölge hükümdarının dişlerinden yapıldı, kana doymak bilmez.',
+    description: 'Gölge hükümdarının dişinden yapıldı, kana doymak bilmez.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: 'vampiric'
   },
   abyss_dragon_mace: {
     id: 'abyss_dragon_mace',
-    name: 'Ejderha Kral Asası',
+    name: 'Ejder Han Asası',
     type: 'club',
     attack: 60,
     critRate: 0.12,
-    description: 'Uçurum ejderha kralının asası, her şeyi kül eder.',
+    description: 'Uçurum ejderhasının asası, değdiğini kül eder.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: 'fierce'
   },
 
-  // === Yeni mağaza silahları ===
+  // === Yeni dükkân silahları ===
   bamboo_staff: {
     id: 'bamboo_staff',
     name: 'Bambu Asa',
     type: 'club',
     attack: 10,
     critRate: 0.03,
-    description: 'Sağlam bambudan oyulmuş uzun asa, hafif ve kullanışlı.',
+    description: 'Sağlam bambudan oyulmuş uzun asa, hafif ve elde rahat durur.',
     shopPrice: 400,
     shopMaterials: [{ itemId: 'bamboo', quantity: 5 }],
     fixedEnchantment: null
@@ -320,7 +320,7 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'dagger',
     attack: 14,
     critRate: 0.15,
-    description: 'İnce işlenmiş demir hançer, çok hızlı kullanılır.',
+    description: 'İnce işlenmiş demir hançer, hızlı ve çevik kullanılır.',
     shopPrice: 600,
     shopMaterials: [{ itemId: 'iron_ore', quantity: 3 }],
     fixedEnchantment: null
@@ -331,18 +331,18 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'sword',
     attack: 26,
     critRate: 0.1,
-    description: 'Altın işlemeli savaş yelpazesi, açılınca bıçak, kapanınca sopa olur.',
+    description: 'Altın işlemeli savaş yelpazesi, açılınca bıçak, kapanınca değnek kesilir.',
     shopPrice: 2000,
     shopMaterials: [{ itemId: 'gold_ore', quantity: 5 }],
     fixedEnchantment: null
   },
   obsidian_blade: {
     id: 'obsidian_blade',
-    name: 'Obsidyen Kılıç',
+    name: 'Kara Cam Kılıcı',
     type: 'sword',
     attack: 38,
     critRate: 0.08,
-    description: 'Obsidyenden dövülmüş eğri kılıç, metali bile tereyağı gibi keser.',
+    description: 'Obsidyenden dövülmüş eğri kılıç, metali bile yağ gibi keser.',
     shopPrice: 4000,
     shopMaterials: [{ itemId: 'shadow_ore', quantity: 5 }],
     fixedEnchantment: null
@@ -355,18 +355,18 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'club',
     attack: 7,
     critRate: 0.02,
-    description: 'Donmuş balçık çekirdeği, beklenmedik şekilde ağırdır.',
+    description: 'Donmuş balçık özünden oluşmuş, beklenmedik kadar ağır bir tokmak.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
   },
   magma_blade: {
     id: 'magma_blade',
-    name: 'Magma Kılıcı',
+    name: 'Kor Kılıcı',
     type: 'sword',
     attack: 21,
     critRate: 0.08,
-    description: 'Magmadan donmuş kısa bıçak, hâlâ sıcaklık yayar.',
+    description: 'Magmadan donup kalmış kısa kılıç, hâlâ sıcaklık saçar.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
@@ -377,18 +377,18 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'dagger',
     attack: 28,
     critRate: 0.22,
-    description: 'Kristal parçalarından doğal olarak oluşmuş keskin bir hançer.',
+    description: 'Kristal parçalardan doğal biçimde oluşmuş keskin bir hançer.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
   },
   void_fang_dagger: {
     id: 'void_fang_dagger',
-    name: 'Boşluk Dişi',
+    name: 'Uçurum Dişi',
     type: 'dagger',
     attack: 42,
     critRate: 0.25,
-    description: 'Uçurum yılanının zehirli dişi, aşındırıcı güç taşır.',
+    description: 'Derinlik yılanının zehirli dişi, aşındırıcı bir kudret taşır.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
@@ -401,18 +401,18 @@ export const WEAPONS: Record<string, WeaponDef> = {
     type: 'sword',
     attack: 22,
     critRate: 0.1,
-    description: 'Hazine sandığında uyuyan antik kılıç, yeşil ışıkla parlar.',
+    description: 'Sandıkta yıllarca uyumuş eski bir kılıç, yeşil ışıkla parlar.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
   },
   ancient_blade: {
     id: 'ancient_blade',
-    name: 'Antik Kutsal Kılıç',
+    name: 'Kadim Ulu Kılıç',
     type: 'sword',
     attack: 50,
     critRate: 0.15,
-    description: 'Kadim harabelerde bulunan gizemli uzun kılıç, gücünü hâlâ korur.',
+    description: 'Eski harabelerde bulunan gizemli uzun kılıç, kudretini hâlâ korur.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
@@ -421,11 +421,11 @@ export const WEAPONS: Record<string, WeaponDef> = {
   // === Lonca özel ===
   guild_war_blade: {
     id: 'guild_war_blade',
-    name: 'Lonca Savaş Kılıcı',
+    name: 'Lonca Cenk Kılıcı',
     type: 'sword',
     attack: 36,
     critRate: 0.1,
-    description: 'Maceracılar Loncası tarafından seçkin üyeler için dövülmüş kılıç, üzerinde lonca amblemi vardır.',
+    description: 'Maceracılar loncasının seçkin yiğitleri için dövülmüş kılıç, üstünde lonca damgası vardır.',
     shopPrice: null,
     shopMaterials: [],
     fixedEnchantment: null
@@ -471,7 +471,7 @@ export const getWeaponById = (id: string): WeaponDef | undefined => {
   return WEAPONS[id]
 }
 
-/** ID’ye göre büyü tanımını al */
+/** ID’ye göre tılsım tanımını al */
 export const getEnchantmentById = (id: string): EnchantmentDef | undefined => {
   return ENCHANTMENTS[id]
 }
@@ -481,7 +481,7 @@ export const getWeaponSellPrice = (defId: string, enchantmentId: string | null):
   const def = WEAPONS[defId]
   if (!def) return 0
   const base = def.shopPrice ? Math.floor(def.shopPrice * 0.5) : def.attack * 15
-  // Büyü ek fiyatı
+  // Tılsım ek fiyatı
   if (enchantmentId) {
     const enchant = ENCHANTMENTS[enchantmentId]
     if (enchant) return base + 100 + enchant.attackBonus * 20
@@ -489,7 +489,7 @@ export const getWeaponSellPrice = (defId: string, enchantmentId: string | null):
   return base
 }
 
-/** Büyülü silahın görüntü adını al */
+/** Tılsımlı silahın görünen adını al */
 export const getWeaponDisplayName = (defId: string, enchantmentId: string | null): string => {
   const weapon = WEAPONS[defId]
   if (!weapon) return defId
