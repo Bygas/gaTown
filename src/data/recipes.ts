@@ -1,14 +1,14 @@
 import type { RecipeDef } from '@/types'
 
-/** Tüm tarif tanımları */
+/** Tüm yemek tarifleri */
 export const RECIPES: RecipeDef[] = [
   {
     id: 'stir_fried_cabbage',
-    name: 'Sote Lahana',
+    name: 'Lahana Kavurması',
     ingredients: [{ itemId: 'cabbage', quantity: 2 }],
     effect: { staminaRestore: 15, healthRestore: 5 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Basit ve mütevazı bir ev yemeği.'
+    description: 'Sade, gösterişsiz ama doyurucu bir köy yemeği.'
   },
   {
     id: 'radish_soup',
@@ -18,12 +18,12 @@ export const RECIPES: RecipeDef[] = [
       { itemId: 'firewood', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 10 },
-    unlockSource: 'Mustafa Amca yakınlık: “Tanışıklık”',
-    description: 'Sıcacık turp çorbası, hem bedeni hem içi ısıtır.'
+    unlockSource: 'Hasan Enişte ile tanışıklık',
+    description: 'Sıcacık turp çorbası, içi de bedeni de ısıtır.'
   },
   {
     id: 'braised_carp',
-    name: 'Kızarmış Sazan',
+    name: 'Sazan Yahnisi',
     ingredients: [
       { itemId: 'carp', quantity: 1 },
       { itemId: 'sesame', quantity: 2 }
@@ -31,25 +31,25 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 15,
-      buff: { type: 'fishing', value: 1, description: 'Balıkçılık becerisi +1 (bugün)' }
+      buff: { type: 'fishing', value: 1, description: 'Balıkçılık +1 (o gün)' }
     },
-    unlockSource: 'Gamze yakınlık: “Tanışıklık”',
-    description: 'Lezzetli ve aromatik kızarmış sazan.'
+    unlockSource: 'Aylin ile tanışıklık',
+    description: 'Mis gibi kokan, lokumu bol bir sazan yahnisi.'
   },
   {
     id: 'herbal_porridge',
-    name: 'Şifalı Lapa',
+    name: 'Şifalı Ot Lapası',
     ingredients: [
       { itemId: 'herb', quantity: 2 },
       { itemId: 'rice', quantity: 1 }
     ],
     effect: { staminaRestore: 40, healthRestore: 20 },
-    unlockSource: 'Demirhan yakınlık: “Tanışıklık”',
-    description: 'Vücudu dengeleyen şifalı bir lapa.'
+    unlockSource: 'Hekim Dede ile tanışıklık',
+    description: 'Bedeni toparlayan eski usul bir şifa aşı.'
   },
   {
     id: 'osmanthus_cake',
-    name: 'Osmanthus Keki',
+    name: 'Çiçekli Pirinç Tatlısı',
     ingredients: [
       { itemId: 'osmanthus', quantity: 3 },
       { itemId: 'rice', quantity: 2 }
@@ -57,14 +57,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 20,
       healthRestore: 5,
-      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı x2 (o gün)' }
     },
-    unlockSource: 'Öykü yakınlık: “Tanışıklık”',
-    description: 'Zarif osmanthus keki, hediye için harika bir seçim.'
+    unlockSource: 'Elif ile tanışıklık',
+    description: 'İnce işçilikle yapılmış, ikramı pek makbul bir tatlı.'
   },
   {
     id: 'miner_lunch',
-    name: 'Madenci Kumanyası',
+    name: 'Madenci Azığı',
     ingredients: [
       { itemId: 'potato', quantity: 2 },
       { itemId: 'sweet_potato', quantity: 1 }
@@ -72,14 +72,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 25,
       healthRestore: 25,
-      buff: { type: 'mining', value: 20, description: 'Madencilik dayanıklılık tüketimi -20% (bugün)' }
+      buff: { type: 'mining', value: 20, description: 'Madende dayanıklılık tüketimi -20% (o gün)' }
     },
-    unlockSource: 'Mehmethan yakınlık: “Tanışıklık”',
-    description: 'Gerçek bir madenci yemeği.'
+    unlockSource: 'İsmail ile tanışıklık',
+    description: 'Tok tutan, maden ağzında adam ayakta tutan sağlam yemek.'
   },
   {
     id: 'spicy_hotpot',
-    name: 'Acılı Hotpot',
+    name: 'Acılı Kazan Aşı',
     ingredients: [
       { itemId: 'chili', quantity: 2 },
       { itemId: 'cabbage', quantity: 1 },
@@ -88,15 +88,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 40,
-      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (bugün)' }
+      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (o gün)' }
     },
-    unlockSource: 'Yemek pişirme seviye 4',
+    unlockSource: 'Yemek ustalığı 4. seviye',
     requiredSkill: { type: 'farming', level: 4 },
-    description: 'Yakıcı derecede acılı hotpot, soğuğu uzaklaştırır.'
+    description: 'Ağzı yakar, içi ısıtır, insanı kendine getirir.'
   },
   {
     id: 'steamed_bass',
-    name: 'Buharda Levrek',
+    name: 'Buğulama Levrek',
     ingredients: [
       { itemId: 'bass', quantity: 1 },
       { itemId: 'ginger', quantity: 1 }
@@ -104,22 +104,22 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'fishing', value: 2, description: 'Balıkçılık becerisi +2 (bugün)' }
+      buff: { type: 'fishing', value: 2, description: 'Balıkçılık +2 (o gün)' }
     },
-    unlockSource: 'Balıkçılık seviye 3',
+    unlockSource: 'Balıkçılık 3. seviye',
     requiredSkill: { type: 'fishing', level: 3 },
-    description: 'Yumuşacık ve taze buharda levrek.'
+    description: 'Eti diri, tadı hafif, nefis bir buğulama.'
   },
   {
     id: 'honey_tea',
-    name: 'Bal Çayı',
+    name: 'Ballı Çay',
     ingredients: [
       { itemId: 'honey', quantity: 1 },
       { itemId: 'herb', quantity: 1 }
     ],
     effect: { staminaRestore: 30, healthRestore: 10 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Tatlı ve yumuşak içimli bal çayı.'
+    description: 'Tatlı içimli, yumuşak bir ballı çay.'
   },
   {
     id: 'ginger_soup',
@@ -131,26 +131,26 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 20,
       healthRestore: 10,
-      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (bugün)' }
+      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (o gün)' }
     },
     unlockSource: 'Başlangıçta açık',
-    description: 'İç ısıtan ve mideyi rahatlatan zencefil çorbası.'
+    description: 'İçi ısıtan, mideyi rahatlatan sıcak bir çorba.'
   },
   {
     id: 'jujube_cake',
-    name: 'Hünnap Keki',
+    name: 'Hurma Tatlısı',
     ingredients: [
       { itemId: 'jujube', quantity: 3 },
       { itemId: 'rice', quantity: 1 }
     ],
     effect: { staminaRestore: 35, healthRestore: 15 },
-    unlockSource: 'Yemek pişirme seviye 2',
+    unlockSource: 'Yemek ustalığı 2. seviye',
     requiredSkill: { type: 'farming', level: 2 },
-    description: 'Tatlı ve yumuşak hünnap keki.'
+    description: 'Tatlı mı tatlı, yumuşacık bir köy tatlısı.'
   },
   {
     id: 'peach_blossom_cake',
-    name: 'Şeftali Çiçeği Çöreği',
+    name: 'Şeftalili Bahar Çöreği',
     ingredients: [
       { itemId: 'peach', quantity: 2 },
       { itemId: 'rice', quantity: 1 }
@@ -158,27 +158,27 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 25,
       healthRestore: 10,
-      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı x2 (o gün)' }
     },
-    unlockSource: 'Yemek pişirme seviye 3',
+    unlockSource: 'Yemek ustalığı 3. seviye',
     requiredSkill: { type: 'farming', level: 3 },
-    description: 'İlkbahara özel şeftali çiçeği çöreği.'
+    description: 'Bahar kokusu taşıyan, gönül almak için birebir bir çörek.'
   },
   {
     id: 'fish_noodle',
-    name: 'Balık Çorbalı Erişte',
+    name: 'Balıklı Erişte Çorbası',
     ingredients: [
       { itemId: 'crucian', quantity: 1 },
       { itemId: 'winter_wheat', quantity: 2 }
     ],
     effect: { staminaRestore: 30, healthRestore: 15 },
-    unlockSource: 'Balıkçılık seviye 2',
+    unlockSource: 'Balıkçılık 2. seviye',
     requiredSkill: { type: 'fishing', level: 2 },
-    description: 'Lezzetli balık çorbalı erişte.'
+    description: 'Balık suyuyla yapılmış, pek lezzetli erişte çorbası.'
   },
   {
     id: 'miner_iron_pot',
-    name: 'Madenci Demir Tencere Pilavı',
+    name: 'Madenci Tencere Aşı',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'copper_ore', quantity: 1 },
@@ -187,22 +187,22 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 30,
-      buff: { type: 'mining', value: 25, description: 'Madencilik dayanıklılık tüketimi -25% (bugün)' }
+      buff: { type: 'mining', value: 25, description: 'Madende dayanıklılık tüketimi -25% (o gün)' }
     },
-    unlockSource: 'Madencilik seviye 4',
+    unlockSource: 'Madencilik 4. seviye',
     requiredSkill: { type: 'mining', level: 4 },
-    description: 'Madencilerin demir tencerede karışık yemeği.'
+    description: 'Madencilerin kazan başında uydurduğu ama pek doyurucu bir aş.'
   },
   {
     id: 'bamboo_shoot_stir_fry',
-    name: 'Kış Bambusu Kavurması',
+    name: 'Kış Filizi Kavurması',
     ingredients: [
       { itemId: 'winter_bamboo_shoot', quantity: 2 },
       { itemId: 'firewood', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 10 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Aromalı kış bambusu et sotesi.'
+    description: 'Tavada çevrilmiş taze filiz, kokusu iştah açar.'
   },
   {
     id: 'dried_persimmon',
@@ -210,11 +210,11 @@ export const RECIPES: RecipeDef[] = [
     ingredients: [{ itemId: 'persimmon', quantity: 3 }],
     effect: { staminaRestore: 20, healthRestore: 5 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Kurutulmuş, yoğun tatlılığa sahip trabzon hurması.'
+    description: 'Güneşte kurutulmuş, tatlı mı tatlı kışlık atıştırmalık.'
   },
   {
     id: 'lotus_seed_soup',
-    name: 'Nilüfer Tohumu Tatlısı',
+    name: 'Lotus Taneli Tatlı Çorba',
     ingredients: [
       { itemId: 'lotus_seed', quantity: 2 },
       { itemId: 'honey', quantity: 1 }
@@ -222,11 +222,11 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'luck', value: 15, description: 'Şans +15% (bugün)' }
+      buff: { type: 'luck', value: 15, description: 'Şans +15% (o gün)' }
     },
-    unlockSource: 'Yemek pişirme seviye 5',
+    unlockSource: 'Yemek ustalığı 5. seviye',
     requiredSkill: { type: 'farming', level: 5 },
-    description: 'Zihni sakinleştiren nilüfer tohumu tatlısı.'
+    description: 'İnsanın içini yatıştıran, hafif ve tatlı bir çorba.'
   },
   {
     id: 'sesame_paste',
@@ -237,7 +237,7 @@ export const RECIPES: RecipeDef[] = [
     ],
     effect: { staminaRestore: 30, healthRestore: 10 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Yoğun aromalı ve pürüzsüz susam ezmesi.'
+    description: 'Yoğun kıvamlı, mis kokulu susam ezmesi.'
   },
   {
     id: 'ginseng_soup',
@@ -250,11 +250,11 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'farming', value: 20, description: 'Tarım dayanıklılık tüketimi -20% (bugün)' }
+      buff: { type: 'farming', value: 20, description: 'Tarla işlerinde dayanıklılık tüketimi -20% (o gün)' }
     },
-    unlockSource: 'Toplayıcılık seviye 5',
+    unlockSource: 'Toplayıcılık 5. seviye',
     requiredSkill: { type: 'foraging', level: 5 },
-    description: 'Canlandırıcı ginseng çorbası.'
+    description: 'Can toplayan, kuvvet veren güçlü bir şifa çorbası.'
   },
   {
     id: 'corn_pancake',
@@ -265,11 +265,11 @@ export const RECIPES: RecipeDef[] = [
     ],
     effect: { staminaRestore: 25, healthRestore: 10 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Altın sarısı ve çıtır mısır tavası.'
+    description: 'Dışı kızarmış, içi yumuşak nefis bir mısır tavası.'
   },
   {
     id: 'osmanthus_lotus_root',
-    name: 'Osmanthus Lotus Kökü Peltesi',
+    name: 'Çiçek Kokulu Kök Tatlısı',
     ingredients: [
       { itemId: 'osmanthus', quantity: 1 },
       { itemId: 'lotus_root', quantity: 1 }
@@ -277,24 +277,24 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'luck', value: 10, description: 'Şans +10% (bugün)' }
+      buff: { type: 'luck', value: 10, description: 'Şans +10% (o gün)' }
     },
-    unlockSource: 'Yemek pişirme seviye 3',
+    unlockSource: 'Yemek ustalığı 3. seviye',
     requiredSkill: { type: 'farming', level: 3 },
-    description: 'Mis gibi kokan osmanthus lotus kökü peltesi.'
+    description: 'Çiçek kokusuyla hoş, tadıyla sakin bir tatlı.'
   },
 
-  // ==================== Yeni başlangıç tarifleri (8) ====================
+  // ==================== Yeni başlangıç tarifleri ====================
   {
     id: 'scrambled_egg_rice',
-    name: 'Yumurtalı Kızarmış Pilav',
+    name: 'Yumurtalı Pilav',
     ingredients: [
       { itemId: 'egg', quantity: 1 },
       { itemId: 'rice', quantity: 1 }
     ],
     effect: { staminaRestore: 20, healthRestore: 10 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Basit ama lezzetli yumurtalı kızarmış pilav.'
+    description: 'Az malzemeyle çıkan, doyurucu ve pratik bir yemek.'
   },
   {
     id: 'stir_fried_potato',
@@ -302,7 +302,7 @@ export const RECIPES: RecipeDef[] = [
     ingredients: [{ itemId: 'potato', quantity: 2 }],
     effect: { staminaRestore: 18, healthRestore: 5 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Ekşi-acı ve çıtır patates kavurması.'
+    description: 'Tavada çevrilmiş, hafif baharlı patates.'
   },
   {
     id: 'boiled_egg',
@@ -310,43 +310,43 @@ export const RECIPES: RecipeDef[] = [
     ingredients: [{ itemId: 'egg', quantity: 2 }],
     effect: { staminaRestore: 15, healthRestore: 10 },
     unlockSource: 'Başlangıçta açık',
-    description: 'En sade besin kaynağı.'
+    description: 'En sade ama en güvenilir güç kaynağı.'
   },
   {
     id: 'congee',
-    name: 'Beyaz Lapa',
+    name: 'Sade Lapa',
     ingredients: [{ itemId: 'rice', quantity: 2 }],
     effect: { staminaRestore: 15, healthRestore: 5 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Mideyi rahatlatan hafif beyaz lapa.'
+    description: 'Mideyi yormayan, yumuşak içimli bir lapa.'
   },
   {
     id: 'rice_ball',
-    name: 'Pirinç Topu',
+    name: 'Pirinç Topağı',
     ingredients: [{ itemId: 'rice', quantity: 1 }],
     effect: { staminaRestore: 12, healthRestore: 3 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Kolay taşınabilen basit pirinç topları.'
+    description: 'Elde sıkılmış, çantaya atmalık küçük bir azık.'
   },
   {
     id: 'steamed_bun',
-    name: 'Mantou',
+    name: 'Beyaz Çörek',
     ingredients: [{ itemId: 'wheat_flour', quantity: 1 }],
     effect: { staminaRestore: 12, healthRestore: 3 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Yumuşak beyaz buğday ekmeği, en sade temel besin.'
+    description: 'Yumuşacık, sade bir un çöreği.'
   },
   {
     id: 'roasted_sweet_potato',
-    name: 'Fırınlanmış Tatlı Patates',
+    name: 'Köz Tatlı Patates',
     ingredients: [{ itemId: 'sweet_potato', quantity: 2 }],
     effect: { staminaRestore: 20, healthRestore: 5 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Tatlı ve yumuşacık fırınlanmış tatlı patates.'
+    description: 'Közde ağır ağır pişmiş, içi bal gibi tatlı.'
   },
   {
     id: 'vegetable_soup',
-    name: 'Kır Sebze Çorbası',
+    name: 'Köy Sebze Çorbası',
     ingredients: [
       { itemId: 'cabbage', quantity: 1 },
       { itemId: 'radish', quantity: 1 },
@@ -354,35 +354,35 @@ export const RECIPES: RecipeDef[] = [
     ],
     effect: { staminaRestore: 25, healthRestore: 10 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Taze sebzelerle kaynatılmış hafif bir çorba.'
+    description: 'Bahçeden çıkan taze sebzelerle kaynatılmış tertemiz bir çorba.'
   },
   {
     id: 'chive_egg_stir_fry',
-    name: 'Frenk Soğanlı Yumurta',
+    name: 'Yumurtalı Ot Kavurması',
     ingredients: [
       { itemId: 'chives', quantity: 2 },
       { itemId: 'egg', quantity: 1 }
     ],
     effect: { staminaRestore: 22, healthRestore: 10 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Frenk soğanı ve yumurtanın klasik uyumu.'
+    description: 'Otla yumurtanın şahane uyumu.'
   },
   {
     id: 'peanut_candy',
-    name: 'Fıstık Şekeri',
+    name: 'Fıstık Helvası',
     ingredients: [
       { itemId: 'peanut', quantity: 3 },
       { itemId: 'honey', quantity: 1 }
     ],
     effect: { staminaRestore: 18, healthRestore: 5 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Çıtır ve tatlı fıstık şekeri.'
+    description: 'Kıtırtılı, tatlı ve ağızda dağılan bir atıştırmalık.'
   },
 
-  // ==================== NPC yakınlık tarifleri — Tanışıklık (1 yeni) ====================
+  // ==================== NPC tarifleri — tanışıklık ====================
   {
     id: 'sweet_osmanthus_tea',
-    name: 'Tatlı Osmanthus Çayı',
+    name: 'Çiçekli Tatlı Çay',
     ingredients: [
       { itemId: 'osmanthus', quantity: 1 },
       { itemId: 'honey', quantity: 1 }
@@ -390,27 +390,27 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 20,
       healthRestore: 5,
-      buff: { type: 'luck', value: 10, description: 'Şans +10% (bugün)' }
+      buff: { type: 'luck', value: 10, description: 'Şans +10% (o gün)' }
     },
-    unlockSource: 'Orhan yakınlık: “Tanışıklık”',
-    description: 'Mis kokulu ve tatlı osmanthus çayı.'
+    unlockSource: 'Mıstık ile tanışıklık',
+    description: 'Mis kokulu, tatlı içimli bir köy çayı.'
   },
 
-  // ==================== NPC yakınlık tarifleri — Yakın Dostluk (6) ====================
+  // ==================== NPC tarifleri — can dost ====================
   {
     id: 'aged_radish_stew',
-    name: 'Uzun Pişmiş Turp Yahnisi',
+    name: 'Terbiyeli Turp Yahnisi',
     ingredients: [
       { itemId: 'radish', quantity: 3 },
       { itemId: 'firewood', quantity: 2 }
     ],
     effect: { staminaRestore: 40, healthRestore: 25 },
-    unlockSource: 'Mustafa Amca yakınlık: “Yakın Dostluk”',
-    description: 'Mustafa Amca’nın gizli turp yahni tarifi, iyice lezzetlenmiş.'
+    unlockSource: 'Hasan Enişte ile can dost olunca',
+    description: 'Hasan Enişte’nin sakladığı, ağır ateşte pişen nefis yahni.'
   },
   {
     id: 'maple_grilled_fish',
-    name: 'Akçaağaç Aromalı Izgara Balık',
+    name: 'Közlenmiş Dere Balığı',
     ingredients: [
       { itemId: 'mandarin_fish', quantity: 1 },
       { itemId: 'firewood', quantity: 1 }
@@ -418,25 +418,25 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'fishing', value: 2, description: 'Balıkçılık becerisi +2 (bugün)' }
+      buff: { type: 'fishing', value: 2, description: 'Balıkçılık +2 (o gün)' }
     },
-    unlockSource: 'Gamze yakınlık: “Yakın Dostluk”',
-    description: 'Gamze’nin kendi icadı akçaağaç aromalı ızgara balık yöntemi.'
+    unlockSource: 'Aylin ile can dost olunca',
+    description: 'Aylin’in kendi usulüyle közlediği mis kokulu balık.'
   },
   {
     id: 'herbal_pill',
-    name: 'Yüz Ot Hapı',
+    name: 'Şifa Hapı',
     ingredients: [
       { itemId: 'herb', quantity: 3 },
       { itemId: 'ginseng', quantity: 1 }
     ],
     effect: { staminaRestore: 60, healthRestore: 30 },
-    unlockSource: 'Demirhan yakınlık: “Yakın Dostluk”',
-    description: 'Demirhan`ın hazırladığı şifalı bitki ilacı.'
+    unlockSource: 'Hekim Dede ile can dost olunca',
+    description: 'Hekim Dede’nin elinden çıkan kuvvetli bir şifa karışımı.'
   },
   {
     id: 'embroidered_cake',
-    name: 'İşlemeli Kese Keki',
+    name: 'Nakışlı Tatlı Çörek',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'osmanthus', quantity: 2 }
@@ -444,10 +444,10 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 15,
-      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı x2 (o gün)' }
     },
-    unlockSource: 'Öykü yakınlık: “Yakın Dostluk”',
-    description: 'Öykü`nün özenle yaptığı özel kek.'
+    unlockSource: 'Elif ile can dost olunca',
+    description: 'Elif’in ince zevkiyle hazırlanmış, göze de gönle de hoş gelen bir çörek.'
   },
   {
     id: 'deep_mine_stew',
@@ -460,14 +460,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 35,
-      buff: { type: 'mining', value: 30, description: 'Madencilik dayanıklılık tüketimi -30% (bugün)' }
+      buff: { type: 'mining', value: 30, description: 'Madende dayanıklılık tüketimi -30% (o gün)' }
     },
-    unlockSource: 'Mehmethan yakınlık: “Yakın Dostluk”',
-    description: 'Mehmethan`ın madenin derinliklerinde icat ettiği yahni.'
+    unlockSource: 'İsmail ile can dost olunca',
+    description: 'İsmail’in maden dibinde uydurduğu, tok tutan güçlü güveç.'
   },
   {
     id: 'wild_berry_jam',
-    name: 'Yabani Meyve Reçeli',
+    name: 'Yaban Meyvesi Reçeli',
     ingredients: [
       { itemId: 'wild_berry', quantity: 3 },
       { itemId: 'honey', quantity: 1 }
@@ -475,16 +475,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 25,
       healthRestore: 10,
-      buff: { type: 'speed', value: 20, description: 'Hareket hızı +20% (bugün)' }
+      buff: { type: 'speed', value: 20, description: 'Hareket hızı +20% (o gün)' }
     },
-    unlockSource: 'Orhan yakınlık: “Yakın Dostluk”',
-    description: 'Orhan`ın orman meyveleriyle yaptığı reçel.'
+    unlockSource: 'Mıstık ile can dost olunca',
+    description: 'Ormandan toplanmış meyvelerle yapılmış canlı bir reçel.'
   },
 
-  // ==================== NPC yakınlık tarifleri — En İyi Dost (6) ====================
+  // ==================== NPC tarifleri — en iyi dost ====================
   {
     id: 'farmers_feast',
-    name: 'Çiftçi Şöleni',
+    name: 'Çiftçi Sofrası',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'cabbage', quantity: 2 },
@@ -494,14 +494,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 40,
-      buff: { type: 'farming', value: 25, description: 'Tarım dayanıklılık tüketimi -25% (bugün)' }
+      buff: { type: 'farming', value: 25, description: 'Tarla işlerinde dayanıklılık tüketimi -25% (o gün)' }
     },
-    unlockSource: 'Mustafa Amca yakınlık: “En İyi Dost”',
-    description: 'Mustafa Amca’nın sakladığı büyük çiftçi yemeği.'
+    unlockSource: 'Hasan Enişte ile en iyi dost olunca',
+    description: 'Hasan Enişte’nin sakladığı, köy sofrasının baş tacı bir ziyafet.'
   },
   {
     id: 'autumn_moon_feast',
-    name: 'Sonbahar Ayı Ziyafeti',
+    name: 'Ay Işığı Sofrası',
     ingredients: [
       { itemId: 'mandarin_fish', quantity: 1 },
       { itemId: 'river_crab', quantity: 1 },
@@ -510,26 +510,26 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'luck', value: 20, description: 'Şans +20% (bugün)' }
+      buff: { type: 'luck', value: 20, description: 'Şans +20% (o gün)' }
     },
-    unlockSource: 'Gamze yakınlık: “En İyi Dost”',
-    description: 'Gamze’nin yakın dostu için hazırladığı sonbahar gecesi ziyafeti.'
+    unlockSource: 'Aylin ile en iyi dost olunca',
+    description: 'Aylin’in gönülden hazırladığı, geceye yakışan nefis sofra.'
   },
   {
     id: 'longevity_soup',
-    name: 'Uzun Ömür Çorbası',
+    name: 'Ömür Çorbası',
     ingredients: [
       { itemId: 'ginseng', quantity: 2 },
       { itemId: 'herb', quantity: 3 },
       { itemId: 'honey', quantity: 1 }
     ],
     effect: { staminaRestore: 80, healthRestore: 40 },
-    unlockSource: 'Demirhan yakınlık: “En İyi Dost”',
-    description: 'Demirhan`ın hayat boyu biriktirdiği sağlık reçetesi.'
+    unlockSource: 'Hekim Dede ile en iyi dost olunca',
+    description: 'Hekim Dede’nin ömrünü verdiği bilgiyle hazırlanan kuvvetli çorba.'
   },
   {
     id: 'lovers_pastry',
-    name: 'Aşıklar Böreği',
+    name: 'Sevda Çöreği',
     ingredients: [
       { itemId: 'peach', quantity: 2 },
       { itemId: 'rice', quantity: 2 },
@@ -538,14 +538,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı ×3 (bugün)' }
+      buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı x3 (o gün)' }
     },
-    unlockSource: 'Öykü yakınlık: “En İyi Dost”',
-    description: 'Öykü`nün aşıklar için özel yaptığı tatlı börek.'
+    unlockSource: 'Elif ile en iyi dost olunca',
+    description: 'Elif’in gönlünden kopup gelen, sevgiyle yoğrulmuş tatlı çörek.'
   },
   {
     id: 'forgemasters_meal',
-    name: 'Dövme Ustası Menüsü',
+    name: 'Demirci Öğünü',
     ingredients: [
       { itemId: 'iron_ore', quantity: 2 },
       { itemId: 'potato', quantity: 3 },
@@ -554,14 +554,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 50,
-      buff: { type: 'defense', value: 25, description: 'Alınan hasar -25% (bugün)' }
+      buff: { type: 'defense', value: 25, description: 'Alınan hasar -25% (o gün)' }
     },
-    unlockSource: 'Mehmethan yakınlık: “En İyi Dost”',
-    description: 'Mehmethan`ın kendi icadı yüksek enerjili demirci yemeği.'
+    unlockSource: 'İsmail ile en iyi dost olunca',
+    description: 'Ağır işe ağır yemek; insanı sapasağlam tutan bir usta öğünü.'
   },
   {
     id: 'spirit_fruit_wine',
-    name: 'Ruh Meyvesi Şarabı',
+    name: 'Meyve Şarabı',
     ingredients: [
       { itemId: 'wild_berry', quantity: 3 },
       { itemId: 'honey', quantity: 2 }
@@ -569,16 +569,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'luck', value: 25, description: 'Şans +25% (bugün)' }
+      buff: { type: 'luck', value: 25, description: 'Şans +25% (o gün)' }
     },
-    unlockSource: 'Orhan yakınlık: “En İyi Dost”',
-    description: 'Orhan`ın ruh meyvelerinden yaptığı şans şarabı.'
+    unlockSource: 'Mıstık ile en iyi dost olunca',
+    description: 'Mıstık’ın coşkusu gibi canlı, neşeli bir meyve şarabı.'
   },
 
-  // ==================== NPC evlilik tarifleri (12) ====================
+  // ==================== Evlilik tarifleri ====================
   {
     id: 'phoenix_cake',
-    name: 'Anka Keki',
+    name: 'Nişan Tatlısı',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'osmanthus', quantity: 2 },
@@ -588,14 +588,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı ×3 (bugün)' }
+      buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı x3 (o gün)' }
     },
-    unlockSource: 'Öykü ile evlendikten sonra',
-    description: 'Öykü`nün evlilik sonrası öğrettiği Anka keki tarifi.'
+    unlockSource: 'Elif ile evlendikten sonra',
+    description: 'Elif’in ev kurulduktan sonra öğrettiği özel tatlı.'
   },
   {
     id: 'molten_hotpot',
-    name: 'Lav Demir Tencere',
+    name: 'Kor Tenceresi',
     ingredients: [
       { itemId: 'iron_ore', quantity: 3 },
       { itemId: 'chili', quantity: 2 },
@@ -604,14 +604,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 50,
-      buff: { type: 'mining', value: 35, description: 'Madencilik dayanıklılık tüketimi -35% (bugün)' }
+      buff: { type: 'mining', value: 35, description: 'Madende dayanıklılık tüketimi -35% (o gün)' }
     },
-    unlockSource: 'Mehmethan ile evlendikten sonra',
-    description: 'Mehmethan`ın evlilik sonrası öğrettiği lav tencere yemeği.'
+    unlockSource: 'İsmail ile evlendikten sonra',
+    description: 'İsmail’in öğrettiği, içi de bedeni de ateşleyen kuvvetli bir tencere aşı.'
   },
   {
     id: 'moonlight_sashimi',
-    name: 'Ay Işığı Sashimi',
+    name: 'Ay Işığı Mezesi',
     ingredients: [
       { itemId: 'sturgeon', quantity: 1 },
       { itemId: 'ginger', quantity: 1 }
@@ -619,14 +619,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 20,
-      buff: { type: 'fishing', value: 3, description: 'Balıkçılık becerisi +3 (bugün)' }
+      buff: { type: 'fishing', value: 3, description: 'Balıkçılık +3 (o gün)' }
     },
-    unlockSource: 'Gamze ile evlendikten sonra',
-    description: 'Qiuyue’nin evlilik sonrası paylaştığı ay ışığı sashimi.'
+    unlockSource: 'Aylin ile evlendikten sonra',
+    description: 'Aylin’in gece vakti sofraya koyduğu hafif ama kıymetli meze.'
   },
   {
     id: 'tea_banquet',
-    name: 'Sekiz Hazineli Çay Şöleni',
+    name: 'Çay Sofrası',
     ingredients: [
       { itemId: 'tea', quantity: 3 },
       { itemId: 'lotus_seed', quantity: 2 },
@@ -635,14 +635,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 30,
-      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı x2 (o gün)' }
     },
-    unlockSource: 'Chunlan ile evlendikten sonra',
-    description: 'Chunlan’ın çayla hazırlanan özel şölen tarifi.'
+    unlockSource: 'Bahar ile evlendikten sonra',
+    description: 'Bahar’ın çaydan ilhamla kurduğu zarif bir sofra.'
   },
   {
     id: 'snow_plum_soup',
-    name: 'Kar Erik Tatlısı',
+    name: 'Soğuk Gün Şerbeti',
     ingredients: [
       { itemId: 'snow_lotus', quantity: 1 },
       { itemId: 'honey', quantity: 2 }
@@ -650,14 +650,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 65,
       healthRestore: 35,
-      buff: { type: 'luck', value: 3, description: 'Şans +3 (bugün)' }
+      buff: { type: 'luck', value: 3, description: 'Şans +3 (o gün)' }
     },
-    unlockSource: 'Xueqin ile evlendikten sonra',
-    description: 'Xueqin’in atölye mutfağından özel tatlı çorba.'
+    unlockSource: 'Nazan ile evlendikten sonra',
+    description: 'Nazan’ın ince zevkine yakışan, hafif ve zarif bir tatlı şerbet.'
   },
   {
     id: 'silk_dumpling',
-    name: 'İpek Bohça Mantısı',
+    name: 'İnce İş Böreği',
     ingredients: [
       { itemId: 'silk', quantity: 1 },
       { itemId: 'rice', quantity: 2 },
@@ -666,14 +666,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı x2 (o gün)' }
     },
-    unlockSource: 'Susu ile evlendikten sonra',
-    description: 'Susu’nun öğrettiği, bohça biçiminde zarif mantılar.'
+    unlockSource: 'Suna ile evlendikten sonra',
+    description: 'Suna’nın elinden çıkan, görüntüsü kadar tadı da ince bir börek.'
   },
   {
     id: 'drunken_chicken',
-    name: 'Sarhoş Tavuk',
+    name: 'Şaraplı Tavuk',
     ingredients: [
       { itemId: 'egg', quantity: 3 },
       { itemId: 'peach_wine', quantity: 1 },
@@ -682,14 +682,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 40,
-      buff: { type: 'farming', value: 30, description: 'Tarım dayanıklılık tüketimi -30% (bugün)' }
+      buff: { type: 'farming', value: 30, description: 'Tarla işlerinde dayanıklılık tüketimi -30% (o gün)' }
     },
-    unlockSource: 'Hongdou ile evlendikten sonra',
-    description: 'Hongdou’nun öğrettiği şarap aromalı meşhur yemek.'
+    unlockSource: 'Zeyno ile evlendikten sonra',
+    description: 'Zeyno’nun neşesi gibi sıcak, kokusu baş döndüren bir yemek.'
   },
   {
     id: 'scholars_porridge',
-    name: 'Bilgin Lapası',
+    name: 'Alim Aşı',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'tea', quantity: 1 },
@@ -698,14 +698,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 30,
-      buff: { type: 'speed', value: 2, description: 'Hareket hızı +2 (bugün)' }
+      buff: { type: 'speed', value: 2, description: 'Hareket hızı +2 (o gün)' }
     },
-    unlockSource: 'Danqing ile evlendikten sonra',
-    description: 'Danqing’in eski tariflere göre yaptığı sakinleştirici lapa.'
+    unlockSource: 'Cemil ile evlendikten sonra',
+    description: 'Cemil’in eski usul tariflerle kaynattığı gönül açıcı bir aş.'
   },
   {
     id: 'ironforge_stew',
-    name: 'Demirci Güveci',
+    name: 'Demir Ocağı Güveci',
     ingredients: [
       { itemId: 'potato', quantity: 3 },
       { itemId: 'corn', quantity: 2 },
@@ -714,10 +714,10 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 50,
-      buff: { type: 'mining', value: 40, description: 'Madencilik dayanıklılık tüketimi -40% (bugün)' }
+      buff: { type: 'mining', value: 40, description: 'Madende dayanıklılık tüketimi -40% (o gün)' }
     },
-    unlockSource: 'Atie ile evlendikten sonra',
-    description: 'Atie’nin doyurucu ve kaba ama güçlü güveci.'
+    unlockSource: 'Demir ile evlendikten sonra',
+    description: 'Demir’in doyurucu, ağır iş günlerine yaraşır güçlü güveci.'
   },
   {
     id: 'hunters_roast',
@@ -730,10 +730,10 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 45,
-      buff: { type: 'defense', value: 3, description: 'Savunma +3 (bugün)' }
+      buff: { type: 'defense', value: 3, description: 'Savunma +3 (o gün)' }
     },
-    unlockSource: 'Yunfei ile evlendikten sonra',
-    description: 'Yunfei’nin öğrettiği dağ usulü kızartma.'
+    unlockSource: 'Baran ile evlendikten sonra',
+    description: 'Baran’ın dağlardan getirdiği malzemelerle yaptığı sert ama kuvvetli bir yemek.'
   },
   {
     id: 'ranch_milk_soup',
@@ -746,14 +746,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 35,
-      buff: { type: 'farming', value: 25, description: 'Tarım dayanıklılık tüketimi -25% (bugün)' }
+      buff: { type: 'farming', value: 25, description: 'Tarla işlerinde dayanıklılık tüketimi -25% (o gün)' }
     },
-    unlockSource: 'Daniu ile evlendikten sonra',
-    description: 'Daniu’nun sık yaptığı yoğun süt çorbası.'
+    unlockSource: 'İbo ile evlendikten sonra',
+    description: 'İbo’nun çiftlikten çıkardığı mis gibi malzemelerle yaptığı sıcak çorba.'
   },
   {
     id: 'moonlit_tea_rice',
-    name: 'Ay Işığında Çaylı Pilav',
+    name: 'Gece Çayı Aşı',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'tea', quantity: 2 },
@@ -762,16 +762,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'luck', value: 2, description: 'Şans +2 (bugün)' }
+      buff: { type: 'luck', value: 2, description: 'Şans +2 (o gün)' }
     },
-    unlockSource: 'Mobai ile evlendikten sonra',
-    description: 'Mobai’nin ay ışığında sık hazırladığı hafif çaylı pilav.'
+    unlockSource: 'Mahir ile evlendikten sonra',
+    description: 'Mahir’in ay ışığında hazırladığı hafif, dingin bir gece yemeği.'
   },
 
-  // ==================== Tarım becerisi tarifleri (3 yeni) ====================
+  // ==================== Tarla becerisi tarifleri ====================
   {
     id: 'pumpkin_pie',
-    name: 'Balkabağı Tatlısı',
+    name: 'Balkabağı Çöreği',
     ingredients: [
       { itemId: 'pumpkin', quantity: 2 },
       { itemId: 'rice', quantity: 1 }
@@ -779,15 +779,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'farming', value: 15, description: 'Tarım dayanıklılık tüketimi -15% (bugün)' }
+      buff: { type: 'farming', value: 15, description: 'Tarla işlerinde dayanıklılık tüketimi -15% (o gün)' }
     },
-    unlockSource: 'Tarım seviye 6',
+    unlockSource: 'Tarla işi 6. seviye',
     requiredSkill: { type: 'farming', level: 6 },
-    description: 'Altın sarısı ve yumuşacık balkabağı tatlısı.'
+    description: 'Altın sarısı, yumuşacık bir balkabağı çöreği.'
   },
   {
     id: 'golden_fried_rice',
-    name: 'Altın Kızarmış Pilav',
+    name: 'Altın Pilav',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'egg', quantity: 2 },
@@ -796,15 +796,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'farming', value: 20, description: 'Tarım dayanıklılık tüketimi -20% (bugün)' }
+      buff: { type: 'farming', value: 20, description: 'Tarla işlerinde dayanıklılık tüketimi -20% (o gün)' }
     },
-    unlockSource: 'Tarım seviye 7',
+    unlockSource: 'Tarla işi 7. seviye',
     requiredSkill: { type: 'farming', level: 7 },
-    description: 'Taneleri altın gibi parlayan kızarmış pilav.'
+    description: 'Taneleri tek tek parlayan, bereketli bir pilav.'
   },
   {
     id: 'supreme_farm_feast',
-    name: 'Kırsal Büyük Şölen',
+    name: 'Kır Şöleni',
     ingredients: [
       { itemId: 'pumpkin', quantity: 1 },
       { itemId: 'watermelon', quantity: 1 },
@@ -814,17 +814,17 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 35,
-      buff: { type: 'farming', value: 30, description: 'Tarım dayanıklılık tüketimi -30% (bugün)' }
+      buff: { type: 'farming', value: 30, description: 'Tarla işlerinde dayanıklılık tüketimi -30% (o gün)' }
     },
-    unlockSource: 'Tarım seviye 9',
+    unlockSource: 'Tarla işi 9. seviye',
     requiredSkill: { type: 'farming', level: 9 },
-    description: 'Dört mevsimin özünü taşıyan kır şöleni.'
+    description: 'Dört mevsimin bereketini bir sofrada toplayan büyük şölen.'
   },
 
-  // ==================== Balıkçılık becerisi tarifleri (5 yeni) ====================
+  // ==================== Balıkçılık tarifleri ====================
   {
     id: 'braised_catfish',
-    name: 'Kızarmış Yayın Balığı',
+    name: 'Yayın Tenceresi',
     ingredients: [
       { itemId: 'catfish', quantity: 1 },
       { itemId: 'chili', quantity: 1 }
@@ -832,15 +832,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'fishing', value: 1, description: 'Balıkçılık becerisi +1 (bugün)' }
+      buff: { type: 'fishing', value: 1, description: 'Balıkçılık +1 (o gün)' }
     },
-    unlockSource: 'Balıkçılık seviye 4',
+    unlockSource: 'Balıkçılık 4. seviye',
     requiredSkill: { type: 'fishing', level: 4 },
-    description: 'Bol acılı kızarmış yayın balığı.'
+    description: 'Az acılı, bol lezzetli yayın yemeği.'
   },
   {
     id: 'grilled_eel',
-    name: 'Izgara Yılan Balığı',
+    name: 'Köz Yılanbalığı',
     ingredients: [
       { itemId: 'eel', quantity: 1 },
       { itemId: 'sesame', quantity: 1 },
@@ -849,15 +849,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'fishing', value: 2, description: 'Balıkçılık becerisi +2 (bugün)' }
+      buff: { type: 'fishing', value: 2, description: 'Balıkçılık +2 (o gün)' }
     },
-    unlockSource: 'Balıkçılık seviye 5',
+    unlockSource: 'Balıkçılık 5. seviye',
     requiredSkill: { type: 'fishing', level: 5 },
-    description: 'Dışı çıtır, içi yumuşak ızgara yılan balığı.'
+    description: 'Dışı nar gibi kızarmış, içi lokum bir köz balığı.'
   },
   {
     id: 'crab_soup',
-    name: 'Yengeç Yumurtası Çorbası',
+    name: 'Yengeç Çorbası',
     ingredients: [
       { itemId: 'river_crab', quantity: 2 },
       { itemId: 'ginger', quantity: 1 }
@@ -865,11 +865,11 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'luck', value: 15, description: 'Şans +15% (bugün)' }
+      buff: { type: 'luck', value: 15, description: 'Şans +15% (o gün)' }
     },
-    unlockSource: 'Balıkçılık seviye 6',
+    unlockSource: 'Balıkçılık 6. seviye',
     requiredSkill: { type: 'fishing', level: 6 },
-    description: 'Yoğun aromalı yengeç yumurtası çorbası.'
+    description: 'Yoğun kıvamlı, bereketli bir yengeç çorbası.'
   },
   {
     id: 'sturgeon_stew',
@@ -882,15 +882,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 30,
-      buff: { type: 'fishing', value: 3, description: 'Balıkçılık becerisi +3 (bugün)' }
+      buff: { type: 'fishing', value: 3, description: 'Balıkçılık +3 (o gün)' }
     },
-    unlockSource: 'Balıkçılık seviye 7',
+    unlockSource: 'Balıkçılık 7. seviye',
     requiredSkill: { type: 'fishing', level: 7 },
-    description: 'Nadir mersin balığından yapılan özel güveç.'
+    description: 'Kıymetli balıktan yapılan, sofraya şeref katan bir güveç.'
   },
   {
     id: 'dragon_sashimi',
-    name: 'Ejder Balığı Sashimi',
+    name: 'Efsane Balık Mezesi',
     ingredients: [
       { itemId: 'dragonfish', quantity: 1 },
       { itemId: 'ginger', quantity: 2 }
@@ -898,30 +898,30 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 35,
-      buff: { type: 'fishing', value: 4, description: 'Balıkçılık becerisi +4 (bugün)' }
+      buff: { type: 'fishing', value: 4, description: 'Balıkçılık +4 (o gün)' }
     },
-    unlockSource: 'Balıkçılık seviye 8',
+    unlockSource: 'Balıkçılık 8. seviye',
     requiredSkill: { type: 'fishing', level: 8 },
-    description: 'Efsanevi ejder balığından yapılmış üstün sashimi.'
+    description: 'Adı dilden dile dolaşan, pek nadir bir balıktan yapılan özel meze.'
   },
 
-  // ==================== Madencilik becerisi tarifleri (5 yeni) ====================
+  // ==================== Madencilik tarifleri ====================
   {
     id: 'stone_soup',
-    name: 'Maden Taşı Çorbası',
+    name: 'Maden Çorbası',
     ingredients: [
       { itemId: 'copper_ore', quantity: 2 },
       { itemId: 'radish', quantity: 1 },
       { itemId: 'firewood', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 20 },
-    unlockSource: 'Madencilik seviye 3',
+    unlockSource: 'Madencilik 3. seviye',
     requiredSkill: { type: 'mining', level: 3 },
-    description: 'Maden içinde bulunan malzemelerle yapılan çorba.'
+    description: 'Maden ağzında eldekiyle yapılan sade ama işe yarar çorba.'
   },
   {
     id: 'crystal_jelly',
-    name: 'Kristal Jöle',
+    name: 'Kristal Tatlısı',
     ingredients: [
       { itemId: 'crystal_ore', quantity: 1 },
       { itemId: 'honey', quantity: 1 }
@@ -929,15 +929,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 25,
-      buff: { type: 'mining', value: 25, description: 'Madencilik dayanıklılık tüketimi -25% (bugün)' }
+      buff: { type: 'mining', value: 25, description: 'Madende dayanıklılık tüketimi -25% (o gün)' }
     },
-    unlockSource: 'Madencilik seviye 5',
+    unlockSource: 'Madencilik 5. seviye',
     requiredSkill: { type: 'mining', level: 5 },
-    description: 'Kristal gibi berrak ve titreşimli jöle.'
+    description: 'Kristal gibi parlayan, tatlı ve serinletici bir yiyecek.'
   },
   {
     id: 'iron_tonic',
-    name: 'Demir Kemik Çorbası',
+    name: 'Demir Güç Çorbası',
     ingredients: [
       { itemId: 'iron_ore', quantity: 2 },
       { itemId: 'herb', quantity: 2 },
@@ -946,15 +946,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 35,
-      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (bugün)' }
+      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (o gün)' }
     },
-    unlockSource: 'Madencilik seviye 6',
+    unlockSource: 'Madencilik 6. seviye',
     requiredSkill: { type: 'mining', level: 6 },
-    description: 'Kasları ve kemikleri güçlendiren demir çorbası.'
+    description: 'Kemikleri güçlendirir, insanı dimdik tutar derler.'
   },
   {
     id: 'gold_dumpling',
-    name: 'Altın Maden Mantısı',
+    name: 'Altın Böreği',
     ingredients: [
       { itemId: 'gold_ore', quantity: 1 },
       { itemId: 'winter_wheat', quantity: 2 }
@@ -962,15 +962,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 30,
-      buff: { type: 'mining', value: 30, description: 'Madencilik dayanıklılık tüketimi -30% (bugün)' }
+      buff: { type: 'mining', value: 30, description: 'Madende dayanıklılık tüketimi -30% (o gün)' }
     },
-    unlockSource: 'Madencilik seviye 7',
+    unlockSource: 'Madencilik 7. seviye',
     requiredSkill: { type: 'mining', level: 7 },
-    description: 'Altın tozu dolgulu madenci mantısı.'
+    description: 'Madencilerin gözdesi olmuş, kuvvet veren bir hamur işi.'
   },
   {
     id: 'void_essence_soup',
-    name: 'Boşluk Özlü Çorba',
+    name: 'Derinlik İksiri',
     ingredients: [
       { itemId: 'void_ore', quantity: 1 },
       { itemId: 'ginseng', quantity: 1 },
@@ -979,25 +979,25 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 40,
-      buff: { type: 'mining', value: 35, description: 'Madencilik dayanıklılık tüketimi -35% (bugün)' }
+      buff: { type: 'mining', value: 35, description: 'Madende dayanıklılık tüketimi -35% (o gün)' }
     },
-    unlockSource: 'Madencilik seviye 8',
+    unlockSource: 'Madencilik 8. seviye',
     requiredSkill: { type: 'mining', level: 8 },
-    description: 'Boşluk cevherinden hazırlanmış gizemli çorba.'
+    description: 'Derinlikten gelen güçle hazırlanmış esrarengiz bir içecek.'
   },
 
-  // ==================== Toplayıcılık becerisi tarifleri (4 yeni) ====================
+  // ==================== Toplayıcılık tarifleri ====================
   {
     id: 'wild_salad',
-    name: 'Yabani Ot Salatası',
+    name: 'Kır Salatası',
     ingredients: [
       { itemId: 'herb', quantity: 2 },
       { itemId: 'wild_berry', quantity: 1 }
     ],
     effect: { staminaRestore: 20, healthRestore: 10 },
-    unlockSource: 'Toplayıcılık seviye 3',
+    unlockSource: 'Toplayıcılık 3. seviye',
     requiredSkill: { type: 'foraging', level: 3 },
-    description: 'Dağdan toplanmış taze otlarla yapılan salata.'
+    description: 'Dağ bayırdan toplanmış taptaze otlarla yapılan salata.'
   },
   {
     id: 'mushroom_stew',
@@ -1009,15 +1009,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 20,
-      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (bugün)' }
+      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (o gün)' }
     },
-    unlockSource: 'Toplayıcılık seviye 4',
+    unlockSource: 'Toplayıcılık 4. seviye',
     requiredSkill: { type: 'foraging', level: 4 },
-    description: 'Yavaş pişirilmiş yabani mantar çorbası.'
+    description: 'Orman mantarlarıyla ağır ağır pişmiş nefis bir güveç.'
   },
   {
     id: 'forest_tonic',
-    name: 'Orman Güç İlacı',
+    name: 'Orman Kuvvet Şerbeti',
     ingredients: [
       { itemId: 'ginseng', quantity: 1 },
       { itemId: 'wild_mushroom', quantity: 2 },
@@ -1026,15 +1026,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 30,
-      buff: { type: 'farming', value: 20, description: 'Tarım dayanıklılık tüketimi -20% (bugün)' }
+      buff: { type: 'farming', value: 20, description: 'Tarla işlerinde dayanıklılık tüketimi -20% (o gün)' }
     },
-    unlockSource: 'Toplayıcılık seviye 7',
+    unlockSource: 'Toplayıcılık 7. seviye',
     requiredSkill: { type: 'foraging', level: 7 },
-    description: 'Ormanın değerli malzemeleriyle hazırlanan tonik.'
+    description: 'Ormanın bereketinden güç alan kuvvetli bir karışım.'
   },
   {
     id: 'spirit_herb_elixir',
-    name: 'Ruh Otu İksiri',
+    name: 'Otacı İksiri',
     ingredients: [
       { itemId: 'ginseng', quantity: 2 },
       { itemId: 'herb', quantity: 3 },
@@ -1043,29 +1043,29 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 40,
-      buff: { type: 'luck', value: 25, description: 'Şans +25% (bugün)' }
+      buff: { type: 'luck', value: 25, description: 'Şans +25% (o gün)' }
     },
-    unlockSource: 'Toplayıcılık seviye 9',
+    unlockSource: 'Toplayıcılık 9. seviye',
     requiredSkill: { type: 'foraging', level: 9 },
-    description: 'Usta toplayıcıların gizli ruh otu ilacı.'
+    description: 'Toplayıcılıkta ustalaşanların bildiği, kudretli bir bitki iksiri.'
   },
 
-  // ==================== Savaş becerisi tarifleri (5 yeni) ====================
+  // ==================== Savaş tarifleri ====================
   {
     id: 'warrior_ration',
-    name: 'Savaşçı Kumanyası',
+    name: 'Yiğit Azığı',
     ingredients: [
       { itemId: 'potato', quantity: 2 },
       { itemId: 'egg', quantity: 1 }
     ],
     effect: { staminaRestore: 25, healthRestore: 25 },
-    unlockSource: 'Savaş seviye 3',
+    unlockSource: 'Savaş 3. seviye',
     requiredSkill: { type: 'combat', level: 3 },
-    description: 'Basit ama kullanışlı bir savaşçı kumanyası.'
+    description: 'Kavgaya girmeden önce insanı diri tutan sade azık.'
   },
   {
     id: 'battle_stew',
-    name: 'Savaş Güveci',
+    name: 'Cenk Güveci',
     ingredients: [
       { itemId: 'chili', quantity: 1 },
       { itemId: 'potato', quantity: 1 },
@@ -1074,11 +1074,11 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 30,
-      buff: { type: 'defense', value: 15, description: 'Alınan hasar -15% (bugün)' }
+      buff: { type: 'defense', value: 15, description: 'Alınan hasar -15% (o gün)' }
     },
-    unlockSource: 'Savaş seviye 4',
+    unlockSource: 'Savaş 4. seviye',
     requiredSkill: { type: 'combat', level: 4 },
-    description: 'Savaş gücünü artıran acılı güveç.'
+    description: 'Acısı insanı ayıltır, gücü yerine getirir.'
   },
   {
     id: 'iron_fist_soup',
@@ -1091,15 +1091,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 35,
-      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (bugün)' }
+      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (o gün)' }
     },
-    unlockSource: 'Savaş seviye 5',
+    unlockSource: 'Savaş 5. seviye',
     requiredSkill: { type: 'combat', level: 5 },
-    description: 'Dövüşçülere özel demir yumruk çorbası.'
+    description: 'İçen kendini taş gibi hisseder derler.'
   },
   {
     id: 'shadow_brew',
-    name: 'Gölge Demlemesi',
+    name: 'Gölge Demi',
     ingredients: [
       { itemId: 'shadow_ore', quantity: 1 },
       { itemId: 'herb', quantity: 2 },
@@ -1108,15 +1108,15 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 55,
       healthRestore: 40,
-      buff: { type: 'defense', value: 25, description: 'Alınan hasar -25% (bugün)' }
+      buff: { type: 'defense', value: 25, description: 'Alınan hasar -25% (o gün)' }
     },
-    unlockSource: 'Savaş seviye 7',
+    unlockSource: 'Savaş 7. seviye',
     requiredSkill: { type: 'combat', level: 7 },
-    description: 'Gölge cevherinden hazırlanan gizemli bir içecek.'
+    description: 'Koyu renkli, sert içimli, cesaret veren bir dem.'
   },
   {
     id: 'void_elixir',
-    name: 'Boşluk İksiri',
+    name: 'Derinlik İksiri',
     ingredients: [
       { itemId: 'void_ore', quantity: 1 },
       { itemId: 'ginseng', quantity: 1 },
@@ -1125,14 +1125,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 50,
-      buff: { type: 'defense', value: 30, description: 'Alınan hasar -30% (bugün)' }
+      buff: { type: 'defense', value: 30, description: 'Alınan hasar -30% (o gün)' }
     },
-    unlockSource: 'Savaş seviye 9',
+    unlockSource: 'Savaş 9. seviye',
     requiredSkill: { type: 'combat', level: 9 },
-    description: 'Savaş ustalarının hazırladığı nihai iksir.'
+    description: 'Savaşta ustalaşanların bildiği son kuvvet iksiri.'
   },
 
-  // ==================== Mevsimlik ve festival tarifleri (4) ====================
+  // ==================== Mevsimlik / şenlik tarifleri ====================
   {
     id: 'spring_roll',
     name: 'Bahar Böreği',
@@ -1144,14 +1144,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 15,
-      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (bugün)' }
+      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (o gün)' }
     },
-    unlockSource: 'İlkbahar Tarım Festivali ödülü',
-    description: 'İlkbahar festivalinin geleneksel böreği.'
+    unlockSource: 'Bahar şenliği ödülü',
+    description: 'Baharın gelişini kutlamak için yapılan çıtır börek.'
   },
   {
     id: 'lotus_lantern_cake',
-    name: 'Lotus Feneri Keki',
+    name: 'Fener Tatlısı',
     ingredients: [
       { itemId: 'lotus_seed', quantity: 2 },
       { itemId: 'rice', quantity: 2 },
@@ -1160,14 +1160,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'luck', value: 15, description: 'Şans +15% (bugün)' }
+      buff: { type: 'luck', value: 15, description: 'Şans +15% (o gün)' }
     },
-    unlockSource: 'Lotus Feneri Festivali ödülü',
-    description: 'Lotus feneri festivaline özel kek.'
+    unlockSource: 'Fener gecesi ödülü',
+    description: 'Şenlik gecelerinde yapılan, hafif tatlı bir ikram.'
   },
   {
     id: 'harvest_feast',
-    name: 'Hasat Şöleni',
+    name: 'Hasat Sofrası',
     ingredients: [
       { itemId: 'pumpkin', quantity: 1 },
       { itemId: 'sweet_potato', quantity: 1 },
@@ -1177,14 +1177,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'farming', value: 20, description: 'Tarım dayanıklılık tüketimi -20% (bugün)' }
+      buff: { type: 'farming', value: 20, description: 'Tarla işlerinde dayanıklılık tüketimi -20% (o gün)' }
     },
-    unlockSource: 'Hasat Şöleni ödülü',
-    description: 'Hasat şenliğinin geleneksel büyük yemeği.'
+    unlockSource: 'Hasat şöleni ödülü',
+    description: 'Bereketli günlerin anısına kurulan büyük bir sofra.'
   },
   {
     id: 'new_year_dumpling',
-    name: 'Yılbaşı Mantısı',
+    name: 'Yılbaşı Böreği',
     ingredients: [
       { itemId: 'winter_wheat', quantity: 3 },
       { itemId: 'napa_cabbage', quantity: 2 },
@@ -1193,16 +1193,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'luck', value: 20, description: 'Şans +20% (bugün)' }
+      buff: { type: 'luck', value: 20, description: 'Şans +20% (o gün)' }
     },
-    unlockSource: 'Yılbaşı gecesi ödülü',
-    description: 'Yılbaşı gecesi yapılan şans mantısı.'
+    unlockSource: 'Yıl sonu nöbeti ödülü',
+    description: 'Yeni yıla girerken yapılan uğurlu börek.'
   },
 
-  // ==================== Yeni festival tarifleri (10) ====================
+  // ==================== Yeni şenlik tarifleri ====================
   {
     id: 'nian_gao',
-    name: 'Yıl Keki',
+    name: 'Bereket Keki',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'honey', quantity: 1 }
@@ -1210,14 +1210,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 15,
-      buff: { type: 'farming', value: 10, description: 'Tarım dayanıklılık tüketimi -10% (bugün)' }
+      buff: { type: 'farming', value: 10, description: 'Tarla işlerinde dayanıklılık tüketimi -10% (o gün)' }
     },
     unlockSource: 'Yılbaşı ödülü',
-    description: '“Her yıl daha yükseğe” anlamı taşıyan uğurlu yıl keki.'
+    description: 'Yeni yılın bereketini çağırdığı söylenen tatlı kek.'
   },
   {
     id: 'hua_gao',
-    name: 'Çiçek Keki',
+    name: 'Çiçek Tatlısı',
     ingredients: [
       { itemId: 'peach', quantity: 2 },
       { itemId: 'rice', quantity: 1 },
@@ -1226,14 +1226,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 10,
-      buff: { type: 'luck', value: 10, description: 'Şans +10% (bugün)' }
+      buff: { type: 'luck', value: 10, description: 'Şans +10% (o gün)' }
     },
-    unlockSource: 'Çiçek Festivali ödülü',
-    description: 'Çiçek dolgulu zarif bir tatlı.'
+    unlockSource: 'Çiçek bayramı ödülü',
+    description: 'İçine tazelik sinmiş, zarif bir bayram tatlısı.'
   },
   {
     id: 'qing_tuan',
-    name: 'Yeşil Pirinç Topu',
+    name: 'Otlu Kömbe',
     ingredients: [
       { itemId: 'herb', quantity: 2 },
       { itemId: 'rice', quantity: 2 }
@@ -1241,14 +1241,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 10,
-      buff: { type: 'farming', value: 15, description: 'Tarım dayanıklılık tüketimi -15% (bugün)' }
+      buff: { type: 'farming', value: 15, description: 'Tarla işlerinde dayanıklılık tüketimi -15% (o gün)' }
     },
-    unlockSource: 'İlkbahar gezisi ödülü',
-    description: 'Bitkisel aromalı açık hava atıştırmalığı.'
+    unlockSource: 'Bahar gezisi ödülü',
+    description: 'Ot kokulu, hafif ve hoş bir hamur işi.'
   },
   {
     id: 'yue_bing',
-    name: 'Ay Keki',
+    name: 'Ay Çöreği',
     ingredients: [
       { itemId: 'lotus_seed', quantity: 2 },
       { itemId: 'sesame_oil', quantity: 1 },
@@ -1257,14 +1257,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'luck', value: 15, description: 'Şans +15% (bugün)' }
+      buff: { type: 'luck', value: 15, description: 'Şans +15% (o gün)' }
     },
-    unlockSource: 'Orta Sonbahar Ay Seyri ödülü',
-    description: 'Dolunay gecesine özel nilüfer dolgulu ay keki.'
+    unlockSource: 'Ay izleme gecesi ödülü',
+    description: 'Dolunay gecesine yakışan, tatlı ve ince bir çörek.'
   },
   {
     id: 'la_ba_zhou',
-    name: 'Laba Lapası',
+    name: 'Kış Aşı',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'peanut', quantity: 1 },
@@ -1274,12 +1274,12 @@ export const RECIPES: RecipeDef[] = [
       staminaRestore: 50,
       healthRestore: 25
     },
-    unlockSource: 'Laba Lapası etkinlik ödülü',
-    description: 'Soğuğu kıran ve mideyi ısıtan laba lapası.'
+    unlockSource: 'Kış aşı günü ödülü',
+    description: 'Soğuk günlerde mideyi ve içi ısıtan koyu bir aş.'
   },
   {
     id: 'dragon_boat_zongzi',
-    name: 'Zongzi',
+    name: 'Sarma Azık',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'bamboo_shoot', quantity: 1 }
@@ -1287,14 +1287,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'speed', value: 10, description: 'Hareket hızı +10% (bugün)' }
+      buff: { type: 'speed', value: 10, description: 'Hareket hızı +10% (o gün)' }
     },
-    unlockSource: 'Ejderha Kayığı Festivali ödülü',
-    description: 'Bambu yaprağı kokulu geleneksel festival zongzisi.'
+    unlockSource: 'Yarış günü ödülü',
+    description: 'Sarıp sarmalanmış, yolda yenmelik nefis bir azık.'
   },
   {
     id: 'qiao_guo',
-    name: 'Qiaoguo',
+    name: 'İnce İş Kurabiyesi',
     ingredients: [
       { itemId: 'winter_wheat', quantity: 2 },
       { itemId: 'honey', quantity: 1 },
@@ -1303,14 +1303,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 10,
-      buff: { type: 'fishing', value: 1, description: 'Balıkçılık becerisi +1 (bugün)' }
+      buff: { type: 'fishing', value: 1, description: 'Balıkçılık +1 (o gün)' }
     },
-    unlockSource: 'Qixi bilmece etkinliği ödülü',
-    description: 'Qixi festivalinin geleneksel küçük tatlısı.'
+    unlockSource: 'Bilmece gecesi ödülü',
+    description: 'İnce işçilik isteyen, kıtır kıtır bir bayram kurabiyesi.'
   },
   {
     id: 'chrysanthemum_wine',
-    name: 'Kasımpatı Şarabı',
+    name: 'Kasımpatı Şerbeti',
     ingredients: [
       { itemId: 'chrysanthemum', quantity: 3 },
       { itemId: 'rice', quantity: 1 }
@@ -1318,14 +1318,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 40,
       healthRestore: 20,
-      buff: { type: 'luck', value: 12, description: 'Şans +12% (bugün)' }
+      buff: { type: 'luck', value: 12, description: 'Şans +12% (o gün)' }
     },
-    unlockSource: 'Çifte Dokuz Festivali ödülü',
-    description: 'Çifte Dokuz bayramına özel kasımpatı içkisi.'
+    unlockSource: 'Güz şenliği ödülü',
+    description: 'Güz vakti içilen, ferah ve uğurlu bir içecek.'
   },
   {
     id: 'jiaozi',
-    name: 'Kış Gündönümü Mantısı',
+    name: 'Kış Böreği',
     ingredients: [
       { itemId: 'winter_wheat', quantity: 2 },
       { itemId: 'napa_cabbage', quantity: 2 }
@@ -1333,14 +1333,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'mining', value: 1, description: 'Madencilik becerisi +1 (bugün)' }
+      buff: { type: 'mining', value: 1, description: 'Madencilik +1 (o gün)' }
     },
-    unlockSource: 'Kış gündönümü mantı etkinliği ödülü',
-    description: 'Kış gündönümünde yapılan iç ısıtan mantı.'
+    unlockSource: 'Kış dönümü ödülü',
+    description: 'Soğuk günlerde sofraya sıcaklık getiren bir börek.'
   },
   {
     id: 'tangyuan',
-    name: 'Tangyuan',
+    name: 'Ballı Topçuklar',
     ingredients: [
       { itemId: 'rice', quantity: 3 },
       { itemId: 'honey', quantity: 1 },
@@ -1349,14 +1349,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 25,
-      buff: { type: 'all_skills', value: 1, description: 'Tüm beceriler +1 (bugün)' }
+      buff: { type: 'all_skills', value: 1, description: 'Tüm beceriler +1 (o gün)' }
     },
-    unlockSource: 'Yıl sonu havai fişek etkinliği ödülü',
-    description: 'Birlik ve beraberliği simgeleyen yer fıstıklı tangyuan.'
+    unlockSource: 'Yıl sonu havai fişek gecesi ödülü',
+    description: 'Birlik ve dirliği simgeleyen tatlı toplar.'
   },
   {
     id: 'dou_cha_yin',
-    name: 'Çay Yarışması İçeceği',
+    name: 'Çay Ustası Demliği',
     ingredients: [
       { itemId: 'tea', quantity: 2 },
       { itemId: 'honey', quantity: 1 }
@@ -1364,14 +1364,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'all_skills', value: 1, description: 'Tüm beceriler +1 (bugün)' }
+      buff: { type: 'all_skills', value: 1, description: 'Tüm beceriler +1 (o gün)' }
     },
-    unlockSource: 'Çay yarışması ödülü',
-    description: 'Çay etkinliğinin klasik içeceği, ferah ve hoş kokulu.'
+    unlockSource: 'Çay demleme yarışması ödülü',
+    description: 'İnsanın içine ferahlık veren, ustalık işi bir çay.'
   },
   {
     id: 'zhi_yuan_gao',
-    name: 'Uçurtma Keki',
+    name: 'Rüzgâr Tatlısı',
     ingredients: [
       { itemId: 'rice', quantity: 2 },
       { itemId: 'peach', quantity: 1 },
@@ -1380,23 +1380,23 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'speed', value: 12, description: 'Hareket hızı +12% (bugün)' }
+      buff: { type: 'speed', value: 12, description: 'Hareket hızı +12% (o gün)' }
     },
-    unlockSource: 'Sonbahar uçurtma festivali ödülü',
-    description: 'Uçurtma şeklini andıran, temaya uygun festival tatlısı.'
+    unlockSource: 'Uçurtma şenliği ödülü',
+    description: 'Şenlik günlerinde yapılan, hafif ve neşeli bir tatlı.'
   },
 
-  // ==================== Başarım dönüm noktası tarifleri (9) ====================
+  // ==================== Başarı / dönüm noktası tarifleri ====================
   {
     id: 'first_catch_soup',
-    name: 'İlk Av Çorbası',
+    name: 'İlk Balık Çorbası',
     ingredients: [
       { itemId: 'crucian', quantity: 2 },
       { itemId: 'ginger', quantity: 1 }
     ],
     effect: { staminaRestore: 20, healthRestore: 10 },
-    unlockSource: 'Başarım: İlk kez balık tut',
-    description: 'İlk balık avının anısına yapılan çorba.'
+    unlockSource: 'Başarım: ilk balık',
+    description: 'İlk balığın anısına pişirilen mütevazı çorba.'
   },
   {
     id: 'bountiful_porridge',
@@ -1406,12 +1406,12 @@ export const RECIPES: RecipeDef[] = [
       { itemId: 'jujube', quantity: 2 }
     ],
     effect: { staminaRestore: 40, healthRestore: 20 },
-    unlockSource: 'Başarım: 100 ürün hasat et',
-    description: 'Yüzüncü hasadı kutlamak için yapılan lapa.'
+    unlockSource: 'Başarım: 100 kez hasat',
+    description: 'Bol mahsulün sevincini kutlayan tatlı bir lapa.'
   },
   {
     id: 'miners_glory',
-    name: 'Madencinin Zaferi',
+    name: 'Madenci Şerefi',
     ingredients: [
       { itemId: 'gold_ore', quantity: 1 },
       { itemId: 'egg', quantity: 2 },
@@ -1420,14 +1420,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 30,
-      buff: { type: 'mining', value: 25, description: 'Madencilik dayanıklılık tüketimi -25% (bugün)' }
+      buff: { type: 'mining', value: 25, description: 'Madende dayanıklılık tüketimi -25% (o gün)' }
     },
-    unlockSource: 'Başarım: Madenin 30. katına ulaş',
-    description: 'Madencilik onurunun simgesi.'
+    unlockSource: 'Başarım: maden 30. kat',
+    description: 'Derine inenlerin hak ettiği kuvvetli bir öğün.'
   },
   {
     id: 'chef_special',
-    name: 'Şefin Özel Menüsü',
+    name: 'Usta Sofrası',
     ingredients: [
       { itemId: 'egg', quantity: 2 },
       { itemId: 'honey', quantity: 1 },
@@ -1435,11 +1435,11 @@ export const RECIPES: RecipeDef[] = [
     ],
     effect: { staminaRestore: 45, healthRestore: 20 },
     unlockSource: 'Başarım: 20 yemek pişir',
-    description: 'Sadece usta aşçıların yapabileceği özel yemek.'
+    description: 'Mutfağa eli yatkın olanların çıkarabildiği özel bir tabak.'
   },
   {
     id: 'social_tea',
-    name: 'Sosyete Çiçek Çayı',
+    name: 'Gönül Çayı',
     ingredients: [
       { itemId: 'osmanthus', quantity: 2 },
       { itemId: 'honey', quantity: 1 }
@@ -1447,10 +1447,10 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 30,
       healthRestore: 15,
-      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı ×2 (bugün)' }
+      buff: { type: 'giftBonus', value: 2, description: 'Hediye yakınlığı x2 (o gün)' }
     },
-    unlockSource: 'Başarım: 3 NPC ile yakın dostluk kur',
-    description: 'Sosyal ustaların özel karışım çayı.'
+    unlockSource: 'Başarım: 3 NPC ile can dost ol',
+    description: 'İnsan ilişkilerini kuvvetlendiren ince içimli bir çay.'
   },
   {
     id: 'anglers_platter',
@@ -1463,14 +1463,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 25,
-      buff: { type: 'fishing', value: 2, description: 'Balıkçılık becerisi +2 (bugün)' }
+      buff: { type: 'fishing', value: 2, description: 'Balıkçılık +2 (o gün)' }
     },
-    unlockSource: 'Başarım: 20 balık tut',
-    description: 'Usta balıkçıların hazırlayabildiği deniz ürünü tabağı.'
+    unlockSource: 'Başarım: 20 balık yakala',
+    description: 'Irmaktan çıkan nimetlerle hazırlanmış zengin bir tabak.'
   },
   {
     id: 'legendary_feast',
-    name: 'Efsanevi Şölen',
+    name: 'Efsane Sofra',
     ingredients: [
       { itemId: 'jade_dragon', quantity: 1 },
       { itemId: 'ginger', quantity: 2 }
@@ -1478,14 +1478,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 40,
-      buff: { type: 'fishing', value: 4, description: 'Balıkçılık becerisi +4 (bugün)' }
+      buff: { type: 'fishing', value: 4, description: 'Balıkçılık +4 (o gün)' }
     },
-    unlockSource: 'Başarım: Efsanevi balık yakala',
-    description: 'Efsanevi balıktan yapılan üstün şölen.'
+    unlockSource: 'Başarım: efsane balık yakala',
+    description: 'Adı dilden dile dolaşan balıktan çıkan, unutulmaz bir sofra.'
   },
   {
     id: 'abyss_stew',
-    name: 'Uçurum Güveci',
+    name: 'Dip Güveci',
     ingredients: [
       { itemId: 'shadow_ore', quantity: 1 },
       { itemId: 'crystal_shrimp', quantity: 1 },
@@ -1494,14 +1494,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 35,
-      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (bugün)' }
+      buff: { type: 'defense', value: 20, description: 'Alınan hasar -20% (o gün)' }
     },
-    unlockSource: 'Başarım: Madenin 50. katına ulaş',
-    description: 'Derinlik kaşiflerinin gizli yahni tarifi.'
+    unlockSource: 'Başarım: maden 50. kat',
+    description: 'Derinlere inenlerin, geri dönünce pişirdiği sert ama kıymetli yemek.'
   },
   {
     id: 'collectors_banquet',
-    name: 'Koleksiyoncu Ziyafeti',
+    name: 'Koleksiyoncu Sofrası',
     ingredients: [
       { itemId: 'ginseng', quantity: 1 },
       { itemId: 'sturgeon', quantity: 1 },
@@ -1511,23 +1511,23 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 40,
-      buff: { type: 'luck', value: 25, description: 'Şans +25% (bugün)' }
+      buff: { type: 'luck', value: 25, description: 'Şans +25% (o gün)' }
     },
     unlockSource: 'Başarım: 50 eşya keşfet',
-    description: 'Nadir malzemelerle hazırlanan koleksiyoncu şöleni.'
+    description: 'Nadir bulunan nimetlerle kurulmuş görkemli bir sofra.'
   },
 
-  // ===== Yeni: hayvansal ürün tarifleri =====
+  // ===== Hayvansal ürün tarifleri =====
   {
     id: 'silkie_egg_soup',
-    name: 'Siyah Tavuk Yumurtası Kreması',
+    name: 'Kara Tavuk Yumurtası Çorbası',
     ingredients: [
       { itemId: 'silkie_egg', quantity: 2 },
       { itemId: 'ginger', quantity: 1 }
     ],
     effect: { staminaRestore: 50, healthRestore: 30 },
     unlockSource: 'Başlangıçta açık',
-    description: 'Besleyici ve şifalı siyah tavuk yumurtası kreması.'
+    description: 'Besleyici, şifalı bir yumurta çorbası.'
   },
   {
     id: 'goat_milk_soup',
@@ -1537,12 +1537,12 @@ export const RECIPES: RecipeDef[] = [
       { itemId: 'herb', quantity: 1 }
     ],
     effect: { staminaRestore: 45, healthRestore: 25 },
-    unlockSource: 'Daniu yakınlık: “En İyi Dost”',
-    description: 'Sıcak ve yoğun aromalı keçi sütü çorbası.'
+    unlockSource: 'İbo ile en iyi dost olunca',
+    description: 'Ilık içimli, besleyici bir süt çorbası.'
   },
   {
     id: 'truffle_fried_rice',
-    name: 'Trüflü Kızarmış Pilav',
+    name: 'Trüflü Pilav',
     ingredients: [
       { itemId: 'truffle', quantity: 1 },
       { itemId: 'rice', quantity: 1 },
@@ -1551,10 +1551,10 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'farming', value: 1, description: 'Tarım becerisi +1 (bugün)' }
+      buff: { type: 'farming', value: 1, description: 'Tarla işi +1 (o gün)' }
     },
-    unlockSource: 'Daniu yakınlık: “Can Dost”',
-    description: 'Lüks ve mis kokulu trüflü pilav.'
+    unlockSource: 'İbo ile can dost olunca',
+    description: 'Kokusu uzaktan duyulan, pek kıymetli bir pilav.'
   },
   {
     id: 'antler_soup',
@@ -1567,10 +1567,10 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 80,
       healthRestore: 40,
-      buff: { type: 'stamina', value: 100, description: 'Dayanıklılık tamamen yenilenir' }
+      buff: { type: 'stamina', value: 100, description: 'Dayanıklılık tamamen dolar' }
     },
-    unlockSource: 'Yaşlı Lin yakınlık: “Can Dost”',
-    description: 'Aşırı besleyici; bir kâse içince insanı baştan ayağa canlandırır.'
+    unlockSource: 'Hekim Dede ile can dost olunca',
+    description: 'Bir tası insanı dipten ayağa kaldıran güçlü bir şifa çorbası.'
   },
   {
     id: 'camel_milk_tea',
@@ -1582,14 +1582,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 35,
       healthRestore: 15,
-      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (bugün)' }
+      buff: { type: 'speed', value: 15, description: 'Hareket hızı +15% (o gün)' }
     },
-    unlockSource: 'Chen Amca yakınlık: “En İyi Dost”',
-    description: 'İpeksi ve yoğun aromalı deve sütlü çay.'
+    unlockSource: 'Hasan Enişte ile en iyi dost olunca',
+    description: 'Kıvamlı, yumuşak içimli, farklı tadıyla şaşırtan bir çay.'
   },
   {
     id: 'peacock_feast',
-    name: 'Tavuskuşu Şöleni',
+    name: 'Saray Sofrası',
     ingredients: [
       { itemId: 'peacock_feather', quantity: 1 },
       { itemId: 'rice', quantity: 2 },
@@ -1598,16 +1598,16 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 90,
       healthRestore: 50,
-      buff: { type: 'all_skills', value: 1, description: 'Tüm beceriler +1 (bugün)' }
+      buff: { type: 'all_skills', value: 1, description: 'Tüm beceriler +1 (o gün)' }
     },
     unlockSource: 'Evlilikten sonra açılır',
-    description: 'Efsanevi tavuskuşu şöleni, son derece görkemli.'
+    description: 'Gösterişli, kıymetli ve şanına yaraşır bir büyük sofra.'
   },
 
-  // === Hanhai tarifleri ===
+  // === Çöl / kervan yolu tarifleri ===
   {
     id: 'spiced_lamb',
-    name: 'Baharatlı Kuzu Kızartması',
+    name: 'Baharatlı Kuzu',
     ingredients: [
       { itemId: 'hanhai_spice', quantity: 1 },
       { itemId: 'goat_milk', quantity: 1 }
@@ -1615,14 +1615,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 60,
       healthRestore: 30,
-      buff: { type: 'mining', value: 2, description: 'Madencilik becerisi +2 (bugün)' }
+      buff: { type: 'mining', value: 2, description: 'Madencilik +2 (o gün)' }
     },
-    unlockSource: 'Hanhai durağından baharat satın aldıktan sonra açılır',
-    description: 'Batı diyarı usulü baharatlı kuzu, güç verici bir aroma taşır.'
+    unlockSource: 'Kervan durağından baharat alındıktan sonra',
+    description: 'Uzak diyar kokusu taşıyan, kuvvet veren baharatlı kuzu.'
   },
   {
     id: 'silk_dumpling_deluxe',
-    name: 'İpek Yolu Mantısı',
+    name: 'İpek Yolu Böreği',
     ingredients: [
       { itemId: 'hanhai_silk', quantity: 1 },
       { itemId: 'rice', quantity: 2 },
@@ -1631,10 +1631,10 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 70,
       healthRestore: 35,
-      buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı ×3 (bugün)' }
+      buff: { type: 'giftBonus', value: 3, description: 'Hediye yakınlığı x3 (o gün)' }
     },
-    unlockSource: 'Hanhai durağından ipek satın aldıktan sonra açılır',
-    description: 'İpekle sarılmış zarif mantılar, batı baharatlarıyla hediye için mükemmel.'
+    unlockSource: 'Kervan durağından ipek alındıktan sonra',
+    description: 'İnce, gösterişli ve ikrama çok yaraşan özel bir börek.'
   },
   {
     id: 'desert_cactus_soup',
@@ -1646,10 +1646,10 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 50,
       healthRestore: 40,
-      buff: { type: 'stamina', value: 30, description: 'Maksimum dayanıklılık +30 (bugün)' }
+      buff: { type: 'stamina', value: 30, description: 'Maksimum dayanıklılık +30 (o gün)' }
     },
-    unlockSource: 'Kaktüs hasat ettikten sonra açılır',
-    description: 'Serinletici kaktüs çorbası, çöl yolcularının can simidi.'
+    unlockSource: 'Kaktüs hasat edilince',
+    description: 'Çöl yolcusunu ayakta tutan ferahlatıcı bir çorba.'
   },
   {
     id: 'date_cake',
@@ -1661,14 +1661,14 @@ export const RECIPES: RecipeDef[] = [
     effect: {
       staminaRestore: 45,
       healthRestore: 20,
-      buff: { type: 'farming', value: 2, description: 'Yetiştiricilik becerisi +2 (bugün)' }
+      buff: { type: 'farming', value: 2, description: 'Tarla işi +2 (o gün)' }
     },
-    unlockSource: 'Hurma hasat ettikten sonra açılır',
-    description: 'Tatlı ve yumuşak hurma keki, enerji ve kan tazeler.'
+    unlockSource: 'Hurma hasat edilince',
+    description: 'Tatlı, yumuşak ve insana kuvvet veren bir hurma keki.'
   }
 ]
 
-/** ID’ye göre tarif al */
+/** ID’ye göre tarif getir */
 export const getRecipeById = (id: string): RecipeDef | undefined => {
   return RECIPES.find(r => r.id === id)
-    }
+      }
