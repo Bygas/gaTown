@@ -3,13 +3,9 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 import legacy from '@vitejs/plugin-legacy'
 
-/**
- * Sadece geliştirme ortamı için:
- * WebDAV ters proxy (reverse proxy)
- * → Tarayıcıdaki CORS kısıtlamasını aşmak için kullanılır
- */
 const webdavProxy = (): Plugin => ({
   name: 'webdav-proxy',
+  apply: 'serve',
 
   configureServer(server) {
     server.middlewares.use('/__webdav', async (req, res) => {
@@ -29,7 +25,6 @@ const webdavProxy = (): Plugin => ({
             ? await import('node:https')
             : await import('node:http')
 
-        // İleri yönlendirilecek header'lar
         const fwdHeaders: Record<string, string> = {}
 
         for (const [key, value] of Object.entries(req.headers)) {
@@ -37,18 +32,16 @@ const webdavProxy = (): Plugin => ({
           if (typeof value === 'string') fwdHeaders[key] = value
         }
 
-        // Hedef host ayarlanır
         fwdHeaders.host = url.host
 
         const proxyReq = mod.request(
           url,
           { method: req.method, headers: fwdHeaders },
           (proxyRes) => {
-            // Tarayıcının otomatik auth popup açmasını engelle
             const respHeaders = { ...proxyRes.headers }
             delete respHeaders['www-authenticate']
 
-            res.writeHead(proxyRes.statusCode!, respHeaders)
+            res.writeHead(proxyRes.statusCode || 502, respHeaders)
             proxyRes.pipe(res)
           }
         )
@@ -75,7 +68,7 @@ export default defineConfig({
   },
 
   esbuild: {
-    drop: ['console', 'debugger'], // prod build'te temizle
+    drop: ['console', 'debugger'],
     legalComments: 'none'
   },
 
@@ -83,7 +76,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          comments: false // template yorumlarını kaldır
+          comments: false
         }
       }
     }),
