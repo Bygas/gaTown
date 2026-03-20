@@ -7,749 +7,749 @@ export const NPCS: NpcDef[] = [
   // ============================================================
   {
     id: 'chen_bo',
-    name: 'Mustafa Amca',
+    name: 'Hasan Enişte',
     gender: 'male',
-    role: 'Genel dükkân sahibi',
-    personality: 'Yardımsever ve cömert',
+    role: 'Tuhafiyeci',
+    personality: 'yardımsever, gönlü bol',
     birthday: { season: 'spring', day: 8 },
     lovedItems: ['tea', 'osmanthus', 'ginseng'],
     likedItems: ['cabbage', 'rice', 'potato', 'goat_milk', 'truffle', 'rabbit_foot', 'hanhai_spice'],
     hatedItems: ['copper_ore', 'quartz'],
     dialogues: {
-      stranger: ['Müşteri, belli ki buralara yeni geldin, öyle değil mi? Ben ihtiyar Mustafa Amca, bu genel dükkânın sahibiyim.', '{title}, neye ihtiyacın olursa gel, herkese dürüst davranırım.'],
-      acquaintance: ['Haha, {title} yine gelmiş! Bugün ne almak istiyorsun?', 'Son zamanlarda güzel mallar geldi, bir bak istersen.'],
-      friendly: ['{player}, gençliğinde dedene çok benziyorsun; çalışkan ve dayanıklısın.', 'Bazı güzel şeyleri sadece senin için ayırıyorum, {title}.'],
-      bestFriend: ['{player}, sen benim kendi çocuğum gibisin.', 'Belki bir gün bu dükkânı sana bırakırım... şaka yapıyorum.']
+      stranger: ['Hele buyur yiğidim, buralara yeni geldin galiba? Ben Hasan Enişte, bu dükkân da benim.', '{title}, ne lazım olursa çekinmeden gel. Bizde alavere dalavere olmaz.'],
+      acquaintance: ['Hah hah! {title} yine gelmiş! Bugün ne bakarsın?', 'Yeni mallar geldi, bir göz at istersen.'],
+      friendly: ['{player}, rahmetli deden gençliğinde senin gibiydi, çalışkan adamdı.', 'Bazı güzel şeyleri yalnızca sana ayırıyorum {title}.'],
+      bestFriend: ['{player}, sen bana öz evladım gibi oldun.', 'Şu dükkânı ilerde sana bırakırım belki... Şaka ettim canım.']
     }
   },
   {
     id: 'liu_niang',
-    name: 'Öykü',
+    name: 'Elif',
     gender: 'female',
-    role: 'Köy muhtarının kızı',
-    personality: 'Nazik ve zeki',
+    role: 'Muhtarın kızı',
+    personality: 'nazik ve zeki',
     birthday: { season: 'summer', day: 14 },
     lovedItems: ['chrysanthemum', 'osmanthus', 'peacock_feather'],
     likedItems: ['tea', 'wintersweet', 'rabbit_fur', 'rabbit_foot', 'hanhai_silk'],
     hatedItems: ['iron_ore', 'firewood'],
     dialogues: {
-      stranger: ['Merhaba, sen yeni gelen çiftlik sahibi olmalısın, değil mi? Ben Öykü.', 'gaKöyü çok güzeldir, {title}, burayı seveceksin.'],
-      acquaintance: ['Bugün hava güzel, {title} sen de dolaşmaya mı çıktın?', 'Eski şiirlerden oluşan bir kitap okuyorum, birlikte bakmak ister misin?'],
-      friendly: ['{title} burada olunca köy daha neşeli oldu.', 'Biraz osmanthus keki yaptım, {player}, bir parça dene.'],
-      bestFriend: ['{title} ile sohbet etmek her zaman çok keyifli...', 'Bu çiçeği sana veriyorum, dağda buldum.']
+      stranger: ['Merhaba, sen yeni gelen çiftlik sahibi olmalısın. Ben Elif.', 'Burası çok güzel bir köy, {title}. Seveceğine eminim.'],
+      acquaintance: ['Bugün hava ne güzel, {title} sen de şöyle bir dolaşmaya mı çıktın?', 'Eski şiirlerden bir kitap okuyorum, istersen beraber bakarız.'],
+      friendly: ['{title} gelince köy daha da şenlendi vallahi.', 'Biraz çiçekli çörek yaptım, {player}, bir parça tatsana.'],
+      bestFriend: ['{title} ile konuşmak hep içimi ferahlatıyor...', 'Bu çiçeği sana getirdim, dağ yolunda buldum.']
     },
     marriageable: true,
     heartEventIds: ['liu_niang_heart_3', 'liu_niang_heart_5', 'liu_niang_heart_8'],
     datingDialogues: [
-      'Bugün {player} ile dere kenarında yürümek istiyorum.',
-      '{title}, senin için bir koku kesesi işledim, yanında taşı.',
-      '{player} ile geçirdiğim her gün, şiirlerde yazdığı kadar güzel.'
+      'Bugün {player} ile dere kenarında biraz yürümek isterim.',
+      '{title}, sana küçük bir nazarlık işledim, üstünde taşı.',
+      '{player} ile geçen her gün, sanki türkü sözü gibi güzel geliyor bana.'
     ],
     zhijiDialogues: [
-      '{player} ile şiir okuduğum öğleden sonraları benim en değerli zamanlarım.',
-      'Bazı şeyleri sadece can dosta söylemek isterim... {title}, hep yanımda olduğun için teşekkür ederim.',
-      'Gerçek bir can dostu bulmak hayatta çok zordur. {player} ile karşılaşmak benim şansım.'
+      '{player} ile şiir okuyup oturduğumuz o öğleden sonralar, en kıymetli vakitlerim.',
+      'Bazı sözler var, insan ancak can dostuna söyler... {title}, hep yanımda olduğun için sağ ol.',
+      'Böyle gönül dostu zor bulunur. {player} ile karşılaşmak benim bahtım oldu.'
     ],
     zhijiHeartEventIds: ['liu_niang_zhiji_7', 'liu_niang_zhiji_9']
   },
   {
     id: 'a_shi',
-    name: 'Mehmethan',
+    name: 'İsmail',
     gender: 'male',
     role: 'Madenci',
-    personality: 'Sessiz ve içine kapanık',
+    personality: 'az konuşan',
     birthday: { season: 'autumn', day: 5 },
     lovedItems: ['ruby', 'jade', 'hanhai_turquoise'],
     likedItems: ['gold_ore', 'iron_ore', 'potato', 'rabbit_foot'],
     hatedItems: ['chrysanthemum', 'wintersweet'],
     dialogues: {
-      stranger: ['... Hm.', 'Maden... {title}, dikkatli ol.'],
-      acquaintance: ['{title} de madene mi gidiyor?... Kazmanı yanına al.', 'Derinlerde iyi şeyler de var, tehlike de.'],
-      friendly: ['Bu cevher parçası iyi, al {title}.', '{player}’ın kazması yükseltilmeli, istersen bakabilirim.'],
-      bestFriend: ['... {player}, benim ilk arkadaşım.', 'En derindeki hazineyi... sadece {title}’a söylerim.']
+      stranger: ['... Hı.', 'Maden ocağı... {title}, dikkat et.'],
+      acquaintance: ['{title} sen de mi kazıya gidiyorsun?... Kazmanı unutma.', 'Derinlerde iyi taş da var, bela da var.'],
+      friendly: ['Şu taş fena değil, al {title}.', '{player}’ın kazması eskimiş, istersen bakarım.'],
+      bestFriend: ['... {player}, benim ilk dostumsun.', 'En dipteki hazineyi... yalnızca {title}’a söylerim.']
     },
     marriageable: true,
     heartEventIds: ['a_shi_heart_3', 'a_shi_heart_5', 'a_shi_heart_8'],
     datingDialogues: [
-      '... {player}, bu cevher çok güzel. Gözlerin gibi.',
-      'Eskiden maden en iyi yerdi, ama şimdi... {title}’ın olduğu yer daha iyi.',
-      'Pek konuşamam... ama {player} yanımda olunca yeter.'
+      '... {player}, bu taş çok güzel. Gözlerin gibi.',
+      'Eskiden en iyi yer maden ocağıydı. Şimdi... {title} neredeyse orası daha iyi.',
+      'Çok laf edemem... Ama {player} yanımda olsun yeter.'
     ],
     zhijiDialogues: [
-      '... Yanımda sen kazı yapınca verimim artıyor gibi.',
-      '{player}, bu cevher... sadece gerçek bir can dosta yaraşır.',
-      'Konuşmadan da rahat hissetmek... demek ki can dostluk böyle bir şey.'
+      '... Sen yanımdayken kazı daha bereketli oluyor sanki.',
+      '{player}, bu taş... ancak can dosta yakışır.',
+      'Hiç konuşmadan da rahat etmek... Demek can dostu böyle oluyormuş.'
     ],
     zhijiHeartEventIds: ['a_shi_zhiji_7', 'a_shi_zhiji_9']
   },
   {
     id: 'qiu_yue',
-    name: 'Gamze',
+    name: 'Aylin',
     gender: 'female',
-    role: 'Balıkçı kız',
-    personality: 'Neşeli ve canlı',
+    role: 'Balıkçı kızı',
+    personality: 'neşeli ve dışa dönük',
     birthday: { season: 'winter', day: 20 },
     lovedItems: ['koi', 'giant_salamander'],
     likedItems: ['crucian', 'carp', 'grass_carp', 'bass', 'rabbit_foot'],
     hatedItems: ['copper_ore', 'iron_ore'],
     dialogues: {
-      stranger: ['Aaa, yeni bir yüz! {title} merhaba, ben Gamze, köyün en iyi balıkçısı!', 'Balık tutmayı öğrenmek istersen beni bul!'],
-      acquaintance: ['Bugün dere suyu o kadar berrak ki, kesin büyük balık tutarız!', '{title}, balık tutuşun gittikçe daha iyi oluyor.'],
-      friendly: ['Burası benim gizli oltalama noktam, sadece {title}’a söylüyorum.', '{player}’a kızarmış sazan yapmayı öğreteyim, çok lezzetlidir!'],
-      bestFriend: ['Bundan sonra birlikte balık tutalım mı? Her gün gidelim!', '{title}, gördüğüm en iyi balıkçısın! Hehe.']
+      stranger: ['Aaa, yeni bir yüz! {title} merhaba, ben Aylin, köyün en iyi oltacısı!', 'Balık tutmayı öğrenmek istersen bana gel!'],
+      acquaintance: ['Bugün derenin suyu öyle berrak ki, kesin iri balık çıkar!', '{title}, balık tutuşun gitgide ustalaşıyor ha.'],
+      friendly: ['Şu benim gizli balık yerim, yalnızca {title}’a söylerim.', '{player}’a nefis sazan yapmayı öğreteyim, parmaklarını yersin!'],
+      bestFriend: ['Bundan sonra hep beraber balığa gidelim olur mu? Her gün gidelim!', '{title}, gördüğüm en iyi oltacısın! Hehe.']
     },
     marriageable: true,
     heartEventIds: ['qiu_yue_heart_3', 'qiu_yue_heart_5', 'qiu_yue_heart_8'],
     datingDialogues: [
-      '{player}! Bugünkü gün batımı çok güzel, birlikte izleyelim!',
-      'Hehe, {title} artık benim, başkası seni alamaz.',
-      'Bundan sonra her gün birlikte balık tutalım mı? Sadece ikimiz!'
+      '{player}! Şu akşam güneşine bak, ne güzel... Hadi beraber izleyelim!',
+      'Hehe, {title} artık benim. Kimseye kaptırmam.',
+      'Bundan sonra her gün balığa gidelim mi? Yalnız ikimiz!'
     ],
     zhijiDialogues: [
-      '{player}! Hadi bugün birlikte balık tutalım! Sadece can dostlarımı gizli yerime götürürüm!',
-      'Hehe, içinde ne varsa bana anlatabilirsin! Biz can dostuz!',
-      'Bundan sonra nereye gidersem gideyim, {title} da benimle gelecek!'
+      '{player}! Hadi bugün balığa çıkalım! Benim gizli yerime ancak can dostu gelir!',
+      'Hehe, içinde ne varsa bana anlatabilirsin! Biz can dostuyuz!',
+      'Nereye gidersem gideyim, {title} da yanımda olacak!'
     ],
     zhijiHeartEventIds: ['qiu_yue_zhiji_7', 'qiu_yue_zhiji_9']
   },
   {
     id: 'lin_lao',
-    name: 'Demirhan',
+    name: 'Hekim Dede',
     gender: 'male',
-    role: 'Yaşlı hekim',
-    personality: 'Şefkatli ve bilgili',
+    role: 'Köy hekimi',
+    personality: 'şefkatli ve bilgili',
     birthday: { season: 'autumn', day: 22 },
     lovedItems: ['herb', 'tea', 'antler_velvet'],
     likedItems: ['winter_bamboo_shoot', 'bamboo', 'yak_milk', 'camel_milk', 'rabbit_foot', 'hanhai_spice'],
     hatedItems: ['ruby', 'gold_ore'],
     dialogues: {
-      stranger: ['Genç adam, buraya yeni geldin; iklime ve suya alışabildin mi?', 'Ben onlarca yıldır hekimlik yapıyorum, {title}, bir rahatsızlığın varsa çekinmeden söyle.'],
-      acquaintance: ['Bu bitki çok değerlidir, hem ilaç yapılır hem çay demlenir.', '{title}’ın yüzü buraya ilk geldiğinden çok daha iyi görünüyor.'],
-      friendly: ['Bende kuvvet artıran bir şifalı yemek tarifi var.', '{player}’ın dedesi... benim eski dostumdu.'],
-      bestFriend: ['Şu “Bitkiler Üzerine Notlar” kitabını sana veriyorum, {title}. İyi çalış.', 'gaKöyü’nün geleceğini {player}’a emanet ediyorum.']
+      stranger: ['Evlat, buralara yeni geldin; toprağa, suya alışabildin mi?', 'Ben yıllardır hekimlik ederim. {title}, bir derdin varsa söyle.'],
+      acquaintance: ['Şu ot iyidir, hem ilaca girer hem çaya.', '{title}, yüzüne renk gelmiş; ilk geldiğinden iyisin.'],
+      friendly: ['Benim bir kuvvet şerbeti tarifim var, bedene iyi gelir.', '{player}’ın dedesi... eski ahbabımdı.'],
+      bestFriend: ['Şu eski şifa kitabını sana veriyorum {title}. İyi oku.', 'Bu köyün geleceği artık siz gençlere emanet, {player}.']
     }
   },
   {
     id: 'xiao_man',
-    name: 'Orhan',
+    name: 'Mıstık',
     gender: 'male',
     role: 'Marangoz çırağı',
-    personality: 'Yaramaz ve meraklı',
+    personality: 'yaramaz ve meraklı',
     birthday: { season: 'spring', day: 18 },
     lovedItems: ['watermelon', 'sweet_potato'],
     likedItems: ['wood', 'bamboo', 'radish', 'rabbit_foot'],
     hatedItems: ['herb', 'tea'],
     dialogues: {
-      stranger: ['Vay, demek yeni gelen sensin! Ben Orhan!', '{title}’ın çiftliğine gidip gizlice baktım, bayağı harapmış— şey yani, çok potansiyeli var!'],
-      acquaintance: ['Son zamanlarda dolap yapmayı çalışıyorum, {title} bir tane ister mi?', 'Ustam hâlâ el becerimin yetmediğini söylüyor, hıh!'],
-      friendly: ['{title}’ın aletlerini tamir edeyim! Söz, mis gibi çalışır!', 'Hehe, {player}’a gizlice indirim yaparım.'],
-      bestFriend: ['Bir gün köyün en büyük evini yapacağım! {title}, tasarımda yardım eder misin?', '{player} benim en iyi arkadaşım! ...Ama kimseye söyleme.']
+      stranger: ['Vay, yeni gelen sen misin! Ben Mıstık!', '{title}’ın çiftliğine gizlice baktım da... biraz dökük duruyor— şey yani, potansiyeli var!'],
+      acquaintance: ['Ben aralar dolap yapmayı öğreniyorum, {title} isterse sana da yaparım.', 'Usta diyor ki daha elim alışmamış, hıh!'],
+      friendly: ['{title}’ın aletlerini ben tamir edeyim! Mis gibi olur!', 'Hehe, {player}’a gizliden indirim yaparım.'],
+      bestFriend: ['Bir gün köyün en büyük evini ben yapacağım! {title}, planını sen çizersin ha?', '{player} benim en iyi arkadaşım! ... Kimseye deme ama.']
     }
   },
 
   // ============================================================
-  // Yeni evlenilebilir NPC'ler (9) — toplam 12 evlenilebilir
+  // Yeni evlenilebilir NPC'ler (9) — Toplam 12 evlenilebilir
   // ============================================================
   {
     id: 'chun_lan',
-    name: 'Melisa',
+    name: 'Bahar',
     gender: 'female',
-    role: 'Çayhane sahibi kadın',
-    personality: 'Zarif ve ağırbaşlı',
+    role: 'Çayhane sahibi',
+    personality: 'zarif ve ağırbaşlı',
     birthday: { season: 'spring', day: 3 },
     lovedItems: ['tea', 'osmanthus', 'chrysanthemum'],
     likedItems: ['honey', 'lotus_seed', 'peach', 'rabbit_foot', 'hanhai_silk'],
     hatedItems: ['iron_ore', 'copper_ore'],
     dialogues: {
-      stranger: ['Buyurun, bir fincan çay için. Ben Melisa, bu çayhane atalarımdan kaldı.', '{title} çayı seviyorsa bundan sonra sık sık uğrasın.'],
-      acquaintance: ['Bugün erken hasat Papatya çayı demledim, {title} bir tatsın mı?', 'Çay yaprakları, sabah çiği kurumadan toplanmalı; o zaman en taze olurlar.'],
-      friendly: ['{player}’ın damak tadını hatırladım, sevdiğin çayı özellikle ayırdım.', 'Birkaç dönüm çay bahçem var, bir gün {title}’ı gezdireyim.'],
-      bestFriend: ['{title} ile çay içtiğim zamanlar günümün en çok beklediğim anları.', 'Bu fincan çay, sadece {player} için demlendi.']
+      stranger: ['Buyur içeri, bir çay iç. Ben Bahar, bu çayhane aile yadigârı.', '{title} çayı severse bundan sonra sık sık uğrasın.'],
+      acquaintance: ['Bugün taze demledim, {title} bir yudum alır mı?', 'Çay yaprağı sabah çiği kurumadan toplanırsa daha güzel olur.'],
+      friendly: ['{player}’ın damak tadını öğrendim, sevdiğin çayı ayırdım.', 'Bir iki çaylığımız var, bir gün {title}’ı da götüreyim.'],
+      bestFriend: ['{title} ile çay içilen vakitler, günün en kıymetli anı oluyor bana.', 'Bu fincan çayı yalnızca {player} için demledim.']
     },
     marriageable: true,
     heartEventIds: ['chun_lan_heart_3', 'chun_lan_heart_5', 'chun_lan_heart_8'],
     datingDialogues: [
-      'Bu fincan çayı {player} için özel karıştırdım, tadına bak.',
-      '{title} ile çay içtiğim öğleden sonralar benim en kıymetli zamanlarım.',
-      '{player}, bundan sonraki her gün, seninle aynı demlikten çay içmek istiyorum.'
+      'Bu çayı {player} için ayrı harmanladım, bir bak bakalım.',
+      '{title} ile içilen şu sakin öğle vakitleri, en kıymetli zamanım oldu.',
+      '{player}, bundan sonra her günü seninle bir demlik çay paylaşarak geçirmek isterim.'
     ],
     zhijiDialogues: [
-      'Bu fincan çay sadece can dosta demlenir. {player}, afiyet olsun.',
-      'Eskiden çayhanenin yükünü hep tek başıma taşırdım. {title} yanımdayken çok daha kolay.',
-      'Can dostla birlikte çay içmek, hayattaki en büyük mutluluklardan biridir.'
+      'Bu fincan, ancak gönül dostuna demlenir. {player}, afiyet olsun.',
+      'Eskiden çayhanenin bütün yükü yalnız bendeydi. {title} olunca içim hafifledi.',
+      'Can dostla içilen çayın tadı, hiçbir şeye benzemez.'
     ],
     zhijiHeartEventIds: ['chun_lan_zhiji_7', 'chun_lan_zhiji_9']
   },
   {
     id: 'xue_qin',
-    name: 'Merve',
+    name: 'Nazan',
     gender: 'female',
     role: 'Ressam',
-    personality: 'Gururlu ve mesafeli',
+    personality: 'mesafeli ve gururlu',
     birthday: { season: 'winter', day: 10 },
     lovedItems: ['snow_lotus', 'moonstone'],
     likedItems: ['chrysanthemum', 'wintersweet', 'bamboo', 'rabbit_foot', 'hanhai_turquoise'],
     hatedItems: ['pickled_cabbage', 'dried_radish'],
     dialogues: {
-      stranger: ['... Işığımı kapatıyorsun.', 'Resim almayacaksan lütfen boyalara dokunma.'],
-      acquaintance: ['{title} resimle ilgileniyor mu? Zevkin fena değil.', 'Bu manzara resmi, köyün arkasındaki şelaleden ilham aldı.'],
-      friendly: ['{player}, çiftliğin gün batımında çok güzel görünüyor, bir resmini yaptım.', 'Normalde kalabalığı sevmem... ama {title} gelince fena olmuyor.'],
-      bestFriend: ['Eskiden kimsenin resimlerimi anlamadığını düşünürdüm... ta ki {player} ile tanışana kadar.', 'Bu tabloyu {title} için yaptım, iyi sakla.']
+      stranger: ['... Işığımı kesiyorsun.', 'Resim almayacaksan boyalara dokunma lütfen.'],
+      acquaintance: ['{title} resimden anlıyor mu? Fena gözün yokmuş.', 'Şu manzara resmine köyün arkasındaki şelale ilham oldu.'],
+      friendly: ['{player}, senin çiftlik akşam güneşinde güzel görünüyor; bir resmini yaptım.', 'Kalabalığı pek sevmem... Ama {title} gelince öyle olmuyor.'],
+      bestFriend: ['Eskiden kimse resmimi anlamıyor sanırdım... {player} ile karşılaşana kadar.', 'Bu tabloyu {title} için yaptım, iyi sakla.']
     },
     marriageable: true,
     heartEventIds: ['xue_qin_heart_3', 'xue_qin_heart_5', 'xue_qin_heart_8'],
     datingDialogues: [
-      '... {player}, kıpırdama, şu anki halini çizmek istiyorum.',
-      'Eskiden güzelliği sadece resimlerde arardım, ama şimdi... {title} resimlerden daha güzel.',
-      'Bu tablonun adı “Yuva”. Çünkü senin sayende benim de bir yuvam var.'
+      '... {player}, kıpırdama. Şu halini çizmek istiyorum.',
+      'Eskiden güzeli yalnız tabloda arardım. Şimdi... {title} tablodan da güzel geliyor.',
+      'Bu resmin adı “Yuva”. Çünkü seninle ben de bir yuva duygusu tattım.'
     ],
     zhijiDialogues: [
-      '... Resim yaparken beni sinirlendirmeden izleyebilen tek kişi sensin. Demek can dostluk böyle bir şey.',
-      'Bu tablonun teması “Gönül dostu”... ilhamını {player}’dan aldı.',
-      'Eskiden dünyada beni anlayan kimse yok sanırdım. Artık öyle düşünmüyorum.'
+      '... Ben resim yaparken beni bunaltmayan tek kişi sensin. Demek can dostluk buymuş.',
+      'Şu tablonun konusu “gönül bağı”... İlhamı da {player}.',
+      'Eskiden dünyada kimse beni anlamaz sanırdım. Şimdi öyle düşünmüyorum.'
     ],
     zhijiHeartEventIds: ['xue_qin_zhiji_7', 'xue_qin_zhiji_9']
   },
   {
     id: 'su_su',
-    name: 'Su',
+    name: 'Suna',
     gender: 'female',
     role: 'Terzi',
-    personality: 'Sakin ve becerikli',
+    personality: 'sakin ve maharetli',
     birthday: { season: 'summer', day: 3 },
     lovedItems: ['silk', 'wintersweet', 'alpaca_wool', 'peacock_feather'],
     likedItems: ['wool', 'chrysanthemum', 'osmanthus', 'rabbit_fur', 'rabbit_foot'],
     hatedItems: ['iron_ore', 'stone'],
     dialogues: {
-      stranger: ['Su Terzihanesi’ne hoş geldin, ben Su.', 'Ne tür kıyafete ihtiyacın varsa söyle, {title}.'],
-      acquaintance: ['{title}’ın kıyafeti yırtılmış, bırak ben dikeceğim.', 'Bu kumaşın deseni çok özel, baharlık elbise için uygun.'],
-      friendly: ['{player} için bir yelek diktim, üstüne oluyor mu dene bakalım.', 'Her iğne ve her dikiş, kalpten gelen bir emektir...'],
-      bestFriend: ['{player}’ın benim diktiğim kıyafetleri giymesi beni en çok mutlu eden şey.', 'Bundan sonra sadece {title} için kıyafet dikeceğim.']
+      stranger: ['Hoş geldin, ben Suna. Burası terzi dükkânım.', '{title}, nasıl bir kıyafet istersen söyle yeter.'],
+      acquaintance: ['{title}’ın giysisi sökülmüş, bırak da onarayım.', 'Şu kumaşın deseni çok güzel, tam baharlık.'],
+      friendly: ['{player} için bir yelek diktim, üstüne olur mu bak bakalım.', 'Her ilmeğinde ayrı bir gönül emeği var...'],
+      bestFriend: ['{player}’ın benim diktiğim giysileri giymesi beni en çok sevindiren şey.', 'Bundan sonra yalnızca {title}’a dikerim sanki.']
     },
     marriageable: true,
     heartEventIds: ['su_su_heart_3', 'su_su_heart_5', 'su_su_heart_8'],
     datingDialogues: [
-      '{player} için bir kıyafet dikiyorum, her ilmekte kalbim var.',
-      '{title} benim diktiğim kıyafetleri giydiğinde en mutlu olduğum an o oluyor.',
-      'Bundan sonra sadece {player} için kıyafet dikeyim... olur mu?'
+      '{player} için bir kıyafet dikiyorum; her dikişinde gönlüm var.',
+      '{title} benim diktiğim giysiyi giyince içim öyle bir ısınıyor ki...',
+      'Bundan sonra yalnızca {player} için dikiş diksem... olur mu?'
     ],
     zhijiDialogues: [
-      '{player} için yaptığım giysilerin her dikişinde daha çok özen var... çünkü sen benim can dostumsun.',
-      'İçim sıkıldığında {title}’ı düşünmek bana huzur veriyor.',
-      'Can dostların çok söze ihtiyacı olmaz... ama yine de {player} ile daha çok konuşmak istiyorum.'
+      '{player} için diktiğim giysilerde daha da özenli oluyorum... Çünkü sen benim can dostumsun.',
+      'İçimde bir sıkıntı olunca {title} aklıma geliyor, içim yatışıyor.',
+      'Can dost arasında çok söz gerekmez... Ama ben yine de {player} ile daha çok konuşmak istiyorum.'
     ],
     zhijiHeartEventIds: ['su_su_zhiji_7', 'su_su_zhiji_9']
   },
   {
     id: 'hong_dou',
-    name: 'Miray',
+    name: 'Zeyno',
     gender: 'female',
-    role: 'Şaraphane sahibi',
-    personality: 'Açık sözlü ve cömert',
+    role: 'Meyhane sahibi',
+    personality: 'açık sözlü ve cömert',
     birthday: { season: 'autumn', day: 10 },
     lovedItems: ['watermelon_wine', 'peach_wine', 'jujube_wine'],
     likedItems: ['watermelon', 'peanut', 'corn', 'rabbit_foot'],
     hatedItems: ['tea', 'herb'],
     dialogues: {
-      stranger: ['Hey, bir testi ister misin? Ben Miray, bu şaraphanenin sahibiyim!', 'İçmesen de olur, gel otur, {title}, çekinme.'],
-      acquaintance: ['Bu yılın şeftali şarabı çok iyi oldu, {title}, bir kâse ister misin?', 'Şarap yapmanın sırrı şudur: emek! Ve bolca sabır.'],
-      friendly: ['{player} artık iyi dostum sayılır, bu küp şarap senin olsun!', 'Bir dahaki sefere içki oyunu oynayalım, kaybeden hesabı ödesin!'],
-      bestFriend: ['Köyde sadece {title}, benim saklı şarabımı içmeyi hak ediyor.', '{player} varken şarabın tadı daha güzel.']
+      stranger: ['Hey! Bir testi ister misin? Ben Zeyno, buranın sahibiyim!', 'İçmesen de olur, gel otur hele {title}, yabancılık çekme.'],
+      acquaintance: ['Bu yılın şeftali şarabı güzel oldu, {title} bir tas alır mı?', 'İşin sırrı nedir biliyor musun? Gönül koyacaksın... bir de sabır.'],
+      friendly: ['{player} benim iyi dostum sayılır, şu küp sana hediyem olsun!', 'Bir dahaki sefere karşılıklı içeriz, kim yenilirse hesabı o öder!'],
+      bestFriend: ['Köyde benim saklı fıçımı içmeye layık biri varsa o da {title}.', '{player} varken içkinin tadı başka oluyor.']
     },
     marriageable: true,
     heartEventIds: ['hong_dou_heart_3', 'hong_dou_heart_5', 'hong_dou_heart_8'],
     datingDialogues: [
-      '{player}! Gel, benimle bir kadeh iç! Bugünkü şarap özellikle tatlı.',
-      'Hey, {title}, yüzümü kızartan tek kişi sensin.',
-      'Bundan sonra şaraphanedeki bütün şaraplar {player} için ayrılacak! Kimse el süremeyecek!'
+      '{player}! Gel, bir kadeh tokuşturalım! Bugünün içkisi ayrı tatlı.',
+      'Hey {title}, yüzümü kızartan tek kişi sensin.',
+      'Bundan sonra mahzendeki en güzel içkileri {player} için saklayacağım! Kimse dokunamaz!'
     ],
     zhijiDialogues: [
-      '{player}! Gel! Can dost arasında içki içerken çekinmeye gerek yok! Şerefe!',
-      'Dünyada benimle içki yarışına girebilecek tek kişi {title}! İşte buna can dost denir!',
-      'Senin gibi bir can dostum varken, en sert içki bile tatlı geliyor.'
+      '{player}! Gel! Can dost arasında içki ikramı esirgenmez! Dibine kadar!',
+      'Dünyada benimle kafa tutacak tek kişi {title}! İşte dostluk budur!',
+      'Senin gibi bir can dost olunca, en sert içki bile tatlı geliyor.'
     ],
     zhijiHeartEventIds: ['hong_dou_zhiji_7', 'hong_dou_zhiji_9']
   },
   {
     id: 'dan_qing',
-    name: 'Osman',
+    name: 'Cemil',
     gender: 'male',
-    role: 'Bilgin',
-    personality: 'Nazik ve kültürlü',
+    role: 'Medrese görmüş genç',
+    personality: 'nazik ve edepli',
     birthday: { season: 'spring', day: 22 },
     lovedItems: ['tea', 'bamboo'],
     likedItems: ['chrysanthemum', 'osmanthus', 'pine_cone', 'rabbit_foot'],
     hatedItems: ['copper_ore', 'firewood'],
     dialogues: {
-      stranger: ['Ben Osman. Gezerek eğitim alırken bu cennet manzarası beni burada tuttu.', '{title} da kitap okumayı seven biri mi?'],
-      acquaintance: ['Bugün güzel bir metin okudum, bunu {title} ile paylaşayım.', '"Dağ yüksek olmak zorunda değildir; içinde ermiş varsa ünlenir."—Taoyuan Köyü de böyledir.'],
-      friendly: ['{player}, bir gün senin için hat yazacağım.', 'Senin gibi bir can dosta sahip olmak, bu hayatta pişmanlıksız yaşamak demek.'],
-      bestFriend: ['{player} ile karşılaşmasaydım, çoktan buradan gitmiş olurdum.', 'Kalem, mürekkep ve kâğıt bile {title}’ın bir gülümsemesine denk değil.']
+      stranger: ['Ben Cemil. Gezip görürken bu güzel köy beni burada tuttu.', '{title} da okumayı sevenlerden midir?'],
+      acquaintance: ['Bugün güzel bir yazı okudum, {title} ile paylaşayım dedim.', 'İnsanın gönlüne iyi gelen yerler vardır; bu köy de öyle.'],
+      friendly: ['{player}, bir gün sana güzel bir yazı yazayım.', '{title} gibi bir gönül dostu bulan için dünya eksik kalmaz.'],
+      bestFriend: ['{player} ile karşılaşmasaydım belki çoktan gitmiştim.', 'Kalem kâğıt bir yana, {title}’ın bir tebessümü bir yana.']
     },
     marriageable: true,
     heartEventIds: ['dan_qing_heart_3', 'dan_qing_heart_5', 'dan_qing_heart_8'],
     datingDialogues: [
-      'Bugün {player} hakkında bir şiir yazdım... dinlemek ister misin?',
-      '{title} ile tanışmadan önce hayatımı sadece kitaplarla geçireceğimi sanıyordum.',
-      '{player}, “Elini tutup seninle yaşlanmak istiyorum.”'
+      'Bugün bir mani yazdım, {player} için... Dinlemek ister misin?',
+      '{title} ile tanışmadan önce ömrüm kitaplarla geçer sanırdım.',
+      '{player}, el ele verip ömrü beraber geçirmek isterim.'
     ],
     zhijiDialogues: [
-      'Yüksek dağlar, akan sular... sonunda gerçek ruh eşini buldum. {player}, sen benim aradığım kişisin.',
-      'Bugün yine yeni bir metin yazdım, ilk olarak {title}’a göstermek istedim.',
-      '{player} gibi bir can dosta sahipken, sade bir ömür sürsem bile ne pişmanlığım olur ki?'
+      'İnsanın gönüldaşı kolay bulunmaz. {player}, sen benim gönlüme denk geldin.',
+      'Bugün yine yeni bir yazı karaladım; ilk {title} görsün istedim.',
+      '{player} gibi bir can dost varken, sade bir ömür sürsem de içimde ukde kalmaz.'
     ],
     zhijiHeartEventIds: ['dan_qing_zhiji_7', 'dan_qing_zhiji_9']
   },
   {
     id: 'a_tie',
-    name: 'Kerem',
+    name: 'Demir',
     gender: 'male',
     role: 'Demirci çırağı',
-    personality: 'Saf ve dürüst',
+    personality: 'iyi niyetli ve saf',
     birthday: { season: 'autumn', day: 15 },
     lovedItems: ['iron_ore', 'gold_ore'],
     likedItems: ['copper_ore', 'potato', 'corn', 'rabbit_foot'],
     hatedItems: ['chrysanthemum', 'silk'],
     dialogues: {
-      stranger: ['Aa, se-selam! Ben Kerem... Fatih Usta`nın çırağıyım.', 'Demir dövmek zor ama çok ilginç... {title} bakmak ister mi?'],
-      acquaintance: ['{title}’ın tamir edilmesi gereken aletleri var mı? Be-ben yardım edebilirim.', 'Bugün çok güzel bir bıçak yaptım, Fatih usta sonunda beni övdü!'],
-      friendly: ['{player}’ın aletlerine gizlice biraz daha sağlam malzeme ekledim.', '{title}, benim beceriksizliğimle dalga geçmeyen tek kişi...'],
-      bestFriend: ['{player}... beni hep cesaretlendirdiğin için teşekkür ederim.', 'Ustalığımı alınca ilk eserimi {title}’a vereceğim.']
+      stranger: ['Ş-şey, merhaba! Ben Demir... ustanın çırağıyım.', 'Demir dövmek zor iştir ama hoşuma gider... {title} bakmak ister mi?'],
+      acquaintance: ['{title}’ın tamir edilecek aleti var mı? B-ben yardım ederim.', 'Bugün güzel bir bıçak çıkardım, usta ilk kez beni övdü!'],
+      friendly: ['{player}’ın aletine gizlice biraz daha sağlam malzeme kattım.', '{title}, benim acemiliğime gülmeyen tek kişisin...'],
+      bestFriend: ['{player}... beni hep yüreklendirdiğin için sağ ol.', 'Ustalığımı alınca yaptığım ilk işi {title}’a vereceğim.']
     },
     marriageable: true,
     heartEventIds: ['a_tie_heart_3', 'a_tie_heart_5', 'a_tie_heart_8'],
     datingDialogues: [
-      '{player} için demirden bir çiçek yaptım... çirkin olduysa atabilirsin...',
-      '{title} yanımda durup beni izleyince, çekicim bile daha hafif geliyor.',
-      '{player}... Ustalığımı almak için çok çalışacağım, sonra da... sana ömür boyu bakacağım.'
+      'B-ben {player} için küçük bir demir çiçek yaptım... Beğenmezsen at gitsin...',
+      '{title} yanımda durup beni izleyince, çekicin ağırlığı bile azalıyor.',
+      '{player}... Çok çalışacağım, ustalaşacağım, sonra da... bir ömür sana bakacağım.'
     ],
     zhijiDialogues: [
-      '{player} yanımda olunca demir dövmek daha da kolay geliyor! Demek can dostluk böyle bir şey!',
-      'Senin için yeni bir alet yaptım, başkalarına yaptıklarımdan daha dayanıklı!',
-      '{title} benim en iyi kardeşim! ...Yani, can dostum!'
+      '{player} yanımdayken koluma daha çok kuvvet geliyor! Demek dostluk böyle bir şey!',
+      'Sana yeni bir alet yaptım, başkasına yaptıklarımdan daha sağlam oldu!',
+      '{title} benim en yakın yoldaşım! ... Şey, yani can dostum!'
     ],
     zhijiHeartEventIds: ['a_tie_zhiji_7', 'a_tie_zhiji_9']
   },
   {
     id: 'yun_fei',
-    name: 'Kadir',
+    name: 'Baran',
     gender: 'male',
     role: 'Avcı',
-    personality: 'Asi ve özgür ruhlu',
+    personality: 'asi ve başına buyruk',
     birthday: { season: 'summer', day: 8 },
     lovedItems: ['wild_mushroom', 'ginseng'],
     likedItems: ['pine_cone', 'herb', 'wild_berry', 'rabbit_foot'],
     hatedItems: ['gold_ore', 'jade'],
     dialogues: {
-      stranger: ['Fazla yaklaşma, insanlarla uğraşmayı sevmem.', 'Dağlarda yaşamaya alıştım, köy fazla gürültülü.'],
-      acquaintance: ['... {title} yine mi geldi. Neyse, otur.', 'Bunlar dağ mantarı, sizin yetiştirdiklerinizden daha lezzetli.'],
-      friendly: ['{player}, beni rahatsız etmeyen az sayıdaki insandan birisin.', 'Bir dahaki dağ yolculuğunda {title} da gelsin, yolları iyi bilirim.'],
-      bestFriend: ['Bu hayatta kimseye güvenmedim... {player} dışında.', '{title}, gel bu ormanı birlikte koruyalım.']
+      stranger: ['Fazla yaklaşma, insan kalabalığını sevmem.', 'Dağ başına alışmışım, köy çok gürültülü geliyor.'],
+      acquaintance: ['... {title} yine gelmiş. Neyse, otur bari.', 'Şu dağ mantarı var ya, sizinkilerden lezzetlidir.'],
+      friendly: ['{player}, beni bunaltmayan sayılı kişidensin.', 'Bir dahaki dağa çıkışta {title} da gelsin, yolları bilirim.'],
+      bestFriend: ['Ömrümde kimseye güvenmedim... {player} hariç.', '{title}, şu dağları beraber kollayalım.']
     },
     marriageable: true,
     heartEventIds: ['yun_fei_heart_3', 'yun_fei_heart_5', 'yun_fei_heart_8'],
     datingDialogues: [
-      '... {player}, bu gece ay ışığı güzel. Biraz benimle otur.',
-      'Eskiden sadece kendime güvenirdim. Şimdi... {title}’a da güveniyorum.',
-      'Bu dağı bundan sonra {player} ile birlikte koruyacağım.'
+      '... {player}, bu gece ay güzel. Biraz yanıma otur.',
+      'Eskiden yalnız kendime güvenir, kimseyi umursamazdım. Şimdi... {title} başka.',
+      'Bu dağları bundan sonra {player} ile birlikte koruyacağım.'
     ],
     zhijiDialogues: [
-      '... Eskiden kimseye güvenmezdim. Ama sen farklısın, {player}.',
-      'Dağa giden yolu sadece sana gösterdim. Bu bile yeter.',
-      'Can dost... arkadaştan daha ağır gelir, kardeşten geri kalmaz.'
+      '... Ben kimseye güvenmezdim. Ama sen başkasın, {player}.',
+      'Dağın gizli yolunu yalnız sana gösterdim. Bu yeter.',
+      'Can dostluk... sıradan arkadaşlıktan da ağır gelir.'
     ],
     zhijiHeartEventIds: ['yun_fei_zhiji_7', 'yun_fei_zhiji_9']
   },
   {
     id: 'da_niu',
-    name: 'Dağhan',
+    name: 'İbo',
     gender: 'male',
-    role: 'Çiftlik delikanlısı',
-    personality: 'Dürüst ve sıcak kanlı',
+    role: 'Çoban delikanlı',
+    personality: 'samimi ve coşkulu',
     birthday: { season: 'winter', day: 3 },
     lovedItems: ['milk', 'hay', 'goat_milk', 'buffalo_milk', 'yak_milk'],
     likedItems: ['egg', 'corn', 'sweet_potato', 'truffle', 'donkey_milk', 'rabbit_foot'],
     hatedItems: ['ruby', 'moonstone'],
     dialogues: {
-      stranger: ['Hey! Merhaba merhaba! Ben Dağhan! En çok inekleri severim!', '{title} hayvan yetiştiriyor mu? Sana öğretebilirim!'],
-      acquaintance: ['Bizim yaşlı sarı ineğin bugün keyfi çok yerinde!', '{title}, şu kuzuyu sev bakalım, yumuşak değil mi?'],
-      friendly: ['{player}’ın tavukları harika yetişmiş, tam benim gençliğimdeki gibi!', 'Bir ara bize gel, yeni doğan buzağıyı sana göstereyim, {title}!'],
-      bestFriend: ['{player}, gördüğüm en iyi hayvan bakıcısısın!', '{title}, ileride beraber büyük bir çiftlik açalım mı?']
+      stranger: ['Hey! Selam selam! Ben İbo! Hayvanları pek severim!', '{title}, hayvan besliyor musun? Öğretirim ben!'],
+      acquaintance: ['Bizim sarı inek bugün pek keyifli!', '{title}, şu kuzuyu bir sev hele, yumuşacık değil mi?'],
+      friendly: ['{player}’ın tavukları pek güzel olmuş, benim eski günlerim gibi!', 'Bir ara bize gel de yeni doğan buzağıyı göstereyim {title}!'],
+      bestFriend: ['{player}, gördüğüm en iyi hayvan bakıcısısın!', '{title}, ilerde birlikte kocaman bir çiftlik kursak ne dersin?']
     },
     marriageable: true,
     heartEventIds: ['da_niu_heart_3', 'da_niu_heart_5', 'da_niu_heart_8'],
     datingDialogues: [
-      '{player}! Bugün buzağı doğdu! İlk sana söylemek istedim!',
-      'Hehe, {title} ile birlikte olmak, ineklerle olmaktan bile daha keyifli!',
-      'Bir gün bizim çiftliğimiz köyün en büyüğü olacak! {player}, inanıyor musun?'
+      '{player}! Buzağı doğdu bugün! İlk sana haber vereyim dedim!',
+      'Hehe, {title} ile olmak, ineklerle olmaktan bile daha güzel!',
+      'Bir gün bizim çiftlik köyün en büyüğü olacak! {player}, inan bana!'
     ],
     zhijiDialogues: [
-      '{player}! Sen benim en sıkı dostumsun! Furkan’dan bile daha sıkı!',
-      'Benimle inek bakıp yağmurda kalmak, koyun gütmek... bunları seninle yapmak her şeyden güzel!',
-      'Hadi ikimiz birlikte çiftlik kuralım! Can dost ortak olursa yenilmez olur!'
+      '{player}! Sen benim en sağlam dostumsun!',
+      'Benimle yağmurda, çamurda, hayvan peşinde dolaşman kadar güzel bir şey yok!',
+      'Gelin ortak çiftlik kuralım! Can dost ortak olursa sırt yere gelmez!'
     ],
     zhijiHeartEventIds: ['da_niu_zhiji_7', 'da_niu_zhiji_9']
   },
   {
     id: 'mo_bai',
-    name: 'Faruk',
+    name: 'Mahir',
     gender: 'male',
-    role: 'Müzisyen',
-    personality: 'Sessiz ve melankolik',
+    role: 'Sazende',
+    personality: 'sessiz ve melankolik',
     birthday: { season: 'spring', day: 12 },
     lovedItems: ['bamboo', 'moonstone'],
     likedItems: ['tea', 'chrysanthemum', 'pine_cone', 'rabbit_foot'],
     hatedItems: ['iron_ore', 'pickled_cabbage'],
     dialogues: {
-      stranger: ['... Merhaba. Enstrüman çalışıyorum, lütfen çok ses çıkarma.', 'Ben Faruk, buralara sürüklenip gelmiş bir gezgin müzisyenim.'],
-      acquaintance: ['{title} da müzik dinlemeyi seviyor mu? Bir gün senin için çalarım.', 'Bu parçanın adı “Sonbahar Suyu”, Taoyuan Köyü için yazdım.'],
-      friendly: ['{player} gelmiş, iyi oldu; yeni bir beste yaptım, dinler misin?', '{title} beni dinlerken... ruhum biraz daha hafifliyor.'],
-      bestFriend: ['Bu bestenin adı yok... çünkü onu {player} için yazdım.', '{title}, benim gerçek ruh eşim.']
+      stranger: ['... Merhaba. Çalgımı çalışıyorum, çok ses etmeyin lütfen.', 'Ben Mahir, buralara yolu düşmüş bir sazende.'],
+      acquaintance: ['{title} de türkü dinlemeyi sever mi? Bir gün sana çalarım.', 'Şu ezginin adı “Sonbahar Suyu”; bu köy için besteledim.'],
+      friendly: ['{player} geldi, iyi oldu. Yeni bir ezgi yaptım, dinle.', '{title} dinlerken içim biraz daha hafifliyor.'],
+      bestFriend: ['Bu ezginin adı yok... Çünkü onu {player} için yaptım.', '{title}, benim gönül kulağımdan anlayan kişisin.']
     },
     marriageable: true,
     heartEventIds: ['mo_bai_heart_3', 'mo_bai_heart_5', 'mo_bai_heart_8'],
     datingDialogues: [
-      '... {player}, bu parçayı sadece senin için çalıyorum.',
-      'Eskiden müziğin yalnızlık olduğunu sanırdım... {title} ile tanışınca onun sıcaklık da olabileceğini anladım.',
-      '{player} için bir beste yapacağım, adı da “Eve Dönen” olacak.'
+      '... {player}, bu ezgiyi yalnız sana çalıyorum.',
+      'Eskiden müzik hep yalnızlık gibiydi... {title} ile karşılaşınca sıcaklığı da öğrendim.',
+      '{player} için bir ezgi besteledim; adını “Yolunu Bulan” koydum.'
     ],
     zhijiDialogues: [
-      'Gerçek bir dinleyici bulmak çok zor... {player}, benim müziğimi anlayan tek kişi sensin.',
-      'Senin için yazdığım besteler giderek çoğalıyor... can dostluğun gücü gerçekten tuhaf.',
-      '{title} yanımdayken melodilerim bile daha sıcak geliyor.'
+      'Gönülden anlayan zor bulunur... {player}, sesimi anlayan tek kişi sensin.',
+      'Senin için yaptığım ezgiler çoğaldı... Demek dostluk ilham veriyormuş.',
+      '{title} varken çaldığım her ezgi daha içli, daha sıcak oluyor.'
     ],
     zhijiHeartEventIds: ['mo_bai_zhiji_7', 'mo_bai_zhiji_9']
   },
 
   // ============================================================
-  // Evlenilemeyen NPC'ler (22) — toplam 22 evlenilemez
+  // Evlenilemeyen NPC'ler (22) — Toplam 22
   // ============================================================
   {
     id: 'wang_dashen',
-    name: 'Müzeyyen Teyze',
+    name: 'Fatma Teyze',
     gender: 'female',
-    role: 'Köy aşçısı',
-    personality: 'Yardımsever ve iyi kalpli',
+    role: 'Köyün aşçısı',
+    personality: 'yardımsever ve iyi kalpli',
     birthday: { season: 'summer', day: 18 },
     lovedItems: ['rice', 'sesame_oil'],
     likedItems: ['cabbage', 'radish', 'egg', 'rabbit_foot'],
     hatedItems: ['quartz', 'obsidian'],
     dialogues: {
-      stranger: ['Ayy, yeni geldin herhâlde? Dal gibi zayıfsın, gel gel, teyzen sana bir kâse pilav koysun!', 'Ben Müzeyyen Teyze, köydeki düğünlerin ve törenlerin baş aşçısıyım!'],
-      acquaintance: ['{title} bugün yemek yedi mi? Yemediyse sana sıcak bir çorba koyayım.', 'Yemek yapmanın sırrı şudur: tuz az, sevgi çok olacak.'],
-      friendly: ['{player} gittikçe daha güçlü görünüyor, demek ki teyzenin yemeklerinden bolca yemiş!', 'Bu benim özel yemeğimdir, {title} bir tatsın.'],
-      bestFriend: ['{player} benim kendi çocuğum gibi; seni oradan oraya koştururken görünce içim sızlıyor.', 'Ne zaman evleniyorsun ha? Düğününü teyzen düzenler!']
+      stranger: ['Amanın, yeni gelen sensin demek? Zayıf kalmışsın iyice, gel hele bir tabak yemek koyayım!', 'Ben Fatma Teyze, köyün düğün dernek aşçısıyım!'],
+      acquaintance: ['{title}, bugün bir şey yedin mi? Yemedinse sıcak çorba koyayım.', 'Yemeğin sırrı şudur: tuzu az, gönlü bol koyacaksın.'],
+      friendly: ['{player}, iyice serpilmişsin, belli ki benim yemeklerden eksik kalmıyorsun!', 'Şu benim özel yemeğim, {title} bir tatsın.'],
+      bestFriend: ['{player} bana öz evladım gibi geliyor. Koşturup durdukça içim sızlıyor.', 'Ne zaman yuva kuracaksın? Düğün yemeğini ben yaparım!']
     }
   },
   {
     id: 'zhao_mujiang',
-    name: 'Zübeyir Usta',
+    name: 'Mustafa Usta',
     gender: 'male',
     role: 'Marangoz ustası',
-    personality: 'Sert ve ciddi',
+    personality: 'sert ama titiz',
     birthday: { season: 'autumn', day: 1 },
     lovedItems: ['wood', 'bamboo'],
     likedItems: ['pine_resin', 'camphor_oil', 'rabbit_foot'],
     hatedItems: ['watermelon', 'peanut'],
     dialogues: {
-      stranger: ['Hm? Benimle işin mi var? Ben Zübeyir Usta. El işiyle ilgiliyse, açık konuş.', 'Cem denen o velet yine kaytarıyordur herhâlde...'],
-      acquaintance: ['Senin çiftlik evinin yapısı sağlam, eskilerin işi. {title}, iyi bakım yap.', 'Ağaç dediğin şey insan gibidir; damarına göre davranmak gerekir.'],
-      friendly: ['{player}, fena değilsin; işini sağlam yapıyorsun, Xiao Man denen afacana hiç benzemiyorsun.', 'Tamir ettirmen gereken bir şey olursa {title}’ı... yok, beni bul.'],
-      bestFriend: ['{player}, bana gençliğimi hatırlatıyorsun.', 'Bu rende otuz yıldır benimleydi, artık {title}’ın olsun.']
+      stranger: ['Hı? Bir işin mi var? Ben Mustafa Usta. El işinden konuşacaksan açık konuş.', 'Mıstık yine kaytardı herhalde...'],
+      acquaintance: ['Şu evinin iskeleti sağlam, eskilerin işi. {title}, iyi bak buna.', 'Ağaç dediğin insana benzer, damarına göre davranacaksın.'],
+      friendly: ['{player} fena değil, eli ayağı düzgün çalışıyor. Mıstık gibi afacan değil.', 'Tamir tadilat gerekirse {title}’a... yok yok, bana gel.'],
+      bestFriend: ['{player}, bana gençliğimi hatırlatıyorsun.', 'Şu rende otuz yıldır benimleydi, artık {title}’ın olsun.']
     }
   },
   {
     id: 'sun_tiejiang',
-    name: 'Fatih Usta',
+    name: 'Ali Usta',
     gender: 'male',
     role: 'Demirci',
-    personality: 'Kaba ama yiğit',
+    personality: 'gür sesli ve yiğit',
     birthday: { season: 'winter', day: 15 },
     lovedItems: ['gold_ore', 'iridium_ore', 'copper_ore'],
     likedItems: ['iron_ore', 'crystal_ore', 'rabbit_foot'],
     hatedItems: ['chrysanthemum', 'silk'],
     dialogues: {
-      stranger: ['Demir işi mi var? O zaman doğru yere geldin! Ben Fatih Usta!', 'Kerem benim çırağım, daha çok hamuru var. {title}’ın aletleriyle ben ilgilenirim.'],
-      acquaintance: ['İyi çelik keskin ağızda kullanılır; {title}’ın aletlerini yükseltmenin vakti geldi.', 'Şu çekiç sesini dinle— tıkır tıkır, şarkıdan güzel!'],
-      friendly: ['{player}, bu bıçağı üç gün üç gece dövdüm, bir dene.', 'Senin gibi iyi müşterim olunca ben de daha hevesle çalışıyorum!'],
-      bestFriend: ['Köydeki en iyi demir işleri hep {player}’ın elinde.', '{title} bir gün efsanevi bir silah isterse gelsin, Fatih halleder!']
+      stranger: ['Demir işin varsa doğru yere geldin! Ben Ali Usta!', 'Demir benim çırağım, daha yolun başında. {title}’ın aletine ben bakarım.'],
+      acquaintance: ['İyi çelik iyi elde belli olur, {title}’ın aletleri artık yenilenmeli.', 'Şu çekicin sesine kulak ver— tın tın tın, türkü gibi!'],
+      friendly: ['{player}, şu bıçağı üç gün üç gece dövdüm, bir dene bakalım.', '{title} gibi müşterim oldukça örse daha bir şevkle vuruyorum!'],
+      bestFriend: ['Köyün en iyi demiri artık {player}’ın elinde.', '{title}, bir gün aklına efsane bir silah yaptırmak düşerse bana gel!']
     }
   },
   {
     id: 'zhang_popo',
-    name: 'Büyükanne Z',
+    name: 'Emine Nine',
     gender: 'female',
-    role: 'Yaşlı dokumacı',
-    personality: 'Şefkatli ve biraz geveze',
+    role: 'Dokumacı nine',
+    personality: 'şefkatli ama çok konuşan',
     birthday: { season: 'spring', day: 7 },
     lovedItems: ['wool', 'silk'],
     likedItems: ['tea', 'pumpkin', 'sweet_potato', 'rabbit_foot'],
     hatedItems: ['gold_ore', 'ruby'],
     dialogues: {
-      stranger: ['Ayy, genç biri gelmiş? Gel otur otur. Ben Z nine, ömrümü dokumayla geçirdim.', 'Şu üstündeki kıyafet hiç olmamış, bak ninen sana bir tane dokusun.'],
-      acquaintance: ['{title} gelmiş? Bir çay iç. Eski günlerden biraz anlatayım sana.', 'Ben gençken bu köy ne kadar hareketliydi bir bilsen...'],
-      friendly: ['{player} ne kadar iyi bir çocuk. Ninen senin için bir atkı ördü.', 'Deden eskiden sık sık gelip benimle sohbet ederdi; sen de onun gibi yumuşak huylusun.'],
-      bestFriend: ['{player} yanımdayken içim rahat ediyor.', 'Bu yaşa geldim, {title} kadar içimi ferahlatan genç az gördüm.']
+      stranger: ['Ayy evladım, hoş geldin. Otur hele. Ben Emine Nine, ömrüm tezgâh başında geçti.', 'Şu giydiğin üst baş olmaz, sana bir şeyler dokuyayım ben.'],
+      acquaintance: ['{title} gelmiş, hadi bir çay iç. Sana eskilerden anlatayım.', 'Ben gençken bu köy cıvıl cıvıldı ah ah...'],
+      friendly: ['{player} ne iyi evlatmış. Sana bir atkı dokudum.', 'Senin deden de gelir benimle laklak ederdi, sen de onun gibisin.'],
+      bestFriend: ['{player} olunca içim rahat ediyor.', 'Bu yaşıma geldim, {title} gibi yüz ağartan genç az gördüm.']
     }
   },
   {
     id: 'li_yu',
-    name: 'Yaşlı Balıkçı Ali',
+    name: 'Balıkçı Dede',
     gender: 'male',
     role: 'Yaşlı balıkçı',
-    personality: 'Sakin ve dünyevi şeylerden uzak',
+    personality: 'sakin ve dünya malına tamah etmeyen',
     birthday: { season: 'summer', day: 22 },
     lovedItems: ['koi', 'sturgeon'],
     likedItems: ['crucian', 'bass', 'tea', 'rabbit_foot'],
     hatedItems: ['gold_ore', 'ruby'],
     dialogues: {
-      stranger: ['Heh, demek yeni bir balıkçı daha geldi. Ben yaşlı Ali, şu dere kenarında yirmi yıldır otururum.', 'Balık tutmak mı? Aceleye gelmez.'],
-      acquaintance: ['Olta, elin uzantısıdır; zihin sakin olursa balık kendi gelir.', '{title}, bugün şansın nasıl?'],
-      friendly: ['{player}’ın balıkçılığı gelişmiş, biraz gençliğimdeki bana benzemeye başladı.', 'Bu tekniğin adı “Düşen Yaprak İğnesi”, artık {title}’a öğrettim.'],
-      bestFriend: ['Bir olta, bir misina, bir testi şarap... yanımda {player} gibi biri varken hayat boşa geçmemiş demektir.', 'Hayat boyu bildiğim ne varsa artık {title}’a bırakıyorum.']
+      stranger: ['Heh, bir balık sevdalısı daha gelmiş. Ben Balıkçı Dede, yirmi yıldır şu derenin başındayım.', 'Balık mı tutacaksın? Acele eden eli boş döner.'],
+      acquaintance: ['Olta, elin devamıdır. İçin sakin olursa balık da gelir.', '{title}, bugün nasip var mı bakalım?'],
+      friendly: ['{player}’ın oltası epey gelişti, biraz benim eski halime benzedin.', 'Şu usule “yaprak düşüşü” derler, artık {title} da öğrensin.'],
+      bestFriend: ['Bir olta, bir gölge, bir de {player} gibi yol arkadaşı... daha ne olsun?', 'Ömrümün bütün bilgisini {title}’a bırakıyorum.']
     }
   },
   {
     id: 'zhou_xiucai',
-    name: 'Bilgin Bayram',
+    name: 'Hoca Efendi',
     gender: 'male',
-    role: 'Özel okul öğretmeni',
-    personality: 'Tatlı biçimde tutucu',
+    role: 'Mektep hocası',
+    personality: 'tatlı sert ve eski kafalı',
     birthday: { season: 'autumn', day: 18 },
     lovedItems: ['bamboo', 'tea'],
     likedItems: ['chrysanthemum', 'osmanthus', 'rabbit_foot'],
     hatedItems: ['pickled_cabbage', 'corn_wine'],
     dialogues: {
-      stranger: ['"Uzaklardan gelen dost için ne büyük sevinçtir." Ben Bilgin Bayram, buradaki özel okulun öğretmeniyim.', '{title}, hiç Analektler okudun mu?'],
-      acquaintance: ['Eskileri tekrar etmek yeniyi anlamayı sağlar. {title}, son zamanlarda bir şeyler okudun mu?', 'Bugün Ömer ile Kerem`e yazı öğrettim; o iki afacan... ah ah.'],
-      friendly: ['{player} çiftçi olsa da bir bilginin duruşuna sahip.', 'Yeni bir antik kitap buldum, {title} birlikte incelemek ister mi?'],
-      bestFriend: ['{player}, benim en değerli dostumsun!', 'Bu fırça ustamın yadigârıydı, artık {title}’ın olsun; iyi kullan.']
+      stranger: ['Uzaktan gelen dost baş üstüne. Ben bu köyün hocasıyım.', '{title}, kitap yüzü gördün mü bakalım?'],
+      acquaintance: ['İnsan eskiyi bilirse yeniyi de daha iyi anlar. {title}, bu aralar okuyor musun?', 'Bugün iki afacana harf öğrettim, sabrım taştı vallahi.'],
+      friendly: ['{player} çiftçi olsa da duruşunda okumuş adam ağırbaşlılığı var.', 'Yeni bir eski kitap elime geçti, {title} ile inceleyelim mi?'],
+      bestFriend: ['{player}, benim kıymetli dostum oldun!', 'Şu kalem eski hocamın yadigârıydı, artık {title} kullansın.']
     }
   },
   {
     id: 'wu_shen',
-    name: 'Ayşe Teyze',
+    name: 'Nuriye Teyze',
     gender: 'female',
-    role: 'Bakkalda yardımcı',
-    personality: 'Kurnaz ve hayatı bilen',
+    role: 'Dükkân yardımcısı',
+    personality: 'akıllı ve kurnaz',
     birthday: { season: 'spring', day: 25 },
     lovedItems: ['honey', 'sesame_oil'],
     likedItems: ['egg', 'rice', 'peanut', 'rabbit_foot'],
     hatedItems: ['wild_mushroom', 'pine_cone'],
     dialogues: {
-      stranger: ['Yeni gelen sensin ha? Genel dükkân için Mustafa Amca`yı bul, ufak tefek işler için beni çağır.', 'Ben Ayşe Teyze, dükkânda yardımcıyım.'],
-      acquaintance: ['{title}, bugünkü lahanalar çok taze, biraz alır mısın?', 'Mustafa Amca`nın kalbi fazla yumuşak, herkese veresiye açıyor; ben öyle değilim.'],
-      friendly: ['{player}’ın işleri iyi gidiyor ha! Gizlice söyleyeyim, sonraki mallardan iyilerini sana ayırırım.', 'İnsan hesaplı olmazsa rahat yaşayamaz.'],
-      bestFriend: ['{player}, gördüğüm en becerikli gençlerden biri.', 'Bir şeye ihtiyacın olursa Ayşe Teyze`ni bul; {title} isteyince ben yardım ederim.']
+      stranger: ['Yeni gelen sensin ha? Dükkânın asıl sahibi Hasan Enişte’dir, ama ufak tefek işler için bana gel.', 'Ben Nuriye Teyze, burada yardım ederim.'],
+      acquaintance: ['{title}, bugünkü lahanalar taze taze, almaz mısın?', 'Hasan Enişte çok yumuşak yüzlü, herkese veresiye açıyor; ben öyle değilim.'],
+      friendly: ['{player}’ın işi iyi gidiyor ha! Bak sana gelecek maldan iyisini ayırırım.', 'İnsan hesabını kitabını bilirse rahat yaşar.'],
+      bestFriend: ['{player}, gördüğüm en eli ayağı düzgün gençlerden biri.', 'Bir işin olursa Nuriye Teyze burada, {title} yeter ki söylesin.']
     }
   },
   {
     id: 'ma_liu',
-    name: 'Mahmut',
+    name: 'Seyyar Salih',
     gender: 'male',
-    role: 'Gezgin satıcı',
-    personality: 'Ağzı laf yapan',
+    role: 'Seyyar satıcı',
+    personality: 'laf cambazı',
     birthday: { season: 'winter', day: 25 },
     lovedItems: ['jade', 'prismatic_shard'],
     likedItems: ['gold_ore', 'honey', 'peach', 'rabbit_foot'],
     hatedItems: ['stone', 'wood'],
     dialogues: {
-      stranger: ['Aman aman {title}! Ben Mahmut, diyar diyar gezen tüccarım! Acayip şeylerim çoktur!', 'Gel gel bak, dışarıda bulamazsın bunları!'],
-      acquaintance: ['{title} geldi! Bugün sana özel şeyler göstereceğim— hem de tek bende!', 'Ticarette önemli olan güvendir... hehe, tabii biraz da kâr.'],
-      friendly: ['{player}, artık eski müşterimsin, sana yüzde yirmi indirim!', 'Dünyayı dolaştım ama en huzurlu köy {title}’ın köyü çıktı.'],
-      bestFriend: ['{player}, en çok güvendiğim insan sensin; bu mallarda önce sen seç.', 'Ağzım laf yapar ama {title}’ın yanında söylediklerim hep içtendir.']
+      stranger: ['Aman aman {title}! Ben Seyyar Salih, diyar diyar gezen tüccar! Ne ararsan var!', 'Gel bak hele, dışarıda bulamayacağın şeyler bunlar!'],
+      acquaintance: ['{title} geldi demek! Bugün sana özel mallar göstereceğim!', 'Ticarette en önemli şey güvendir... hehe, bir de kâr tabii.'],
+      friendly: ['{player}, eski müşterimsin, sana sekizden veririm!', 'Ben çok yer gördüm ama en rahat ettiğim yer bu köy oldu.'],
+      bestFriend: ['{player}, mallarım arasında önce sen seçersin.', 'Ben geveze adamım ama {title}’ın yanında söylediklerim içtendir.']
     }
   },
   {
     id: 'lao_song',
-    name: 'Yaşlı Sorgun',
+    name: 'Bekçi Osman',
     gender: 'male',
     role: 'Gece bekçisi',
-    personality: 'Sakin ve az konuşan',
+    personality: 'ağırbaşlı ve az sözlü',
     birthday: { season: 'summer', day: 10 },
     lovedItems: ['tea', 'firewood'],
     likedItems: ['wood', 'pine_resin', 'herb', 'rabbit_foot'],
     hatedItems: ['watermelon', 'peach'],
     dialogues: {
-      stranger: ['... Hm. Ben Sorgun. Gece nöbeti tutarım.', 'Gece bir ses duyarsan, {title}, panik yapma.'],
-      acquaintance: ['Geç oldu, {title}, erkenden eve dön.', 'Ay çok parlak bu gece...'],
-      friendly: ['{player}, çalışkan birisin; horozdan önce kalkıyorsun.', 'Bu sıcak çayı {title} için ayırdım, gece ısın diye.'],
-      bestFriend: ['Yirmi yıldır gece bekçiliği yapıyorum; benimle konuşmak isteyen az insan çıktı, {player} onlardan biri.', '{title} burada olunca içim daha rahat.']
+      stranger: ['... Hı. Osman. Gece bekçisiyim.', 'Gece bir ses duyarsan {title}, panik yapma.'],
+      acquaintance: ['Geç oldu, {title} evine erken dön.', 'Ay bugün pek parlak...'],
+      friendly: ['{player} çalışkan biri, tavuktan önce ayakta.', 'Şu sıcak çayı {title} için ayırdım, gece ısınırsın.'],
+      bestFriend: ['Yirmi yıldır gece gezerim, benimle laf eden sayılı kişi oldun {player}.', '{title} olunca içim daha rahat ediyor.']
     }
   },
   {
     id: 'pang_shen',
-    name: 'Pelin Teyze',
+    name: 'Hatice Abla',
     gender: 'female',
-    role: 'Çorba dükkânı sahibi',
-    personality: 'Sert ama dobra',
+    role: 'Peynirci / yoğurtçu dükkânı sahibi',
+    personality: 'atak ve dobra',
     birthday: { season: 'autumn', day: 25 },
     lovedItems: ['broad_bean', 'sesame'],
     likedItems: ['rice', 'peanut', 'cabbage', 'rabbit_foot'],
     hatedItems: ['ruby', 'jade'],
     dialogues: {
-      stranger: ['Çorba almaya geldin değil mi? Tazecik! Ben Pelin Teyze!', '{title}, kiloluyum diye yavaş sanma, işte çevikliğime yetişemezsin!'],
-      acquaintance: ['Bugünkü sebze çorbası çok yumuşak oldu, {title}, bir kâse ister misin?', 'Çorba yaparken en önemli şey sudur; bizim köyün kaynak suyu bir başka!'],
-      friendly: ['{player}, sana tarhana ayırdım, götür çorba yap!', 'Dürüst birisin; Mahmut gibi kaypak değilsin.'],
-      bestFriend: ['{player}, ne zaman düğün yemeği vereceksin ha?', '{title}, artık benim yarı çocuğum sayılırsın!']
+      stranger: ['Taze mal almaya geldin değil mi? Ben Hatice Abla!', '{title}, benim göbekli olduğuma bakma, işte çok çevik olurum!'],
+      acquaintance: ['Bugünkü çökelek pek güzel oldu, {title} bir kap alır mı?', 'Bu işte en önemlisi temiz su, bizim köyün suyu bir başkadır!'],
+      friendly: ['{player}, sana iyi bir parça ayırdım, al da evde pişir!', 'Sen dürüst birine benziyorsun, seyyar satıcının dilbazlığı sende yok.'],
+      bestFriend: ['{player} ne zaman düğün yapacak da beni çağıracak bakalım?', '{title} artık benim yarı evladım sayılır!']
     }
   },
   {
     id: 'a_hua',
-    name: 'Ece',
+    name: 'Zehra',
     gender: 'female',
-    role: 'Mustafa Amca`nın torunu',
-    personality: 'Saf ve neşeli',
+    role: 'Hasan Enişte’nin torunu',
+    personality: 'çocuksu ve neşeli',
     birthday: { season: 'spring', day: 1 },
     lovedItems: ['watermelon', 'wild_berry'],
     likedItems: ['peach', 'honey', 'peanut', 'rabbit_foot'],
     hatedItems: ['herb', 'ginseng'],
     dialogues: {
-      stranger: ['Sen kimsin? Benim adım Ece! Dedem yabancılarla konuşma dedi... aa konuştum!', '{title}, ne ekiyorsun? Güzel mi, değil mi?'],
-      acquaintance: ['{title}! Bugün Sinan yine bana sataştı! Hıh!', 'Öğretmen Bayram bana “çiçek” karakterini yazmayı öğretti ama çok zor.'],
-      friendly: ['{player}, bak ne güzel taş buldum!', 'En çok {title}’ı seviyorum! Sinan’dan yüz kat daha çok!'],
-      bestFriend: ['{player}, sana bir resim yaptım! Bak, burada sen tarla sürüyorsun.', 'Büyüyünce ben de {title} kadar güçlü olacağım!']
+      stranger: ['Sen kimsin? Ben Zehra! Dedem yabancılarla konuşma dedi... Aaa konuştum işte!', '{title}, ne ekiyorsun? Güzel mi bari?'],
+      acquaintance: ['{title}! Bugün yine beni kızdırdılar!', 'Hoca bana adımı yazmayı öğretiyor ama zor vallahi.'],
+      friendly: ['{player}, bak ne güzel taş buldum sana göstereyim!', 'Ben en çok {title}’ı severim! Herkesten daha çok!'],
+      bestFriend: ['{player}, sana resim yaptım! Bak, burada tarlada çalışıyorsun.', 'Büyüyünce ben de {title} gibi güçlü olacağım!']
     }
   },
   {
     id: 'shi_tou',
-    name: 'Sinan',
+    name: 'Yaman',
     gender: 'male',
     role: 'Köyün afacanı',
-    personality: 'Yaramaz ve ele avuca sığmaz',
+    personality: 'yaramaz',
     birthday: { season: 'summer', day: 25 },
     lovedItems: ['sweet_potato', 'watermelon'],
     likedItems: ['wild_berry', 'corn', 'peanut', 'rabbit_foot'],
     hatedItems: ['tea', 'herb'],
     dialogues: {
-      stranger: ['Hehehe! Demek yeni gelen çiftçi sensin? Pek de güçlü görünmüyorsun!', 'Ben Sinan! Köyde en hızlı koşan benim!'],
-      acquaintance: ['{title}, koşu yarışı yapalım mı?', 'Bugün öğretmen Bayram`ın mürekkebine su kattım, fark etmedi! Hehe!'],
-      friendly: ['{player}, bana balık tutmayı öğretsene! Gamze abla çok gürültü yapıyorum diye beni kovuyor!', 'Sana bir sır vereyim {title}— köyün arkasındaki mağarada yarasalar var!'],
-      bestFriend: ['Aslında... {player}, annemle babam dışarıda çalışıyor, uzun zamandır dönmediler.', '{title}, sen köyde kalacaksın değil mi? Gitme olur mu?']
+      stranger: ['Hehehe! Yeni gelen çiftçi sen misin? Pek de güçlü görünmüyorsun ha!', 'Ben Yaman! Köyün en hızlı koşanı benim!'],
+      acquaintance: ['{title}, yarışalım mı?', 'Bugün hocanın mürekkebine su kattım da fark etmedi! Hehehe!'],
+      friendly: ['{player}, bana balık tutmayı öğret ya! Aylin abla çok ses yapıyorsun diye kızıyor.', 'Sana bir sır vereyim mi? Köyün arkasındaki mağarada yarasalar var!'],
+      bestFriend: ['Aslında... {player}, anamla babam dışarıda çalışıyor, uzun zamandır gelmediler.', '{title} burada kalacak değil mi? Gitme olur mu?']
     }
   },
   {
     id: 'hui_niang',
-    name: 'Huriye',
+    name: 'Meryem',
     gender: 'female',
     role: 'Nakış dükkânı sahibi',
-    personality: 'Güçlü ve yumuşak huylu',
+    personality: 'güçlü ve yumuşak huylu',
     birthday: { season: 'winter', day: 8 },
     lovedItems: ['silk', 'chrysanthemum', 'alpaca_wool'],
     likedItems: ['wool', 'tea', 'osmanthus', 'rabbit_fur', 'peacock_feather', 'rabbit_foot'],
     hatedItems: ['iron_ore', 'copper_ore'],
     dialogues: {
-      stranger: ['Merhaba, ben Huriye. Bu nakış dükkânı bana eşimden kaldı.', '{title} nakış işi isterse gelip bakabilir.'],
-      acquaintance: ['Bu dükkânı tek başına ayakta tutmak kolay değildi ama artık alıştım.', '{title}, bugün bayağı rahatsın anlaşılan.'],
-      friendly: ['{player}, sorumluluk sahibi birisin; insana güven veriyorsun.', 'Bu işlemeli mendili sana veriyorum, {title}; kendi ellerimle işledim.'],
-      bestFriend: ['{player}, bana insanın tek başına da iyi yaşayabileceğini gösterdi.', '{title} varken Hui Niang kendini yalnız hissetmiyor.']
+      stranger: ['Merhaba, ben Meryem. Bu dükkân eşimden kaldı.', '{title}, nakış işi istersen buyur bak.'],
+      acquaintance: ['Bu dükkânı tek başıma döndürmek kolay değildi ama şükür, ayakta kaldım.', '{title} bugün keyifli görünüyor.'],
+      friendly: ['{player}, güven veren biri. İnsanın içi rahat ediyor.', 'Şu işlemeli mendili {title} için yaptım, kabul et.'],
+      bestFriend: ['{player} bana insanın tek başına da ayakta kalabileceğini hatırlattı.', '{title} olunca Meryem kendini yalnız hissetmiyor.']
     }
   },
   {
     id: 'lao_lu',
-    name: 'Yaşlı Ertuğrul',
+    name: 'Rıza Dayı',
     gender: 'male',
-    role: 'Şarap mahzeni sahibi',
-    personality: 'İçkiyi seven ve misafirperver',
+    role: 'Mahzen sahibi',
+    personality: 'misafirperver ve içkiye düşkün',
     birthday: { season: 'autumn', day: 8 },
     lovedItems: ['watermelon_wine', 'peach_wine'],
     likedItems: ['jujube_wine', 'corn_wine', 'peanut', 'rabbit_foot'],
     hatedItems: ['tea', 'herb'],
     dialogues: {
-      stranger: ['Gel gel gel! İçeri gir, bir şeyler iç! Ben Yaşlı Ertuğrul!', 'İnsan ömrü kısa; içmeden yaşamanın ne anlamı var ki! {title}, öyle değil mi?'],
-      acquaintance: ['{title}! Gel gel, bugün yeni yaptığım şeftali şarabını dene!', 'Miray denen kızın şarap yeteneği benden bile iyi... hehe.'],
-      friendly: ['{player}, sen dürüst bir insansın; Yaşlı Ertuğrul dürüst insanlarla içmeyi sever.', 'Üç yıllık şu şarabı senin için ayırdım, {title}.'],
-      bestFriend: ['{player} ile karşılıklı içmek, bu hayatta yaşadığım büyük mutluluklardan biri.', '{title}, hadi, fondip!']
+      stranger: ['Gel gel! Bir tas içmeden gitmek yok! Ben Rıza Dayı!', 'İnsan dünyaya bir kere geliyor, içmeden ne tadı var hayatın? {title}, değil mi?'],
+      acquaintance: ['{title}! Gel de şu yeni mayayı dene!', 'Zeyno’nun eli içkiye benden de yatkın çıktı ha...'],
+      friendly: ['{player} dürüst adam, Rıza Dayı da dürüst adamla içer.', 'Şu üç yıllık küpü {title} için saklıyordum.'],
+      bestFriend: ['{player} ile kadeh tokuşturmak bu ömürdeki en güzel bahtlarımdan biri.', '{title}, hadi vur kadehi!']
     }
   },
   {
     id: 'liu_cunzhang',
-    name: 'Muhtar Gökhan',
+    name: 'Muhtar Mehmet',
     gender: 'male',
-    role: 'Köy muhtarı',
-    personality: 'Vakarlı ve adil',
+    role: 'Muhtar',
+    personality: 'vakur ve adil',
     birthday: { season: 'summer', day: 5 },
     lovedItems: ['tea', 'ginseng'],
     likedItems: ['herb', 'osmanthus', 'bamboo', 'rabbit_foot'],
     hatedItems: ['pickled_cabbage', 'firewood'],
     dialogues: {
-      stranger: ['Atalarından kalan o çiftliği devralan genç sen misin? Ben Muhtar Gökhan. Umarım ailenden kalan emeği boşa çıkarmazsın.', 'Taoyuan Köyü’nün kuralları vardır; onlara uyulmalıdır.'],
-      acquaintance: ['{title}, son zamanlarda iyi iş çıkarıyorsun; köylüler seni çalışkan buluyor.', 'Öykü senden birkaç kez bahsetti... hm.'],
-      friendly: ['{player}, köy için yaptıklarını yaşlı gözlerim görüyor.', 'Deden de eskiden tıpkı senin gibi kararlıydı.'],
-      bestFriend: ['{player}, Taoyuan Köyü için büyük bir nimettir.', 'Ben yaşlandım; bu köyün geleceğinde {title}’ın daha çok sorumluluk alması gerekecek.']
+      stranger: ['Demek o eski çiftliği devralan genç sensin. Ben Muhtar Mehmet. Atalarından kalanı yere düşürme.', 'Bu köyün bir düzeni, bir adabı vardır; bozulmaz.'],
+      acquaintance: ['{title}, son zamanlarda iyi çalışıyorsun, köylü memnun senden.', 'Kızım senden birkaç kez söz etti... Hm.'],
+      friendly: ['{player}, köy için yaptıklarını görüyorum.', 'Senin deden de aynı bu şekilde gözü pekti.'],
+      bestFriend: ['{player}, bu köy için büyük nimettir.', 'Yaşlandık artık; bu köyün yükünü {title} gibi gençler taşıyacak.']
     }
   },
   {
     id: 'qian_niang',
-    name: 'Nida',
+    name: 'Yasemin',
     gender: 'female',
     role: 'Eczane çırağı',
-    personality: 'Utangaç ve yumuşak huylu',
+    personality: 'utangaç ve yumuşak başlı',
     birthday: { season: 'winter', day: 12 },
     lovedItems: ['herb', 'ginseng'],
     likedItems: ['tea', 'chrysanthemum', 'winter_bamboo_shoot', 'rabbit_foot'],
     hatedItems: ['iron_ore', 'gold_ore'],
     dialogues: {
-      stranger: ['Aa... merhaba... be-ben Nida, Demirhan`ın çırağıyım.', 'Şifalı ot lazım olursa... bana gelebilirsin...'],
-      acquaintance: ['{title}, merhaba... bugün taze otlar topladım.', 'Demirhan bana birçok tarif öğretti, ben de ezberlemeye çalışıyorum...'],
-      friendly: ['{player}, bu hapları pratik olsun diye yaptım, s-sen denemek ister misin?', '{title} gelip benimle sohbet edince daha az geriliyorum.'],
-      bestFriend: ['{player} ile birlikteyken... sanki biraz daha cesur oluyorum.', '{title} için kuvvet ilacını mutlaka özenle hazırlayacağım.']
+      stranger: ['Aa... merhaba... Ben Yasemin, Hekim Dede’nin çırağıyım.', 'Ota çöpe ihtiyacın olursa... bana gelebilirsin...'],
+      acquaintance: ['{title} hoş geldin... Bugün taze ot topladım.', 'Hekim Dede bana çok tarif öğretiyor, ben de ezberlemeye çalışıyorum...'],
+      friendly: ['{player}, şu hapları ben deneme diye yaptım, d-denemek ister misin?', '{title} gelince o kadar çekinmiyorum.'],
+      bestFriend: ['{player} ile olunca... sanki biraz daha cesur oluyorum.', '{title} için güç ilacını ben özenle hazırlarım.']
     }
   },
   {
     id: 'he_zhanggui',
-    name: 'İşletmeci He',
+    name: 'Kahveci Bekir',
     gender: 'male',
-    role: 'Çayhane işletmecisi',
-    personality: 'Kaypak ama konuşkan',
+    role: 'Kıraathane sahibi',
+    personality: 'konuşkan ve insan sarrafı',
     birthday: { season: 'spring', day: 15 },
     lovedItems: ['tea', 'honey'],
     likedItems: ['osmanthus', 'lotus_seed', 'peanut', 'rabbit_foot'],
     hatedItems: ['iron_ore', 'stone'],
     dialogues: {
-      stranger: ['Aman efendim, hoş geldiniz! Ben İşletmeci He, size bir demlik güzel çay hazırlayayım!', '{title} ilk kez mi geldi? Otur, otur, buyur!'],
-      acquaintance: ['{title}’ın her zamanki yerini ayırdım!', 'Köyün dedikoduları— yani haberleri— hep bu çayhaneden geçer.'],
-      friendly: ['{player}, senin çiftlikteki maceralarını duydum, hahaha!', 'İyi çay iyi dosta verilir; {title}, sen de benim iyi dostumsun!'],
-      bestFriend: ['{player}’ın karakteri konusunda köyde kimsenin iki lafı yok; herkes övgüyle söz eder.', '{title}’ın çay parası mı? Yok canım, eski dosttan para mı alınır!']
+      stranger: ['Hoş geldin efendim! Ben Bekir, buyur bir çayımızı iç!', '{title} ilk defa mı geliyor? Otur hele!'],
+      acquaintance: ['{title}’ın yeri hazır, her zamanki köşe senin!', 'Köyün bütün dedikodusu... şey yani haberleri burada döner.'],
+      friendly: ['{player}, senin çiftlikte olanları duymadığım kalmadı, hah hah!', 'İyi çay iyi dosta yakışır; {title} da benim iyi dostum.'],
+      bestFriend: ['{player}’ın huyunu suyunu köyde kötüleyen çıkmaz.', '{title}’dan çay parası almak da neymiş, eski dosttan para mı alınır?']
     }
   },
   {
     id: 'qin_dashu',
-    name: 'Oğuz Amca',
+    name: 'Kemal Amca',
     gender: 'male',
     role: 'Meyve bahçesi sahibi',
-    personality: 'Dürüst ve çalışkan',
+    personality: 'dürüst ve çalışkan',
     birthday: { season: 'autumn', day: 12 },
     lovedItems: ['peach', 'jujube'],
     likedItems: ['persimmon', 'sweet_potato', 'corn', 'rabbit_foot'],
     hatedItems: ['jade', 'moonstone'],
     dialogues: {
-      stranger: ['Merhaba, adım Oğuz, herkes bana Oğuz Amca der. Köyün doğusunda bir meyve bahçem var.', 'Meyve ağacı dediğin sabır ister. {title}, acele etmemelisin.'],
-      acquaintance: ['{title} de meyve ağacı mı dikiyor? Bilmediğin bir şey olursa sor bana.', 'Bu yıl şeftaliler çok tatlı oldu, senin için birkaç tane ayırdım.'],
-      friendly: ['{player}’ın çiftçilik becerisi gittikçe gelişiyor.', 'Bu fidanları ben yetiştirdim, {title}, alıp dikebilirsin.'],
-      bestFriend: ['{player}, bana gençliğimdeki çalışma azmini hatırlatıyor.', 'Benim bahçeme {title} istediği zaman gelip meyve toplayabilir.']
+      stranger: ['Merhaba, ben Kemal Amca. Köyün doğusunda bahçem var.', 'Ağaç işi sabır ister, {title}. Dikince hemen vermez.'],
+      acquaintance: ['{title} sen de meyve ağacı dikiyorsun ha? Bilmediğin olursa sor.', 'Bu yılın şeftalisi pek tatlı oldu, sana da ayırdım.'],
+      friendly: ['{player}’ın toprak işi gitgide ustalaşıyor.', 'Şu fidanları ben yetiştirdim, {title} al da dik.'],
+      bestFriend: ['{player} bana gençliğimin azmini hatırlatıyor.', 'Benim bahçenin kapısı {title}’a her zaman açık.']
     }
   },
   {
     id: 'a_fu',
-    name: 'Batu',
+    name: 'Ufuk',
     gender: 'male',
-    role: 'Çoban çocuk',
-    personality: 'Saf ve iyimser',
+    role: 'Çoban çırağı',
+    personality: 'iyi kalpli ve neşeli',
     birthday: { season: 'winter', day: 5 },
     lovedItems: ['sweet_potato', 'milk', 'goat_milk'],
     likedItems: ['corn', 'hay', 'wild_berry', 'truffle', 'buffalo_milk', 'rabbit_foot'],
     hatedItems: ['jade', 'silk'],
     dialogues: {
-      stranger: ['Hehe, merhaba! Ben Batu! Dağhan ağabeyin ineklerine ben bakıyorum!', 'İnekler en tatlısı, değil mi {title}?'],
-      acquaintance: ['{title}! Bugün yine inekler çitten kaçtı, hehe.', 'Dağhan ağabey bir gün benim de çiftlik sahibi olacağımı söylüyor!'],
-      friendly: ['{player}’ın tavukları yumurtladı mı? Bizim inek bugün süt verdi!', '{title} için bir saman şapka ördüm, güzel olmadı ama güneşten korur!'],
-      bestFriend: ['{player} bana çok iyi davranıyor... Dağhan ağabey kadar iyi.', 'Ben büyüyünce ben de {title} gibi başarılı olacağım!']
+      stranger: ['Hehe, merhaba! Ben Ufuk! İbo ağabeye yardım ederim!', 'İnekler çok tatlıdır, {title} sence de öyle değil mi!'],
+      acquaintance: ['{title}! Bugün inek yine çitten çıktı, hehe.', 'İbo ağabey diyor ki ilerde ben de çiftlik sahibi olabilirmişim!'],
+      friendly: ['{player}’ın tavukları yumurtladı mı? Bizim inek bugün süt verdi!', '{title} için bir saman şapkası ördüm, çirkin ama güneşi keser!'],
+      bestFriend: ['{player} bana çok iyi davranıyor... İbo ağabey gibi.', 'Büyüyünce ben de {title} gibi işe yarar biri olacağım!']
     }
   }
 ]
 
-/** ID’ye göre NPC tanımını getir */
+/** ID'ye göre NPC tanımını getir */
 export const getNpcById = (id: string): NpcDef | undefined => {
   return NPCS.find(n => n.id === id)
                  }
